@@ -1,0 +1,257 @@
+@charset "shift-jis";
+/**************************************************************************************************/
+/*                                             共通CSS                                            */
+/**************************************************************************************************/
+
+/********************************************************************/
+/* UL (ステータス)                                                  */
+/********************************************************************/
+ul, li 
+{
+	font-size: 0.9em;
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}		
+#crumbs 
+{
+	width: 913px;										/*全体の幅*/
+	height:1.9em;
+	border:1px solid #dedede;
+}
+#crumbs li 
+{
+	float:left;
+	line-height:1.9em;
+	color:#777;
+	padding-left:.75em;
+}		
+#crumbs li label,li a
+{
+	background:url('./img/arrow.gif') no-repeat right center;
+	display:block;
+	padding:0 15px 0 0;
+}
+
+#crumbs li a:link,
+#crumbs li a:visited 
+{
+	color:#777;
+	text-decoration:none;
+}
+a:link, a:visited,	
+#crumbs li a:hover,
+#crumbs li a:focus 
+{
+	color:#dd2c0d;
+}
+
+
+/********************************************************************/
+/* 画面タイトル部                                                   */
+/********************************************************************/
+
+.scrn_title900
+{
+	width: 900px;									/*全体の幅*/
+	font-size: 10pt;								/*文字サイズ*/
+}
+
+.scrn_title1020
+{
+	width: 1020px;									/*全体の幅*/
+	font-size: 10pt;								/*文字サイズ*/
+}
+
+.scrn_title900 dt, .scrn_title1020 dt
+{
+	/*タイトル部分の設定*/
+	color: #454142;									/*文字色*/
+	background-color: #FCFCFE;						/*背景色*/
+	font-size: 12pt;								/*文字サイズ*/
+	font-weight: bold;
+	width: 12em;									/*タイトルの幅（文字数）*/
+	position: relative;
+	z-index: 2;
+	padding: 0.3em 1em 0.2em 0.3em;
+	border-style: solid;
+	border-color: #2A3F9C;							/*枠の色*/
+	border-width: 1px 2px 2px 1px;
+}
+.scrn_title900 dt span, .scrn_title1020 dt span
+{
+	padding-left: 8px;
+	border-left: 4px solid #4682B4;					/*タイトル部の左縦線*/
+}
+
+.scrn_title900 dd, .scrn_title1020 dd
+{
+	/*内容部分*/
+	position: relative;
+	z-index: 1;
+	top: -0.9em;
+	margin: 0 0 0 0.9em;
+	border: solid 1px #3A4FAC;						/*枠の色*/
+}
+
+.scrn_title900 dd .frame
+{
+	width: 900px;									/*全体の幅*/
+	padding: 1.7em 0.5em 1em 1em;					/*テキスト部分の余白*/
+	border-left: solid 30px #87CEFA;				/*左側の着色部分*/
+}
+
+.scrn_title1020 dd .frame
+{
+	width: 1020px;									/*全体の幅*/
+	padding: 1.7em 0.5em 1em 1em;					/*テキスト部分の余白*/
+	border-left: solid 30px #87CEFA;				/*左側の着色部分*/
+}
+
+/********************************************************************/
+/* 全般                                                             */
+/********************************************************************/
+
+div.address
+{
+	FONT-FAMILY: 'ＭＳＰ ゴシック';
+	width:900px;
+	text-align:center;
+	font-size: 0.8em;
+}
+div.message
+{
+	/*文章枠*/
+	font-size: 12px;							/*文字サイズ*/
+	margin:   5px 10px  0px 10px;				/*ここの-10pxは、合うように適宜変更を…*/
+	padding: 10px 10px 10px 10px;				/*枠内余白*/
+	border: solid 1px #3A4FAC;					/*枠色*/
+}
+
+table
+{
+	font-size: 10pt;
+	border-collapse: collapse;
+}
+
+
+/********************************************************************/
+/* TD                                                               */
+/********************************************************************/
+
+td.title_tblr
+{
+	font-size: 1.0em;
+	font-weight: bold;
+	background-color:#80C0E0;
+	padding:10px 10px 10px 10px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+td.title_tb
+{
+	font-size: 1.0em;
+	font-weight: bold;
+	background-color:#80C0E0;
+	padding:10px 10px 10px 10px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+}
+td.title
+{
+	font-size: 1.0em;
+	font-weight: bold;
+	background-color:#80C0E0;
+	padding:5px 5px 5px 5px;
+}
+
+td.title_tblr2
+{
+	font-size: 1.0em;
+	font-weight: bold;
+	background-color:#C0E080;
+	padding:10px 10px 10px 10px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+
+td.item_tblr
+{
+	background-color:#f8f8f8;
+	padding:5px 5px 5px 5px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+td.item_tb
+{
+	background-color:#f8f8f8;
+	padding:5px 5px 5px 5px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+}
+td.item_tblr2
+{
+	background-color:#ffffff;
+	padding:5px 5px 5px 5px;
+	border-top: 1px solid #666;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+
+td.button
+{
+	text-align:center;
+	padding:10px 10px 10px 10px;
+}
+
+td.grid_item
+{
+	border: 1px #FFFFFF solid;
+	background-color:#eee;
+	font-size: 1.0em;
+	padding:0px 5px 0px 5px;
+	height:20px;
+}
+
+td.tab
+{
+	text-align:center;
+	background-color:#87CEFA;
+	font-size: 1.0em;
+	padding:5px 5px 5px 5px;
+}
+
+td.tab_selected
+{
+	text-align:center;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-color:#3A4FAC;
+	font-size: 1.0em;
+	padding:5px 5px 5px 5px;
+}
+
+/**********************
+	記事の展開・格納Style
+**********************/
+.dvtitle {
+  cursor: pointer;
+  font-weight: bold;
+  margin: 10px 0px 0px 30px;
+  height: 16px;
+}
+.developbox {
+  margin: 10px 0px 0px 30px;
+  display: none;
+}
+.developbox2 {
+  margin: 10px 0px 0px 60px;
+  display: none;
+}

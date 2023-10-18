@@ -1,0 +1,64 @@
+<DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta http-equiv="content-language" content="ja" />
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<title>リスニングメニュー | 模試サイト</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140481385-1');
+</script>
+</head>
+<body>
+<h1>全国高校共通テスト英語リスニング音源</h1>
+<p>
+  テストの種類をお間違えなきよう、ご確認の上、ご利用下さい。<br>
+</p>
+<h2>2019年度</h2>
+  <form action="https://m.seihoku.org/listening/9/2019-09-1/">
+    <h3>高1 記述 1回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-09-2/">
+    <h3>高2 記述 1回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-12-2/">
+    <h3>高2 マーク 1回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-13-3/">
+    <h3>高3 マーク 1回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-18-1/">
+    <h3>高1 記述 2回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-18-2/">
+    <h3>高2 記述 2回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-21-3/">
+    <h3>高3 マーク 2回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-24-1/">
+    <h3>高1 記述 3回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-24-2/">
+    <h3>高2 記述 3回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-33-1/">
+    <h3>高1 記述 4回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-33-2/">
+    <h3>高2 記述 4回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-35-2/">
+    <h3>高2 マーク 2回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+  <form action="https://m.seihoku.org/listening/9/2019-36-1/">
+    <h3>高1 マーク 1回</h2>パスワード:<input type="password" name="test"><input type="submit"></p>
+  </form>
+</body>
+</html>

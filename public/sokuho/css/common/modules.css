@@ -1,0 +1,260 @@
+@charset "utf-8";
+
+/* modules.css */
+
+/* -------- show */
+.show
+{
+	display:block;
+}
+
+/* -------- hidden */
+.hidden
+{
+	display:none;
+}
+
+/* -------- font size */
+
+.mainsize,
+.size_10,
+.size_11,
+.size_12,
+.size_13,
+.size_14,
+.size_15,
+.size_16,
+.size_17,
+.size_18,
+.size_19,
+.size_20,
+.size_22,
+.size_24,
+.size_26,
+.size_28,
+.size_30,
+.size_32
+{
+	line-height:1.5;
+	font-weight:normal;
+}
+
+.mainsize { font-size:100% !important; }
+.size_10 { font-size:84% !important; }
+.size_11 { font-size:92% !important; }
+.size_12 { font-size:100% !important; }
+.size_13 { font-size:109% !important; }
+.size_14 { font-size:117% !important; }
+.size_15 { font-size:125% !important; }
+.size_16 { font-size:134% !important; }
+.size_17 { font-size:142% !important; }
+.size_18 { font-size:150% !important; }
+.size_19 { font-size:159% !important; }
+.size_20 { font-size:167% !important; }
+.size_22 { font-size:184% !important; }
+.size_24 { font-size:200% !important; }
+.size_26 { font-size:217% !important; }
+.size_28 { font-size:234% !important; }
+.size_30 { font-size:250% !important; }
+.size_32 { font-size:267% !important; }
+
+
+
+/* -------- attention */
+.red
+{
+	color:#ff0000;
+}
+
+.bold
+{
+	font-weight:bold;
+}
+
+p.cap
+{
+	padding-left:1em;
+	text-indent:-1em;
+	margin:5px 0 0 0;
+}
+
+/* -------- section */
+
+.section
+{
+	clear:both;
+	display:block;
+	margin-bottom:30px;
+}
+
+.section_thin
+{
+	clear:both;
+	display:block;
+	margin-bottom:10px;
+}
+
+.section_wide
+{
+	clear:both;
+	display:block;
+	margin-bottom:50px;
+}
+
+.section_20
+{
+	clear:both;
+	display:block;
+	margin-bottom:20px;
+}
+
+.section_40
+{
+	clear:both;
+	display:block;
+	margin-bottom:40px;
+}
+
+.section_dot
+{
+	width:100%;
+	clear:both;
+	display:block;
+	padding-bottom:20px;
+	margin-bottom:20px;
+	background:#fff url(../../images/common/dot01.gif) repeat-x left bottom;
+	overflow:hidden;
+}
+
+/* -------- inline list */
+ul.inline li,
+ul#entry-nav li
+{
+	display:inline;
+}
+
+ul.inline li ul
+{
+	display:inline;
+	margin:0;
+	padding:0;
+}
+
+/* -------- line dot */
+
+.line
+{
+	clear:both;
+	line-height:1.0;
+	padding:0;
+	height:1px;
+	margin-bottom:5px;
+	border-bottom:1px solid #cccccc;
+}
+
+.dotline
+{
+	clear:both;
+	line-height:1.0;
+	padding-bottom:10px !important;
+	margin-bottom:10px !important;
+	height:1px;
+	background-image:url(../../images/common/dot02.gif);
+	background-repeat:repeat-x;
+}
+
+.dotline hr,
+.line hr
+{
+	display:none;
+}
+
+
+/* -------- image replacement */
+a.replacement
+{
+	display:block;
+	text-indent:-9999px;
+	text-decoration:none !important;
+}
+
+/* -------- floating image */
+.img
+{
+	text-align:left;
+}
+
+.left_img img
+{
+	float:left;
+	clear:left;
+	margin:0 1.5em 0.8em 0;
+	padding:0;
+}
+
+.right_img img
+{
+	float:right;
+	clear:right;
+	margin:0 0 0.8em 1.5em;
+	padding:0;
+}
+
+/* -------- float clear */
+.clear
+{
+	clear:both;
+	line-height:0;
+	width:1px;
+	height:1px;
+	font-size:0;
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+.clear hr
+{
+	display:none;
+}
+
+.clear_r
+{
+	float:right;
+}
+
+.clear_l
+{
+	float:left;
+}
+
+/* -------- table */
+
+.right
+{
+	text-align:right;
+}
+.left
+{
+	text-align:left;
+}
+.center
+{
+	text-align:center;
+}
+
+.space
+{
+	margin:10px 0 10px 0;
+}
+.space2
+{
+	margin:10px 0 0 0;
+}
+.space3
+{
+	margin:0 0 10px 0;
+}
+
+
+

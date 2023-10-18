@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-language" content="ja"
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<link rel="stylesheet" href="../style.css">
+<title>「解答解説」のダウンロード(高校)</title>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-140481385-1');
+</script>
+</head>
+
+<?php
+$passes = array(
+	'4' => '0318',
+	'5' => '0408',
+	'6' => '0513',
+	'7' => '0617',
+	'8' => '0712',
+	'9' => '0819',
+	'10'=> '0916',
+	'11'=> '1007',
+	'12'=> '1028',
+	'1' => '1209',
+	'2' => '0113');
+$terms = array(
+	'4' => '5/3(月)～3/31(木)',
+	'5' => '5/31(月)～3/31(木)',
+	'6' => '6/28(月)～3/31(木)',
+	'7' => '8/2(月)～3/31(木)',
+	'8' => '9/6(月)～3/31(木)',
+	'9' => '10/4(月)～3/31(木)',
+	'10'=> '11/1(月)～3/31(木)',
+	'11'=> '11/22(月)～3/31(木)',
+	'12'=> '12/13(月)～3/31(木)',
+	'1' => '1/31(月)～3/31(木)',
+	'2' => '2/28(月)～3/31(木)');
+$froms = array(
+	'4' => '2021-05-03 00:00:00',
+	'5' => '2021-05-31 00:00:00',
+	'6' => '2021-06-28 00:00:00',
+	'7' => '2021-08-02 00:00:00',
+	'8' => '2021-09-06 00:00:00',
+	'9' => '2021-10-04 00:00:00',
+	'10'=> '2021-11-01 00:00:00',
+	'11'=> '2021-11-22 00:00:00',
+	'12'=> '2021-12-13 00:00:00',
+	'1' => '2022-01-31 00:00:00',
+	'2' => '2022-02-28 00:00:00');
+$tos = array(
+	'4' => '2022-03-31 23:59:59',
+	'5' => '2022-03-31 23:59:59',
+	'6' => '2022-03-31 23:59:59',
+	'7' => '2022-03-31 23:59:59',
+	'8' => '2022-03-31 23:59:59',
+	'9' => '2022-03-31 23:59:59',
+	'10'=> '2022-03-31 23:59:59',
+	'11'=> '2022-03-31 23:59:59',
+	'12'=> '2022-03-31 23:59:59',
+	'1' => '2022-03-31 23:59:59',
+	'2' => '2022-03-31 23:59:59');
+
+$hit = 0;
+date_default_timezone_set('Asia/Tokyo');
+$time = time();
+
+foreach ($passes as $mkey => $pass) {
+	if ($_REQUEST['txtPass'] == $pass) {
+		$term = $terms[$mkey];
+		$from = strtotime($froms[$mkey]);
+		$to = strtotime($tos[$mkey]);
+		
+		if ($time >= $from && $time <= $to) {
+			$on = 1;
+		} elseif($time >= $from && $time >= $to) {
+			$on = 2;
+		} else {
+			$on = 0;
+		}
+		
+		if ($on != 0) {
+?>
+<body>
+<img border="0" alt="header" src="../img/header.jpg" width="800">
+<dl class="scrn_title900">
+<dt style="width:22em;"><span>「解答解説」のダウンロード(高校)</span> 
+</dt><dd>
+<div class="frame">
+<br>
+<table>
+<tbody><tr height="30">
+<td align="center" width="400"><table><tbody><tr><td class="title_tblr" align="center" width="310"><b><?php print($mkey); ?>月テスト　解答解説</b></td></tr></tbody></table></td>
+<td align="center" width="400"></td>
+</tr>
+<tr height="50">
+<td align="center">公開期間：<?php print($term); ?></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">
+	<table>
+	<tbody>
+	<tr>
+		<td class="title_tblr" align="center" colspan="2">高　校</td>
+	</tr>
+	<tr>
+		<td class="item_tblr" align="center" width="100">１年</td>
+		<td class="item_tblr2" align="center" width="200">
+<?php
+if ($on == 1) {
+	print ('<a href="./kai_20' . sprintf('%02s', $mkey) . '31.pdf" target="_blank">解答解説</a>');
+} elseif ($on == 2) {
+	print ('解答解説');
+}
+?>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_tblr" align="center">２年</td>
+		<td class="item_tblr2" align="center">
+<?php
+if ($on == 1) {
+	print ('<a href="./kai_20' . sprintf('%02s', $mkey) . '32.pdf" target="_blank">解答解説</a>');
+} elseif ($on == 2) {
+	print ('解答解説');
+}
+?>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_tblr" align="center">３年</td>
+		<td class="item_tblr2" align="center">
+<?php
+if ($on == 1 && $mkey >= 4) {
+	print ('<a href="./kai_20' . sprintf('%02s', $mkey) . '33.pdf" target="_blank">解答解説</a>');
+} elseif ($on == 1) {
+	print ('－');
+} elseif ($on == 2 && $mkey >= 4) {
+	print ('解答解説');
+} elseif ($on == 2) {
+	print ('－');
+}
+?>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+<br>
+</div>
+</dd>
+</dl>
+<!--<div class="address">Copyright &#169; 2019 Seihoku Publishing Company All rights reserved.</div>-->
+</body>
+<?php
+			$hit = 1;
+		}
+		break;
+	}
+}
+if ($hit == 0) {
+	print('パスワードが違います。');
+}
+?>
+</html>

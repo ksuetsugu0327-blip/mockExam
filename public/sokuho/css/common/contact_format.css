@@ -1,0 +1,478 @@
+@charset "utf-8";
+
+/* format.css */
+
+
+/* -------- link */
+a,
+a:link
+{
+	text-decoration:underline;	
+        color:#333333;
+
+}
+
+a:visited
+{
+	text-decoration:underline;
+	color:#333333;
+
+}
+
+
+a:hover
+{
+	text-decoration:none;
+	color:#DF0B16;
+
+}
+a:active
+{
+	text-decoration:none;	
+        color:#DF0B16;
+
+}
+
+
+
+
+
+body
+{
+	text-align:center;
+	font-size:75%;
+	font-family:Verdana, 'メイリオ',Meiryo,'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','ＭＳ Ｐゴシック',sans-serif;
+	color:#333333;
+}
+
+/* -------- container */
+
+div#container
+{
+	width:100%;
+}
+
+div#container_inner
+{
+	padding:0;
+	margin:0 auto;
+	text-align:left;
+}
+
+/* -------- header */
+div#header
+{
+	width:100%;
+        text-align:center;
+        height:35px;
+}
+
+div#header_inner
+{
+	width:950px;
+        margin:0 auto;
+}
+div#header #logo
+{
+	display:block;
+	float:left;
+	width:190px;
+	height:35px;
+	background:url(../../image/contact/logo_contact.gif) no-repeat;
+        /*margin:25px 0 0 0;*/
+        margin-top:20px;
+}
+
+div#header #logo a
+{
+	display:block;
+	width:190px;
+	height:35px;
+}
+div#header #logo h1
+{
+	text-indent:-9999px;
+	font-size:1px;
+	overflow:hidden;
+}
+div#header #logo h2
+{
+	display:none;
+}
+
+div#header #head_right
+{
+	float:right;
+        margin-top:20px;
+        width:540px;
+}
+
+
+
+div#header #head_right  ul
+{
+	padding:0;
+        color:#FFFFFF;
+float:left;
+}
+div#header #head_right  ul li
+{
+        padding:12px 0 0 15px;
+        list-style-type:none;
+        display:inline;
+        float:left;
+}
+
+
+
+/* -------- content */
+
+div#content
+{
+	padding:0;
+	margin:0;
+        width:100%;
+        text-align:center;
+	background:url(../../image/contact/bg_contact.jpg) repeat-x;
+}
+
+
+
+h3{
+	margin:0;
+        padding:0 0 15px 0;
+}
+
+h4{
+	margin:0;
+        padding:0 0 15px 0;
+}
+
+
+div#content_inner
+{
+	padding:20px 0 0 0;
+	margin:0 auto;
+        width:950px;
+        text-align:left;
+
+}
+
+div#content_inner p
+{
+	padding:0;
+	margin:0 0 15px 0;
+	line-height:1.5;
+}
+
+div#content_inner p.none
+{
+	padding:0;
+	margin:0 !important;
+	line-height:1.5;
+}
+
+
+
+
+div#alpha
+{
+	width: 920px;
+        background-color:#FFFFFF;
+        padding:15px;
+}
+
+
+
+/* Thin-Wide */
+
+div#alpha_inner
+{
+	padding:0;
+	margin:0 ;
+}
+
+/* -------- footer_navi */
+
+ul#footer_navi_main
+{
+	list-style:none;
+	text-align:left;
+	padding:0;
+	margin:15px 0 0 0;
+        font-size:80%;
+        color:#D4D4D4;
+}
+
+ul#footer_navi_main li
+{
+	display:inline;
+}
+
+ul#footer_navi_main li
+{
+	display:inline;
+}
+
+/* -------- footer */
+
+div#footer
+{
+	clear:both;
+	width:100%;
+        background-color:#F2F2F2;
+        border-top:1px solid #D4D4D4;
+        height:100px;
+        text-align:center;
+
+}
+
+div#footer_inner
+{
+	padding:0;
+	margin:0 auto;
+	width:950px;
+        text-align:left;
+
+}
+
+div#footer_content
+{
+	padding:0;
+	margin-top:15px;
+   
+}
+
+div#pagetop_width
+{
+	width:100%;
+	text-align:center;
+}
+
+div#pagetop
+{
+	width:950px;
+	margin:0 auto;
+}
+
+
+div#pagetop .bt_top
+{
+	float:right;
+        margin:15px 0 -2px 0;
+}
+
+#mainmenu
+{
+	padding:0;
+        margin:0 0 0 0;
+        width:100%;
+	background:url(../../image/common/bg_mainmenu.jpg) repeat-x;
+        height:65px;
+        text-align:center;
+}
+
+#mainmenu_inner
+{
+       width:950px;
+        text-align:left;
+       margin:0 auto;
+}
+
+
+ul#g_menu
+{
+	padding:0;
+        margin:0;
+
+
+}
+ul#g_menu li
+{
+        padding:0;
+        list-style-type:none;
+        float:left;
+}
+
+/*  right_menu */
+#mobile
+{
+	padding:0;
+        margin:0 0 10px 0;
+        width:200px;
+}
+#mobile #mobilebox
+{
+	border-right:5px solid #DE0B16;
+	border-left:5px solid #DE0B16;
+	border-bottom:5px solid #DE0B16;
+        background-color:#FFFFFF;
+        padding:15px;
+}
+
+#mobile #mobilebox .mobile_l
+{
+	float:left;
+        margin-right:10px;
+       width:75px;
+}
+#mobile #mobilebox .mobile_r
+{
+	float:right;
+        width:75px;
+}
+
+
+ul#bunner
+{
+	padding:0;
+        margin:0;
+}
+ul#bunner li
+{
+        padding:0;
+        list-style-type:none;
+        display:block;
+        margin:0 0 5px 0;
+}
+
+/*  font-change */
+
+div#font-change
+{
+	display:block;
+	float:right;
+	width:155px;
+	height:35px;
+	overflow:hidden;
+	background:url(../../image/common/fontchange.gif) no-repeat 0 0;
+        margin-left:10px;
+}
+div#font-change dt
+{
+	display:none;
+}
+
+div#font-change dd
+{
+	display:inline;
+	float:left;
+	width:27px;
+	height:35px;
+	text-decoration:none;
+	cursor:pointer;
+	background:url(../../image/common/fontchange.gif) no-repeat 0 0;
+}
+
+div#font-change dd.font-small
+{
+	margin-left:70px;
+	text-indent:-9999px;
+	font-size:1px;
+	background:url(../../image/common/fontchange.gif) no-repeat -70px 0;
+
+}
+
+div#font-change dd.font-middle
+{
+
+	text-indent:-9999px;
+	font-size:1px;
+	background:url(../../image/common/fontchange.gif) no-repeat -97px 0;
+}
+
+div#font-change dd.font-large
+{
+	text-indent:-9999px;
+	font-size:1px;
+	background:url(../../image/common/fontchange.gif) no-repeat -123px 0;
+}
+
+/*panlink************************************************/
+#panlink{
+    font-size :80%;
+    text-align :left ;
+    padding:0 0 15px 0;
+    margin:0 auto;
+    width:950px;
+}
+
+.commonbox{
+    background-color:#F0F0F0;
+    padding:10px;
+    border:1px solid #D4D4D4;
+    text-align:center;
+    margin:10px 0 15px 0;
+}
+
+
+
+/* number01 */
+
+dl.number01 dt 
+{
+	padding:1px 0 5px 28px;
+	margin:0 0 5px 0;
+}
+
+dl.number01 dt span
+{
+	font-weight:bold;
+        font-size:110%;
+}
+
+
+dl.number01 dt.no01 
+{
+	background:url(../../image/common/no_01.gif) no-repeat 0 0;
+
+}
+
+dl.number01 dt.no02 
+{
+	background:url(../../image/common/no_02.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no03 
+{
+	background:url(../../image/common/no_03.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no04 
+{
+	background:url(../../image/common/no_04.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no05 
+{
+	background:url(../../image/common/no_05.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no06 
+{
+	background:url(../../image/common/no_06.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no07 
+{
+	background:url(../../image/common/no_07.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no08 
+{
+	background:url(../../img/common/no_08.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no09 
+{
+	background:url(../../image/common/no_09.gif) no-repeat 0 0;
+}
+
+dl.number01 dt.no10 
+{
+	background:url(../../image/common/no_10.gif) no-repeat 0 0;
+}
+
+
+
+

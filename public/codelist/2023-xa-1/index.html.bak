@@ -1,0 +1,23 @@
+<DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta http-equiv="content-language" content="ja" />
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<title>コード番号表</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140481385-1');
+</script>
+</head>
+<body>
+<h2>2023年度（前期）</h2>
+<h3>学部判定用　-高1生・高2生用-</h3>
+<td><a href="./cdn_2023_xa_1_コード番号表.pdf" target="_blank">コード番号表(23-24年用：XA)</a></td>
+</body>
+</html

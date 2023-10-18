@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+*
+{
+	font-size:100%;
+}
+
+div#font-change dd.font-middle
+{
+	background:url(http://web-designer.freemind.co.jp/asami/seihoku/image/common/fontchange.gif) no-repeat -97px -35px;
+}
+

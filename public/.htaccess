@@ -1,0 +1,36 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    #SSL 
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+     # static contents dir STA
+    RewriteCond %{REQUEST_URI} !^/try.*$
+    RewriteCond %{REQUEST_URI} !^/listening.*$
+    RewriteCond %{REQUEST_URI} !^/pdf.*$
+     # static contents dir END
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle Front Controller...
+     # static contents dir STA
+    RewriteCond %{REQUEST_URI} !^/try.*$
+    RewriteCond %{REQUEST_URI} !^/listening.*$
+    RewriteCond %{REQUEST_URI} !^/pdf.*$
+     # static contents dir END
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

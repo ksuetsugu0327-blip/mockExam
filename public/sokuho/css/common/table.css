@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+/* table *****************/
+
+.scheduletable{
+border-collapse:collapse;
+border-top:solid 1px #CDCDCD;
+border-left:solid 1px #CDCDCD;
+}
+.scheduletable th{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+font-weight:bold;
+padding:8px;
+background-color:#F6F6F6;
+vertical-align:middle;
+}
+
+.scheduletable th.orange{
+background-color:#FDD986;
+border-bottom:solid 1px #FFFFFF;
+}
+
+
+.scheduletable td{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:8px;
+line-height:1.4;
+background-color:#FFFFFF;
+
+}
+
+
+.commontable{
+border-collapse:collapse;
+border-top:solid 1px #CDCDCD;
+/*border-left:solid 1px #CDCDCD;*/
+}
+.commontable th{
+border-bottom:solid 1px #CDCDCD;
+/*border-right:solid 1px #CDCDCD;*/
+font-weight:normal;
+padding:8px;
+background-color:#F6F6F6;
+vertical-align:middle;
+}
+.commontable td{
+border-bottom:solid 1px #CDCDCD;
+/*border-right:solid 1px #CDCDCD;*/
+padding:8px;
+line-height:1.4em;
+background-color:#FFFFFF;
+vertical-align:middle;
+}
+.commontable td.back{
+	background-color:#666666;
+    color:#FFFFFF;
+    font-weight:bold;
+}
+
+
+.whitetable{
+	border-collapse:collapse;
+	border-top:dotted 1px #CDCDCD;
+	border-left:dotted 1px #CDCDCD;
+	margin:0;
+}
+.whitetable th{
+	border-bottom:dotted 1px #CDCDCD;
+	border-right:dotted 1px #CDCDCD;
+	font-weight:normal;
+	text-align:left;
+	background-color :#FFFFFF;
+	color :#11498B;
+	margin:0;
+}
+.whitetable td{
+	border-bottom:dotted 1px #CDCDCD;
+	border-right:dotted 1px #CDCDCD;
+	margin:0;
+	background-color :#FFFFFF;
+
+}
+
+
+.prvtable{
+border-collapse:collapse;
+border-top:solid 1px #CDCDCD;
+border-left:solid 1px #CDCDCD;
+margin:-10px 0px 0px 10px
+}
+
+.prvtable th{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:4px;
+background-color:#F6F6F6;
+vertical-align:middle;
+}
+
+.prvtable td.gray{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:2px;
+line-height:1.4;
+background-color:#c0c0c0;
+vertical-align:middle;
+}
+
+.prvtable td.blue{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:2px;
+line-height:1.4;
+background-color:#00BFFF;
+vertical-align:middle;
+}
+
+.prvtable td.yellow{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:2px;
+line-height:1.4;
+background-color:#FFF190;
+vertical-align:middle;
+}
+
+.prvtable td{
+border-bottom:solid 1px #CDCDCD;
+border-right:solid 1px #CDCDCD;
+padding:4px;
+line-height:1.4;
+background-color:#FFFFFF;
+}

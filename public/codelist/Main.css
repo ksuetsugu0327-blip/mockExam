@@ -1,0 +1,106 @@
+.sp_br {
+    display: none; /*768px以上では改行タグを無効に。*/
+    }
+    @media screen and (max-width: 768px) {
+    .sp_br {
+    display: block; /*768px未満で改行タグを有効に。*/
+    }
+    }
+
+h1 {
+    padding: 3px 6px;                   /*上下左右の余白
+    background: transparent;            /*背景を透明に変更*/
+    border-left: solid 5px #03af7a;     /*左に色指定で枠線追加*/
+    color: #404040;
+    //border-left: solid 6px #1fa67a;/*左側の線*/
+    border-bottom: solid 1px #dadada;/*下に灰色線*/
+    background: whitesmoke;
+    margin-bottom: 5px;/*下のバーとの余白*/
+    line-height: 1.0;
+    padding: 0.5em;
+    list-style-type: none!important;/*ポチ消す*/
+    font-weight: bold;
+}
+
+h2 { 
+    position: relative;
+    border-bottom: 4px solid #fff100;
+    padding: 3px 0;                       /*文字の余白*/
+}
+
+h2:before {
+	position: absolute;
+	left: 0;
+	bottom: -4px;
+	width: 20%;
+	height: 4px;
+	content: '';
+	background: #4dc4ff;
+	}
+
+h3 {
+    padding: 3px 6px;                   /*上下左右の余白*/
+    color: #494949;                     /*文字色*/
+    background: transparent;            /*背景を透明に変更*/
+    //border-left: solid 5px #7db4e6;     /*左に色指定で枠線追加*/
+}
+
+p{
+    background-color: black;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+    p{
+        background-color: black;
+        color:green;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    p{
+        background-color: black;
+        color:red;
+    }
+}
+
+h4 {
+	text-indent: 1em;
+}
+
+
+/* 003 */
+.button003 a {
+    background: #ffcabf;
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1em;
+    max-width: 140px;
+    padding: 10px 25px;
+    color: #270303;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+}
+.button003 a:hover {
+    background: #313131;
+    color: #FFF;
+}
+.button003 a:after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-top: 3px solid #313131;
+    border-right: 3px solid #313131;
+    transform: rotate(45deg) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    border-radius: 1px;
+    transition: 0.3s ease-in-out;
+}
+.button003 a:hover:after {
+    border-color: #FFF;
+}

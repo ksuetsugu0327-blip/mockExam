@@ -1,0 +1,15 @@
+<Files ~ "^\.(htaccess|htpasswd)$">
+deny from all
+</Files>
+Options -Indexes
+#AuthUserFile /var/www/vhosts/m.seihoku.org/public_html/mockExam/public/listening/9/.htpasswd
+AuthUserFile /var/www/vhosts/m.seihoku.org/public_html/passwd/9/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Please enter your ID and password"
+AuthType Basic
+require valid-user 
+DirectoryIndex index.html
+
+#SSL 
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
