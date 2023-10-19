@@ -149,6 +149,30 @@
                     </tr>
                     <tr>
                         <td>
+                            <p>生徒パスワード変更可能フラグ</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" type="text" name="psn_psw_update_flg" value="{{ old('psn_psw_update_flg', $school->psn_psw_update_flg) }}" required maxlength='1'>
+                                <br>
+                                @if($errors->has('psn_psw_update_flg'))<span class="error">{{ $errors->first('psn_psw_update_flg') }}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>教室成績データCSVダウンロード可能フラグ</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" type="text" name="cls_grade_csv_flg" value="{{ old('cls_grade_csv_flg', $school->cls_grade_csv_flg) }}" required maxlength='1'>
+                                <br>
+                                @if($errors->has('cls_grade_csv_flg'))<span class="error">{{ $errors->first('cls_grade_csv_flg') }}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <p>アクセス許可IPアドレス</p>
                         </td>
                         <td>

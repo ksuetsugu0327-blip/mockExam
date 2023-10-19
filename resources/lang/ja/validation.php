@@ -152,6 +152,8 @@ return [
         'psn_hide_flg'     => '生徒機能非表示フラグ',
         'schname_hide_flg' => '塾名非表示フラグ',
         'psncard_regist_flg' => '個人登録票利用フラグ',
+        'psn_psw_update_flg' => '生徒パスワード変更可能フラグ',
+        'cls_grade_csv_flg'  => '教室成績データCSVダウンロード可能フラグ',
 
         'hsc_code' => '高校',
         'univ_code1' => '大学（第1志望）',

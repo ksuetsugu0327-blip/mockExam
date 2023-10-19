@@ -60,6 +60,8 @@ class JmasterCorrectionController extends Controller {
             'psn_hide_flg'=>$request->get('psn_hide_flg'),
             'schname_hide_flg'=>$request->get('schname_hide_flg'),
             'psncard_regist_flg'=>$request->get('psncard_regist_flg'),
+            'psn_psw_update_flg'=>$request->get('psn_psw_update_flg'),
+            'cls_grade_csv_flg'=>$request->get('cls_grade_csv_flg'),
             'permit_ip'=>$request->get('permit_ip')
         ];
         

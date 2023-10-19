@@ -69,6 +69,10 @@ return[
     'SESSION_KEY_SCH_NAME_HIDE_FLG' => 'SCH_NAME_HIDE_FLG',
     // 個人登録票利用フラグ
     'SESSION_KEY_PSN_CARD_REGIST_FLG' => 'PSN_CARD_REGIST_FLG',
+    // 生徒パスワード変更可能フラグ
+    'SESSION_KEY_PSN_PSW_UPDATE_FLG' => 'PSN_PSW_UPDATE_FLG',
+    // 教室成績データCSVダウンロード可能フラグ
+    'SESSION_KEY_CLS_GRADE_CSV_FLG' => 'CLS_GRADE_CSV_FLG',
     // 塾生コード
     'SESSION_KEY_PSNCODE' => 'PSN_CODE',
     // 塾生氏名
@@ -142,6 +146,12 @@ return[
     // 個人登録票利用フラグ　0:非表示 1:表示
     'PSN_CARD_HIDE_FLG' => '0',
     'PSN_CARD_NO_HIDE_FLG' => '1',
+    // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
+    'PSN_CARD_NOT_USE_FLG' => '0',
+    'PSN_CARD_USE_FLG' => '1',
+    // 教室成績データCSVダウンロード可能フラグ　0:利用しない 1:利用する
+    'CLS_GRADE_CSV_NOT_USE_FLG' => '0',
+    'CLS_GRADE_CSV_USE_FLG' => '1',
     // テスト回数表示区分  0:マーク・記述毎 1:マーク・記述通算 2:塾マスタ(回数毎)をもとに回数表示
     'CNTTEST_KBN_BY_TEST' => 0,
     'CNTTEST_KBN_SUMUP' => 1,
