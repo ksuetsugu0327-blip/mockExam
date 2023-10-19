@@ -55,9 +55,6 @@ class CsvUploadController extends Controller {
         // CSVの中身に対するバリデーションを実施
         $csv_errors = $this->csvService->validateCsvData($file);
 
-        // 登録データ格納配列
-        $arrayInsertData = array();
-
         // エラー有無をチェック
         if (count($csv_errors) > 0) {
             // HTTP Header 作成
@@ -125,14 +122,14 @@ class CsvUploadController extends Controller {
                           $temp['password']     = null;
                           $temp['temppassword'] = Crypt::encryptString( str_random(8) );
                       }
-                      $arrayInsertData[] = $temp;
+                      $arrayInsertData = $temp;
                     } else {
                       // temp password はプログラムで生成して登録する
                       $password   = $row[7];
                       $temppass   = empty( $password ) ? ( empty( $row[8] ) ? str_random(8) : $row[8] ) : null;
 
                       // 登録データを配列に追加 ( パスワードの変更あり )
-                      $arrayInsertData[] = array(
+                      $arrayInsertData = array(
                         'sch_code'      => $sch_code,
                         'psn_code'      => $psn_code,
                         'cls_code'      => $cls_code,
@@ -144,19 +141,16 @@ class CsvUploadController extends Controller {
                         'temppassword'  => empty( $temppass ) ? null : Crypt::encryptString( $temppass ),
                       );
                     }
+                    $this->csvService->registerArray($arrayInsertData);
                 }
                 // 行カウンタをインクリメント
                 $row_count++;
             }
 
-            if( !empty( $arrayInsertData) ){
-              // Insert処理
-              $this->csvService->registerArray($arrayInsertData);
-            }
         }
 
         // 画面表示
-        return view('csvUpload')->with('message', trans('message.SUCCESS_MPERSON_CSV_DATA'));
+        return view('csvUpload')->with('message', trans('message.SUCCESS_MPERSON_CSV_DATA',['count'=>$row_count-1]));
     }
 
 }

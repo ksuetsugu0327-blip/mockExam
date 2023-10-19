@@ -43,6 +43,7 @@ class CsvService {
             // データ件数カウントアップ
             $dataCnt++;
             $output_line_num = $line_num + 1;
+            //dd(count($line));
             if (count($line) !== count(config('constants.CSV_HEADER_NUM'))) {
                 $csv_errors[] = [$output_line_num, ' カラム数が不正です'];
             } else{
@@ -168,7 +169,7 @@ class CsvService {
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function registerArray(array $personAry){
-        return $this->mPersonRepository->registerArray($personAry);
+        return $this->mPersonRepository->register($personAry);
     }
     public function isNewMPerson($sch_code, $cls_code, $psn_code){
         return 0 == $this->mPersonRepository->countMPerson($sch_code, $cls_code, $psn_code);
