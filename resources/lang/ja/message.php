@@ -84,7 +84,7 @@ return[
     // 個人マスタ 削除処理の正常終了時メッセージ
     'SUCCESS_MPERSON_DELETE_DATA' => '指定された生徒（塾コード：:sch_code 塾生ID：:psn_code）を削除しました。',
     // CSVにて個人マスタ 登録処理の正常終了時メッセージ
-    'SUCCESS_MPERSON_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+    'SUCCESS_MPERSON_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。(件数：:count)',
 
     // 志望校テーブル 登録処理の正常終了時メッセージ
     'SUCCESS_TICKET_REGISTER_DATA' => ':testname 志望校の登録が完了しました。',
