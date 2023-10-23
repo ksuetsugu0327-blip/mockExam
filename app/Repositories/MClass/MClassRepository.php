@@ -81,7 +81,8 @@ class MClassRepository implements MClassRepositoryInterface {
                                   'm_class.temppassword',
                                   'm_school.testname', 'm_school.name as sch_name',
                                   'm_school.psn_hide_flg', 'm_school.schname_hide_flg',
-                                  'm_school.psncard_regist_flg')
+                                  'm_school.psncard_regist_flg',
+                                  'm_school.cls_grade_csv_flg')
                          ->where('m_class.sch_code', '=', $schCode)
                          ->where('m_class.cls_code', '=', $clsCode)
                          ->get();
