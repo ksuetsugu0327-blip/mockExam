@@ -168,8 +168,8 @@ class CsvService {
      * @param array $personAry 個人用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray(array $personAry){
-        return $this->mPersonRepository->register($personAry);
+    public function registerArray(array $person){
+        return $this->mPersonRepository->importFromCsv($person);
     }
     public function isNewMPerson($sch_code, $cls_code, $psn_code){
         return 0 == $this->mPersonRepository->countMPerson($sch_code, $cls_code, $psn_code);
