@@ -70,7 +70,7 @@ return[
     // 個人登録票利用フラグ
     'SESSION_KEY_PSN_CARD_REGIST_FLG' => 'PSN_CARD_REGIST_FLG',
     // 生徒パスワード変更可能フラグ
-    'SESSION_KEY_PSN_PSW_UPDATE_FLG' => 'PSN_PSW_UPDATE_FLG',
+    'SESSION_KEY_PSN_PSW_CHANGE_FLG' => 'PSN_PSW_CHANGE_FLG',
     // 教室成績データCSVダウンロード可能フラグ
     'SESSION_KEY_CLS_GRADE_CSV_FLG' => 'CLS_GRADE_CSV_FLG',
     // 塾生コード
@@ -147,8 +147,8 @@ return[
     'PSN_CARD_HIDE_FLG' => '0',
     'PSN_CARD_NO_HIDE_FLG' => '1',
     // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
-    'PSN_CARD_NOT_USE_FLG' => '0',
-    'PSN_CARD_USE_FLG' => '1',
+    'PSN_CHANGE_PW_HIDE_FLG' => '0',
+    'PSN_CHANGE_PW_NO_HIDE_FLG' => '1',
     // 教室成績データCSVダウンロード可能フラグ　0:利用しない 1:利用する
     'CLS_GRADE_CSV_NOT_USE_FLG' => '0',
     'CLS_GRADE_CSV_USE_FLG' => '1',
