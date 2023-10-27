@@ -261,6 +261,7 @@ Route::prefix('/{schCode}/psn')->group(function(){
     Route::get('login','PersonLoginController@index')->name('personLogin.index');
     Route::post('login','PersonLoginController@login')->name('personLogin.login');
     Route::match(['get', 'post'], 'logout', 'PersonLoginController@logout')->name('personLogin.logout');
+    Route::post('passwordforgot','PersonLoginController@passwordResetIndex')->name('personLogin.passwordreset');
 
     // 生徒アカウントログイン(仮パスワード）
     Route::get('tmplogin','PersonTemporaryLoginController@index')->name('personTempLogin.index');
@@ -274,6 +275,14 @@ Route::prefix('/{schCode}/psn')->group(function(){
     // 生徒アカウントログイン(仮パスワード不明）
     Route::get('unknownauth','PersonUnknownTempPassLoginController@index')->name('personUnknownLogin.index');
     Route::post('unknownauth','PersonUnknownTempPassLoginController@login')->name('personUnknownLogin.login');
+
+    // 生徒パスワード再設定
+    Route::get('passwordreset','PersonPasswordResetController@index')->name('personPasswordReset.index');
+    Route::post('passwordreset','PersonPasswordResetController@reset')->name('personPasswordReset.reset');
+
+    // 生徒パスワード変更
+    Route::get('passwordChange','PersonPasswordChangeController@index')->name('personPasswordChange.index');
+    Route::post('passwordChange','PersonPasswordChangeController@changePassword')->name('personPasswordChange.update');
 
     // メニュー画面
     Route::get('menu','TopMenuController@index')->name('personTopMenu.index');

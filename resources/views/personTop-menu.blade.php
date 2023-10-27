@@ -36,6 +36,16 @@
                             </div>
                         </a>
                         @endif
+
+                        @if(session(config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')) === config('constants.PSN_CHANGE_PW_NO_HIDE_FLG'))
+                        <a href="{{route('personPasswordChange.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}">
+                            <div class="item">
+                                <div class="icon the-icons span3" title="Code:  0xe801"><i 
+                                    class="icons  icon-edit">&#xe801;</i></div>
+                                パスワード変更
+                            </div>
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
