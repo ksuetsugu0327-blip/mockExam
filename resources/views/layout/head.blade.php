@@ -13,6 +13,10 @@
 <link rel="stylesheet" href="{{ asset('/css/style.css?'.time()) }}" />
 <link rel="stylesheet" href="{{ asset('/css/webfont.css') }}" />
 <link rel="stylesheet" href="{{ asset('/css/animation.css') }}" />
+
+<link rel="stylesheet" href="{{asset('/css/psnmenu_css/webfont.css')}}" />
+<link rel="stylesheet" href="{{asset('/css/psnmenu_css/animation.css')}}" />
+
 <script src="{{ asset('/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('/js/common.js') }}"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>

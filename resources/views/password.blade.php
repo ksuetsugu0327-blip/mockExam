@@ -15,11 +15,11 @@
     <div class="content_ps">
         <h1>パスワード</h1>
         <div id="un_login" class="unlogin">
-　　　 　　　 @if ($errors->has('message'))
+            @if ($errors->has('message'))
       		  <div class="error_message">
-           　　　　 	<strong>{{ $errors->first('message') }}</strong>
+             	<strong>{{ $errors->first('message') }}</strong>
         	  </div>
-    　　    @endif
+            @endif
             
             <form action="{{route('changePassword.register',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}" method="post">
                 @csrf
@@ -51,6 +51,36 @@
                                 <br/>
                                 <span class="error">
                                     <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:1em 0 0 0;">&nbsp;</td>
+                        <td style="font-size: 70%;padding:1em 0 0 0;">
+                            パスワードを忘れた場合に<br>仮パスワードを再発行するためのメールアドレスを入力してください。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>メールアドレス&nbsp;</td>
+                        <td>
+                            <input type="text" name="email" value="" required autofocus/>
+                            @if ($errors->has('email'))
+                                <br/>
+                                <span class="error">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>メールアドレス(確認)&nbsp;</td>
+                        <td>
+                            <input type="text" name="email_confirmation" value="" required/>
+                            @if ($errors->has('email_confirmation'))
+                                <br/>
+                                <span class="error">
+                                    <strong>{{ $errors->first('email_confirmation') }}</strong>
                                 </span>
                             @endif
                         </td>
