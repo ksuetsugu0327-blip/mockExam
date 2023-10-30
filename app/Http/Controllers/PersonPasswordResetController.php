@@ -53,7 +53,7 @@ class PersonPasswordResetController extends Controller
         $decryptedTempPass = PasswordUtil::decryptString($tempPassword);
 
         // パスワード更新処理
-        $id = $this->service->registerPassword($schCode,$psnCode,$tempPassword);
+        $id = $this->service->registerTempPassword($schCode,$psnCode,$tempPassword);
 
 
         // 生徒個人情報取得

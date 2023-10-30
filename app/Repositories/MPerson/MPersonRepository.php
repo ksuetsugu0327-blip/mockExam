@@ -84,6 +84,25 @@ class MPersonRepository implements MPersonRepositoryInterface{
     }
 
     /**
+     * 個人マスタ 仮パスワード更新処理
+     * @param int $schCode 塾コード
+     * @param string $psnCode 個人コード
+     * @param string $tempPass 仮パスワード
+     * @return int id 更新データのid
+     */
+    public function registerTempPassword(int $schCode, string $psnCode, string $tempPass) {
+        return \DB::transaction(
+                function() use ($schCode,$psnCode,$tempPass){
+                    $updUser = MPerson::where('sch_code',$schCode)->where('psn_code',$psnCode)->first();
+                    $updUser->password = null;
+                    $updUser->temppassword = $tempPass;
+                    $updUser->save();
+                    return $updUser->id;
+                }
+        );
+    }
+
+    /**
      * 引数指定での検索処理( 検索画面用 ）
      * @param array $conditions
      * @return $data            データコレクション(Eloque)
