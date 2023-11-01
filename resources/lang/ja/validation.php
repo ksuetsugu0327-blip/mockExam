@@ -36,7 +36,7 @@ return [
     'digits_between' => ':attributeには:min〜:max桁の数値を指定してください。',
     'dimensions' => ':attributeの画像サイズが不正です。',
     'distinct' => '指定された:attributeは既に存在しています。',
-    'email' => ':attributeには正しい形式のメールアドレスを指定してください。',
+    'email' => ':attributeの形式が間違っています。',
     'exists' => '指定された:attributeは存在しません。',
     'file' => ':attributeにはファイルを指定してください。',
     'filled' => ':attributeには空でない値を指定してください。',

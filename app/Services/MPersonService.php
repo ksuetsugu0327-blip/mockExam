@@ -56,6 +56,17 @@ class MPersonService {
     public function registerTempPassword(int $schCode,string $psnCode,string $tempPass){
         return $this->repository->registerTempPassword($schCode,$psnCode,$tempPass);
     }
+
+    /**
+     * 個人マスタ メール更新処理
+     * @param int $schCode 塾コード
+     * @param string $psnCode 個人コード
+     * @param string $email メールアドレス
+     * @return type
+     */
+    public function registerEmail(int $schCode, string $psnCode, string $email){
+        return $this->repository->registerEmail($schCode,$psnCode,$email);
+    }
     
     /**
      * 引数指定での検索処理( 検索画面用 ）

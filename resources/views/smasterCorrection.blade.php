@@ -120,6 +120,18 @@
                             </p>
                         </td>
                     </tr>
+                    @if($psn_psw_update_flg)
+                    <tr>
+                        <td>
+                            <p>メールドレス</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" style="width: 220px;" type="text" name="tellow4" id="mail_adress" value="" maxlength="50"> <br>
+                            </p>
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <td>
                             <p>仮パスワード</p>
@@ -213,6 +225,18 @@
                             </p>
                         </td>
                     </tr>
+                    @if($psn_psw_update_flg)
+                    <tr>
+                        <td>
+                            <p>メールドレス</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" style="width: 220px;" type="text" name="tellow4" id="mail_adress" value="" maxlength="50"> <br>
+                            </p>
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <td>
                             <p>仮パスワード　　</p>

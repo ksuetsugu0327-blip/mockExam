@@ -36,13 +36,16 @@ class SmasterCorrectionController extends Controller {
         
         // 塾マスタの取得
         $persons = $this->service->selectOneByKeyWithSchCls($editSchCode, $editPsnCode);
+        // パスワード変更可能フラグをセッションから取得
+        $psn_psw_update_flg = $persons->get(0)->psn_psw_update_flg;
+
         if($persons->count()==0){
             // 該当データが存在しない場合、データ不整合（削除されている等）のため、一覧に戻る
             return redirect()->route('persons.index',[$schCode])
                     ->with('message',trans('message.MPERSON_EXCLUSIVE_EXCEPTION'));
         }
 
-        return view('smasterCorrection', ['person' => $persons->get(0)]);
+        return view('smasterCorrection', ['person' => $persons->get(0), 'psn_psw_update_flg'=>$psn_psw_update_flg]);
     } 
     
     /**

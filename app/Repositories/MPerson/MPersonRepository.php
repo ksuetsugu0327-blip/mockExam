@@ -103,6 +103,24 @@ class MPersonRepository implements MPersonRepositoryInterface{
     }
 
     /**
+     * 個人マスタ メール更新処理
+     * @param int $schCode 塾コード
+     * @param string $psnCode 個人コード
+     * @param string $email メールアドレス
+     * @return int id 更新データのid
+     */
+    public function registerEmail(int $schCode, string $psnCode, string $email) {
+        return \DB::transaction(
+                function() use ($schCode,$psnCode,$email){
+                    $updUser = MPerson::where('sch_code',$schCode)->where('psn_code',$psnCode)->first();
+                    $updUser->mail_address = $email;
+                    $updUser->save();
+                    return $updUser->id;
+                }
+        );
+    }
+
+    /**
      * 引数指定での検索処理( 検索画面用 ）
      * @param array $conditions
      * @return $data            データコレクション(Eloque)
