@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SmasterRegistRequest;
+use App\Services\MSchoolService;
 use App\Services\MPersonService;
 use Illuminate\Support\Facades\Crypt;
 
@@ -12,10 +13,11 @@ class SmasterRegistController extends Controller {
      * コンストラクタ
      * @param MPersonService $mPersonService 個人マスタサービス
      */
-    public function __construct(MPersonService $mPersonService){
+    public function __construct(MPersonService $mPersonService, MSchoolService $mSchoolService){
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $mPersonService;
+        $this->mSchoolService = $mSchoolService;
     }
 
     /**
@@ -33,7 +35,7 @@ class SmasterRegistController extends Controller {
      * @return redirect
      */
     public function store(SmasterRegistRequest $request) {
- 
+
         // 画面情報を連想配列に設定
         $person=[
             'sch_code'=>$request->get('sch_code'),
@@ -46,6 +48,17 @@ class SmasterRegistController extends Controller {
             'password'=>null,
             'temppassword'=>  Crypt::encryptString(str_random(8))
         ];
+
+        $school = $this->mSchoolService->selectOneByKey($request->get('sch_code'))->first();
+
+        // パスワード再設定用メールアドレス追加
+        $mail_address = $request->get('mail_address');
+        if (!empty($mail_address)){
+            if (!$school->psn_psw_update_flg){
+                return back()->with('mail_update_failed','生徒パスワードが変更可能な塾ではないので、メールアドレスは入力できません。')->withInput();
+            }
+            $person['mail_address'] =  $mail_address;
+        }
         
         // 登録処理
         $result = $this->service->register($person);

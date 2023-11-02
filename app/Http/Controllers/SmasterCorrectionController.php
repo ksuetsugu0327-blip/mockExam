@@ -70,7 +70,13 @@ class SmasterCorrectionController extends Controller {
             $person['birthlow4']=$request->get('birthlow4');
             $person['postallow4']=$request->get('postallow4');
             $person['tellow4']=$request->get('tellow4');
-        }        
+        }
+
+        // パスワード再設定用メールアドレス更新
+        $email = $request->get('mail_address');
+        if (isset($email)){
+            $person['mail_address']= $email;
+        }
         
         // パスワード再発行判定
         $check = $request->get('temppasswordReissueCheck');

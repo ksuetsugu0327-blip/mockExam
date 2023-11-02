@@ -127,7 +127,9 @@
                         </td>
                         <td>
                             <p>
-                                <input class="cell clear" style="width: 220px;" type="text" name="tellow4" id="mail_adress" value="" maxlength="50"> <br>
+                                <input class="cell clear" style="width: 220px;" type="text" name="mail_address" id="mail_address" value="{{ old('mail_address',$person->mail_address) }}" maxlength="50">
+                                <br>
+                                @if($errors->has('mail_address'))<span class="error">{{ $errors->first('mail_address') }}</span> @endif
                             </p>
                         </td>
                     </tr>
@@ -231,9 +233,7 @@
                             <p>メールドレス</p>
                         </td>
                         <td>
-                            <p>
-                                <input class="cell clear" style="width: 220px;" type="text" name="tellow4" id="mail_adress" value="" maxlength="50"> <br>
-                            </p>
+                            <p>{{ $person->mail_address }}</p>
                         </td>
                     </tr>
                     @endif

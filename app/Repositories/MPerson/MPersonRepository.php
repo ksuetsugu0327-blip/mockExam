@@ -56,7 +56,7 @@ class MPersonRepository implements MPersonRepositoryInterface{
                              ->on('m_person.cls_code', '=', 'm_class.cls_code');
                      })
                      ->select('m_person.id','m_person.sch_code','m_person.cls_code','m_person.psn_code','m_person.name as psn_name','m_person.birthlow4','m_person.postallow4',
-                              'm_person.temppassword','m_person.tellow4','m_school.name as sch_name','m_school.testname','m_class.name as cls_name',
+                              'm_person.temppassword','m_person.tellow4','m_person.mail_address','m_school.name as sch_name','m_school.testname','m_class.name as cls_name',
                               'm_school.psn_hide_flg','m_school.schname_hide_flg',
                               'm_school.psncard_regist_flg','m_school.psn_psw_update_flg')
                      ->where('m_person.sch_code', '=', $schCode)
@@ -224,6 +224,10 @@ class MPersonRepository implements MPersonRepositoryInterface{
         $mPerson->password = null;
         // 仮パスワード
         $mPerson->temppassword = $person['temppassword'];
+        // メールアドレス
+        if(!empty($person['mail_address'])){
+            $mPerson->mail_address = $person['mail_address'];
+        }
 
         try{
             // 登録処理
@@ -263,6 +267,11 @@ class MPersonRepository implements MPersonRepositoryInterface{
                 $mPerson->postallow4 = $person['postallow4'];
                 // 電話番号（下4桁）
                 $mPerson->tellow4 = $person['tellow4'];
+            }
+
+            // メールアドレス更新有無判定
+            if(array_key_exists('mail_address',$person)){
+                $mPerson->mail_address = $person['mail_address'];
             }
 
             // パスワード更新有無判定
