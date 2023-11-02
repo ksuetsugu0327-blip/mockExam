@@ -135,8 +135,8 @@ class MPersonRepository implements MPersonRepositoryInterface{
                 $join->on('m_person.sch_code', '=', 'm_class.sch_code')
                      ->on('m_person.cls_code', '=', 'm_class.cls_code');
               })
-              ->select('m_person.id','m_person.sch_code','m_person.cls_code','m_person.psn_code','m_person.name as psn_name','m_person.temppassword',
-                        'm_school.name as sch_name','m_class.name as cls_name');
+              ->select('m_person.id','m_person.sch_code','m_person.cls_code','m_person.psn_code','m_person.name as psn_name', 'm_person.mail_address',
+                        'm_person.temppassword','m_school.name as sch_name','m_class.name as cls_name');
 
         // 検索条件に設定されている場合、検索条件に追加
         if (array_key_exists('sch_code',$conditions) && isset($conditions['sch_code'])) {
