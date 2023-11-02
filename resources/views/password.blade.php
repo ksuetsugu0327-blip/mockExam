@@ -13,7 +13,7 @@
 @section('content')
 <div id="site_content" class="unlogin">
     <div class="content_ps">
-        <h1>パスワード</h1>
+        <h1>本パスワード登録</h1>
         <div id="un_login" class="unlogin">
             @if ($errors->has('message'))
             

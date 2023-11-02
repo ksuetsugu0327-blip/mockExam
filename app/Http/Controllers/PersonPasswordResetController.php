@@ -29,7 +29,7 @@ class PersonPasswordResetController extends Controller
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psnCode = session()->get('psn_code');
-        if(!isset($psnCode)){
+        if(!isset($psnCode)&&!session()->has('mail_reset_failed')){
             return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
         }
 
@@ -48,6 +48,14 @@ class PersonPasswordResetController extends Controller
             return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
         }
 
+        if (isset($person->mail_address)){
+            $email= $person->mail_address;
+        }
+        else{
+            return back()->with(['mail_reset_failed'=>'メールアドレスは設定されていません']);
+        }
+        $name = $person->name;
+
         // 仮パスワード生成
         $tempPassword = Crypt::encryptString(str_random(8));
         $decryptedTempPass = PasswordUtil::decryptString($tempPassword);
@@ -61,9 +69,6 @@ class PersonPasswordResetController extends Controller
         if (empty($person)){
             return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
         }
-        $email= isset($person->email)? $person->email:'xxxxxx@gmail.com';
-        $name = isset($person->name)? $person->name:'生徒1';
-
 
         Mail::to($email)->send(new ResetPasswordMail($email, $name, $decryptedTempPass));
         return view('personPasswordResetComplete')->with(['psn_code'=> $psnCode]);
