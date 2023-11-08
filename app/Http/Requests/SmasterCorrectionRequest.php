@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SmasterCorrectionRequest extends FormRequest
@@ -28,6 +29,7 @@ class SmasterCorrectionRequest extends FormRequest
             'birthlow4'  => 'sometimes|birth_low4',
             'postallow4' => 'sometimes|postal_low4',
             'tellow4'    => 'sometimes|tel_low4',
+            'mail_address' => ['sometimes', new EmailFormat()]
         ];
     }
 
