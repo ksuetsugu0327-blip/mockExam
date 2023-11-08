@@ -60,7 +60,7 @@ class ChangePasswordController extends Controller
         $psnCode = (string)$request->get('psn_code');
         $password = (string)$request->get('password');
         $rules = [
-            'password' => 'required|string|regex:/^(?=.*[!-\/:-@[-`{-~])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{10,50}$/',
+            'password' => 'required|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',
             'password_confirmation' => 'required'
         ];
 

@@ -57,7 +57,7 @@ class ClassChangePasswordController extends Controller
         
         // バリデーションチェック
         $validator = Validator::make($request->all(),[
-            'password' => 'required|only_alpha_num|between:6,50|confirmed',
+            'password' => 'required|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',
             'password_confirmation' => 'required']);
         if($validator->fails()){
             $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));

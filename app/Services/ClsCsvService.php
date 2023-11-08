@@ -122,7 +122,7 @@ class ClsCsvService {
             config('constants.CLS_CSV_HEADER_NUM.CLS_NAME.NAME')   => 'bail|required|em_length:20',
 
             //パスワード入力時（nullable）は、半角英数6～50文字
-            config('constants.CLS_CSV_HEADER_NUM.PASSWORD.NAME')   => 'nullable|only_alpha_num|between:6,50'
+            config('constants.CLS_CSV_HEADER_NUM.PASSWORD.NAME')   => 'nullable|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed'
         ];
 
         return $rules;
