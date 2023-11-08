@@ -151,15 +151,21 @@ class SmasterListController extends Controller {
      */
     public function downloadCsv(Request $request){
         $outputFlg = 0;
+        $isAdmin = false;
         // 出力内容設定とヘッダの設定
         if(auth(config('constants.GUARD_ADMIN'))->check() && !session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))){
             //代理ログインしていない管理者の場合
+            $isAdmin = true;
             $outputFlg  = 1;
-            $csvHeader =  ['塾生ID', '氏名', '塾', '教室', '仮パスワード'];
+            $csvHeader =  ['塾生ID', '氏名', '塾', '教室','仮パスワード'];
         }elseif(
                 (auth(config('constants.GUARD_ADMIN'))->check() && session()->has(config('constants.SESSION_KEY_SURROGATE_LOGIN_SCHOOL'))) || 
                  auth(config('constants.GUARD_SCHOOL'))->check()
         ){
+            //管理者の場合
+            if(auth(config('constants.GUARD_ADMIN'))->check()){
+                $isAdmin = true;
+            }
             //塾アカウント または 塾アカウントで代理ログインしている管理者
             $outputFlg = 2;
             $csvHeader =  ['塾生ID', '氏名', '教室コード', '教室', '仮パスワード'];
@@ -177,37 +183,22 @@ class SmasterListController extends Controller {
             $outputDataList = [];
             foreach($persons as $person){
                 $school = $this->mSchoolService->selectOneByKey($person->sch_code)->first();
-                $psn_psw_change_flg = $school->psn_psw_update_flg;
-                //dd($school);
+                $psnPswChangeFlag = $school->psn_psw_update_flg;
+
                 if($outputFlg == 1){
-                    if($psn_psw_change_flg){
-                        if($psn_psw_change_flg){
-                            $csvHeader =  ['塾生ID', '氏名', '塾', '教室', 'メールアドレス', '仮パスワード'];
-                        }
-                        array_push($outputDataList,[
-                            'psn_code'     => $person->psn_code,
-                            'psn_name'     => $person->psn_name,
-                            'sch_name'     => $person->sch_name,
-                            'cls_name'     => $person->cls_name,
-                            'mail_address' => $person->mail_address,
-                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
-                        ]);
-                    }
-                    else{
-                        array_push($outputDataList,[
-                            'psn_code'     => $person->psn_code,
-                            'psn_name'     => $person->psn_name,
-                            'sch_name'     => $person->sch_name,
-                            'cls_name'     => $person->cls_name,
-                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
-                        ]);
-                    }
+                    $csvHeader =  ['塾生ID', '氏名', '塾', '教室', 'メールアドレス', '仮パスワード'];
+                    array_push($outputDataList,[
+                        'psn_code'     => $person->psn_code,
+                        'psn_name'     => $person->psn_name,
+                        'sch_name'     => $person->sch_name,
+                        'cls_name'     => $person->cls_name,
+                        'mail_address' => $person->mail_address,
+                        'temppassword' => PasswordUtil::decryptString($person->temppassword)
+                    ]);
                 }
                 elseif($outputFlg == 2){
-                    if($psn_psw_change_flg){
-                        if($psn_psw_change_flg){
-                            $csvHeader =  ['塾生ID', '氏名', '教室コード', '教室', 'メールアドレス', '仮パスワード'];
-                        }
+                    if($psnPswChangeFlag || $isAdmin){
+                        $csvHeader =  ['塾生ID', '氏名', '教室コード', '教室', 'メールアドレス', '仮パスワード'];
                         array_push($outputDataList,[
                             'psn_code'     => $person->psn_code,
                             'psn_name'     => $person->psn_name,
@@ -228,10 +219,8 @@ class SmasterListController extends Controller {
                     }
                 }
                 else{
-                    if($psn_psw_change_flg){
-                        if($psn_psw_change_flg){
-                            $csvHeader =  ['塾生ID', '氏名', 'メールアドレス', '仮パスワード'];
-                        }
+                    if($psnPswChangeFlag){
+                        $csvHeader =  ['塾生ID', '氏名', 'メールアドレス', '仮パスワード'];
                         array_push($outputDataList,[
                             'psn_code'     => $person->psn_code,
                             'psn_name'     => $person->psn_name,
