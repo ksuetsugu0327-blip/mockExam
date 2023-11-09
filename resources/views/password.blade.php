@@ -31,7 +31,7 @@
                         <td style="padding:6px 0 0 0;">&nbsp;</td>
                         <td style="font-size: 70%;padding:6px 0 0 0;">
                             パスワードは、半角英数8～50文字以内で<br>
-                            半角の記号、英数（大文字、小文字）、数字を混在させてください。
+                            半角の英数（大文字、小文字）、数字を混在させてください。
                         </td>
                     </tr>
                     <tr><td style="padding:0 6px 1em 0">新しいパスワード</td>
