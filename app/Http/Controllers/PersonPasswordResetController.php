@@ -47,6 +47,11 @@ class PersonPasswordResetController extends Controller
         if(!isset($psnCode)){
             return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
         }
+        // 生徒個人情報取得
+        $person = $this->service->selectOneByKey($schCode, $psnCode)->first();
+        if (empty($person)){
+            return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
+        }
 
         if (isset($person->mail_address)){
             $email= $person->mail_address;
@@ -62,13 +67,6 @@ class PersonPasswordResetController extends Controller
 
         // パスワード更新処理
         $id = $this->service->registerTempPassword($schCode,$psnCode,$tempPassword);
-
-
-        // 生徒個人情報取得
-        $person = $this->service->selectOneByKey($schCode, $psnCode)->first();
-        if (empty($person)){
-            return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
-        }
 
         Mail::to($email)->send(new ResetPasswordMail($email, $name, $decryptedTempPass));
         return view('personPasswordResetComplete')->with(['psn_code'=> $psnCode]);
