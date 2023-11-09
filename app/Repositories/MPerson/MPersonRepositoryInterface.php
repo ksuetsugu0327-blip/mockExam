@@ -75,4 +75,10 @@ interface MPersonRepositoryInterface {
      */
     public function updateHighSchool(array $person);
 
+    /**
+     * 登録処理
+     * @param array $person個人用連想配列
+     * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
+     */
+    public function importFromCsv(array $person);
 }

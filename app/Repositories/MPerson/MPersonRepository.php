@@ -412,4 +412,52 @@ class MPersonRepository implements MPersonRepositoryInterface{
     public function countMPerson($sch_code, $cls_code, $psn_code){
         return $this->MPerson::where('sch_code',$sch_code)->where('cls_code',$cls_code)->where('psn_code',$psn_code)->count();
     }
+
+    /**
+     * 登録処理
+     * @param array $person 個人用連想配列リスト
+     * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
+     */
+    public function importFromCsv(array $person){
+
+        try{
+                // キーに合致するデータがあればUPDATE/なければINSERT
+                $mPerson = $this->MPerson->updateOrCreate(
+                        [
+                            // キー
+                            'sch_code' => $person['sch_code'],
+                            'psn_code' => $person['psn_code']
+                        ],
+
+                        array_key_exists('password', $person ) && array_key_exists('temppassword', $person )
+                        ? [
+                            // 値
+                            'cls_code'     => $person['cls_code'],
+                            'name'         => $person['name'],
+                            'birthlow4'    => $person['birthlow4'],
+                            'postallow4'   => $person['postallow4'],
+                            'tellow4'      => $person['tellow4'],
+                            'password'     => $person['password'],
+                            'temppassword' => $person['temppassword']
+                          ]
+                        : [
+                            // 値
+                            'cls_code'     => $person['cls_code'],
+                            'name'         => $person['name'],
+                            'birthlow4'    => $person['birthlow4'],
+                            'postallow4'   => $person['postallow4'],
+                            'tellow4'      => $person['tellow4'],
+                        ]
+                );
+        } catch (Exception $ex) {
+            // システムエラー
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+        }
+
+        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),
+                        'message'=>trans('message.SUCCESS_MPERSON_REGISTER_DATA',['sch_code'=>$person['sch_code'],'psn_code'=>$person['psn_code']])
+                        ,'id'=>$mPerson->id);
+
+    }
 }
