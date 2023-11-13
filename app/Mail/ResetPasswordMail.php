@@ -23,6 +23,8 @@ class ResetPasswordMail extends Mailable
         $this->email = $email;
         $this->name = $name;
         $this->tempPass = $tempPass;
+        $this->mailFromName = config('constants.MAIL_FROM_NAME');
+        //$this->mailFrom = config('constants.MAIL_FROM_ADDRESS');
     }
 
     /**
@@ -34,6 +36,7 @@ class ResetPasswordMail extends Mailable
     {
         return $this
             ->subject('【模試システム】仮パスワードの再発行のお知らせ')
+            ->replyTo(config('constants.REPLY_TO'), $this->mailFromName)
             ->text('emails.resetpassword');
     }
 }

@@ -312,5 +312,9 @@ return[
     // 受験番号アップロードエラーCSVファイル名
     'EXAMNUM_IMPORT_ERR_FILENAME' => 'exam_number_registration_error.csv',
 
+    //パスワード再設定メール用
+    'MAIL_FROM_ADDRESS' => env('MAIL_FROM_ADDRESS'),
+    'MAIL_FROM_NAME'    => env('MAIL_FROM_NAME'),
+    'REPLY_TO'          => 'info@seihoku.org'
 ];
 
