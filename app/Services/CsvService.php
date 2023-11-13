@@ -133,6 +133,7 @@ class CsvService {
             config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')   => 'bail|birth_low4',
             config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME') => 'bail|postal_low4',
             config('constants.CSV_HEADER_NUM.TELLOW.NAME')     => 'bail|tel_low4',
+            config('constants.CSV_HEADER_NUM.PASSWORD.NAME')   => 'bail|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/'
         ];
 
         return $rules;
