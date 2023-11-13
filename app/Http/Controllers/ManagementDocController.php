@@ -67,8 +67,15 @@ class ManagementDocController extends Controller {
             if ($dir > 0){
                 $param["dir"] = true;
             }
-            if ($clsGradeCsvFlag && $csv_dir > 0){
-                $param["csv_dir"] = true;
+            if (isset($clsGradeCsvFlag)){
+                if($clsGradeCsvFlag && $csv_dir > 0){
+                    $param["csv_dir"] = true;
+                }
+            }
+            else{
+                if ($csv_dir > 0){
+                    $param["csv_dir"] = true;
+                }
             }
             
            $input=[
