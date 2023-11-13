@@ -152,7 +152,7 @@
                         </td>
                         <td>
                             <p>
-                                <input class="cell clear" type="text" name="psn_psw_update_flg" value="{{ old('psn_psw_update_flg', config('constants.PSN_CARD_NOT_USE_FLG')) }}" required maxlength='1'>
+                                <input class="cell clear" type="text" name="psn_psw_update_flg" value="{{ old('psn_psw_update_flg', config('constants.PSN_CHANGE_PW_HIDE_FLG')) }}" required maxlength='1'>
                                 <br>
                                 @if($errors->has('psn_psw_update_flg'))<span class="error">{{ $errors->first('psn_psw_update_flg') }}</span> @endif
                             </p>
@@ -185,8 +185,8 @@
                     <tr>
                         <td >&nbsp;</td>
                         <td style="font-size: 70%;">
-                            半角英数8～50文字を指定してください。<br>
-                            （英数字混在推奨）
+                            パスワードは、半角英数12～50文字以内で<br>
+                            半角の英大文字、英小文字、数字を混在させてください。
                         </td>
                     </tr>
                     <tr>
