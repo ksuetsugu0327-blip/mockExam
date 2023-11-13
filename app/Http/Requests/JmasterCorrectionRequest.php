@@ -45,7 +45,7 @@ class JmasterCorrectionRequest extends FormRequest
     public function withValidator($validator){
 
         // パスワードのチェック(チェックボックスがONの場合のみチェックを実施) 
-        $validator->sometimes('password','required|only_alpha_num|between:8,50|confirmed',function($input){
+        $validator->sometimes('password','required|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',function($input){
             return isset($input->jpchange);
         });
         // パスワードのチェック(チェックボックスがONの場合のみチェックを実施) 
