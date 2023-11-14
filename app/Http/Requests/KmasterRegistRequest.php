@@ -29,7 +29,7 @@ class KmasterRegistRequest extends FormRequest
             'sch_code'=>'required|digits_between:1,7|exists:m_school,sch_code',
             'cls_code' =>'required|digits_between:1,4|unique:m_class,cls_code,NULL,id,sch_code,'.$this->input('sch_code'),
             'cls_name' =>'em_length:20',
-            'password' => 'required_if:jpchange,on|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',
+            'password' => 'required_if:jpchange,on|only_alpha_num|between:6,50|confirmed',
             'password_confirmation' => 'required_if:jpchange,on'
             
         ];
