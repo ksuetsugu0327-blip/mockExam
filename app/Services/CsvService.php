@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Validator;
+use App\Rules\EmailFormat;
 use App\Repositories\MPerson\MPersonRepositoryInterface as MPersonRepositoryInterface;
 
 class CsvService {
@@ -43,21 +44,22 @@ class CsvService {
             // データ件数カウントアップ
             $dataCnt++;
             $output_line_num = $line_num + 1;
-            //dd(count($line));
+            //dd(count($line),count(config('constants.CSV_HEADER_NUM')));
             if (count($line) !== count(config('constants.CSV_HEADER_NUM'))) {
                 $csv_errors[] = [$output_line_num, ' カラム数が不正です'];
             } else{
                 // 入力値を配列に設定
                 $arrayCheckData = array(
-                    config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.SCH_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.CLS_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.CLS_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.PSN_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.NAME.NAME')       => $line[config('constants.CSV_HEADER_NUM.NAME.INDEX')],
-                    config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')   => $line[config('constants.CSV_HEADER_NUM.BIRTHLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME') => $line[config('constants.CSV_HEADER_NUM.POSTALLLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.TELLOW.NAME')     => $line[config('constants.CSV_HEADER_NUM.TELLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.PASSWORD.NAME')   => $line[config('constants.CSV_HEADER_NUM.PASSWORD.INDEX')],
-                    config('constants.CSV_HEADER_NUM.TEMPPASS.NAME')   => $line[config('constants.CSV_HEADER_NUM.TEMPPASS.INDEX')],
+                    config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.SCH_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.CLS_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.CLS_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.PSN_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.NAME.NAME')         => $line[config('constants.CSV_HEADER_NUM.NAME.INDEX')],
+                    config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')     => $line[config('constants.CSV_HEADER_NUM.BIRTHLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME')   => $line[config('constants.CSV_HEADER_NUM.POSTALLLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.TELLOW.NAME')       => $line[config('constants.CSV_HEADER_NUM.TELLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.PASSWORD.NAME')     => $line[config('constants.CSV_HEADER_NUM.PASSWORD.INDEX')],
+                    config('constants.CSV_HEADER_NUM.TEMPPASS.NAME')     => $line[config('constants.CSV_HEADER_NUM.TEMPPASS.INDEX')],
+                    config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.NAME') => $line[config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.INDEX')]
                 );
                 // バリデーションルール生成
                 $rules = $this->makeCsvValidationRules($arrayCheckData);
@@ -129,11 +131,12 @@ class CsvService {
             config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')   =>
                 'bail|required|only_alpha_num|between:1,11|max:11',
 
-            config('constants.CSV_HEADER_NUM.NAME.NAME')       => 'em_length:20',
-            config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')   => 'bail|birth_low4',
-            config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME') => 'bail|postal_low4',
-            config('constants.CSV_HEADER_NUM.TELLOW.NAME')     => 'bail|tel_low4',
-            config('constants.CSV_HEADER_NUM.PASSWORD.NAME')   => 'bail|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/'
+            config('constants.CSV_HEADER_NUM.NAME.NAME')         => 'em_length:20',
+            config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')     => 'bail|birth_low4',
+            config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME')   => 'bail|postal_low4',
+            config('constants.CSV_HEADER_NUM.TELLOW.NAME')       => 'bail|tel_low4',
+            config('constants.CSV_HEADER_NUM.PASSWORD.NAME')     => 'bail|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/',
+            config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.NAME') =>  ['bail', new EmailFormat()]
         ];
 
         return $rules;

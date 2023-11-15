@@ -219,6 +219,10 @@ return[
             'NAME' => 'temppassword',
             'INDEX' => 8,
         ],
+        'MAIL_ADDRESS' => [
+            'NAME' => 'mail_address',
+            'INDEX' => 9
+        ],
     ],
 
     // 教室用CSVのヘッダーの順序

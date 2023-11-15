@@ -419,7 +419,7 @@ class MPersonRepository implements MPersonRepositoryInterface{
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function importFromCsv(array $person){
-
+        
         try{
                 // キーに合致するデータがあればUPDATE/なければINSERT
                 $mPerson = $this->MPerson->updateOrCreate(
@@ -438,7 +438,8 @@ class MPersonRepository implements MPersonRepositoryInterface{
                             'postallow4'   => $person['postallow4'],
                             'tellow4'      => $person['tellow4'],
                             'password'     => $person['password'],
-                            'temppassword' => $person['temppassword']
+                            'temppassword' => $person['temppassword'],
+                            'mail_address' => $person['mail_address']
                           ]
                         : [
                             // 値
@@ -447,6 +448,7 @@ class MPersonRepository implements MPersonRepositoryInterface{
                             'birthlow4'    => $person['birthlow4'],
                             'postallow4'   => $person['postallow4'],
                             'tellow4'      => $person['tellow4'],
+                            'mail_address' => $person['mail_address']
                         ]
                 );
         } catch (Exception $ex) {

@@ -94,13 +94,14 @@ Log::debug("-----------------------------------------------\n");
     //                    $postallow4 = mb_convert_encoding($row[5], 'UTF-8', 'SJIS-win');
     //                    $tellow4    = mb_convert_encoding($row[6], 'UTF-8', 'SJIS-win');
 
-                        $sch_code   = $row[0];
-                        $psn_code   = $row[1];
-                        $cls_code   = $row[2];
-                        $name       = $row[3];
-                        $birthlow4  = $row[4];
-                        $postallow4 = $row[5];
-                        $tellow4    = $row[6];
+                        $sch_code     = $row[0];
+                        $psn_code     = $row[1];
+                        $cls_code     = $row[2];
+                        $name         = $row[3];
+                        $birthlow4    = $row[4];
+                        $postallow4   = $row[5];
+                        $tellow4      = $row[6];
+                        $mail_address = $row[9];
 
                         /************************************************************************
                          * ①CSV に本パスワードが設定されている場合
@@ -121,6 +122,7 @@ Log::debug("-----------------------------------------------\n");
                             'birthlow4'     => $birthlow4,
                             'postallow4'    => $postallow4,
                             'tellow4'       => $tellow4,
+                            'mail_address'  => $mail_address
                         );
 
                         // 新規生徒の場合、仮パスワードを付与
@@ -145,6 +147,7 @@ Log::debug("-----------------------------------------------\n");
                             'tellow4'       => $tellow4,
                             'password'      => empty( $password ) ? null : Hash::make( $password ),
                             'temppassword'  => empty( $temppass ) ? null : Crypt::encryptString( $temppass ),
+                            'mail_address'  => $mail_address
                         );
                         }
                         $this->csvService->registerArray($arrayInsertData);
