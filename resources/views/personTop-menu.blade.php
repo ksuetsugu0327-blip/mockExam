@@ -45,6 +45,13 @@
                                 パスワード変更
                             </div>
                         </a>
+                        <a href="{{route('personMailChange.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}">
+                            <div class="item">
+                                <div class="icon the-icons span3" title="Code:  0xe801"><i 
+                                    class="icons  icon-edit">&#xe801;</i></div>
+                                メールアドレス変更
+                            </div>
+                        </a>
                         @endif
                     </div>
                 </div>

@@ -284,6 +284,10 @@ Route::prefix('/{schCode}/psn')->group(function(){
     Route::get('passwordChange','PersonPasswordChangeController@index')->name('personPasswordChange.index');
     Route::post('passwordChange','PersonPasswordChangeController@changePassword')->name('personPasswordChange.update');
 
+    // 生徒メールアドレス変更
+    Route::get('mailChange','PersonMailChangeController@index')->name('personMailChange.index');
+    Route::post('mailChange','PersonMailChangeController@changeMail')->name('personMailChange.update');
+
     // メニュー画面
     Route::get('menu','TopMenuController@index')->name('personTopMenu.index');
 

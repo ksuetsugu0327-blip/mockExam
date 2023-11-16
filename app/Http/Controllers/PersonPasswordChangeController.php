@@ -35,7 +35,7 @@ class PersonPasswordChangeController extends Controller
     }
 
     /**
-     * send a temp password through email.
+     * Update password.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */

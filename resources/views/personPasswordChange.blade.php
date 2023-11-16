@@ -12,15 +12,6 @@
 
 @section('content')
 <div id="main">
-    <!--<div id="header">
-        <div id="sislog">
-            <div id="sistem"><h1>全国高校共通テスト</h1></div>
-    <div id="logout"><a href="login_hpass.html" id ="logoutCheck"> 前に戻る</a></div>
-        </div>
-        <div id="menubar">
-            <p>9999973&nbsp;テストHMX塾</p>
-        </div>
-    </div> / #header -->
     <div id="site_content" class="logtouroku">
         <div id="content">
         <h1>パスワード変更</h1>
