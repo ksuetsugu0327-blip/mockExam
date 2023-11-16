@@ -31,7 +31,7 @@
                 @csrf
                 <table>
                     <tr>
-                        <td>ＣＳＶファイル選択</td>
+                        <td>ＣＳＶファイル選択&nbsp;&nbsp;</td>
                         <td>
                             <label for="file_upload">ファイルを選択して下さい
                                 <input type="text" id="file_upload" value="ファイル選択" onClick="$('#file').click();">
@@ -53,6 +53,9 @@
                             @endif
                         @endforeach
                     @endif
+                </div>
+                <div>
+                    件数が多い場合は時間がかかる（5分～10分）場合があります。<br>ブラウザを閉じずにお待ちください。
                 </div>
                 <div>
                     <input id="submit_btn" class="button  bulu" type="submit" name="uplode" value="CSVファイルアップロード">
