@@ -52,6 +52,9 @@ class CsvUploadController extends Controller {
 
         //SplFileObject::READ_CSV が最速らしい
         $file->setFlags(SplFileObject::READ_CSV);
+        
+        // CSV登録に時間かかるので処理時間制限かける
+        set_time_limit(config('constants.PERSON_IMPORT_CSV_TIME_LIMIT'));
 
         // CSVの中身に対するバリデーションを実施
         $csv_errors = $this->csvService->validateCsvData($file);

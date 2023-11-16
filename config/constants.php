@@ -178,6 +178,9 @@ return[
     // CSVインポート最大許容行数
     'CSV_IMPORT_MAX_LINE' => 50,
 
+    // CSVインポート時間制限（秒単位）
+    'PERSON_IMPORT_CSV_TIME_LIMIT' => 720,
+
     //学年
     'PSN_IMP_COMMIT_COUNT' => 1000,
 
