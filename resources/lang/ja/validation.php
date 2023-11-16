@@ -144,6 +144,7 @@ return [
         'birthlow4' => '生年月日（月日）',
         'postallow4' => '郵便番号（下4桁）',
         'tellow4'=>'電話番号（下4桁）',
+        'mail_address' => '新しいメールアドレス',
         'cntconvert_kbn' => '回数コンバート区分',
         'cnttest_kbn' => 'テスト回数表示区分',
         'admin_kbn' => '管理ユーザー区分',
