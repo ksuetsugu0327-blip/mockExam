@@ -31,7 +31,7 @@
                 <table >
 					<tr><td>現在のパスワード&nbsp;</td>
                         <td>
-                            <input type="text" name="current_password" value="" required/>
+                            <input type="text" name="current_password" type="password" value="" required/>
                             @if ($errors->has('current_password'))
                                 <br/>
                                 <span class="error">
@@ -53,7 +53,7 @@
                             @if ($errors->has('password'))
                                 <br/>
                                 <span class="error">
-                                    <strong>{{ $errors->first('password') }}</strong>
+                                    <strong>{!! nl2br(e($errors->first('password'))) !!}</strong>
                                 </span>
                             @endif
                          </td>
@@ -65,6 +65,7 @@
                       </td>
                     </tr>
 					</table>
+                            <div style="margin-top:10px"><input class="show-password" type="checkbox" name="hide" value="" style="margin-top:10px"><span style="margin-left:5px">パスワードを表示する</span></div>
 							<div><input class="button  bulu" type="submit" name="login" value="更 新" /></div>
 					</form>
 				</div>

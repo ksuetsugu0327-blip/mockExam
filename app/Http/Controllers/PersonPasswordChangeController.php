@@ -47,7 +47,7 @@ class PersonPasswordChangeController extends Controller
         
         // バリデーションチェック
         $validator = Validator::make($request->all(),[
-            'current_password' => ['required','only_alpha_num','between:8,50',new PasswordCheck($schCode, $psnCode)],
+            'current_password' => ['required',new PasswordCheck($schCode, $psnCode)],
             'password' => 'required|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',
             'password_confirmation' => 'required']);
         if($validator->fails()){
