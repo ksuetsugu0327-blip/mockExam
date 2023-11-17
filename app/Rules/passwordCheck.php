@@ -41,6 +41,6 @@ class PasswordCheck implements Rule
      */
     public function message()
     {
-        return '現在のパスワードが一致しません。';
+        return '現在のパスワードが間違えています。';
     }
 }
