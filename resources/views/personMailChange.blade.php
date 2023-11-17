@@ -11,7 +11,6 @@
 @include('layout.header')
 
 @section('content')
-<div id="main">
     <div id="site_content" class="logtouroku">
         <div id="content">
         <h1>登録メールアドレス変更</h1>
@@ -34,7 +33,7 @@
                    <tr><td>&nbsp</td><td>&nbsp</td></tr>
                    <tr><td style="padding:0 6px 1em 0">新しいメールアドレス&nbsp;</td>
                        <td style="padding:0 6px 1em 0">
-                           <input id="mail_address" name="mail_address" required autofocus>
+                           <input id="mail_address" name="mail_address" style="width:250px" required autofocus>
                            @if ($errors->has('mail_address'))
                                 <br/>
                                 <span class="error">
@@ -45,9 +44,9 @@
                         </td>
                     </tr>
                     <tr>
-                       <td>新しいメールアドレス確認&nbsp;</td>
+                       <td style="padding-right:10px">新しいメールアドレス確認&nbsp;</td>
                        <td>
-                          <input id="mail_address_confirmation" name="mail_address_confirmation" required>
+                          <input id="mail_address_confirmation" name="mail_address_confirmation" style="width:250px" required>
                        </td>
                     </tr>
 				</table>
@@ -56,7 +55,6 @@
 			</div>
         </div>
     </div>
-</div><!-- /#main-->
 @endsection
 
 @include('layout.footer')
