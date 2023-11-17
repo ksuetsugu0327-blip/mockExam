@@ -65,7 +65,7 @@ return [
     'not_in' => ':attributeには:valuesのうちいずれとも異なる値を指定してください。',
     'numeric' => ':attributeには数値を指定してください。',
     'present' => ':attributeには現在時刻を指定してください。',
-    'regex' => ':attributeは大文字小文字数字を最低1文字以上含12文字～50文字で指定してください。',
+    'regex' => ":attributeは半角英数12～50文字以内で半角の英大文字、\n英小文字、数字を混在させてください。",
     'required' => ':attributeは必須です。',
     'required_if' => ':otherが:valueの時:attributeは必須です。',
     'required_unless' => ':otherが:values以外の時:attributeは必須です。',
