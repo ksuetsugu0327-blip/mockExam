@@ -52,7 +52,7 @@ class PersonPasswordChangeController extends Controller
             'password_confirmation' => 'required']);
         if($validator->fails()){
             $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
-            return back()->withErrors($validator)->with('psn_code',$psnCode);
+            return back()->withErrors($validator)->with('psn_code',$psnCode)->withInput();
         }
         
         // パスワード更新処理

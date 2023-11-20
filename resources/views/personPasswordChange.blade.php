@@ -31,7 +31,7 @@
                 <table >
 					<tr><td>現在のパスワード&nbsp;</td>
                         <td>
-                            <input type="text" name="current_password" type="password" value="" required/>
+                            <input type="password" name="current_password" value="{{old('current_password')}}" required/>
                             @if ($errors->has('current_password'))
                                 <br/>
                                 <span class="error">
@@ -49,7 +49,7 @@
                     </tr>
                     <tr><td style="padding:0 6px 1em 0">新しいパスワード&nbsp;</td>
                         <td style="padding:0 0 0 0">
-                            <input id="password" type="password" name="password" required autofocus>
+                            <input id="password" type="password" name="password" value="{{old('password')}}" required autofocus>
                             @if ($errors->has('password'))
                                 <br/>
                                 <span class="error">
@@ -61,7 +61,7 @@
                     <tr>
                       <td>新しいパスワード確認&nbsp;</td>
                       <td>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required>
+                            <input id="password_confirmation" type="password" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                       </td>
                     </tr>
 					</table>

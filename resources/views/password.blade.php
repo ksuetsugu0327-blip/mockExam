@@ -37,7 +37,7 @@
                     </tr>
                     <tr><td style="padding:0 6px 1em 0">新しいパスワード</td>
                         <td style="padding:0 0 1em 0">
-                            <input id="password" type="password" name="password" required autofocus>
+                            <input id="password" type="password" name="password" value="{{old('password')}}" required autofocus>
                             @if ($errors->has('password'))
                                 <br/>
                                 <span class="error">
@@ -48,7 +48,7 @@
                     </tr>
                     <tr><td>新しいパスワード確認</td>
                         <td>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required>
+                            <input id="password_confirmation" type="password" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             @if ($errors->has('password_confirm'))
                                 <br/>
                                 <span class="error">
@@ -56,6 +56,10 @@
                                 </span>
                             @endif
                         </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:1em 0 0 0;">&nbsp;</td>
+                        <td><input class="show-password" type="checkbox" name="hide" value="" style="margin-top:10px"><span style="margin-left:5px">パスワードを表示する</span></td>
                     </tr>
                     <tr>
                         <td style="padding:1em 0 0 0;">&nbsp;</td>
@@ -79,7 +83,7 @@
                     <tr>
                         <td style="width:150px">メールアドレス(確認)&nbsp;</td>
                         <td>
-                            <input type="text" name="email_confirmation" value="" required/>
+                            <input type="text" name="email_confirmation" value="{{old('email_confirmation')}}" required/>
                             @if ($errors->has('email_confirmation'))
                                 <br/>
                                 <span class="error">
