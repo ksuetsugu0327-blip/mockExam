@@ -69,7 +69,7 @@ class CsvUploadController extends Controller {
 
             // エラー内容CSVをダウンロードさせる
             return response()->streamDownload(function() use($csv_errors, $csvHeader) {
-                        echo FileUtil::CreateCSV($csv_errors, $csvHeader);
+                        echo FileUtil::CreateCSV($csv_errors, $csvHeader, true);
                     }, config('constants.PERSON_IMPORT_CSV_ERRFILENAME'), $responseHeader);
         }
         else{
@@ -104,7 +104,7 @@ Log::debug("-----------------------------------------------\n");
                         $birthlow4    = $row[4];
                         $postallow4   = $row[5];
                         $tellow4      = $row[6];
-                        $mail_address = $row[9];
+                        $mail_address = $row[7];
 
                         /************************************************************************
                          * ①CSV に本パスワードが設定されている場合
@@ -115,7 +115,7 @@ Log::debug("-----------------------------------------------\n");
                          *   当該カラムを対象外とし、他のカラムのみ更新する
                          ************************************************************************/
 
-                        if( empty( $row[7] ) && empty( $row[8] ) ){
+                        if( empty( $row[8] ) && empty( $row[9] ) ){
                         // 登録データを配列に追加 ( パスワードの変更なし )
                         $temp = array(
                             'sch_code'      => $sch_code,
@@ -136,8 +136,8 @@ Log::debug("-----------------------------------------------\n");
                         $arrayInsertData = $temp;
                         } else {
                         // temp password はプログラムで生成して登録する
-                        $password   = $row[7];
-                        $temppass   = empty( $password ) ? ( empty( $row[8] ) ? str_random(8) : $row[8] ) : null;
+                        $password   = $row[8];
+                        $temppass   = empty( $password ) ? ( empty( $row[9] ) ? str_random(8) : $row[9] ) : null;
 
                         // 登録データを配列に追加 ( パスワードの変更あり )
                         $arrayInsertData = array(
@@ -170,6 +170,7 @@ Log::debug("-----------------------------------------------\n");
                     $row_count++;
                     $commit_count++;
                 }
+                DB::commit();
 Log::debug("処理ループ後[メモリ使用量]：". memory_get_usage() / (1024 * 1024) ."MB\n");
 //Log::debug("Transaction start[メモリ最大使用量]：". memory_get_peak_usage() / (1024 * 1024) ."MB\n");
 Log::debug("-----------------------------------------------\n");

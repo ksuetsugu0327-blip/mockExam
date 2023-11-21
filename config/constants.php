@@ -214,17 +214,17 @@ return[
             'NAME' => 'tellow4',
             'INDEX' => 6,
         ],
+        'MAIL_ADDRESS' => [
+            'NAME' => 'mail_address',
+            'INDEX' => 7
+        ],
          'PASSWORD' => [
             'NAME' => 'password',
-            'INDEX' => 7,
+            'INDEX' => 8,
          ],
         'TEMPPASS' => [
             'NAME' => 'temppassword',
-            'INDEX' => 8,
-        ],
-        'MAIL_ADDRESS' => [
-            'NAME' => 'mail_address',
-            'INDEX' => 9
+            'INDEX' => 9,
         ],
     ],
 
