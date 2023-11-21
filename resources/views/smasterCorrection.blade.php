@@ -127,9 +127,9 @@
                         </td>
                         <td>
                             <p>
-                                <input class="cell clear" style="width: 220px;" type="text" name="mail_address" id="mail_address" value="{{ old('mail_address',$person->mail_address) }}" maxlength="50">
+                                <input class="cell clear" style="width: 220px;" type="text" name="email" id="email" value="{{ old('email',$person->mail_address) }}" maxlength="50">
                                 <br>
-                                @if($errors->has('mail_address'))<span class="error">{{ $errors->first('mail_address') }}</span> @endif
+                                @if($errors->has('email'))<span class="error">{{ $errors->first('email') }}</span> @endif
                             </p>
                         </td>
                     </tr>
@@ -234,9 +234,9 @@
                         </td>
                         <td>
                             <p>
-                                <input class="cell clear" style="width: 220px;" type="text" name="mail_address" id="mail_address" value="{{ old('mail_address',$person->mail_address) }}" maxlength="50">
+                                <input class="cell clear" style="width: 220px;" type="text" name="email" id="email" value="{{ old('email',$person->mail_address) }}" maxlength="50">
                                 <br>
-                                @if($errors->has('mail_address'))<span class="error">{{ $errors->first('mail_address') }}</span> @endif
+                                @if($errors->has('email'))<span class="error">{{ $errors->first('email') }}</span> @endif
                             </p>
                         </td>
                     </tr>

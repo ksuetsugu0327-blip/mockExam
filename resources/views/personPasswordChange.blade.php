@@ -56,6 +56,12 @@
                                     <strong>{!! nl2br(e($errors->first('password'))) !!}</strong>
                                 </span>
                             @endif
+                            @if(session('same_as_current'))
+                                <br/>
+                                <span class="error">
+                                    <strong>{!! nl2br(e(session('same_as_current'))) !!}</strong>
+                                </span>
+                            @endif
                          </td>
                     </tr>
                     <tr>

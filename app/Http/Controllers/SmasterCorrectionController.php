@@ -73,7 +73,7 @@ class SmasterCorrectionController extends Controller {
         }
 
         // パスワード再設定用メールアドレス更新
-        $email = $request->get('mail_address');
+        $email = $request->get('email');
         if (isset($email)){
             $person['mail_address']= $email;
         }
