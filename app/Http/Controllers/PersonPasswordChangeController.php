@@ -41,8 +41,9 @@ class PersonPasswordChangeController extends Controller
      */
     public function changePassword($schCode, Request $request)
     {
-        $schCode = (int)$request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
-        $psnCode = (string)$request->get('psn_code');
+        $schCode  = (int)$request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
+        $psnCode  = (string)$request->get('psn_code');
+        $current  = (string)$request->get('current_password');
         $password = (string)$request->get('password');
         
         // バリデーションチェック
@@ -50,6 +51,9 @@ class PersonPasswordChangeController extends Controller
             'current_password' => ['required',new PasswordCheck($schCode, $psnCode)],
             'password' => 'required|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/|confirmed',
             'password_confirmation' => 'required']);
+        if($password == $current){
+            return back()->with('same_as_current',"現在のパスワードと同じパスワードは入力できません。")->withInput();
+        }
         if($validator->fails()){
             $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
             return back()->withErrors($validator)->with('psn_code',$psnCode)->withInput();
