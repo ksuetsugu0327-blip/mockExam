@@ -123,7 +123,7 @@
                                 <input class="cell clear" style="width: 220px;" type="text" name="mail_address" id="mail_address" value="" maxlength="50">
                                 <br>
                                 @if($errors->has('mail_address'))<span class="error">{{ $errors->first('mail_address') }}</span> @endif
-                                @if(session('mail_update_failed'))<span class="error">{{ session('mail_update_failed') }}</span> @endif
+                                @if(session('mail_update_failed'))<span class="error">{!! nl2br(e(session('mail_update_failed'))) !!}</span> @endif
                             </p>
                         </td>
                     </tr>

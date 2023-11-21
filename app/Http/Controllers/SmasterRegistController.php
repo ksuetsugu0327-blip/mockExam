@@ -55,7 +55,7 @@ class SmasterRegistController extends Controller {
         $mail_address = $request->get('mail_address');
         if (!empty($mail_address)){
             if (!$school->psn_psw_update_flg){
-                return back()->with('mail_update_failed','生徒パスワードが変更可能な塾ではないので、メールアドレスは入力できません。')->withInput();
+                return back()->with('mail_update_failed',"生徒パスワードが変更可能な塾ではないので、\nメールアドレスは入力できません。")->withInput();
             }
             $person['mail_address'] =  $mail_address;
         }
