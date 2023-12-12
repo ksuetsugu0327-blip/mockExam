@@ -61,13 +61,13 @@
                         <td style="padding:1em 0 0 0;">&nbsp;</td>
                         <td><input class="show-password" type="checkbox" name="hide" value="" style="margin-top:10px"><span style="margin-left:5px">パスワードを表示する</span></td>
                     </tr>
+                    @if($psn_psw_update_flg)
                     <tr>
                         <td style="padding:1em 0 0 0;">&nbsp;</td>
                         <td style="font-size: 70%;padding:1em 0 0 0;">
                             パスワードを忘れた場合に<br>仮パスワードを再発行するためのメールアドレスを入力してください。
                         </td>
                     </tr>
-                    @if($psn_psw_update_flg)
                     <tr>
                         <td style="padding:0 6px 1em 0">メールアドレス&nbsp;</td>
                         <td style="padding:0 0 1em 0">
