@@ -128,7 +128,7 @@
                         </td>
                     </tr>
                 </table>
-                <div style="margin:-10PX 0 0 120px;width:480px;">※メールアドレスは生徒パスワードが変更可能な塾の場合のみ入力してください。</div>
+                <div style="margin:2px 0 0 115px;width:500px;">※メールアドレスは生徒パスワードが変更可能な塾の場合のみ入力してください。</div>
                 <div class="sbuttons">
                     <p class="cell"><input class="button bulu" type="submit" name="submit" value="登録"></p>
                     <p class="cell"><input id="inputClear" class="button green" type="button" name="reset" value="クリア"></p>
