@@ -167,10 +167,10 @@ return[
     'PREFIX_SURROGATE_LOGIN' => 'SURROGATE_LOGIN_',
 
     // 生徒マスタ ダウンロードCSVファイル名
-    'PERSON_DOWNLOAD_CSV_FILENAME' => 'pearsonList.csv',
+    'PERSON_DOWNLOAD_CSV_FILENAME' => 'personList.csv',
 
     // 生徒マスタ ダウンロードCSVファイル名
-    'PERSON_IMPORT_CSV_ERRFILENAME' => 'pearson_registration_error.csv',
+    'PERSON_IMPORT_CSV_ERRFILENAME' => 'person_registration_error.csv',
 
     // 明細最大表示件数
     'VIEW_RECORD_COUNT' => 10000,
