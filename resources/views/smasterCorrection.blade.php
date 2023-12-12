@@ -123,7 +123,7 @@
                     @if($psn_psw_update_flg)
                     <tr>
                         <td>
-                            <p>メールドレス</p>
+                            <p>メールアドレス</p>
                         </td>
                         <td>
                             <p>
@@ -230,7 +230,7 @@
                     @if($psn_psw_update_flg)
                     <tr>
                         <td>
-                            <p>メールドレス</p>
+                            <p>メールアドレス</p>
                         </td>
                         <td>
                             <p>
