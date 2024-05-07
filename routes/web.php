@@ -166,6 +166,24 @@ Route::prefix('/{schCode}/sch')->group(function(){
     Route::get('exnumcsvupload/upload', 'ExamNumberCsvUploadController@index')->name('ExNumCsvUpload.err');
     Route::post('exnumcsvupload/upload', 'ExamNumberCsvUploadController@upload')->name('ExNumCsvUpload.upload');
 
+    //高校・大学CSV登録
+    Route::get('/code-csv-register', function(){
+        return view('univ_register');
+    })->name('univ.register');
+
+    Route::get('/code-csv-delete', function(){
+        return view('univ_delete');
+    })->name('univ.delete');
+    
+    //模試データ管理
+        Route::get('test-list', function(){
+            return view('test_list');
+        })->name('test.list');
+    
+        Route::get('test-details', function(){
+            return view('test_details');
+        })->name('test.details');
+
 });
 
 // 教室アカウント用ルート
@@ -312,3 +330,9 @@ Route::prefix('/account')->group(function () {
     Route::get('/login/{account}', 'PortalTopController@account')->name('PortalAccount.account');
     Route::post('/login/{account}', 'PortalTopController@check')->name('PortalAccount.check');
 });
+
+ //sessionは反映しない (個人アクセス)
+Route::get('univ-search', function(){
+    return view('univ_search');
+})->name('univ.search');
+

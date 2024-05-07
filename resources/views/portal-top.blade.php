@@ -1,7 +1,7 @@
 
 @extends('layout.common')
 
-@section('title', '')
+@section('title', '模試サイトポータル')
 @section('keywords', '')
 @section('description', 'ポータルトップ')
 @section('pageCss')
@@ -26,6 +26,10 @@
 
         <div id="portal_sch_area">
             <a href="{{ route('PortalAccount.account', ['account'=>'sch']) }}">本部様はこちら &raquo;</a>
+        </div>
+
+        <div id="portal_sch_area">
+            <a href="{{ route('univ.search') }}">高校・大学コード検索はこちら &raquo;</a>
         </div>
 
     </div>

@@ -68,6 +68,9 @@
                                 <a href="{{route('csvUpload.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}"><div class="item"><div class="icon the-icons span3" title="Code: 0xf234"><i class="icons icon-chart-bar">&#xf234;</i> </div> 生徒CSV登録</div></a>
                                 <a href="{{route('ClsCsvUpload.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}"><div class="item"><div class="icon the-icons span3" title="Code: 0xe805"><i class="icons icon-chart-bar">&#xe805;</i> </div> 教室CSV登録</div></a>
                                 <a href="{{route('ExNumCsvUpload.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}"><div class="item"><div class="icon the-icons span3" title="Code: xe80a"><i class="icons icon-chart-bar">&#xe80a;</i> </div> 受験番号CSV登録</div></a>
+                                <a href="{{route('univ.register',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}"><div class="item"><div class="icon the-icons span3" title="Code: xe80a"><i class="icons icon-chart-bar">&#xe80a;</i> </div>高校・大学CSV登録</div></a>
+                                <a href="{{route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}"><div class="item"><div class="icon the-icons span3" title="Code: xe80a"><i class="icons icon-chart-bar">&#xe80a;</i> </div>模試データ管理</div></a>
+                            
                             @endif
                         </div>
                     </div>
