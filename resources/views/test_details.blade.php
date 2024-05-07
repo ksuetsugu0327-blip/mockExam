@@ -9,13 +9,16 @@
     /* Apply styles to the table */
     .test-detail {
         border-collapse: separate; /* Make sure border-collapse is separate */
-        border-spacing: 10px; /* Adjust the space between cells */
+        /* border-spacing: 5px; Adjust the space between cells */
         margin:unset;
     }
 
     /* Optionally, apply padding inside each cell */
     .test-detail td {
         padding: 10px; /* Add padding inside the cell */
+    }
+    .button.grey{
+        background-color: grey;
     }
 </style>
 @endsection
@@ -88,7 +91,7 @@
         </div>
         <div class="form-group">
             <div class="form-row">
-                <span for="remarks" style="margin: 0 87px 0 43px;">備考</span>
+                <span for="remarks" style="margin: 0 80px 0 35px;">備考</span>
                 {{ Form::textarea(
                     'remarks', 
                     "テストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\n", 
@@ -96,6 +99,17 @@
                      'class' => 'text-area-class',
                      'style' => 'margin-bottom: -120px;width:380px;']
                 )}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="buttons" style="float:left;margin-top:134px;">
+                    <input id="back" class="button green" type="button" name="back" value="戻る">
+                </div>
+                <div class="buttons" style="float:right;margin-top:134px;">
+                    <input id="delete" class="button grey" type="button" name="delete" value="削除">
+                    <input class="button bulu" type="submit" name="submit" value="登録">
+                </div>
             </div>
         </div>
     </div>
