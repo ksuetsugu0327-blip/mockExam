@@ -35,7 +35,7 @@
                     <td>
                         {{ Form::select(
                             'sch', 
-                            config('selectlistarray.YEAR_LIST'),
+                            config('selectlistarray.SCHOOL_LIST'),
                             null, 
                             ['class' => 'cell',
                              'style' => 'width:70px;margin-right:87px;']
@@ -55,7 +55,7 @@
                     <td><span for="year" style="margin: 0 23px 0 23px;">学年</span></td>
                     <td>{{ Form::select(
                             'year', 
-                            config('selectlistarray.YEAR_LIST'),
+                            config('selectlistarray.GRADE_LIST'),
                             null, 
                             ['class' => 'cell',
                             'style' => 'width:100px']
@@ -66,7 +66,7 @@
                     <td><span for="year" style="margin: 0 23px 0 23px;">テスト名</span></td>
                     <td>{{ Form::select(
                             'year', 
-                            config('selectlistarray.YEAR_LIST'),
+                            ['---', 'テストA', 'テストB'],
                             null, 
                             ['class' => 'cell',
                             'style' => 'width:177px']
@@ -77,7 +77,7 @@
                     <td><span for="year" style="margin: 0 23px 0 23px;">大学コード</span></td>
                     <td>{{ Form::select(
                             'year', 
-                            config('selectlistarray.YEAR_LIST'),
+                            ['---', '大学コードA', '大学コードB'],
                             null, 
                             ['class' => 'cell',
                             'style' => 'width:177px']
@@ -91,7 +91,7 @@
                 <span for="remarks" style="margin: 0 87px 0 43px;">備考</span>
                 {{ Form::textarea(
                     'remarks', 
-                    null, 
+                    "テストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\nテストテキスト\n", 
                     ['id' => 'remarks',
                      'class' => 'text-area-class',
                      'style' => 'margin-bottom: -120px;width:380px;']
