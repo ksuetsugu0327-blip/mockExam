@@ -59,7 +59,14 @@ class ManagementDocController extends Controller {
             ];
 
             $dir = $this->service->checkDirectory($checkParam);
-            $checkParam["categoryKbn"] = 'csv';
+            // $checkParam["categoryKbn"] = 'csv'; ★20240423
+//Log::debug("function index クラスコード：". $clsCode." -clsGradeCsvFlag- ". $clsGradeCsvFlag. "\n");
+            if(!empty($clsCode)){
+                $checkParam['categoryKbn'] = 'csv_cls';
+            }
+            else{
+                $checkParam['categoryKbn'] = 'csv';
+            }
             $csv_dir = $this->service->checkDirectory($checkParam);
 
             if ($dir > 0){
@@ -126,7 +133,15 @@ class ManagementDocController extends Controller {
         ];
 
         $dir = $this->service->checkDirectory($checkParam);
-        $checkParam["categoryKbn"] = 'csv';
+        // $checkParam["categoryKbn"] = 'csv'; ★20240423
+//Log::debug("function open クラスコード：". $clsCode." -clsGradeCsvFlag- ". $clsGradeCsvFlag. "\n");
+        if(!empty($clsCode)){
+            $checkParam['categoryKbn'] = 'csv_cls';
+        }
+        else{
+            $checkParam['categoryKbn'] = 'csv';
+        }
+//var_dump($checkParam);
         $csv_dir = $this->service->checkDirectory($checkParam);
         
         if ($dir > 0){
