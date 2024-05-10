@@ -26,7 +26,7 @@ class CreateMUniversityCodeTable extends Migration
             $table->string('department_cd', 4)->comment('学部コード');
             $table->integer('department_seq')->default(0)->comment('学部表示順');
             $table->string('department_name', 50)->comment('学部名');
-            $table->string('subject_cd', 4)->comment('学科コード');
+            $table->string('subject_cd', 4)->nullable()->comment('学科コード');
             $table->integer('subject_seq')->nullable()->comment('学科表示順');
             $table->string('subject_name', 80)->nullable()->comment('学科名');
             $table->string('search_subject_name', 80)->nullable()->comment('検索用学科名');
