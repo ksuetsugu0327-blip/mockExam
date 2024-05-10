@@ -103,10 +103,10 @@
         </div>
         <div class="form-group">
             <div class="form-row">
-                <div class="buttons" style="float:left;margin-top:134px;">
-                    <input id="back" class="button green" type="button" name="back" value="戻る">
+                <div class="buttons" style="float:left;margin-top:133px;">
+                    <input id="back" class="button green" type="button" name="back" value="戻る" onclick="window.location.href='{{route('test.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}'">
                 </div>
-                <div class="buttons" style="float:right;margin-top:134px;">
+                <div class="buttons" style="float:right;margin-top:133px;">
                     <input id="delete" class="button grey" type="button" name="delete" value="削除">
                     <input class="button bulu" type="submit" name="submit" value="登録">
                 </div>
@@ -116,4 +116,4 @@
 </div>
 @endsection
 
-@include('layout.portal-footer')
+@include('layout.footer')
