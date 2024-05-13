@@ -232,6 +232,70 @@ return[
         ],
     ],
 
+    // 大学用CSVのヘッダーの順序
+    'UNIV_CSV_HEADER_NUM' => [
+        'UNIV_CODE' => [
+            'NAME' => 'university_cd',
+            'INDEX' => 0,
+        ],
+        'PREF_CODE' => [
+            'NAME' => 'prefecture_cd',
+            'INDEX' => 1,
+        ],
+        'INSTALL_CODE' => [
+            'NAME' => 'install_div',
+            'INDEX' => 2,
+        ],
+		'DEPT_LINE_CODE' => [
+            'NAME' => 'dept_line_cd',
+            'INDEX' => 3,
+        ],
+        'NAME_HKN' => [
+            'NAME' => 'university_name_hkn',
+            'INDEX' => 4,
+        ],
+        'NAME' => [
+            'NAME' => 'university_name',
+            'INDEX' => 5,
+        ],
+        'DEPT_CODE' => [
+            'NAME' => 'department_cd',
+            'INDEX' => 6,
+        ],
+        'DEPT_SEQ' => [
+            'NAME' => 'department_seq',
+            'INDEX' => 7,
+        ],
+        'DEPT_NAME' => [
+            'NAME' => 'department_name',
+            'INDEX' => 8,
+        ],
+        'SUBJ_CODE' => [
+            'NAME' => 'subject_cd',
+            'INDEX' => 9,
+        ],
+        'SUBJ_SEQ' => [
+            'NAME' => 'subject_seq',
+            'INDEX' => 10,
+        ],
+        'SUBJ_NAME' => [
+            'NAME' => 'subject_name',
+            'INDEX' => 11,
+        ],
+        'SEARCH_SUBJ_NAME' => [
+            'NAME' => 'search_subject_name',
+            'INDEX' => 12,
+        ],
+        'CMN_TEST_USE' => [
+            'NAME' => 'common_test_use',
+            'INDEX' => 13,
+        ],
+        'DEVI_VAL' => [
+            'NAME' => 'deviation_value',
+            'INDEX' => 14,
+        ],
+    ],
+
     // 教室マスタ ダウンロードCSVファイル名
     'CLASS_IMPORT_CSV_ERRFILENAME' => 'class_registration_error.csv',
 
