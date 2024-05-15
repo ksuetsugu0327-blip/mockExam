@@ -17,6 +17,7 @@ class CreateMOemSchoolTable extends Migration
             // Define columns with comments
             $table->unsignedBigInteger('oem_sch_code')->primary()->comment('OEM塾コード');
             $table->string('oem_sch_name', 40)->comment('塾名');
+            $table->unsignedInteger('display_seq')->comment('表示順');
             $table->string('remarks', 100)->nullable()->comment('備考');
             $table->unsignedTinyInteger('invalid_flag')->default(0)->comment('有効無効フラグ');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');

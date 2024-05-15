@@ -31,7 +31,7 @@ class CreateMUniversityCodeTable extends Migration
             $table->string('subject_name', 80)->nullable()->comment('学科名');
             $table->string('search_subject_name', 80)->nullable()->comment('検索用学科名');
             $table->unsignedTinyInteger('common_test_use')->default(0)->comment('共通テスト利用');
-            $table->unsignedDecimal('deviation_value', 4, 1)->nullable()->comment('偏差値');
+            $table->unsignedDecimal('deviation_value', 4, 1)->default(0)->comment('偏差値');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新日時');
 
