@@ -162,6 +162,9 @@ return[
     // 生徒マスタ ダウンロードCSVファイル名
     'PERSON_IMPORT_CSV_ERRFILENAME' => 'pearson_registration_error.csv',
 
+    // 大学コード　インポートCSVエラーファイル名
+    'UNIV_CODE_IMPORT_CSV_ERRFILENAME' => 'university_code_registration_error.csv',
+
     // 明細最大表示件数
     'VIEW_RECORD_COUNT' => 10000,
 
@@ -233,65 +236,65 @@ return[
     ],
 
     // 大学用CSVのヘッダーの順序
-    'UNIV_CSV_HEADER_NUM' => [
+    'UNIV_CSV_HEADER' => [
         'UNIV_CODE' => [
-            'NAME' => 'university_cd',
+            'NAME' => '大学コード',
             'INDEX' => 0,
         ],
         'PREF_CODE' => [
-            'NAME' => 'prefecture_cd',
+            'NAME' => '都道府県コード',
             'INDEX' => 1,
         ],
         'INSTALL_CODE' => [
-            'NAME' => 'install_div',
+            'NAME' => '設置区分コード',
             'INDEX' => 2,
         ],
 		'DEPT_LINE_CODE' => [
-            'NAME' => 'dept_line_cd',
+            'NAME' => '学部系統コード',
             'INDEX' => 3,
         ],
         'NAME_HKN' => [
-            'NAME' => 'university_name_hkn',
+            'NAME' => '大学名（半角カナ）',
             'INDEX' => 4,
         ],
         'NAME' => [
-            'NAME' => 'university_name',
+            'NAME' => '大学名',
             'INDEX' => 5,
         ],
         'DEPT_CODE' => [
-            'NAME' => 'department_cd',
+            'NAME' => '学部コード',
             'INDEX' => 6,
         ],
         'DEPT_SEQ' => [
-            'NAME' => 'department_seq',
+            'NAME' => '学部表示順',
             'INDEX' => 7,
         ],
         'DEPT_NAME' => [
-            'NAME' => 'department_name',
+            'NAME' => '学部名',
             'INDEX' => 8,
         ],
         'SUBJ_CODE' => [
-            'NAME' => 'subject_cd',
+            'NAME' => '学科コード',
             'INDEX' => 9,
         ],
         'SUBJ_SEQ' => [
-            'NAME' => 'subject_seq',
+            'NAME' => '学科表示順',
             'INDEX' => 10,
         ],
         'SUBJ_NAME' => [
-            'NAME' => 'subject_name',
+            'NAME' => '学科名',
             'INDEX' => 11,
         ],
         'SEARCH_SUBJ_NAME' => [
-            'NAME' => 'search_subject_name',
+            'NAME' => '検索用学科名',
             'INDEX' => 12,
         ],
         'CMN_TEST_USE' => [
-            'NAME' => 'common_test_use',
+            'NAME' => '共通テスト利用',
             'INDEX' => 13,
         ],
         'DEVI_VAL' => [
-            'NAME' => 'deviation_value',
+            'NAME' => '偏差値',
             'INDEX' => 14,
         ],
     ],

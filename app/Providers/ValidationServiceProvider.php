@@ -77,13 +77,25 @@ class ValidationServiceProvider extends ServiceProvider {
             return preg_match("/^[a-zA-Z0-9]+$/", $value) === 1;
         });
 
-        //受験番号登録時の学年チェック
+        // 受験番号登録時の学年チェック
         Validator::extend('exam_grade', function ($attribute, $value, $parameters, $validator) {
             return $value >= $parameters[0] && $value <= $parameters[1];
         });
 
         Validator::replacer('exam_grade', function ($message, $attribute, $rule, $parameters) {
             return str_replace([':min', ':max'], $parameters, $message);
+        });
+
+        // 半角カナ
+        Validator::extend('half_kana', function ($attribute, $value, $parameters, $validator){
+            $pattern = '/^[\x{FF61}-\x{FF9F}]+$/u';
+            return preg_match($pattern, $value) === 1;
+        });
+
+        // 大学コード検索で試験偏差値用
+        Validator::extend('decimal', function ($attribute, $value, $parameters, $validator){
+            $pattern = '/^\d{1,3}(\.\d{1})?$/';
+            return preg_match($pattern, $value) === 1;
         });
     }
 }

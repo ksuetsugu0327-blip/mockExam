@@ -27,4 +27,5 @@
 
   gtag('config', 'UA-140481385-1');
 </script>
+@yield('pageScript')
 @endsection

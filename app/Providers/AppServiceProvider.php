@@ -92,5 +92,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MPrefecture\MPrefectureRepositoryInterface::class,
             \App\Repositories\MPrefecture\MPrefectureRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface::class,
+            \App\Repositories\MUnivCode\MUniversityCodeRepository::class
+        );
     }
 }

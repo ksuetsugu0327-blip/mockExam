@@ -51,5 +51,29 @@ return[
         '3' => 'OEM塾B'
     ),
 
+    
+    // コードデータ
+    'CODE_DATA' => [
+        'UNIV_CODE' => [
+            'NAME' => '大学コードデータ',
+            'VALUE' => 1,
+        ],
+        'HIGH_SCHOOL_CODE' => [
+            'NAME' => '高校コードデータ',
+            'VALUE' => 2,
+        ],
+    ],
+
+    // 学部/学科判定
+    'DEPT_SUBJ_SELECT' => [
+        'DEPT' => [
+            'NAME' => '学部判定',
+            'VALUE' => 1,
+        ],
+        'SUBJ' => [
+            'NAME' => '学科判定',
+            'VALUE' => 2,
+        ],
+    ]
 ];
 
