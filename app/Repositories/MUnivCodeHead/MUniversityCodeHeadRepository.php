@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repositories\MUniversityCodeHeadRepository;
+namespace App\Repositories\MUnivCodeHead;
 
-use App\Repositories\MUnivCode\MUniversityCodeHeadRepositoryInterface as MUniversityCodeHeadRepositoryInterface;
+use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface as MUniversityCodeHeadRepositoryInterface;
 use App\Models\MUniversityCodeHead as MUniversityCodeHead;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -26,13 +27,25 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
         $this->MUnivCodeHead = $mUnivCodeHead;
     }
 
-    public function getUnivCodeHeadID($univCodeNameCode, $year, $dept_subject_div){
-        $query = $this->MUnivCodeHead::select('id');
-        $query->where('university_code_name_cd', '=', $univCodeNameCode);
-        $query->where('fiscal_year', '=', $year);
-        $query->where('dept_subject_div', '=', $dept_subject_div);
+    public function createCodeHead($codeHeadArray){
+        try {
+            $entry = MUniversityCodeHead::create($codeHeadArray);
+            // If the create() method is successful, you can use the $entry object
+            return $entry;
+        } catch (QueryException $e) {
+            // Handle database related exceptions
+            Log::Warning('Database error: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Handle general exceptions
+            Log::Warning('Error: ' . $e->getMessage());
+        }
+        return $entry;
+    }
 
-        return $query->first();
+    public function getCodeHeader($dataNameCode){
+       $mUnivCodeHeader = MUniversityCodeHead::
+                                where('university_code_name_cd', $dataNameCode)->first();
 
+       return $mUnivCodeHeader;
     }
 }

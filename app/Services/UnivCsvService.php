@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use Validator;
-use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as MUniversityCodeRepositoryInterface;
+use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as CodeRepositoryInterface;
+use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface as CodeHeadRepositoryInterface;
 
 class UnivCsvService {
 
     // リポジトリ
-    private $mUniversityCodeRepository;
+    private $mUnivCodeRepository;
+    private $mUnivCodeHeadRepository;
 
-    public function __construct(MUniversityCodeRepositoryInterface $repository){
-        $this->mUniversityCodeRepository = $repository;
+    public function __construct(CodeHeadRepositoryInterface $CodeHeadrepository, CodeRepositoryInterface $CodeRepository){
+        $this->mUnivCodeHeadRepository = $CodeHeadrepository;
+        $this->mUnivCodeRepository = $CodeRepository;
     }
 
     /**
@@ -167,7 +170,7 @@ class UnivCsvService {
                 'bail|string|max:80',
             
             config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.NAME')       => 
-                'bail|integer|min:0|max:255',
+                'bail|required|integer|min:0|max:255',
             
             config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           => 
                 'bail|required|decimal',
@@ -207,11 +210,15 @@ class UnivCsvService {
      * @param array $personAry 個人用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray($univCodeHeadID, array $univCodeAry){
-        return $this->mUniversityCodeRepository->registerArray($univCodeHeadID, $personAry);
+    public function registerArray($univCodeHeadID, array $univCodeArr){
+        return $this->mUnivCodeRepository->registerArray($univCodeHeadID, $univCodeArr);
     }
 
-    public function getUnivCodeHeader($univCodeNameCode, $year, $deptOrSubject){
-        return $this->mUniversityCodeHeaderRepository->getUnivCodeHeadID($univCodeNameCode, $year, $deptOrSubject);
+    public function getUnivCodeHeader($dataNameCode){
+        return $this->mUnivCodeHeadRepository->getCodeHeader($dataNameCode);
+    }
+
+    public function createUnivCodeHead(array $codeHeadArray){
+        return $this->mUnivCodeHeadRepository->createCodeHead($codeHeadArray);
     }
 }

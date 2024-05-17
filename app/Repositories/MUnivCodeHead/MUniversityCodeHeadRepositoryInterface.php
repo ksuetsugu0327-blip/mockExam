@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\MUnivCode;
+namespace App\Repositories\MUnivCodeHead;
 
 /**
  * ディレクトリマスタ用リポジトリ
@@ -8,6 +8,8 @@ namespace App\Repositories\MUnivCode;
  */
 interface MUniversityCodeHeadRepositoryInterface {
 
-    public function getUnivCodeHeadID($univCodeNameCode, $year, $dept_subject_div);
+    public function createCodeHead($codeHeadArray);
+
+    public function getCodeHeader($dataCodeHead);
    
 }

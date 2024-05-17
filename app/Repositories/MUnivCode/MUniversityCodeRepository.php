@@ -2,8 +2,10 @@
 
 namespace App\Repositories\MUnivCode;
 
-use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as MUniversityCodeRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use App\Models\MUniversityCode as MUniversityCode;
+use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as MUniversityCodeRepositoryInterface;
+
 
 
 /**
@@ -32,30 +34,32 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
      * @param array $univCodeAry 連想配列リスト
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray($univCodeHeadID, array $univCodeAry){
+    public function registerArray($codeHeadID, array $univCodeArr){
 
         try{
             DB::beginTransaction();
 
-            foreach ($univCodeAry as $univCode){
+            foreach ($univCodeArr as $univCode){
+                //dd($univCode);
                 // キーに合致するデータがあればUPDATE/なければINSERT
                 $mUnivCode = $this->MUnivCode->updateOrCreate(
                         [
-                            'university_cd'       => $mUnivCode['university_cd'],
-                            'prefecture_cd'       => $mUnivCode['prefecture_cd'],
-                            'install_div'         => $mUnivCode['install_div'],
-                            'dept_line_cd'        => $mUnivCode['dept_line_cd'],
-                            'university_name_hkn' => $mUnivCode['university_name_hkn'],
-                            'university_name'     => $mUnivCode['university_name'],
-                            'department_cd'       => $mUnivCode['department_cd'],
-                            'department_seq'      => $mUnivCode['department_seq'],
-                            'department_name'     => $mUnivCode['department_name'],
-                            'subject_cd'          => $mUnivCode['subject_cd'],
-                            'subject_seq'         => $mUnivCode['subject_seq'],
-                            'subject_name'        => $mUnivCode['subject_name'],
-                            'search_subject_name' => $mUnivCode['search_subject_name'],
-                            'common_test_use'     => $mUnivCode['common_test_use'],
-                            'deviation_value'     => $mUnivCode['deviation_value'],
+                            'university_code_head_id' => $codeHeadID,
+                            'university_cd'           => $univCode['university_cd'],
+                            'prefecture_cd'           => $univCode['prefecture_cd'],
+                            'install_div'             => $univCode['install_div'],
+                            'dept_line_cd'            => $univCode['dept_line_cd'],
+                            'university_name_hkn'     => $univCode['university_name_hkn'],
+                            'university_name'         => $univCode['university_name'],
+                            'department_cd'           => $univCode['department_cd'],
+                            'department_seq'          => $univCode['department_seq'],
+                            'department_name'         => $univCode['department_name'],
+                            'subject_cd'              => $univCode['subject_cd'],
+                            'subject_seq'             => $univCode['subject_seq'],
+                            'subject_name'            => $univCode['subject_name'],
+                            'search_subject_name'     => $univCode['search_subject_name'],
+                            'common_test_use'         => $univCode['common_test_use'],
+                            'deviation_value'         => $univCode['deviation_value'],
                         ]
                 );
 
@@ -71,8 +75,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
         }
 
         return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),
-                        'message'=>trans('message.SUCCESS_MUNIVCODE_REGISTER_DATA',['sch_code'=>$person['sch_code'],'psn_code'=>$person['psn_code']])
-                        ,'id'=>$mUnivCode->id);
+                        'message'=>trans('message.SUCCESS_MUNIVCODE_REGISTER_DATA',['code_head_id'=>$codeHeadID]));
 
     }
 }

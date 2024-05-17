@@ -63,10 +63,8 @@ class UnivCsvUploadController extends Controller{
         $year = $request->input('fiscal_year');
         $univCodeNameCode = $request->input('university_code_name_code');
         $deptOrSubject = $request->input('dept_subject_div');
-        
-dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
-
-        //$univCodeHeadID = $this->csvService->getUnivCodeHeader($univCodeNameCode, $year, $deptOrSubject);
+        $univCodeHeader = NULL;
+//dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
 
         //SplFileObjectを生成
         $file = new SplFileObject($uploaded_file);
@@ -99,6 +97,20 @@ dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
                     }, config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
         }
         else{
+            //dd($this->csvService->getUnivCodeHeader($univCodeNameCode));
+            if (empty($this->csvService->getUnivCodeHeader($univCodeNameCode))){
+                $univCodeHeadArr = [
+                    'university_code_name_cd' => $univCodeNameCode, // Ensure this is valid and refers to an existing record in m_university_code_name
+                    'fiscal_year' => $year,
+                    'dept_subject_div' => $deptOrSubject,
+                    'updated_num' => 0,
+                ];
+                $univCodeHeader = $this->csvService->createUnivCodeHead($univCodeHeadArr);
+            }
+            else{
+                // TODO:コードヘッダー上書き
+            }
+
             $row_count = 0;
 
             //取得したオブジェクトを読み込み
@@ -117,13 +129,16 @@ dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
                     $university_name      = $row[5];
                     $department_cd        = $row[6];
                     $department_seq       = $row[7];
-                    $department_name	  = $row[8];								
-                    $subject_cd			  = $row[9];						
-                    $subject_seq		  = $row[10];							
-                    $subject_name		  = $row[11];							
-                    $search_subject_name  = $row[12];									
+                    $department_name	  = $row[8];
                     $common_test_use	  = $row[13];								
-                    $deviation_value	  = $row[14];								
+                    $deviation_value	  = $row[14];
+                    
+                    if($deptOrSubject==2){
+                        $subject_cd			  = $row[9];						
+                        $subject_seq		  = $row[10];							
+                        $subject_name		  = $row[11];							
+                        $search_subject_name  = $row[12];	
+                    }			
 
                     // 登録データを配列に追加
                     $arrayInsertData[] = array(
@@ -136,10 +151,10 @@ dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
                         'department_cd'       => $department_cd,
                         'department_seq'      => $department_seq,
                         'department_name'     => $department_name,
-                        'subject_cd'          => $subject_cd,
-                        'subject_seq'         => $subject_seq,
-                        'subject_name'        => $subject_name,
-                        'search_subject_name' => $search_subject_name,
+                        'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
+                        'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
+                        'subject_name'        => empty($subject_name)?NULL:$subject_name,
+                        'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
                         'common_test_use'     => $common_test_use,
                         'deviation_value'     => $deviation_value,
                     );
@@ -149,14 +164,25 @@ dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
                 $row_count++;
             }
 //dd($arrayInsertData);
-            if( !empty($arrayInsertData) ){
+            if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
               // Insert処理
-              $this->csvService->registerArray($univCodeHeadID, $arrayInsertData);
+              $this->csvService->registerArray($univCodeHeader->id, $arrayInsertData);
             }
         }
 
+        $codeData = config('selectlistarray.CODE_DATA');
+        $years = $this->generateYearsArray();
+        $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
+        $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
+        
+
         // 画面表示
-        return view('csvUpload')->with('message', trans('message.SUCCESS_MPERSON_CSV_DATA'));
+        return view('univ_register', compact(
+                                        'codeData',
+                                        'years',
+                                        'mUnivCodeName',
+                                        'deptSubjSelect'
+                                    ))->with('message', trans('message.SUCCESS_MPERSON_CSV_DATA'));
     }
 
     private function generateYearsArray() {

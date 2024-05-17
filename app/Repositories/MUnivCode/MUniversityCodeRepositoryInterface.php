@@ -8,6 +8,6 @@ namespace App\Repositories\MUnivCode;
  */
 interface MUniversityCodeRepositoryInterface {
 
-    public function registerArray($univCodeHeadID, array $univCodeAry);
+    public function registerArray($univCodeHeadID, array $univCodeArr);
    
 }
