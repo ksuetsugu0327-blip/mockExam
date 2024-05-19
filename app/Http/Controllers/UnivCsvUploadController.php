@@ -6,7 +6,8 @@ namespace App\Http\Controllers;
 use \SplFileObject;
 use App\Utils\FileUtil;
 use App\Models\MUniversityCodeName as MUnivCodeName;
-use App\Services\UnivCsvService as CsvService;
+use App\Services\UnivCsvService;
+use App\Services\HighSchoolCsvService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnivCsvUploadRequest;
 use Illuminate\Http\Request;
@@ -19,11 +20,13 @@ use Faker\Factory as Faker;
 
 class UnivCsvUploadController extends Controller{
 
-    private $csvService;
+    private $univCsvService;
+    private $highSchoolCsvService;
 
-    public function __construct(CsvService $csvService) {
+    public function __construct(UnivCsvService $univCsvService, HighSchoolCsvService $highSchoolCsvService) {
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
-        $this->csvService = $csvService;
+        $this->univCsvService = $univCsvService;
+        $this->highSchoolCsvService = $highSchoolCsvService;
     }
 
     /**
@@ -58,11 +61,17 @@ class UnivCsvUploadController extends Controller{
         // 'csv_file' はビューの inputタグのname属性
         $uploaded_file = $request->file('csv_file');
 
+        if (!mb_check_encoding($uploaded_file, 'UTF-8')) {
+            $uploaded_file = mb_convert_encoding($uploaded_file, 'UTF-8', 'SJIS-win');
+        }
+
         $dataType = $request->input('data_type');
         $year = $request->input('fiscal_year');
         $univCodeNameCode = $request->input('university_code_name_code');
         $deptOrSubject = $request->input('dept_subject_div');
         $univCodeHeader = NULL;
+
+        $param = compact('year', 'univCodeNameCode', 'deptOrSubject');
 
         //SplFileObjectを生成
         $file = new SplFileObject($uploaded_file);
@@ -71,7 +80,12 @@ class UnivCsvUploadController extends Controller{
         $file->setFlags(SplFileObject::READ_CSV);
 
         // CSVの中身に対するバリデーションを実施
-        $csv_errors = $this->csvService->validateCsvData($file);
+        if($dataType == 1){
+            $csv_errors = $this->univCsvService->validateCsvData($file);
+        }
+        else{
+            $csv_errors = $this->highSchoolCsvService->validateCsvData($file);
+        }
 
         // 登録データ格納配列
         $arrayInsertData = array();
@@ -89,83 +103,14 @@ class UnivCsvUploadController extends Controller{
                 ->withErrors($errors);
         }
         else{
-
-            $univCodeHeadArr = [
-                'university_code_name_cd' => $univCodeNameCode,
-                'fiscal_year' => $year,
-                'dept_subject_div' => $deptOrSubject,
-                'updated_num' => 0,
-            ];
-
-            $univCodeHead = $this->csvService->getUnivCodeHeader($univCodeNameCode);
-            if (empty($univCodeHead)){
-                $univCodeHeader = $this->csvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "create");
+            if($dataType == 1){
+                $univCodeHeader = $this->handleUnivCodeHeader($param);
+                $this->insertUnivCodeData($file, $univCodeHeader, $param);
             }
             else{
-                // TODO:コードヘッダー上書き
-                $univCodeHeadArr['id'] = $univCodeHead->id;
-                $univCodeHeader = $this->csvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "update");
-
-                $this->csvService->deleteUnivCodesWithHeadID($univCodeHead->id);
+                $this->insertHighSchoolCodeData($file);
             }
-
-            $row_count = 0;
-
-            //取得したオブジェクトを読み込み
-            foreach ($file as $row) {
-                // 最終行の処理(最終行が空っぽの場合の対策
-                if ($row === [null])
-                    continue;
-
-                // 1行目のヘッダーは取り込まない
-                if ($row_count > 0) {
-                    $university_cd        = $row[0];
-                    $prefecture_cd        = $row[1];
-                    $install_div          = $row[2];
-                    $dept_line_cd         = $row[3];
-                    $university_name_hkn  = $row[4];
-                    $university_name      = $row[5];
-                    $department_cd        = $row[6];
-                    $department_seq       = $row[7];
-                    $department_name	  = $row[8];
-                    $common_test_use	  = $row[13];								
-                    $deviation_value	  = $row[14];
-                    
-                    if($deptOrSubject==2){
-                        $subject_cd			  = $row[9];						
-                        $subject_seq		  = $row[10];							
-                        $subject_name		  = $row[11];							
-                        $search_subject_name  = $row[12];	
-                    }			
-
-                    // 登録データを配列に追加
-                    $arrayInsertData[] = array(
-                        'university_cd'       => $university_cd,
-                        'prefecture_cd'       => $prefecture_cd,
-                        'install_div'         => $install_div,
-                        'dept_line_cd'        => $dept_line_cd,
-                        'university_name_hkn' => $university_name_hkn,
-                        'university_name'     => $university_name,
-                        'department_cd'       => $department_cd,
-                        'department_seq'      => $department_seq,
-                        'department_name'     => $department_name,
-                        'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
-                        'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
-                        'subject_name'        => empty($subject_name)?NULL:$subject_name,
-                        'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
-                        'common_test_use'     => $common_test_use,
-                        'deviation_value'     => $deviation_value,
-                    );
-                    
-                }
-                // 行カウンタをインクリメント
-                $row_count++;
-            }
-
-            if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
-              // Insert処理
-              $this->csvService->registerArray($univCodeHeader->id, $arrayInsertData);
-            }
+           
         }
 
         $codeData = config('selectlistarray.CODE_DATA');
@@ -175,12 +120,14 @@ class UnivCsvUploadController extends Controller{
         
 
         // 画面表示
-        return view('univ_register', compact(
-                                        'codeData',
-                                        'years',
-                                        'mUnivCodeName',
-                                        'deptSubjSelect'
-                                    ))->with('message', trans('message.SUCCESS_MUNIVCODE_CSV_DATA'));
+        return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+                    ->with([
+                        'message' => trans('message.SUCCESS_MUNIVCODE_CSV_DATA'),
+                        'codeData' => $codeData,
+                        'years' => $years,
+                        'mUnivCodeName' => $mUnivCodeName,
+                        'deptSubjSelect' => $codeData,
+                    ]);
     }
 
     public function downloadErrCsv($csv_errors){
@@ -190,7 +137,7 @@ class UnivCsvUploadController extends Controller{
         // HTTP Header 作成
         $responseHeader = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachement;filename=' . config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), 
+            'Content-Disposition' => 'attachement;filename=' . config('constants.HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME'), 
         ];
         $csv_errors = session()->get('csv_errors', []);
 
@@ -198,7 +145,134 @@ class UnivCsvUploadController extends Controller{
         return response()->streamDownload(function() use($csv_errors, $csvHeader) {
                     echo FileUtil::CreateCSV($csv_errors, $csvHeader);
                     session()->forget('csv_errors');
-                }, config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
+                }, config('constants.HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
+    }
+
+    private function handleUnivCodeHeader(array $param){
+        $univCodeHeadArr = [
+            'university_code_name_cd' => $param['univCodeNameCode'],
+            'fiscal_year' => $param['year'],
+            'dept_subject_div' => $param['deptOrSubject'],
+            'updated_num' => 0,
+        ];
+
+        $univCodeHead = $this->univCsvService->getUnivCodeHeader($param['univCodeNameCode']);
+        if (empty($univCodeHead)){
+            $univCodeHeader = $this->univCsvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "create");
+        }
+        else{
+            // TODO:コードヘッダー上書き
+            $univCodeHeadArr['id'] = $univCodeHead->id;
+            $univCodeHeader = $this->univCsvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "update");
+
+            $this->univCsvService->deleteUnivCodesWithHeadID($univCodeHead->id);
+        }
+
+        return $univCodeHeader;
+    }
+
+    private function insertUnivCodeData($file, $univCodeHeader, $param){
+        $row_count = 0;
+
+        //取得したオブジェクトを読み込み
+        foreach ($file as $row) {
+            // 最終行の処理(最終行が空っぽの場合の対策
+            if ($row === [null])
+                continue;
+
+            // 1行目のヘッダーは取り込まない
+            if ($row_count > 0) {
+                $university_cd        = $row[0];
+                $prefecture_cd        = $row[1];
+                $install_div          = $row[2];
+                $dept_line_cd         = $row[3];
+                $university_name_hkn  = $row[4];
+                $university_name      = $row[5];
+                $department_cd        = $row[6];
+                $department_seq       = $row[7];
+                $department_name	  = $row[8];
+                $common_test_use	  = $row[13];								
+                $deviation_value	  = $row[14];
+                
+                if($param['deptOrSubject'] == 2){
+                    $subject_cd			  = $row[9];						
+                    $subject_seq		  = $row[10];							
+                    $subject_name		  = $row[11];							
+                    $search_subject_name  = $row[12];	
+                }			
+
+                // 登録データを配列に追加
+                $arrayInsertData[] = array(
+                    'university_cd'       => $university_cd,
+                    'prefecture_cd'       => $prefecture_cd,
+                    'install_div'         => $install_div,
+                    'dept_line_cd'        => $dept_line_cd,
+                    'university_name_hkn' => $university_name_hkn,
+                    'university_name'     => $university_name,
+                    'department_cd'       => $department_cd,
+                    'department_seq'      => $department_seq,
+                    'department_name'     => $department_name,
+                    'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
+                    'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
+                    'subject_name'        => empty($subject_name)?NULL:$subject_name,
+                    'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
+                    'common_test_use'     => $common_test_use,
+                    'deviation_value'     => $deviation_value,
+                );
+                
+            }
+            // 行カウンタをインクリメント
+            $row_count++;
+        }
+
+        if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
+          // Insert処理
+          $this->univCsvService->registerArray($univCodeHeader->id, $arrayInsertData);
+        }
+    }
+
+    private function insertHighSchoolCodeData($file){
+        $row_count = 0;
+
+        //取得したオブジェクトを読み込み
+        foreach ($file as $row) {
+            // 最終行の処理(最終行が空っぽの場合の対策
+            if ($row === [null])
+                continue;
+
+            // 1行目のヘッダーは取り込まない
+            if ($row_count > 0) {
+                $highschool_code     = $row[0];
+                $highschool_name_hkn = $row[1];
+                $zip_num             = $row[2];
+                $tel_num             = $row[3];
+                $install_cd          = $row[4];
+                $class_cd            = $row[5];
+                $highschool_name     = $row[6];
+                $address             = $row[7];
+                $prefecture_cd	     = $row[8];
+
+                // 登録データを配列に追加
+                $arrayInsertData[] = array(
+                    'highschool_code'     => $highschool_code,
+                    'highschool_name_hkn' => $highschool_name_hkn,
+                    'zip_num'             => $zip_num,
+                    'tel_num'             => $tel_num,
+                    'install_cd'          => $install_cd,
+                    'class_cd'            => $class_cd,
+                    'highschool_name'     => $highschool_name,
+                    'address'             => $address,
+                    'prefecture_cd'       => $prefecture_cd,
+                );
+            }
+            // 行カウンタをインクリメント
+            $row_count++;
+        }
+
+        if( !empty($arrayInsertData) ){
+          // Insert処理
+          $this->highSchoolCsvService->registerArray($arrayInsertData);
+        }
     }
 
     private function generateYearsArray() {

@@ -92,6 +92,18 @@ class ValidationServiceProvider extends ServiceProvider {
             return preg_match($pattern, $value) === 1;
         });
 
+        // 全角
+        Validator::extend('full_space', function ($attribute, $value, $parameters, $validator){
+            $pattern = '/^[^\x01-\x7E\xA1-\xDF]+$/';
+            return preg_match($pattern, $value) === 1;
+        });
+
+        // 電話番号
+        Validator::extend('tel', function ($attribute, $value, $parameters, $validator){
+            $pattern = '/\d{2,4}-\d{2,4}-\d{4}/';
+            return preg_match($pattern, $value) === 1;
+        });
+
         // 大学コード検索で試験偏差値用
         Validator::extend('decimal', function ($attribute, $value, $parameters, $validator){
             $pattern = '/^\d{1,3}(\.\d{1})?$/';

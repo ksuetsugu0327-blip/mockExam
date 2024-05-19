@@ -9,13 +9,13 @@ use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as MUniversity
 
 
 /**
- * 塾マスタ（回数毎）用リポジトリ
+ * 大学コードマスタ 用リポジトリ
  *
  */
 class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
     
     /**
-     * 塾マスタ（回数毎）モデル
+     * 大学コードマスタ モデル
      * @var type model
      */
     private $MUnivCode;

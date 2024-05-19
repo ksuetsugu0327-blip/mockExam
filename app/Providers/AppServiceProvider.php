@@ -102,5 +102,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface::class,
             \App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MHighSchoolCode\MHighSchoolCodeRepositoryInterface::class,
+            \App\Repositories\MHighSchoolCode\MHighSchoolCodeRepository::class
+        );
     }
 }

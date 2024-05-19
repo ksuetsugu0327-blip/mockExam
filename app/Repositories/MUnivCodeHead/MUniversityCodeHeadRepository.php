@@ -6,15 +6,10 @@ use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface as MUn
 use App\Models\MUniversityCodeHead as MUniversityCodeHead;
 use Illuminate\Support\Facades\Log;
 
-
-/**
- * 塾マスタ（回数毎）用リポジトリ
- *
- */
 class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInterface{
     
     /**
-     * 塾マスタ（回数毎）モデル
+     * 大学コードマスタ モデル
      * @var type model
      */
     private $MUnivCodeHead;

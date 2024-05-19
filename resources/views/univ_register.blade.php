@@ -76,9 +76,9 @@ $(document).ready(function() {
 <div id="portal-content" class="idlogin">
     <div id="content">
         {{-- 登録完了メッセージ --}}
-        @if (isset($message))
+        @if (session()->has('message'))
             <div class="error_message">
-                <strong>{{ $message }}</strong>
+                <strong>{{ session('message') }}</strong>
             </div>
         @endif
         @if ($errors->has('message'))

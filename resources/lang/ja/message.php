@@ -133,4 +133,13 @@ return[
     'CSV_TICKET_PERSON_NO_EXISTS' => '指定された生徒（塾コード：:sch_code 生徒コード：:psn_code）は存在しません。',
     'CSV_TICKET_NOT_DATA' => 'アップロードファイルのデータが0件です。',
 
+    //大学CSV登録
+    'CSV_MUNIVCODE_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（大学コード：:univ_code）',
+    'CSV_MUNIVCODE_NOT_DATA' => 'アップロードファイルのデータが0件です。',
+
+    //高校CSV登録
+    'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',
+    'CSV_MHIGHSCHOOL_NOT_DATA' => 'アップロードファイルのデータが0件です。',
+
+
 ];

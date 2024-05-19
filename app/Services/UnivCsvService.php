@@ -12,8 +12,8 @@ class UnivCsvService {
     private $mUnivCodeRepository;
     private $mUnivCodeHeadRepository;
 
-    public function __construct(CodeHeadRepositoryInterface $CodeHeadrepository, CodeRepositoryInterface $CodeRepository){
-        $this->mUnivCodeHeadRepository = $CodeHeadrepository;
+    public function __construct(CodeHeadRepositoryInterface $CodeHeadRepository, CodeRepositoryInterface $CodeRepository){
+        $this->mUnivCodeHeadRepository = $CodeHeadRepository;
         $this->mUnivCodeRepository = $CodeRepository;
     }
 
@@ -35,11 +35,10 @@ class UnivCsvService {
 
         // データ件数カウント
         $dataCnt = 0;
-//dd($file);
+
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
 
-//dd(count($line),config('constants.UNIV_CSV_HEADER'));
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
@@ -89,8 +88,7 @@ class UnivCsvService {
 
                 // CSV内重複チェックキー
                 $csv_key = [
-                    'sch_code' => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
-                    'psn_code' => $line[config('constants.UNIV_CSV_HEADER.PREF_CODE.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME') => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
                 ];
 
                 //キー重複
@@ -100,8 +98,8 @@ class UnivCsvService {
                     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
                     $csv_errors[] = [
                         'line' => $output_line_num,
-                        'message' => trans('message.CSV_MPERSON_DUPLICATE_DATA',[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')=>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]
-                                                                                    ,config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')=>$csv_key[config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')]]),
+                        'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')
+                                                                                    =>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]]),
                     ];
                     continue;
                 }

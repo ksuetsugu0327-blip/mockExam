@@ -165,6 +165,9 @@ return[
     // 大学コード　インポートCSVエラーファイル名
     'UNIV_CODE_IMPORT_CSV_ERRFILENAME' => 'university_code_registration_error.csv',
 
+    // 高校コード　インポートCSVエラーファイル名
+    'HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME' => 'high_school_code_registration_error.csv',
+
     // 明細最大表示件数
     'VIEW_RECORD_COUNT' => 10000,
 
@@ -296,6 +299,46 @@ return[
         'DEVI_VAL' => [
             'NAME' => '偏差値',
             'INDEX' => 14,
+        ],
+    ],
+
+    // 高校用CSVのヘッダーの順序
+    'HIGH_SCHOOL_CSV_HEADER' => [
+        'HIGH_SCHOOL_CODE' => [
+            'NAME' => '高等学校等コード',
+            'INDEX' => 0,
+        ],
+        'HIGH_SCHOOL_NAME_HKN' => [
+            'NAME' => '高等学校等名（半角カナ）',
+            'INDEX' => 1,
+        ],
+        'ZIP_NUM' => [
+            'NAME' => '郵便番号',
+            'INDEX' => 2,
+        ],
+		'TEL_NUM' => [
+            'NAME' => '電話番号',
+            'INDEX' => 3,
+        ],
+        'INSTALL_CODE' => [
+            'NAME' => '設置者区分',
+            'INDEX' => 4,
+        ],
+        'CLASS_CODE' => [
+            'NAME' => '高校種別コード',
+            'INDEX' => 5,
+        ],
+        'HIGH_SCHOOL_NAME' => [
+            'NAME' => '高等学校等名（全角）',
+            'INDEX' => 6,
+        ],
+        'ADDRESS' => [
+            'NAME' => '所在地（全角）',
+            'INDEX' => 7,
+        ],
+        'PREF_CODE' => [
+            'NAME' => '都道府県コード',
+            'INDEX' => 8,
         ],
     ],
 
