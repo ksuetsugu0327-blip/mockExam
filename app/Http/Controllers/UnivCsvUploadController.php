@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //useしないと 自動的にnamespaceのパスが付与されるのでuse
 use \SplFileObject;
+use App\Utils\FileUtil;
 use App\Models\MUniversityCodeName as MUnivCodeName;
 use App\Services\UnivCsvService as CsvService;
 use App\Http\Controllers\Controller;
@@ -11,9 +12,10 @@ use App\Http\Requests\UnivCsvUploadRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use App\Utils\FileUtil;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
 use Faker\Factory as Faker;
+
 
 class UnivCsvUploadController extends Controller{
 
@@ -33,7 +35,7 @@ class UnivCsvUploadController extends Controller{
         $years = $this->generateYearsArray();
         $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
-//dd($mUnivCodeName);
+
         return view('univ_register', compact(
                                         'codeData',
                                         'years',
@@ -49,9 +51,6 @@ class UnivCsvUploadController extends Controller{
      */
     public function upload(UnivCsvUploadRequest $request) {
 
-        // ヘッダ
-        $csvHeader = ['エラー行', 'エラーメッセージ'];
-
         // ロケールを設定(日本語に設定)
         setlocale(LC_ALL, 'ja_JP.UTF-8');
 
@@ -64,7 +63,6 @@ class UnivCsvUploadController extends Controller{
         $univCodeNameCode = $request->input('university_code_name_code');
         $deptOrSubject = $request->input('dept_subject_div');
         $univCodeHeader = NULL;
-//dd($dataType, $year, $univCodeNameCode, $deptOrSubject);
 
         //SplFileObjectを生成
         $file = new SplFileObject($uploaded_file);
@@ -75,40 +73,40 @@ class UnivCsvUploadController extends Controller{
         // CSVの中身に対するバリデーションを実施
         $csv_errors = $this->csvService->validateCsvData($file);
 
-//dd($csv_errors);
-
-
-
-
         // 登録データ格納配列
         $arrayInsertData = array();
 
         // エラー有無をチェック
         if (count($csv_errors) > 0) {
-            // HTTP Header 作成
-            $responseHeader = [
-                'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachement;filename=' . config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), 
-            ];
+            // Set the session message
+            session()->put('csv_errors', $csv_errors);
 
-            // エラー内容CSVをダウンロードさせる
-            return response()->streamDownload(function() use($csv_errors, $csvHeader) {
-                        echo FileUtil::CreateCSV($csv_errors, $csvHeader);
-                    }, config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
+            // Set the session message and additional data
+            $errors = new MessageBag([trans('message.FAILURE_MUNIVCODE_REGISTER_DATA'), 'csv_err']);
+
+            // Redirect to the CSV download route
+            return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+                ->withErrors($errors);
         }
         else{
-            //dd($this->csvService->getUnivCodeHeader($univCodeNameCode));
-            if (empty($this->csvService->getUnivCodeHeader($univCodeNameCode))){
-                $univCodeHeadArr = [
-                    'university_code_name_cd' => $univCodeNameCode, // Ensure this is valid and refers to an existing record in m_university_code_name
-                    'fiscal_year' => $year,
-                    'dept_subject_div' => $deptOrSubject,
-                    'updated_num' => 0,
-                ];
-                $univCodeHeader = $this->csvService->createUnivCodeHead($univCodeHeadArr);
+
+            $univCodeHeadArr = [
+                'university_code_name_cd' => $univCodeNameCode,
+                'fiscal_year' => $year,
+                'dept_subject_div' => $deptOrSubject,
+                'updated_num' => 0,
+            ];
+
+            $univCodeHead = $this->csvService->getUnivCodeHeader($univCodeNameCode);
+            if (empty($univCodeHead)){
+                $univCodeHeader = $this->csvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "create");
             }
             else{
                 // TODO:コードヘッダー上書き
+                $univCodeHeadArr['id'] = $univCodeHead->id;
+                $univCodeHeader = $this->csvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "update");
+
+                $this->csvService->deleteUnivCodesWithHeadID($univCodeHead->id);
             }
 
             $row_count = 0;
@@ -163,7 +161,7 @@ class UnivCsvUploadController extends Controller{
                 // 行カウンタをインクリメント
                 $row_count++;
             }
-//dd($arrayInsertData);
+
             if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
               // Insert処理
               $this->csvService->registerArray($univCodeHeader->id, $arrayInsertData);
@@ -182,7 +180,25 @@ class UnivCsvUploadController extends Controller{
                                         'years',
                                         'mUnivCodeName',
                                         'deptSubjSelect'
-                                    ))->with('message', trans('message.SUCCESS_MPERSON_CSV_DATA'));
+                                    ))->with('message', trans('message.SUCCESS_MUNIVCODE_CSV_DATA'));
+    }
+
+    public function downloadErrCsv($csv_errors){
+        // ヘッダ
+        $csvHeader = ['エラー行', 'エラーメッセージ'];
+
+        // HTTP Header 作成
+        $responseHeader = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachement;filename=' . config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), 
+        ];
+        $csv_errors = session()->get('csv_errors', []);
+
+        // エラー内容CSVをダウンロードさせる
+        return response()->streamDownload(function() use($csv_errors, $csvHeader) {
+                    echo FileUtil::CreateCSV($csv_errors, $csvHeader);
+                    session()->forget('csv_errors');
+                }, config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
     }
 
     private function generateYearsArray() {
@@ -199,4 +215,5 @@ class UnivCsvUploadController extends Controller{
 
         return $years;
     }
+
 }

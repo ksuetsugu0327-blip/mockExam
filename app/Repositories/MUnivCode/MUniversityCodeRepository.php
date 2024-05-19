@@ -78,4 +78,14 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                         'message'=>trans('message.SUCCESS_MUNIVCODE_REGISTER_DATA',['code_head_id'=>$codeHeadID]));
 
     }
+
+    public function deleteCodes($codeHeadID){
+        $this->MUnivCode->where('university_code_head_id', $codeHeadID)
+            ->chunk(100, function($codes){
+                foreach($codes as $code){
+                    $code->delete();
+                }
+        });    
+    }
+    
 }

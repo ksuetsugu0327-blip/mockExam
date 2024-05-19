@@ -8,7 +8,7 @@ namespace App\Repositories\MUnivCodeHead;
  */
 interface MUniversityCodeHeadRepositoryInterface {
 
-    public function createCodeHead($codeHeadArray);
+    public function createOrUpdateCodeHead($codeHeadArray, $mode);
 
     public function getCodeHeader($dataCodeHead);
    

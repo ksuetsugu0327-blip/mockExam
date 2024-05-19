@@ -86,6 +86,17 @@ return[
     // CSVにて個人マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MPERSON_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
 
+    // 大学コードマスタ 登録処理の正常終了時メッセージ
+    'SUCCESS_MUNIVCODE_REGISTER_DATA' => '新しい大学コード（コードデーター名コード：:code_head_id ）の登録が完了しました。',
+    // 大学コードマスタ 登録処理の異常終了時メッセージ
+    'FAILURE_MUNIVCODE_REGISTER_DATA' => '登録データにエラーがあります。エラーファイルを確認してください。',
+    // 大学コードマスタ 更新処理の正常終了時メッセージ
+    'SUCCESS_MUNIVCODE_UPDATE_DATA' => '指定された大学コード（塾コード：:sch_code 塾生ID：:psn_code）の修正が完了しました。',
+    // 大学コードマスタ 削除処理の正常終了時メッセージ
+    'SUCCESS_MUNIVCODE_DELETE_DATA' => '指定された大学コード（塾コード：:sch_code 塾生ID：:psn_code）を削除しました。',
+    // CSVにて大学コードマスタ 登録処理の正常終了時メッセージ
+    'SUCCESS_MUNIVCODE_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+
     // 志望校テーブル 登録処理の正常終了時メッセージ
     'SUCCESS_TICKET_REGISTER_DATA' => ':testname 志望校の登録が完了しました。',
     // 不正処理

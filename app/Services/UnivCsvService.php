@@ -214,11 +214,15 @@ class UnivCsvService {
         return $this->mUnivCodeRepository->registerArray($univCodeHeadID, $univCodeArr);
     }
 
+    public function deleteUnivCodesWithHeadID($univCodeHeadID){
+        return $this->mUnivCodeRepository->deleteCodes($univCodeHeadID);
+    }
+
     public function getUnivCodeHeader($dataNameCode){
         return $this->mUnivCodeHeadRepository->getCodeHeader($dataNameCode);
     }
 
-    public function createUnivCodeHead(array $codeHeadArray){
-        return $this->mUnivCodeHeadRepository->createCodeHead($codeHeadArray);
+    public function createOrUpdateUnivCodeHead(array $codeHeadArray, $mode){
+        return $this->mUnivCodeHeadRepository->createOrUpdateCodeHead($codeHeadArray, $mode);
     }
 }

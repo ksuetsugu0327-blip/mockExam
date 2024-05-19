@@ -41,8 +41,8 @@
 $(document).ready(function() {
     const $radioButtons = $('input[name="data_type"]');
     const $year = $('#year');
-    const $university_code_name_code = $('#university_code_name_code');
-    const $dept_subject_div = $('#dept_subject_div');
+    const $universityCodeNameCode = $('#university_code_name_code');
+    const $deptSubjectDiv = $('#dept_subject_div');
 
     // Function to check the selected radio button and enable/disable the select element
     function checkRadioButtons() {
@@ -53,12 +53,17 @@ $(document).ready(function() {
         }
 
         $year.prop('disabled', disableSelect);
-        $university_code_name_code.prop('disabled', disableSelect);
-        $dept_subject_div.prop('disabled', disableSelect);
+        $universityCodeNameCode.prop('disabled', disableSelect);
+        $deptSubjectDiv.prop('disabled', disableSelect);
     }
 
     // Add event listeners to all radio buttons
     $radioButtons.on('change', checkRadioButtons);
+
+    var errCsvLink = $('#err_csv_link');
+    if (errCsvLink.length) {
+        window.location.href="{{route('univ.err_csv', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}";
+    }
 });
 </script>
 @endsection
@@ -150,6 +155,9 @@ $(document).ready(function() {
                         @foreach($errors->all() as $error)
                             @if($loop->last)
                                 {{-- 最後のメッセージはページ上部と重複するため出さない --}}
+                                @if($error === "csv_err")
+                                    <button id="err_csv_link" type="button" style="display: none;">エラーCSV</button>                                
+                                @endif
                             @else
                                 <span class="error">{{ $error }}</span><br>
                             @endif

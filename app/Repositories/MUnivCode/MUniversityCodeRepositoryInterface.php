@@ -9,5 +9,7 @@ namespace App\Repositories\MUnivCode;
 interface MUniversityCodeRepositoryInterface {
 
     public function registerArray($univCodeHeadID, array $univCodeArr);
+
+    public function deleteCodes($codeHeadID);
    
 }

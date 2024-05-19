@@ -27,11 +27,25 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
         $this->MUnivCodeHead = $mUnivCodeHead;
     }
 
-    public function createCodeHead($codeHeadArray){
+    public function createOrUpdateCodeHead($codeHeadArray, $mode){
         try {
-            $entry = MUniversityCodeHead::create($codeHeadArray);
-            // If the create() method is successful, you can use the $entry object
-            return $entry;
+            if($mode === "update"){
+                $codeHead = MUniversityCodeHead::find($codeHeadArray['id']);
+
+                $codeHead->university_code_name_cd = $codeHeadArray['university_code_name_cd'];
+                $codeHead->fiscal_year = $codeHeadArray['fiscal_year'];
+                $codeHead->dept_subject_div = $codeHeadArray['dept_subject_div'];
+                $codeHead->updated_num += 1;
+
+                $codeHead->save();
+
+                return $codeHead;
+            }
+            else{
+                $entry = MUniversityCodeHead::Create($codeHeadArray);
+                return $entry;
+            }
+
         } catch (QueryException $e) {
             // Handle database related exceptions
             Log::Warning('Database error: ' . $e->getMessage());

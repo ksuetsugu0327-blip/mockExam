@@ -169,6 +169,7 @@ Route::prefix('/{schCode}/sch')->group(function(){
     //高校・大学CSV登録
     Route::get('/code-csv-register', 'UnivCsvUploadController@index')->name('univ.register');
     Route::post('/code-csv-upload', 'UnivCsvUploadController@upload')->name('univ.upload');
+    Route::get('/code-csv-err', 'UnivCsvUploadController@downloadErrCsv')->name('univ.err_csv');
 
     Route::get('/code-csv-delete', function(){
         return view('univ_delete');
