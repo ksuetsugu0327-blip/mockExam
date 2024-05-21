@@ -35,7 +35,7 @@ class HighSchoolCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-
+            $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
@@ -47,6 +47,7 @@ class HighSchoolCsvService {
             if (count($line) !== count(config('constants.HIGH_SCHOOL_CSV_HEADER'))) {
                 $csv_errors[] = [$output_line_num, ' カラム数が不正です'];
             } else{
+
                 // 入力値を配列に設定
                 $arrayCheckData = array(
                     config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')       => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
