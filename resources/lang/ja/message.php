@@ -136,6 +136,9 @@ return[
     //大学CSV登録
     'CSV_MUNIVCODE_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（大学コード：:univ_code）',
     'CSV_MUNIVCODE_NOT_DATA' => 'アップロードファイルのデータが0件です。',
+    'CSV_MUNIVCODE_UPDATE_EXCLUSION' => [
+        'update' => '該当する大学コードデータが他のユーザーによって更新されました。もう一度操作を行ってください。',
+    ],
 
     //高校CSV登録
     'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',

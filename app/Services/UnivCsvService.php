@@ -5,6 +5,7 @@ namespace App\Services;
 use Validator;
 use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as CodeRepositoryInterface;
 use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface as CodeHeadRepositoryInterface;
+use App\Exceptions\ExclusionException;
 
 class UnivCsvService {
 
@@ -38,12 +39,13 @@ class UnivCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
+            $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
 
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
             }
-
+//dd($line);
             // データ件数カウントアップ
             $dataCnt++;
             $output_line_num = $line_num + 1;
@@ -98,7 +100,7 @@ class UnivCsvService {
                     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
                     $csv_errors[] = [
                         'line' => $output_line_num,
-                        'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')
+                        'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',["univ_code"
                                                                                     =>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]]),
                     ];
                     continue;
@@ -221,6 +223,11 @@ class UnivCsvService {
     }
 
     public function createOrUpdateUnivCodeHead(array $codeHeadArray, $mode){
-        return $this->mUnivCodeHeadRepository->createOrUpdateCodeHead($codeHeadArray, $mode);
+        try{
+            return $this->mUnivCodeHeadRepository->createOrUpdateCodeHead($codeHeadArray, $mode);
+        }
+        catch (ExclusionException $e){
+            throw new ExclusionException($e->getMessage());
+        }
     }
 }

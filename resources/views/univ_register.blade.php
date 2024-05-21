@@ -62,7 +62,11 @@ $(document).ready(function() {
 
     var errCsvLink = $('#err_csv_link');
     if (errCsvLink.length) {
-        window.location.href="{{route('univ.err_csv', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}";
+        const mode = $('#err_csv_link').html().trim();
+        var url = "{{route('univ.err_csv', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')), 'mode' => ':parameter'])}}"
+        url = url.replace(':parameter', encodeURIComponent(mode));
+        console.log(mode, url);
+        window.location.href=url
     }
 });
 </script>
@@ -123,6 +127,9 @@ $(document).ready(function() {
                     <option value="{{$item->university_code_name_cd}}">{{$item->university_code_name}}</option>
                     @endforeach
                 </select>
+                @foreach($mUnivCodeName as $item)
+                    <input type="hidden" name="{{$item->university_code_name_cd}}_updated_at" value="{{old($item->university_code_name_cd.'_updated_at', $item->updated_at??null)}}" />
+                @endforeach
             </div>
             <div class="form-group disp_flex" style="gap:42px">  
                 <label for="department" style="margin-right:14px;">学部/学科</label>
@@ -155,8 +162,10 @@ $(document).ready(function() {
                         @foreach($errors->all() as $error)
                             @if($loop->last)
                                 {{-- 最後のメッセージはページ上部と重複するため出さない --}}
-                                @if($error === "csv_err")
-                                    <button id="err_csv_link" type="button" style="display: none;">エラーCSV</button>                                
+                                @if($error == 1)
+                                    <button id="err_csv_link" type="button" style="display: none;">{{$error}}</button>       
+                                @else
+                                    <button id="err_csv_link" type="button" style="display: none;">{{$error}}</button>                         
                                 @endif
                             @else
                                 <span class="error">{{ $error }}</span><br>

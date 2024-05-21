@@ -4,6 +4,8 @@ namespace App\Repositories\MUnivCodeHead;
 
 use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface as MUniversityCodeHeadRepositoryInterface;
 use App\Models\MUniversityCodeHead as MUniversityCodeHead;
+use App\Services\UnivCodeHeadService;
+use App\Exceptions\ExclusionException;
 use Illuminate\Support\Facades\Log;
 
 class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInterface{
@@ -13,26 +15,30 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * @var type model
      */
     private $MUnivCodeHead;
+    private $univCodeHeadService;
     
     /**
      * コンストラクタ
      * @param MUniversityCodeHead $mUnivCode  大学コードモデル
      */
-    public function __construct(MUniversityCodeHead $mUnivCodeHead){
+    public function __construct(MUniversityCodeHead $mUnivCodeHead, UnivCodeHeadService $univCodeHeadService){
         $this->MUnivCodeHead = $mUnivCodeHead;
+        $this->univCodeHeadService = $univCodeHeadService;
     }
 
     public function createOrUpdateCodeHead($codeHeadArray, $mode){
         try {
             if($mode === "update"){
                 $codeHead = MUniversityCodeHead::find($codeHeadArray['id']);
+                // $codeHead->university_code_name_cd = $codeHeadArray['university_code_name_cd'];
+                // $codeHead->fiscal_year = $codeHeadArray['fiscal_year'];
+                // $codeHead->dept_subject_div = $codeHeadArray['dept_subject_div'];
+                // $codeHead->updated_num += 1;
 
-                $codeHead->university_code_name_cd = $codeHeadArray['university_code_name_cd'];
-                $codeHead->fiscal_year = $codeHeadArray['fiscal_year'];
-                $codeHead->dept_subject_div = $codeHeadArray['dept_subject_div'];
-                $codeHead->updated_num += 1;
+                // $codeHead->save();
 
-                $codeHead->save();
+                $codeHeadArray['updated_num'] = $codeHead->updated_num += 1;
+                $this->univCodeHeadService->save($codeHeadArray, $codeHead);
 
                 return $codeHead;
             }
@@ -44,6 +50,9 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
         } catch (QueryException $e) {
             // Handle database related exceptions
             Log::Warning('Database error: ' . $e->getMessage());
+        } catch (ExclusionException $e){
+            Log::Warning('Database error: ' . '大学コードヘッダーID: '.$codeHeadArray['id'].','.trans('message.CSV_MUNIVCODE_UPDATE_EXCLUSION.update'));
+            throw new ExclusionException($e->getMessage());
         } catch (Exception $e) {
             // Handle general exceptions
             Log::Warning('Error: ' . $e->getMessage());

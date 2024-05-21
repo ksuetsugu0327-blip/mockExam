@@ -10,6 +10,7 @@ use App\Services\UnivCsvService;
 use App\Services\HighSchoolCsvService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnivCsvUploadRequest;
+use App\Exceptions\ExclusionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,12 @@ class UnivCsvUploadController extends Controller{
 
         $codeData = config('selectlistarray.CODE_DATA');
         $years = $this->generateYearsArray();
-        $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
+        $mUnivCodeName = DB::table('m_university_code_name')
+        ->leftJoin('m_university_code_head', 'm_university_code_head.university_code_name_cd', 'm_university_code_name.university_code_name_cd')
+        ->select('m_university_code_name.university_code_name_cd', 'university_code_name', 'm_university_code_head.updated_at')
+        ->orderBy('m_university_code_name.university_code_name','ASC')
+        ->get();
+        
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
 
         return view('univ_register', compact(
@@ -60,18 +66,14 @@ class UnivCsvUploadController extends Controller{
         // アップロードしたファイルを取得
         // 'csv_file' はビューの inputタグのname属性
         $uploaded_file = $request->file('csv_file');
-
-        if (!mb_check_encoding($uploaded_file, 'UTF-8')) {
-            $uploaded_file = mb_convert_encoding($uploaded_file, 'UTF-8', 'SJIS-win');
-        }
-
         $dataType = $request->input('data_type');
         $year = $request->input('fiscal_year');
         $univCodeNameCode = $request->input('university_code_name_code');
         $deptOrSubject = $request->input('dept_subject_div');
+        $updated_at = $request->input($univCodeNameCode.'_updated_at');
         $univCodeHeader = NULL;
 
-        $param = compact('year', 'univCodeNameCode', 'deptOrSubject');
+        $param = compact('year', 'univCodeNameCode', 'deptOrSubject', 'updated_at');
 
         //SplFileObjectを生成
         $file = new SplFileObject($uploaded_file);
@@ -96,7 +98,7 @@ class UnivCsvUploadController extends Controller{
             session()->put('csv_errors', $csv_errors);
 
             // Set the session message and additional data
-            $errors = new MessageBag([trans('message.FAILURE_MUNIVCODE_REGISTER_DATA'), 'csv_err']);
+            $errors = new MessageBag([trans('message.FAILURE_MUNIVCODE_REGISTER_DATA'), $dataType]);
 
             // Redirect to the CSV download route
             return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
@@ -104,7 +106,17 @@ class UnivCsvUploadController extends Controller{
         }
         else{
             if($dataType == 1){
-                $univCodeHeader = $this->handleUnivCodeHeader($param);
+                try{
+                    $univCodeHeader = $this->handleUnivCodeHeader($param);
+                }
+                catch (ExclusionException $e){
+                    // 楽観ロックされているため、エラーを画面に表示
+                    return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+                            ->with(array_merge([
+                                'message' => $e->getMessage(),
+                            ],$this->prepareSelectList()));
+                }
+                
                 $this->insertUnivCodeData($file, $univCodeHeader, $param);
             }
             else{
@@ -112,40 +124,43 @@ class UnivCsvUploadController extends Controller{
             }
            
         }
-
-        $codeData = config('selectlistarray.CODE_DATA');
-        $years = $this->generateYearsArray();
-        $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
-        $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
         
-
         // 画面表示
         return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
-                    ->with([
+                    ->with(array_merge([
                         'message' => trans('message.SUCCESS_MUNIVCODE_CSV_DATA'),
-                        'codeData' => $codeData,
-                        'years' => $years,
-                        'mUnivCodeName' => $mUnivCodeName,
-                        'deptSubjSelect' => $codeData,
-                    ]);
+                    ],$this->prepareSelectList()));
     }
 
-    public function downloadErrCsv($csv_errors){
+    public function downloadErrCsv($schCode, $mode){
+
+        // if(!isset($sch_code)){
+        //     return redirect(route('schoolIdCheck.index',['schCode'=>$schCode]));
+        // }
+
+        if($mode == config('selectlistarray.CODE_DATA.UNIV_CODE.VALUE')){
+            $fileName = config('constants.UNIV_CODE_IMPORT_CSV_ERRFILENAME');
+
+        }
+        else if($mode == config('selectlistarray.CODE_DATA.HIGH_SCHOOL_CODE.VALUE')){
+            $fileName = config('constants.HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME');
+        }
+
         // ヘッダ
         $csvHeader = ['エラー行', 'エラーメッセージ'];
 
         // HTTP Header 作成
         $responseHeader = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachement;filename=' . config('constants.HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME'), 
+            'Content-Disposition' => 'attachement;filename=' . $fileName, 
         ];
         $csv_errors = session()->get('csv_errors', []);
-
+            
         // エラー内容CSVをダウンロードさせる
         return response()->streamDownload(function() use($csv_errors, $csvHeader) {
                     echo FileUtil::CreateCSV($csv_errors, $csvHeader);
                     session()->forget('csv_errors');
-                }, config('constants.HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME'), $responseHeader);
+                }, $fileName, $responseHeader);
     }
 
     private function handleUnivCodeHeader(array $param){
@@ -154,6 +169,7 @@ class UnivCsvUploadController extends Controller{
             'fiscal_year' => $param['year'],
             'dept_subject_div' => $param['deptOrSubject'],
             'updated_num' => 0,
+            'updated_at' => $param['updated_at'],
         ];
 
         $univCodeHead = $this->univCsvService->getUnivCodeHeader($param['univCodeNameCode']);
@@ -163,7 +179,13 @@ class UnivCsvUploadController extends Controller{
         else{
             // TODO:コードヘッダー上書き
             $univCodeHeadArr['id'] = $univCodeHead->id;
-            $univCodeHeader = $this->univCsvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "update");
+            try{
+                $univCodeHeader = $this->univCsvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "update");
+            }
+            catch (ExclusionException $e){
+                // 大学コードヘッダーは楽観ロックでロックされているので更新できない
+                throw new ExclusionException($e->getMessage());
+            }
 
             $this->univCsvService->deleteUnivCodesWithHeadID($univCodeHead->id);
         }
@@ -176,6 +198,8 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
+            $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])
                 continue;
@@ -236,6 +260,8 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
+            $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])
                 continue;
@@ -273,6 +299,20 @@ class UnivCsvUploadController extends Controller{
           // Insert処理
           $this->highSchoolCsvService->registerArray($arrayInsertData);
         }
+    }
+
+    private function prepareSelectList(){
+        $codeData = config('selectlistarray.CODE_DATA');
+        $years = $this->generateYearsArray();
+        $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
+        $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
+
+        return compact(
+            'codeData',
+            'years',
+            'mUnivCodeName',
+            'deptSubjSelect'
+        );
     }
 
     private function generateYearsArray() {

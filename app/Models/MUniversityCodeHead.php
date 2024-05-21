@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\OptimisticLockObserverTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class MUniversityCodeHead extends Model
 {
+    use OptimisticLockObserverTrait;
+
     // Define the table name if it does not match the model name (optional)
     protected $table = 'm_university_code_head';
 
@@ -27,6 +30,7 @@ class MUniversityCodeHead extends Model
         'university_code_name_cd',
         'fiscal_year',
         'dept_subject_div',
+        'updated_num',
         'created_at',
         'updated_at',
     ];
