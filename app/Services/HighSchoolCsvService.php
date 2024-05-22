@@ -35,7 +35,10 @@ class HighSchoolCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-            $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            // CSVの文字コードがSJISの場合、UTF-8に変更
+            if(mb_check_encoding($line, 'SJIS')){
+                $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            }
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;

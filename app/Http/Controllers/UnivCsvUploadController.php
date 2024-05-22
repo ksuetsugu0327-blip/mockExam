@@ -133,7 +133,7 @@ class UnivCsvUploadController extends Controller{
     }
 
     public function downloadErrCsv($schCode, $mode){
-
+        
         // if(!isset($sch_code)){
         //     return redirect(route('schoolIdCheck.index',['schCode'=>$schCode]));
         // }
@@ -198,7 +198,10 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
-            $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            // CSVの文字コードがSJISの場合、UTF-8に変更
+            if(mb_check_encoding($row, 'SJIS')){
+                $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            }
 
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])
@@ -260,7 +263,10 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
-            $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            // CSVの文字コードがSJISの場合、UTF-8に変更
+            if(mb_check_encoding($row, 'SJIS')){
+                $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            }
 
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])

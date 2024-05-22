@@ -39,13 +39,16 @@ class UnivCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-            $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            // CSVの文字コードがSJISの場合、UTF-8に変更
+            if(mb_check_encoding($line, 'SJIS')){
+                $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            }
 
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
             }
-//dd($line);
+
             // データ件数カウントアップ
             $dataCnt++;
             $output_line_num = $line_num + 1;
@@ -173,7 +176,7 @@ class UnivCsvService {
                 'bail|required|integer|min:0|max:255',
             
             config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           => 
-                'bail|required|decimal',
+                'bail|required|numeric|decimal|between:30,80',
         ];
 
         return $rules;
