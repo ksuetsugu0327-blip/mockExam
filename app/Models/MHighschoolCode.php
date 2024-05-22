@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MHighschoolCode extends Model
+class MHighSchoolCode extends Model
 {
     // Define the table name (optional if Laravel's default naming conventions match your table name)
     protected $table = 'm_highschool_code';

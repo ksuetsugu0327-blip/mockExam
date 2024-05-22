@@ -5,10 +5,10 @@
 @section('keywords', '')
 @section('description', '大学コード検索')
 @section('pageCss')
-<link rel="stylesheet" href="{{ asset('2024_univ_search/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/2024_univ_search/css/style.css') }}">
 @endsection
 @section('script')
-<script type="text/javascript" src="{{ asset('2024_univ_search/js/accordion.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/2024_univ_search/js/accordion.js') }}"></script>
 <script>
 $(document).ready(function() {
     $('.code_select').change(function() {
@@ -201,7 +201,7 @@ $(document).ready(function() {
     </div>
 
     <div class = "btn_more">
-        <a href=""><img src="{{asset('2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
+        <a href=""><img src="{{asset('img/2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
         <p>もっと見る</p>
     </div>
 </section>
@@ -221,7 +221,7 @@ $(document).ready(function() {
         </div>
     </div>
     <div class = "btn_more">
-        <a href=""><img src="{{asset('2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
+        <a href=""><img src="{{asset('img/2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
         <p>もっと見る</p>
     </div>
 </section>
@@ -241,7 +241,7 @@ $(document).ready(function() {
             </div>
         </div>
         <div class = "btn_more">
-            <a href=""><img src="{{asset('2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
+            <a href=""><img src="{{asset('img/2024_univ_search/img/down_more.png')}}" alt="" width="60" height="60"></a>
             <p>もっと見る</p>
         </div>
 </section>

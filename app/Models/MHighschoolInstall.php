@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MHighschoolInstall extends Model
+class MHighSchoolInstall extends Model
 {
     // Define the table name
     protected $table = 'm_highschool_install';
