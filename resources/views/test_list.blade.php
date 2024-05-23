@@ -91,7 +91,7 @@
                         <td style="text-decoration: underline;">
                             <a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">{{$item->test_name}}</a>
                         </td>
-                        <td>{{$item->grade}}</td>
+                        <td>{{(array_key_exists($item->grade, $grades))?$grades[$item->grade]:$item->grade}}</td>
                         <td>{{$item->university_code_name}}</td>
                         <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">修正</a></td>
                         <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">削除</a></td>

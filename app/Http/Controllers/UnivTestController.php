@@ -42,12 +42,16 @@ class UnivTestController extends Controller
                 $message = $request->session()->get('message');
             }
             $conditions = ['year'=>'','test_name'=>''];
-            return view('test_list')->with('testList',null)
-                                        ->with('resultCount', 0)
-                                            ->with('message',$message)
-                                                ->with('years', $years)
-                                                    ->with('selectedYear', $conditions['year'])
-                                                    ->with('testNameKeyword', $conditions['test_name']);
+
+            return view('test_list')->with([
+                'testList' => null,
+                'resultCount' => 0,
+                'message' => $message,
+                'grades' => $grades,
+                'years' => $years,
+                'selectedYear' => $conditions['year'],
+                'testNameKeyword' => $conditions['test_name']
+            ]);
         }
         else{
            // 塾マスタ管理画面から来た場合、セッション情報を引き継いで検索処理を実施する
@@ -67,12 +71,14 @@ class UnivTestController extends Controller
             // 表示件数を取得
             $resultCount = $testList->count();
 
-            return view('test_list', compact(
-                'testList',
-                'years',
-            ))->with('resultCount', $resultCount)->with('message',$message)
-                ->with('selectedYear', $conditions['year'])
-                    ->with('testNameKeyword', $conditions['test_name']);
+            return view('test_list', compact('testList', 'years'))
+                ->with([
+                    'resultCount' => $resultCount,
+                    'message' => $message,
+                    'grades' => $grades,
+                    'selectedYear' => $conditions['year'],
+                    'testNameKeyword' => $conditions['test_name']
+                ]);
         }
     }
 
@@ -83,8 +89,6 @@ class UnivTestController extends Controller
      */
     public function search(UnivTestListRequest $request) {
 
-        //dd(session()->all());
-
         // 検索条件の値を取得
         $conditions = [
             'year'=>$request->get('year'),
@@ -93,7 +97,10 @@ class UnivTestController extends Controller
 
         // 年度プルダウンを用意
         $years = $this->generateYearsArray();
-                
+
+        // 学年変換用マップを用意
+        $grades = config('selectlistarray.UNVS_GRADE_LIST');
+            
         // 模試リストを取得
         $testList = $this->service->selectList($conditions);
 //dd($testList);
@@ -115,10 +122,12 @@ class UnivTestController extends Controller
 
         $request->session()->put(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'),$conditions);
 
-        return view('test_list')->with('testList', $testList)->with('resultCount', $resultCount)->with('message',$message)
-                            ->with('years', $years)->with('selectedYear', $conditions['year'])
-                                ->with('testNameKeyword', $conditions['test_name']);
-        
+        return view('test_list', compact('testList', 'years'))
+            ->with('resultCount', $resultCount)
+            ->with('message', $message)
+            ->with('grades', $grades)
+            ->with('selectedYear', $conditions['year'])
+            ->with('testNameKeyword', $conditions['test_name']);
     }
 
     /**
@@ -136,11 +145,17 @@ class UnivTestController extends Controller
 
     private function generateYearsArray() {
         $currentYear = date('Y');
-        $noOfPastYears = config('constants.UNVS_NO_OF_PAST_YEARS');
+        $noOfFutureYears = config('constants.FUTURE_YEAR');
+        $noOfPastYears = config('constants.PAST_YEAR');
         $years = [];
 
+        // 年度未指定のoption
+        $years[''] = "";
+        
         // Add next year
-        $years[strval($currentYear + 1)] = $currentYear + 1;
+        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
+            $years[strval($currentYear + $i)] = $currentYear + $i;
+        }
 
         // Add previous 4 years
         for ($i = 0; $i < $noOfPastYears + 1; $i++) {
