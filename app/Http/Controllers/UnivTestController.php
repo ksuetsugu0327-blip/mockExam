@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // use App\Models\MTestName;
 // use App\Models\MUniversityCodeName;
 // use App\Models\TTestInfo;
+use App\Http\Requests\UnivTestListRequest;
 use App\Services\TTestInfoService;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class UnivTestController extends Controller
     
     /**
      * コンストラクタ
-     * @param TTestInfoService $mSchoolService 塾マスタサービス
+     * @param TTestInfoService $tTestService 模試テーブルサービス
      */
     public function __construct(TTestInfoService $tTestService){
         // ログイン判定
@@ -22,29 +23,115 @@ class UnivTestController extends Controller
         $this->service = $tTestService;
     }
 
-    public function index() {
+    public function index(Request $request) {
+        $referer = url()->previous();
+        // カレントURLから塾マスタ部分だけを抽出する
+        $current = str_replace('-list','',url()->current());
+
+        // 塾マスタ画面外から来た場合（ただし、代理ログイン戻りの場合は対象外）、または未検索時
+        if(!$request->session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGOUT')) && 
+                (!preg_match("|^".$current."|", $referer) || !$request->session()->has(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION')))){
+            
+            // セッションをクリア
+            $request->session()->forget(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
+            
+            // 年度プルダウンを用意
+            $years = $this->generateYearsArray();
+            $message = "";
+            if($request->session()->has('message')){
+                $message = $request->session()->get('message');
+            }
+            $conditions = ['year'=>'','test_name'=>''];
+            return view('test_list')->with('testList',null)
+                                        ->with('resultCount', 0)
+                                            ->with('message',$message)
+                                                ->with('years', $years)
+                                                    ->with('selectedYear', $conditions['year'])
+                                                    ->with('testNameKeyword', $conditions['test_name']);
+        }
+        else{
+           // 塾マスタ管理画面から来た場合、セッション情報を引き継いで検索処理を実施する
+            $conditions = $request->session()->get(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
+            
+            // 年度プルダウンを用意
+            $years = $this->generateYearsArray();
+            $message = "";
+
+            if($request->session()->has('message')){
+                $message = $request->session()->get('message');
+            }
+
+            // 模試リストを取得
+            $testList = $this->service->selectList($conditions);
+
+            // 表示件数を取得
+            $resultCount = $testList->count();
+
+            return view('test_list', compact(
+                'testList',
+                'years',
+            ))->with('resultCount', $resultCount)->with('message',$message)
+                ->with('selectedYear', $conditions['year'])
+                    ->with('testNameKeyword', $conditions['test_name']);
+        }
+    }
+
+    /**
+     * 模擬試験・一覧画面での検索処理
+     *
+     * @return view
+     */
+    public function search(UnivTestListRequest $request) {
+
+        //dd(session()->all());
+
+        // 検索条件の値を取得
+        $conditions = [
+            'year'=>$request->get('year'),
+            'test_name'=>$request->get('test_name'),
+        ];
+
+        // 年度プルダウンを用意
         $years = $this->generateYearsArray();
-        $conditions = [];
-        $testLists = $this->service->selectList($conditions);
-//dd($testLists);
-        return view('test_list', compact(
-            'testLists',
-            'years',
-            //'mUnivCodeName',
-            //'deptSubjSelect'
-        ));
+                
+        // 模試リストを取得
+        $testList = $this->service->selectList($conditions);
+//dd($testList);
+        // 表示件数を取得
+        $resultCount = $testList->count();
+        
+        $message='';
+
+        if($resultCount==0){
+            // 該当データがない場合
+            $message = trans('message.SEARCH_NO_DATA');
+        }
+        else if ($resultCount > config('constants.VIEW_RECORD_COUNT')){
+            // 明細表示最大行数を超えている場合、メッセージを表示
+            $message = trans('message.WARN_OVER_VIEW_RECORD_COUNT',['COUNT'=>config('constants.VIEW_RECORD_COUNT')]);
+            $testList = $testList->take(config('constants.VIEW_RECORD_COUNT'));
+            $resultCount = config('constants.VIEW_RECORD_COUNT');
+        }
+
+        $request->session()->put(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'),$conditions);
+
+        return view('test_list')->with('testList', $testList)->with('resultCount', $resultCount)->with('message',$message)
+                            ->with('years', $years)->with('selectedYear', $conditions['year'])
+                                ->with('testNameKeyword', $conditions['test_name']);
+        
     }
 
     private function generateYearsArray() {
         $currentYear = date('Y');
+        $noOfPastYears = config('constants.UNVS_NO_OF_PAST_YEARS');
         $years = [];
 
         // Add next year
-        $years[] = $currentYear + 1;
+        $years[strval($currentYear + 1)] = $currentYear + 1;
 
         // Add previous 4 years
-        for ($i = 0; $i < 5; $i++) {
-            $years[] = $currentYear - $i;
+        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
+            $years[strval($currentYear - $i)] = $currentYear - $i;
         }
 
         return $years;
