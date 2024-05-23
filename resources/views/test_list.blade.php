@@ -16,6 +16,10 @@
     .form-row span {
         margin-right: 10px; /* Space between label and select */
     }
+
+    .top-right-link {
+        text-align: right;
+    }
 </style>
 @endsection
 
@@ -26,6 +30,10 @@
 <div id="portal-content" class="idlogin">
     <div id="content">
         <h1>テスト一覧</h1><br>
+        <div class="top-right-link">新規登録は
+            <a href="#" style="text-decoration: underline;">こちら</a>
+        </div>
+        <br>
         <div id="s_search" class="search">
             <form method="post" action="#">
                 @csrf
@@ -35,7 +43,7 @@
                         <span for="year" style="margin-right:23px;">年度</span>
                         {{ Form::select(
                            'year', 
-                           config('selectlistarray.YEAR_LIST'),
+                           $years,
                            null, 
                            ['class' => 'cell',
                             'style' => 'width:100px']
@@ -48,7 +56,7 @@
                 <!-- </div> -->
                 <div class="buttons">
                     <input class="button bulu" type="submit" name="submit" value="検索">
-                    <input id="inputClear" class="button green" type="button" name="reset" value="新規登録">
+                    <input id="inputClear" class="button green" type="button" name="reset" value="クリア">
                 </div>
             </form>
         </div>
@@ -67,26 +75,19 @@
                     </tr>
                 <!-- Table body -->
                     <!-- Example data rows - Replace these with your own data rows -->
+                    @foreach($testLists as $item)
                     <tr>
                         <td></td>
-                        <td>2024</td>
+                        <td>$item->fiscal_year</td>
                         <td style="text-decoration: underline;">
-                            <a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">テストA</a>
+                            <a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">$item->test_name</a>
                         </td>
-                        <td>1年生</td>
-                        <td>データA</td>
-                        <td>備考A</td>
+                        <td>$item->grade</td>
+                        <td>$item->university_code_name</td>
+                        <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">修正</a></td>
+                        <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">削除</a></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td>2023</td>
-                        <td style="text-decoration: underline;">
-                            <a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">テストB</a>
-                        </td>
-                        <td>2年生</td>
-                        <td>データB</td>
-                        <td>備考B</td>
-                    </tr>
+                    @endforeach
                     <!-- Add more rows here as needed -->
                 </tbody>
             </table>

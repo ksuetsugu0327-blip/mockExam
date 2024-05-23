@@ -167,18 +167,16 @@ Route::prefix('/{schCode}/sch')->group(function(){
     Route::post('exnumcsvupload/upload', 'ExamNumberCsvUploadController@upload')->name('ExNumCsvUpload.upload');
 
     //高校・大学CSV登録
-    Route::get('/code-csv-register', 'UnivCsvUploadController@index')->name('univ.register');
-    Route::post('/code-csv-upload', 'UnivCsvUploadController@upload')->name('univ.upload');
-    Route::get('/code-csv-err/{mode}', 'UnivCsvUploadController@downloadErrCsv')->name('univ.err_csv');
+    Route::get('code-csv-register', 'UnivCsvUploadController@index')->name('univ.register');
+    Route::post('code-csv-upload', 'UnivCsvUploadController@upload')->name('univ.upload');
+    Route::get('code-csv-err/{mode}', 'UnivCsvUploadController@downloadErrCsv')->name('univ.err_csv');
 
-    Route::get('/code-csv-delete', function(){
+    Route::get('code-csv-delete', function(){
         return view('univ_delete');
     })->name('univ.delete');
     
     //模試データ管理
-        Route::get('test-list', function(){
-            return view('test_list');
-        })->name('test.list');
+        Route::get('test-list', 'UnivTestController@index')->name('test.list');
     
         Route::get('test-details', function(){
             return view('test_details');

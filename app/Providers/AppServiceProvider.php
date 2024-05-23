@@ -107,5 +107,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MHighSchoolCode\MHighSchoolCodeRepositoryInterface::class,
             \App\Repositories\MHighSchoolCode\MHighSchoolCodeRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\TTestInfo\TTestInfoRepositoryInterface::class,
+            \App\Repositories\TTestInfo\TTestInfoRepository::class
+        );
     }
 }
