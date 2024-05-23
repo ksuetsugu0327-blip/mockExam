@@ -177,8 +177,9 @@ Route::prefix('/{schCode}/sch')->group(function(){
     
     //模試データ管理
     Route::get('test-list', 'UnivTestController@index')->name('test.list');
+    Route::post('test-list', 'UnivTestController@search')->name('test.search');
     Route::get('test-register', 'UnivTestController@register')->name('test.register');
-    
+
     Route::get('test-details', function(){
         return view('test_details');
     })->name('test.details');
