@@ -121,6 +121,19 @@ class UnivTestController extends Controller
         
     }
 
+    /**
+     * テスト登録画面
+     * @return \Illuminate\View\View テスト登録画面
+     */
+    public function register()
+    {
+        $years = $this->generateYearsArray();
+
+        return view('test_register', compact(
+            'years'
+        ));
+    }
+
     private function generateYearsArray() {
         $currentYear = date('Y');
         $noOfPastYears = config('constants.UNVS_NO_OF_PAST_YEARS');
