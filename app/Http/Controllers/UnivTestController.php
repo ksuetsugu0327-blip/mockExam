@@ -35,15 +35,28 @@ class UnivTestController extends Controller
         ));
     }
 
+    /**
+     * テスト登録画面
+     * @return \Illuminate\View\View テスト登録画面
+     */
+    public function register()
+    {
+        $years = $this->generateYearsArray();
+
+        return view('test_register', compact(
+            'years'
+        ));
+    }
+
     private function generateYearsArray() {
         $currentYear = date('Y');
         $years = [];
 
         // Add next year
-        $years[] = $currentYear + 1;
+        $years[] = $currentYear + config('constants.FUTURE_YEAR');
 
         // Add previous 4 years
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i <= config('constants.PAST_YEAR'); $i++) {
             $years[] = $currentYear - $i;
         }
 

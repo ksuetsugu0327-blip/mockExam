@@ -409,5 +409,9 @@ return[
     // 受験番号アップロードエラーCSVファイル名
     'EXAMNUM_IMPORT_ERR_FILENAME' => 'exam_number_registration_error.csv',
 
+    // 年度（過去年数）
+    'PAST_YEAR' => 4,
+    // 年度（未来年数）
+    'FUTURE_YEAR' => 1,
 ];
 

@@ -31,7 +31,7 @@
     <div id="content">
         <h1>テスト一覧</h1><br>
         <div class="top-right-link">新規登録は
-            <a href="#" style="text-decoration: underline;">こちら</a>
+            <a href="{{ route('test.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" style="text-decoration: underline;">こちら</a>
         </div>
         <br>
         <div id="s_search" class="search">
