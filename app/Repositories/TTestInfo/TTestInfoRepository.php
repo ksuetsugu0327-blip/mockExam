@@ -11,12 +11,28 @@ namespace App\Repositories\TTestInfo;
 
 use App\Repositories\TTestInfo\TTestInfoRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use App\Models\TTestInfo as TTestInfo;
 
 /**
  * 大学模擬試験テーブル用リポジトリ
  *
  */
 class TTestInfoRepository implements TTestInfoRepositoryInterface{
+
+    /**
+     * テスト情報モデル
+     * @var type model
+     */
+    private $TTestInfo;
+
+    /**
+     * コンストラクタ
+     * @param TTestInfo $tTestInfo  大学コードデータ名マスタモデル
+     */
+    public function __construct(TTestInfo $tTestInfo)
+    {
+        $this->TTestInfo = $tTestInfo;
+    }
 
     /**
      * 引数指定での検索処理( 検索画面用 ）
@@ -41,5 +57,31 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface{
                         ->get();
                         
         return $testLists;
+    }
+
+    /**
+     * 登録処理
+     * @param array $testInfo 塾情報連想配列
+     * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
+     */
+    public function register(array $testInfo) {
+        $tTestInfo = $this->TTestInfo->newInstance();
+        $tTestInfo->oem_sch_code = $testInfo['oem_sch_code'];
+        $tTestInfo->fiscal_year = $testInfo['fiscal_year'];
+        $tTestInfo->grade = $testInfo['grade'];
+        $tTestInfo->test_name_cd = $testInfo['test_name_cd'];
+        $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
+        $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+        try{
+            // 登録処理
+            $tTestInfo->save();            
+        } catch (Exception $ex) {
+            // システムエラー
+            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+        }
+        
+        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS')
+                    ,'message'=>trans('message.SUCCESS_TESTINFO_REGISTER_DATA')
+                    ,'id'=>$tTestInfo->id);       
     }
 }

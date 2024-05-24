@@ -28,4 +28,14 @@ class TTestInfoService
     {
         return $this->repository->selectList($conditions);
     }
+
+    /**
+     * 登録処理
+     * @param array $testInfo 登録用連想配列
+     * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
+     */
+    public function register(array $testInfo)
+    {
+        return $this->repository->register($testInfo);
+    }
 }

@@ -21,4 +21,11 @@ interface TTestInfoRepositoryInterface {
      * @return $data            データコレクション(Eloque)
      */
     public function selectList(array $conditions);
+
+    /**
+     * 登録処理
+     * @param array $testInfo 塾情報(連想配列)
+     * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
+     */
+    public function register(array $testInfo);
 }

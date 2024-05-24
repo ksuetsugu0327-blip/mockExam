@@ -179,6 +179,7 @@ Route::prefix('/{schCode}/sch')->group(function(){
     Route::get('test-list', 'UnivTestController@index')->name('test.list');
     Route::post('test-list', 'UnivTestController@search')->name('test.search');
     Route::get('test-register', 'UnivTestController@register')->name('test.register');
+    Route::post('test-store', 'UnivTestController@store')->name('test.store');
 
     Route::get('test-details', function(){
         return view('test_details');

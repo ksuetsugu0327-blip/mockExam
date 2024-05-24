@@ -144,5 +144,11 @@ return[
     'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',
     'CSV_MHIGHSCHOOL_NOT_DATA' => 'アップロードファイルのデータが0件です。',
 
+    // 塾マスタ 登録処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_REGISTER_DATA' => '新しいテスト情報の登録が完了しました。',
+    // 塾マスタ 更新処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_UPDATE_DATA' => '指定されたテスト情報の修正が完了しました。',
+    // 塾マスタ 削除処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_DELETE_DATA' => '指定されたテスト情報を削除しました。',
 
 ];

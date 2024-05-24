@@ -112,5 +112,20 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\TTestInfo\TTestInfoRepositoryInterface::class,
             \App\Repositories\TTestInfo\TTestInfoRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MOemSchool\MOemSchoolRepositoryInterface::class,
+            \App\Repositories\MOemSchool\MOemSchoolRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\MTestName\MTestNameRepositoryInterface::class,
+            \App\Repositories\MTestName\MTestNameRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\MUniversityCodeName\MUniversityCodeNameRepositoryInterface::class,
+            \App\Repositories\MUniversityCodeName\MUniversityCodeNameRepository::class
+        );
     }
 }
