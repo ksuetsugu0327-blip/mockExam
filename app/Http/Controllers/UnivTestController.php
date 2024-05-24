@@ -37,10 +37,14 @@ class UnivTestController extends Controller
             
             // 年度プルダウンを用意
             $years = $this->generateYearsArray();
+            
+            // 学年変換用マップを用意
+            $grades = config('selectlistarray.UNVS_GRADE_LIST');
             $message = "";
             if($request->session()->has('message')){
                 $message = $request->session()->get('message');
             }
+
             $conditions = ['year'=>'','test_name'=>''];
 
             return view('test_list')->with([
@@ -59,6 +63,9 @@ class UnivTestController extends Controller
             
             // 年度プルダウンを用意
             $years = $this->generateYearsArray();
+
+            // 学年変換用マップを用意
+            $grades = config('selectlistarray.UNVS_GRADE_LIST');
             $message = "";
 
             if($request->session()->has('message')){
