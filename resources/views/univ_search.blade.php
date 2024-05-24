@@ -6,6 +6,11 @@
 @section('description', '大学コード検索')
 @section('pageCss')
 <link rel="stylesheet" href="{{ asset('css/2024_univ_search/css/style.css') }}">
+<style>
+    .top-right-link {
+        text-align: right;
+    }
+</style>
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('js/2024_univ_search/js/accordion.js') }}"></script>
@@ -28,11 +33,20 @@ $(document).ready(function() {
 @include('layout.univ-search-header')
 
 @section('content')
-<main>
-<h2>高校・大学コード検索</h2>
+<main style='margin-top:40px;'>
+<div class="top-right-link">
+    <div style="background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:inline-block;margin-left: -32px;margin-bottom:-8px"></div>
+    <label style="display:inline-block;">
+        <a href="{{config('constants.UNVC_LIST_DOWNLOAD_LINK')}}" style="text-decoration: underline;">コード表ダウンロード</a>
+    </label>
+</div>
+<div class="c-block-input__checkbox" style="margin-bottom:5px;">
+    <input type="checkbox" name="チェックボックス" id="checkbox00" checked="">
+    <label for="checkbox00">前年度（2023年度）のコードを検索する。</label>
+</div>
 <div class = "disp_flex c-block-input">
     <input style="width:200px;" type="text" name="text" placeholder="塾コード">
-    <p >あいうえお塾</p>
+    <p >〇〇〇〇〇塾</p>
 </div>
 
 <div class = "disp_flex">

@@ -417,5 +417,7 @@ return[
     'PAST_YEAR' => 4,
     // 年度（未来年数）
     'FUTURE_YEAR' => 1,
+    // コード表ダウンロード用のリンク
+    'UNVC_LIST_DOWNLOAD_LINK' => 'https://m.seihoku.org/pdf/cdn_1_コード番号表.pdf',
 ];
 
