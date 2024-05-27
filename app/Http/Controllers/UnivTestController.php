@@ -38,7 +38,7 @@ class UnivTestController extends Controller
             $request->session()->forget(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
             
             // 年度プルダウンを用意
-            $years = $this->generateYearsArray();
+            $years = $this->service->generateYearsArray();
             
             // 学年変換用マップを用意
             $grades = config('selectlistarray.UNVS_GRADE_LIST');
@@ -64,7 +64,7 @@ class UnivTestController extends Controller
             $conditions = $request->session()->get(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
             
             // 年度プルダウンを用意
-            $years = $this->generateYearsArray();
+            $years = $this->service->generateYearsArray();
 
             // 学年変換用マップを用意
             $grades = config('selectlistarray.UNVS_GRADE_LIST');
@@ -105,7 +105,7 @@ class UnivTestController extends Controller
         ];
 
         // 年度プルダウンを用意
-        $years = $this->generateYearsArray();
+        $years = $this->service->generateYearsArray();
 
         // 学年変換用マップを用意
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
@@ -137,27 +137,5 @@ class UnivTestController extends Controller
             ->with('grades', $grades)
             ->with('selectedYear', $conditions['year'])
             ->with('testNameKeyword', $conditions['test_name']);
-    }
-
-    private function generateYearsArray() {
-        $currentYear = date('Y');
-        $noOfFutureYears = config('constants.FUTURE_YEAR');
-        $noOfPastYears = config('constants.PAST_YEAR');
-        $years = [];
-
-        // 年度未指定のoption
-        $years[''] = "";
-        
-        // Add next year
-        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
-            $years[strval($currentYear + $i)] = $currentYear + $i;
-        }
-
-        // Add previous 4 years
-        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
-            $years[strval($currentYear - $i)] = $currentYear - $i;
-        }
-
-        return $years;
     }
 }

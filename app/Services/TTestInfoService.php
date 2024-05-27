@@ -68,4 +68,13 @@ class TTestInfoService
     {
         return $this->repository->getTestInfoById($id);
     }
+
+    /**
+     * 年度プルダウンリスト用意処理
+     * @return array
+     */
+    public function generateYearsArray()
+    {
+        return $this->repository->generateYearsArray();
+    }
 }

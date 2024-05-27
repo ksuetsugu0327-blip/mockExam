@@ -97,26 +97,4 @@ class UnivTestEditController extends Controller
         // 一覧画面へリダイレクト
         return redirect()->to(route('test.list',[$schCode]))->with('message',$result['message']);
     }
-
-    private function generateYearsArray() {
-        $currentYear = date('Y');
-        $noOfFutureYears = config('constants.FUTURE_YEAR');
-        $noOfPastYears = config('constants.PAST_YEAR');
-        $years = [];
-
-        // 年度未指定のoption
-        $years[''] = "";
-        
-        // Add next year
-        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
-            $years[strval($currentYear + $i)] = $currentYear + $i;
-        }
-
-        // Add previous 4 years
-        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
-            $years[strval($currentYear - $i)] = $currentYear - $i;
-        }
-
-        return $years;
-    }
 }

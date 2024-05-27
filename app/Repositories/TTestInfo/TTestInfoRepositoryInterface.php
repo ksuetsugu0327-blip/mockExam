@@ -49,4 +49,10 @@ interface TTestInfoRepositoryInterface {
      * @return \App\Models\TTestInfo|null
      */
     public function getTestInfoById(int $id);
+
+    /**
+     * 年度プルダウンリスト用意処理
+     * @return array
+     */
+    public function generateYearsArray();
 }

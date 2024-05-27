@@ -43,7 +43,7 @@ class UnivTestRegisterController extends Controller
     public function register()
     {
         // 年度プルダウンを用意
-        $years = $this->generateYearsArray();
+        $years = $this->service->generateYearsArray();
         // 学年プルダウンを用意
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
         // OEM塾を取得
@@ -86,27 +86,5 @@ class UnivTestRegisterController extends Controller
 
         // 一覧画面へリダイレクト
         return redirect()->route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message',$result['message']);
-    }
-
-    private function generateYearsArray() {
-        $currentYear = date('Y');
-        $noOfFutureYears = config('constants.FUTURE_YEAR');
-        $noOfPastYears = config('constants.PAST_YEAR');
-        $years = [];
-
-        // 年度未指定のoption
-        $years[''] = "";
-        
-        // Add next year
-        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
-            $years[strval($currentYear + $i)] = $currentYear + $i;
-        }
-
-        // Add previous 4 years
-        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
-            $years[strval($currentYear - $i)] = $currentYear - $i;
-        }
-
-        return $years;
     }
 }

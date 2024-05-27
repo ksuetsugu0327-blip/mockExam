@@ -162,4 +162,30 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             ->where('t_test_info.id', $id)
             ->first();
     }
+
+    /**
+     * 年度プルダウンリスト用意処理
+     * @return array
+     */
+    public function generateYearsArray() {
+        $currentYear = date('Y');
+        $noOfFutureYears = config('constants.FUTURE_YEAR');
+        $noOfPastYears = config('constants.PAST_YEAR');
+        $years = [];
+
+        // 年度未指定のoption
+        $years[''] = "";
+        
+        // Add next year
+        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
+            $years[strval($currentYear + $i)] = $currentYear + $i;
+        }
+
+        // Add previous 4 years
+        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
+            $years[strval($currentYear - $i)] = $currentYear - $i;
+        }
+
+        return $years;
+    }
 }
