@@ -30,10 +30,20 @@
 <div id="portal-content" class="idlogin">
     <div id="content">
         <h1>テスト・登録</h1>
-        <form method="post" action="{{route('test.store',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}">
-            <!-- CSRF保護 -->
-            @csrf
-            <div class="form-group">
+        @if (isset($message))
+        <div class="error_message">
+         <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        @if ($errors->has('message'))
+        <div class="error_message">
+         <strong>{{ $errors->first('message') }}</strong>
+        </div>
+        @endif
+        <div id="test_touroku" class="correction">
+            <form method="post" action="{{route('test.store',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}">
+                <!-- CSRF保護 -->
+                @csrf
                 <table class="test-detail">
                     <tr>
                         <td><span for="oem_sch_code" style="margin: 0 23px 0 23px;">塾</span></td>
@@ -106,18 +116,14 @@
                             @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6">
-                            <div class="buttons" style="display: flex;justify-content: space-between;">
-                                <input class="button bulu" type="submit" name="submit" value="登録">
-                                <input id="reset" class="button green" type="reset" name="reset" value="クリア">
-                                <input id="back" class="button green" type="button" name="back" value="一覧に戻る" onclick="window.location.href='{{route('test.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}'">
-                            </div>
-                        </td>
-                    </tr>
                 </table>
-            </div>
-        </form>
+                <div class="buttons">
+                    <p class="cell"><input class="button bulu" type="submit" name="submit" value="登録"></p>
+                    <p class="cell"><input id="reset" class="button green" type="reset" name="reset" value="クリア"></p>
+                    <a href="{{ route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" class="cell"><p class="button green">一覧に戻る</p></a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

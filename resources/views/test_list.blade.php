@@ -88,13 +88,14 @@
                     <tr>
                         <td></td>
                         <td>{{$item->fiscal_year}}</td>
-                        <td style="text-decoration: underline;">
-                            <a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">{{$item->test_name}}</a>
-                        </td>
+                        <td>{{$item->test_name}}</td>
                         <td>{{(array_key_exists($item->grade, $grades))?$grades[$item->grade]:$item->grade}}</td>
                         <td>{{$item->university_code_name}}</td>
-                        <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">修正</a></td>
-                        <td><a href="{{ route('test.details',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}">削除</a></td>
+                        <td><a href="{{ route('test.edit',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')), 'id' => $item->id]) }}">修正</a></td>
+                        <td>
+                            <a href="" onclick="return deleteTest({{$item->id}})">削除</a>
+                            {{-- <a href="{{ route('test.edit',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')), 'id' => $item->id]) }}">削除</a> --}}
+                        </td>
                     </tr> 
                     @endforeach
                     <!-- Add more rows here as needed -->
@@ -113,5 +114,23 @@
         @endif 
     </div>
 </div>
+
+<form id="delete_form" action="" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+<script>
+    function deleteTest(id){
+        if(confirm('{{trans('message.CONFIRM_DELETE_DATA')}}')){
+            event.preventDefault();
+            document.getElementById('delete_form').action='{{ route('test.delete',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'id'=>'@id']) }}'.replace('@id',id);
+            document.getElementById('delete_form').submit();
+        };
+        
+        return false;
+    }
+</script>
+
 @endsection
 @include('layout.footer')

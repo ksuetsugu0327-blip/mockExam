@@ -11,7 +11,7 @@ namespace App\Repositories\TTestInfo;
  */
 
 /**
- * 塾マスタ用リポジトリ
+ * テスト情報用リポジトリ
  */
 interface TTestInfoRepositoryInterface {
 
@@ -24,8 +24,29 @@ interface TTestInfoRepositoryInterface {
 
     /**
      * 登録処理
-     * @param array $testInfo 塾情報(連想配列)
+     * @param array $testInfo テスト情報(連想配列)
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function register(array $testInfo);
+
+    /**
+     * 更新処理
+     * @param array $testInfo テスト情報(連想配列)
+     * @param int $id
+     * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
+     */
+    public function update(array $testInfo, int $id);
+
+    /**
+     * テストID指定でのデータ削除処理
+     * @param int $id   削除対象ID
+     */
+    public function delete(int $id);
+
+    /**
+     * ID指定での検索処理( 修正・詳細画面用 ）
+     * @param int $id
+     * @return \App\Models\TTestInfo|null
+     */
+    public function getTestInfoById(int $id);
 }

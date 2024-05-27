@@ -10,15 +10,17 @@ namespace App\Repositories\TTestInfo;
  */
 
 use App\Repositories\TTestInfo\TTestInfoRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\TTestInfo as TTestInfo;
 
 /**
  * 大学模擬試験テーブル用リポジトリ
  *
  */
-class TTestInfoRepository implements TTestInfoRepositoryInterface{
-
+class TTestInfoRepository implements TTestInfoRepositoryInterface
+{
     /**
      * テスト情報モデル
      * @var type model
@@ -40,7 +42,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface{
      */
     public function selectList(array $conditions){
         $testLists = DB::table('t_test_info as t_ti')
-                        ->select('t_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade','m_ucn.university_code_name')
+                        ->select('t_ti.id', 't_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade','m_ucn.university_code_name')
                         ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd','m_tn.test_name_cd')
                         ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
                         ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
@@ -61,7 +63,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface{
 
     /**
      * 登録処理
-     * @param array $testInfo 塾情報連想配列
+     * @param array $testInfo テスト情報連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function register(array $testInfo) {
@@ -83,5 +85,81 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface{
         return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS')
                     ,'message'=>trans('message.SUCCESS_TESTINFO_REGISTER_DATA')
                     ,'id'=>$tTestInfo->id);       
+    }
+
+    /**
+     * 更新処理
+     * @param array $testInfo テスト情報(連想配列)
+     * @param int $id
+     * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
+     */
+    public function update(array $testInfo, int $id) {
+        try{
+            $tTestInfo = $this->TTestInfo::findOrFail($id);
+            // 更新情報情報セット
+            $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
+            $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+            
+            $tTestInfo->save();
+
+        } catch (ModelNotFoundException $ex) {
+            // 排他エラー
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
+        } catch (Exception $ex){
+            // システムエラー
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+        }
+        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_TESTINFO_UPDATE_DATA'));
+    }
+
+    /**
+     * テストID指定でのデータ削除処理
+     * @param int $id
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException) 
+     */
+    public function delete(int $id) {
+        DB::beginTransaction();
+        try{
+            $tTestInfo = $this->TTestInfo::where('id', $id)->firstOrFail();
+            // 削除処理
+            $this->TTestInfo::destroy($tTestInfo->id);
+            
+            DB::commit();
+        } catch (ModelNotFoundException $ex) {
+            // 排他エラー
+            DB::rollback();
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
+        } catch (Exception $ex){
+            // システムエラー
+            DB::rollback();
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+        } 
+        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_TESTINFO_DELETE_DATA'));
+    }
+
+    /**
+     * ID指定での検索処理( 修正・詳細画面用 ）
+     * @param int $id
+     * @return \App\Models\TTestInfo|null
+     */
+    public function getTestInfoById(int $id){
+        return $this->TTestInfo
+            ->select(
+                't_test_info.id',
+                'm_oem_school.oem_sch_name as oem_sch_name',
+                't_test_info.fiscal_year as fiscal_year',
+                't_test_info.grade',
+                'm_test_name.test_name as test_name',
+                't_test_info.university_code_head_id as university_code_head_id',
+                't_test_info.highschool_cls as highschool_cls'
+            )
+            ->leftJoin('m_oem_school', 't_test_info.oem_sch_code', '=', 'm_oem_school.oem_sch_code')
+            ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
+            ->where('t_test_info.id', $id)
+            ->first();
     }
 }

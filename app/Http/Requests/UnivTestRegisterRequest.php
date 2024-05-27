@@ -39,7 +39,7 @@ class UnivTestRegisterRequest extends FormRequest
             'fiscal_year.required' => '年度は必須です。',
             'grade.required' => '学年は必須です。',
             'test_name_cd.required' => 'テスト名は必須です。',
-            'highschool_cls.max' => '備考には1000文字以下の文字列を指定してください。',
+            'highschool_cls.max' => '備考には:max文字以下の文字列を指定してください。',
         ];
     }
     

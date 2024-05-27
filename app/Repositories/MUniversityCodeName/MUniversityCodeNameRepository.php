@@ -4,6 +4,7 @@ namespace App\Repositories\MUniversityCodeName;
 
 use App\Repositories\MUniversityCodeName\MUniversityCodeNameRepositoryInterface as MUniversityCodeNameRepositoryInterface;
 use App\Models\MUniversityCodeName as MUniversityCodeName;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 大学コードデータ名マスタ用リポジトリ
@@ -32,8 +33,13 @@ class MUniversityCodeNameRepository implements MUniversityCodeNameRepositoryInte
      */
     public function selectList()
     {
-        return $this->MUniversityCodeName::where('invalid_flag', 0) 
-            ->orderby('university_code_name_cd', 'asc') 
+        return $this->MUniversityCodeName::select(
+                'm_university_code_head.id as university_code_head_id', 
+                'm_university_code_name.university_code_name'
+            )
+            ->leftJoin('m_university_code_head', 'm_university_code_name.university_code_name_cd', '=', 'm_university_code_head.university_code_name_cd')
+            ->where('m_university_code_name.invalid_flag', 0)
+            ->orderby('m_university_code_name.university_code_name_cd', 'asc') 
             ->get();
     }
 }

@@ -176,14 +176,17 @@ Route::prefix('/{schCode}/sch')->group(function(){
     })->name('univ.delete');
     
     //模試データ管理
+    // 一覧
     Route::get('test-list', 'UnivTestController@index')->name('test.list');
     Route::post('test-list', 'UnivTestController@search')->name('test.search');
-    Route::get('test-register', 'UnivTestController@register')->name('test.register');
-    Route::post('test-store', 'UnivTestController@store')->name('test.store');
-
-    Route::get('test-details', function(){
-        return view('test_details');
-    })->name('test.details');
+    // 登録
+    Route::get('test', 'UnivTestRegisterController@register')->name('test.register');
+    Route::post('test-store', 'UnivTestRegisterController@store')->name('test.store');
+    // 修正
+    Route::get('test/{id}', 'UnivTestEditController@edit')->name('test.edit');
+    Route::post('test-update/{id}', 'UnivTestEditController@update')->name('test.update');
+    // 削除
+    Route::delete('test-delete/{id}', 'UnivTestEditController@delete')->name('test.delete');
 
 });
 

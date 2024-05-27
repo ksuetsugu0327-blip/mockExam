@@ -10,7 +10,6 @@ use App\Repositories\TTestInfo\TTestInfoRepositoryInterface;
  */
 class TTestInfoService
 {
-
     // リポジトリ
     private $repository;
 
@@ -37,5 +36,36 @@ class TTestInfoService
     public function register(array $testInfo)
     {
         return $this->repository->register($testInfo);
+    }
+
+    /**
+     * 更新処理
+     * @param array $testInfo テスト情報(連想配列)
+     * @param int $id
+     * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
+     */
+    public function update(array $testInfo, int $id)
+    {
+        return $this->repository->update($testInfo, $id);
+    }
+
+    /**
+     * テストID指定での削除処理
+     * @param int $id 削除対象ID
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
+     */
+    public function delete(int $id)
+    {
+        return $this->repository->delete($id);
+    }
+
+    /**
+     * ID指定での検索処理( 修正・詳細画面用 ）
+     * @param int $id
+     * @return type
+     */
+    public function getTestInfoById(int $id)
+    {
+        return $this->repository->getTestInfoById($id);
     }
 }

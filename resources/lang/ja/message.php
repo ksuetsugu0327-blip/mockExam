@@ -59,7 +59,9 @@ return[
     'MCLASS_EXCLUSIVE_EXCEPTION' => '指定された教室(塾コード：:sch_code 教室コード：:cls_code)は既に削除されています。最新の情報を確認してください。',
     // 個人マスタ削除処理
     'MPERSON_EXCLUSIVE_EXCEPTION' => '指定された生徒(塾コード：:sch_code 塾生ID：:psn_code)は既に削除されています。最新の情報を確認してください。',
-    
+    // テスト情報削除処理
+    'TESTINFO_EXCLUSIVE_EXCEPTION' => '指定されたテスト情報は既に削除されています。最新の情報を確認してください。',
+
     // 正常終了メッセージ
     // 塾マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MSCHOOL_REGISTER_DATA' => '新しい塾（塾コード：:sch_code）の登録が完了しました。',
@@ -76,6 +78,12 @@ return[
     'SUCCESS_MCLASS_DELETE_DATA' => '指定された教室(教室コード：:cls_code)を削除しました。',
     // CSVにて教室マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MCLASS_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+    // テスト情報 登録処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_REGISTER_DATA' => '新しいテスト情報の登録が完了しました。',
+    // テスト情報 更新処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_UPDATE_DATA' => '指定されたテスト情報の修正が完了しました。',
+    // テスト情報 削除処理の正常終了時メッセージ
+    'SUCCESS_TESTINFO_DELETE_DATA' => '指定されたテスト情報を削除しました。',
 
     // 個人マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MPERSON_REGISTER_DATA' => '新しい生徒（塾コード：:sch_code 塾生ID：:psn_code）の登録が完了しました。',
@@ -143,12 +151,5 @@ return[
     //高校CSV登録
     'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',
     'CSV_MHIGHSCHOOL_NOT_DATA' => 'アップロードファイルのデータが0件です。',
-
-    // 塾マスタ 登録処理の正常終了時メッセージ
-    'SUCCESS_TESTINFO_REGISTER_DATA' => '新しいテスト情報の登録が完了しました。',
-    // 塾マスタ 更新処理の正常終了時メッセージ
-    'SUCCESS_TESTINFO_UPDATE_DATA' => '指定されたテスト情報の修正が完了しました。',
-    // 塾マスタ 削除処理の正常終了時メッセージ
-    'SUCCESS_TESTINFO_DELETE_DATA' => '指定されたテスト情報を削除しました。',
 
 ];
