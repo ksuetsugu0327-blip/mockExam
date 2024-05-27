@@ -77,7 +77,7 @@
                                 'highschool_cls', 
                                 old('highschool_cls', $testInfo->highschool_cls), 
                                 ['class' => 'cell',
-                                'style' => 'width:380px;']
+                                'style' => 'width:380px;padding:2px;']
                             )}}
                             @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
                         </td>
