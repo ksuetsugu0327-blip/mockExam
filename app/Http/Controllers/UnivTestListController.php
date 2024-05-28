@@ -10,7 +10,7 @@ use App\Http\Requests\UnivTestRegisterRequest;
 use App\Services\TTestInfoService;
 use Illuminate\Http\Request;
 
-class UnivTestController extends Controller
+class UnivTestListController extends Controller
 {
     private $service;
     
