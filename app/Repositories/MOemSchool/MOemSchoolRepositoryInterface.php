@@ -13,4 +13,10 @@ interface MOemSchoolRepositoryInterface
      */
     public function selectList();
 
+    /**
+     * 塾名取得
+     * @return OEM塾名取得
+     */
+    public function getOemSchoolName($OEMSchCode);
+
 }
