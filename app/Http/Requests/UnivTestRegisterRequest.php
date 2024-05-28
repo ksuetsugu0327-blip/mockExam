@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use App\Models\TTestInfo as TTestInfo;
 
 class UnivTestRegisterRequest extends FormRequest
 {
@@ -52,7 +53,25 @@ class UnivTestRegisterRequest extends FormRequest
             if(count($validator->failed())>0){
                 $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
             }
+
+            // 重複チェック処理
+            if ($this->isDuplicate()) {
+                $validator->errors()->add('message', trans('message.DUPLICATE_ERROR_MESSAGE', [
+                    'itemName' => '塾、年度、学年、テスト名の組み合わせ'
+                ]));
+            }
         });
     }
 
+    /**
+     * 重複チェック処理
+     */
+    protected function isDuplicate()
+    {
+        return TTestInfo::where('oem_sch_code', $this->input('oem_sch_code'))
+            ->where('fiscal_year', $this->input('fiscal_year'))
+            ->where('grade', $this->input('grade'))
+            ->where('test_name_cd', $this->input('test_name_cd'))
+            ->exists();
+    }
 }
