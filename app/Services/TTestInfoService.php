@@ -77,4 +77,12 @@ class TTestInfoService
     {
         return $this->repository->generateYearsArray();
     }
+
+    /**
+     * テスト名リスト取得
+     */
+    public function getTestInfo($OEMSchCode, $grade)
+    {
+        return $this->repository->getTestInfo($OEMSchCode, $grade);
+    }
 }

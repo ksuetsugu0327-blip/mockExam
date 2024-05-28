@@ -55,4 +55,10 @@ interface TTestInfoRepositoryInterface {
      * @return array
      */
     public function generateYearsArray();
+
+    /**
+     * テスト名リスト取得
+     * @return array
+     */
+    public function getTestInfo(int $OEMSchCode, int $grade);
 }

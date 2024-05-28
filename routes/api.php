@@ -20,5 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
     Route::group(['prefix' => 'internal', 'as' => 'internal.'], function () {
         Route::get("/v1/schools", "Rest\UnivCodeSearchController@getOemSchoolName")->name('OEMSchool.name');
+        Route::get("/v1/testinfos", "Rest\UnivCodeSearchController@getTestInfo")->name('test.name');
     });
 });

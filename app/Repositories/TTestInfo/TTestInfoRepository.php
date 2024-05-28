@@ -53,9 +53,9 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                         ->when(array_key_exists('test_name',$conditions) && isset($conditions['test_name']), function ($query) use ($conditions) {
                             return $query->where('m_tn.test_name', 'like', '%'.trim($conditions['test_name']).'%');
                         })
-                        ->orderBy('t_ti.fiscal_year','DESC')
-                        ->orderBy('t_ti.grade','DESC')
-                        ->orderBy('m_tn.test_name', 'ASC')
+                        ->orderBy('t_ti.fiscal_year')
+                        ->orderBy('t_ti.grade')
+                        ->orderBy('m_tn.test_name')
                         //->toSql();
                         ->get();
                         
@@ -200,5 +200,22 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
         }
 
         return $years;
+    }
+
+    /**
+     * テスト名リスト取得
+     * @return array
+     */
+    public function getTestInfo($OEMSchCode, $grade){
+        return $this->TTestInfo
+            ->select(
+                't_test_info.test_name_cd',
+                'm_test_name.test_name as test_name',
+            )
+            ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
+            ->where('t_test_info.oem_sch_code', $OEMSchCode)
+            ->where('t_test_info.grade', $grade)
+            //->where('t_test_info.fiscal_year', DB::raw('(SELECT MAX(t_test_info.fiscal_year) FROM t_test_info)'))
+            ->get();
     }
 }
