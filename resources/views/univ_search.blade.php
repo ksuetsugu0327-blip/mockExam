@@ -9,21 +9,252 @@
 <style>
     .top-right-link {
         text-align: right;
+        margin-left: 20px;
     }
 </style>
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('js/2024_univ_search/js/accordion.js') }}"></script>
 <script>
+getOEMSchoolUrl = '{{route('api.internal.OEMSchool.name')}}';
+getTestNameListUrl = '{{route('api.internal.test.name')}}';
+
 $(document).ready(function() {
     $('.code_select').change(function() {
         // Get the selected value
-        var selectedValue = $(this).val();
+        const selectedValue = $(this).val();
 
         // Update the text of a paragraph element with the selected value
         console.log($(this).next('p'));
         $(this).next('p').text("コード：" + selectedValue);
     });
+
+    // 塾コードが入力された時
+    $('#sch_code').on('change', function() {
+        const schCodeInputField = $(this);
+        const schCode = $(this).val();
+        
+        const conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+                schCodeInputField.next('p').html(data['data']['oem_sch_name']);
+                $('#grade').val('');
+                $('#test_name').val('');
+                $('#grade').prop('disabled', false);
+                $('#test_name').prop('disabled', true);
+            }
+            else{
+                schCodeInputField.next('p').html('');
+                $('#grade').val('');
+                $('#test_name').val('');
+                $('#grade').prop('disabled', true);
+                $('#test_name').prop('disabled', true);
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+            schCodeInputField.next('p').html('');
+            $('#grade').prop('disabled', true);
+            $('#test_name').prop('disabled', true);
+        });
+    });
+
+    // 学年が選択された時
+    $('#grade').on('change', function() {
+        const grade = $(this).val();
+        const schCode = $('#sch_code').val();
+
+        const conditions = {
+            'oem_sch_code': schCode,
+            'grade': grade
+        };
+
+        $.get(getTestNameListUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data);
+            if (data['header']['data_num'] > 0){
+                let testInfoList = data['data']['test_info_list'];
+                $(testInfoList).each(function(idx, ele){
+                    let optionHtml = '<option value="'+ele['test_code']+'">'+ele['test_name']+'</option>';
+                    $('#test_info').html(optionHtml);
+                    $('#test_info').prop('disabled', false);
+                });
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+
+    // テストが選択された時
+    $('#test_name').on('change', function() {
+        const fiscalYearInputField = $(this);
+        const fiscalYear = $(this).val();
+        
+        var conditions = {
+            'test_name': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+
+    /* 高校コード検索 */
+
+    // 高校の都道府県が選択された時
+    $('#high_school_prefecture').on('change', function() {
+        
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+
+    // 高校名が入力された時
+    $('#high_school_name').on('change', function() {
+
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+
+    // 高校の設置者が選択された時high_school_founder
+    $('#high_school_founder').on('change', function() {
+        
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+    // 高校種別が選択された時
+    $('#high_school_class').on('change', function() {
+        
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+    // 高校プルダウンが選択された時high_school_select
+    $('#high_school_select').on('change', function() {
+        
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+            
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+    // 高校のその他が選択された時
+    $('#high_school_option').on('change', function() {
+        
+        var conditions = {
+            'oem_sch_code': schCode
+        };
+
+        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data['header']['data_num']);
+            if (data['header']['data_num'] > 0){
+            }
+            else{
+
+            }
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+    /* 大学コード検索 */
+
+    /* 大学コード検索 */
+    // 設置区分が選択された時
+    // 
+
 });
 </script>
 @endsection
@@ -45,13 +276,13 @@ $(document).ready(function() {
     <label for="checkbox00">前年度（2023年度）のコードを検索する。</label>
 </div>
 <div class = "disp_flex c-block-input">
-    <input style="width:200px;" type="text" name="text" placeholder="塾コード">
-    <p >〇〇〇〇〇塾</p>
+    <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード">
+    <p></p>
 </div>
 
 <div class = "disp_flex">
 <div class="c-block-input__select" style="width:100px;">
-    <select required="required">
+    <select id="grade" name="grade" required="required" disabled>
         <option value="">学年</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -59,7 +290,7 @@ $(document).ready(function() {
     </select>
 </div>
 <div class="c-block-input__select" style="width:300px;">
-    <select required="required">
+    <select id="test_info" name="test_info" required="required" disabled>
         <option value="">テスト選択</option>
         <option value="sample_test">サンプルテスト</option>
     </select>
@@ -75,30 +306,46 @@ $(document).ready(function() {
     </div>
     <div class="accordion_inner js-accordion_inner default">
         <div class="ac_inner_wraper">
-            <div class = "disp_flex">
-            <div class="c-block-input__select" style="width:200px;">
-                <select required="required">
-                    <option value="">高校名</option>
-                    <option value="sample_hsname">サンプル高校名</option>
-                </select>
+            <div class="disp_flex">
+                <!-- <div class="c-block-input__select" style="width:200px;">
+                    <select id="high_school_name" name="high_school_name" required="required">
+                        <option value="">高校名</option>
+                        <option value="sample_hsname">サンプル高校名</option>
+                    </select>
+                </div> -->
+                <div class="row disp_flex c-block-input__select" style="width:140px;">
+                    <select id="high_school_prefecture" name="high_school_prefecture" required="required">
+                        <option value="">都道府県</option>
+                        <option value="tokyo">東京都</option>
+                        <option value="osaka">大阪府</option>
+                    </select>
+                </div>
+                <div class = "row disp_flex c-block-input">
+                    <input style="width:200px;" type="text" id="high_school_name" name="high_school_name" placeholder="高校名">
+                    <p></p>
+                </div>
             </div>
-            <div class="c-block-input__select" style="width:140px;">
-                <select required="required">
-                    <option value="">都道府県</option>
-                    <option value="tokyo">東京都</option>
-                    <option value="osaka">大阪府</option>
-                </select>
-            </div>
+            <div class="disp_flex">
+                <div class="row disp_flex c-block-input__select" style="width:200px;">
+                    <select id="high_school_founder" name="high_school_founder" required="required">
+                        <option value="">設置者</option>
+                    </select>
+                </div>
+                <div class="row disp_flex c-block-input__select" style="width:140px;">
+                    <select id="high_school_class" name="high_school_class" required="required">
+                        <option value="">高校種別</option>
+                    </select>
+                </div>
             </div>
             <div class = "row disp_flex c-block-input__select">
-                <select class="col-8 code_select" required="required" style="width:300px;">
+                <select id="high_school_select" name="high_school_select" class="col-8 code_select" required="required" style="width:300px;">
                     <option value="">高校選択</option>
                     <option value="sample_hsdode">サンプル高校</option>
                 </select>
                 <p class="col-4" >コード：</p>
             </div>
             <div class = "row disp_flex c-block-input__select" >
-                <select class="col-8 code_select" required="required" style="width:300px;">
+                <select id="high_school_option" name="high_school_option" class="col-8 code_select" required="required" style="width:300px;">
                     <option value="">その他選択</option>
                     <option value="sample_others">その他サンプル選択</option>
                 </select>
