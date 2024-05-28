@@ -80,10 +80,11 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
             $tTestInfo->save();
 
-            DB::commit();            
+            DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();
             // システムエラー
+            report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
         }
 
@@ -115,6 +116,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
         } catch (ExclusionException $ex) {
+            // 楽観ロックエラー
             DB::rollBack();
             return array('resultCode' => config('constants.RESULT_CODE_CONFLICT_ERROR'), 'message' =>$ex->getMessage());
         } catch (\Exception $ex){
