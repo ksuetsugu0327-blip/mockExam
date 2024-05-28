@@ -36,4 +36,16 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
             ->orderby('oem_sch_code', 'asc') 
             ->get();
     }
+
+    /**
+     * 塾名取得
+     * @return OEM塾名取得
+     */
+    public function getOemSchoolName($OEMSchCode)
+    {
+        return $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
+            ->where('invalid_flag', 0)
+            ->where('oem_sch_code', $OEMSchCode)
+            ->first();
+    }
 }
