@@ -132,6 +132,7 @@ return[
     'RESULT_CODE_SYSTEM_ERROR' => -1,
     'RESULT_CODE_BUSINESS_ERROR' => 0,
     'RESULT_CODE_SUCCESS' => 1,
+    'RESULT_CODE_CONFLICT_ERROR' => -2,
 
     // 区分値
     // 管理ユーザ区分 0:一般 1:管理者

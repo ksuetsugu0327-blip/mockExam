@@ -79,7 +79,7 @@ class OptimisticLockObserver
         //更新されているかチェック
         if($model->{self::OPTIMISTIC_LOCK_CHECK_COLUMN} != $currentEditedAt){
             //楽観ロック
-            throw new ExclusionException(trans('message.CSV_MUNIVCODE_UPDATE_EXCLUSION.'.$msgType));
+            throw new ExclusionException(trans('message.CONFLICT_EXCEPTION.'.$msgType));
         }
 
         $this->unsetOptimisticLockColumn($model);

@@ -51,7 +51,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
             // Handle database related exceptions
             Log::Warning('Database error: ' . $e->getMessage());
         } catch (ExclusionException $e){
-            Log::Warning('Database error: ' . '大学コードヘッダーID: '.$codeHeadArray['id'].','.trans('message.CSV_MUNIVCODE_UPDATE_EXCLUSION.update'));
+            Log::Warning('Database error: ' . '大学コードヘッダーID: '.$codeHeadArray['id'].','.trans('message.CONFLICT_EXCEPTION.update'));
             throw new ExclusionException($e->getMessage());
         } catch (Exception $e) {
             // Handle general exceptions

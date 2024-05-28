@@ -11,6 +11,7 @@ namespace App\Repositories\TTestInfo;
 
 use App\Repositories\TTestInfo\TTestInfoRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\ExclusionException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\TTestInfo as TTestInfo;
@@ -67,21 +68,25 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function register(array $testInfo) {
-        $tTestInfo = $this->TTestInfo->newInstance();
-        $tTestInfo->oem_sch_code = $testInfo['oem_sch_code'];
-        $tTestInfo->fiscal_year = $testInfo['fiscal_year'];
-        $tTestInfo->grade = $testInfo['grade'];
-        $tTestInfo->test_name_cd = $testInfo['test_name_cd'];
-        $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
-        $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+        DB::beginTransaction();
         try{
             // 登録処理
-            $tTestInfo->save();            
-        } catch (Exception $ex) {
+            $tTestInfo = $this->TTestInfo->newInstance();
+            $tTestInfo->oem_sch_code = $testInfo['oem_sch_code'];
+            $tTestInfo->fiscal_year = $testInfo['fiscal_year'];
+            $tTestInfo->grade = $testInfo['grade'];
+            $tTestInfo->test_name_cd = $testInfo['test_name_cd'];
+            $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
+            $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+            $tTestInfo->save();
+
+            DB::commit();            
+        } catch (\Exception $ex) {
+            DB::rollBack();
             // システムエラー
             return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
         }
-        
+
         return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS')
                     ,'message'=>trans('message.SUCCESS_TESTINFO_REGISTER_DATA')
                     ,'id'=>$tTestInfo->id);       
@@ -94,20 +99,27 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
      */
     public function update(array $testInfo, int $id) {
+        DB::beginTransaction();
         try{
             $tTestInfo = $this->TTestInfo::findOrFail($id);
             // 更新情報情報セット
             $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
             $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
-            
+            $tTestInfo->setUpdatedAt($testInfo['updated_at']);
             $tTestInfo->save();
 
+            DB::commit();
         } catch (ModelNotFoundException $ex) {
             // 排他エラー
+            DB::rollBack();
             report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
-        } catch (Exception $ex){
+        } catch (ExclusionException $ex) {
+            DB::rollBack();
+            return array('resultCode' => config('constants.RESULT_CODE_CONFLICT_ERROR'), 'message' =>$ex->getMessage());
+        } catch (\Exception $ex){
             // システムエラー
+            DB::rollBack();
             report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
         }
@@ -132,7 +144,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             DB::rollback();
             report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
-        } catch (Exception $ex){
+        } catch (\Exception $ex){
             // システムエラー
             DB::rollback();
             report($ex);
@@ -155,7 +167,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                 't_test_info.grade',
                 'm_test_name.test_name as test_name',
                 't_test_info.university_code_head_id as university_code_head_id',
-                't_test_info.highschool_cls as highschool_cls'
+                't_test_info.highschool_cls as highschool_cls',
+                't_test_info.updated_at',
             )
             ->leftJoin('m_oem_school', 't_test_info.oem_sch_code', '=', 'm_oem_school.oem_sch_code')
             ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')

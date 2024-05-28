@@ -62,6 +62,11 @@ return[
     // テスト情報削除処理
     'TESTINFO_EXCLUSIVE_EXCEPTION' => '指定されたテスト情報は既に削除されています。最新の情報を確認してください。',
 
+    // 楽観ロックエラー
+    'CONFLICT_EXCEPTION' => [
+        'update' => '指定されたデータが他のユーザーによって更新されました。最新の情報を確認してください。',
+    ],
+
     // 正常終了メッセージ
     // 塾マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MSCHOOL_REGISTER_DATA' => '新しい塾（塾コード：:sch_code）の登録が完了しました。',
@@ -144,9 +149,6 @@ return[
     //大学CSV登録
     'CSV_MUNIVCODE_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（大学コード：:univ_code）',
     'CSV_MUNIVCODE_NOT_DATA' => 'アップロードファイルのデータが0件です。',
-    'CSV_MUNIVCODE_UPDATE_EXCLUSION' => [
-        'update' => '該当する大学コードデータが他のユーザーによって更新されました。もう一度操作を行ってください。',
-    ],
 
     //高校CSV登録
     'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',

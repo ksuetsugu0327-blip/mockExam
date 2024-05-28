@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\OptimisticLockObserverTrait;
 
 class TTestInfo extends Model
 {
+    use OptimisticLockObserverTrait;
+
     // Define the table name (optional if Laravel's default naming conventions match your table name)
     protected $table = 't_test_info';
 

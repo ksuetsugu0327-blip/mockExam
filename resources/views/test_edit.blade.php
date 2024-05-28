@@ -44,6 +44,7 @@
             <form method="post" action="{{route('test.update',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'id' => $testInfo->id])}}">
                 <!-- CSRF保護 -->
                 @csrf
+                <input type="hidden" name="updated_at" value="{{ $testInfo->updated_at }}">
                 <table class="test-detail">
                     <tr>
                         <td><span style="margin: 0 23px 0 23px;">塾</span></td>
