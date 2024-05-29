@@ -6,10 +6,15 @@ namespace App\Repositories\MUnivCodeHead;
  * ディレクトリマスタ用リポジトリ
  *
  */
-interface MUniversityCodeHeadRepositoryInterface {
+interface MUniversityCodeHeadRepositoryInterface
+{
 
     public function createOrUpdateCodeHead($codeHeadArray, $mode);
 
     public function getCodeHeader($dataCodeHead);
-   
+
+    /**
+     * 【テスト情報】大学コードマスタプルダウン用リスト
+     */
+    public function selectList();
 }

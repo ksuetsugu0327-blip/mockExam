@@ -2,27 +2,30 @@
 
 namespace App\Services;
 
-use App\Models\MUniversityCodeHead as MUnivCodeHead;
+use App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface;
 
-class UnivCodeHeadService{
+class UnivCodeHeadService
+{
+
+    // リポジトリ
+    // 大学コードヘッド
+    private $repositoryMUniversityCodeHead;
+    
+    /**
+     * コンストラクタ
+     */
+    public function __construct(
+        MUniversityCodeHeadRepositoryInterface $repositoryMUniversityCodeHead
+    )
+    {
+        $this->repositoryMUniversityCodeHead = $repositoryMUniversityCodeHead;
+    }
 
     /**
-     * 保存
-     *
-     * @param array $values
-     * @param MUnivCodeHead|null $mUnivCodeHead
+     * 【テスト情報】大学コードマスタプルダウン用リスト
      */
-    public function save(array $values, MUnivCodeHead $mUnivCodeHead=null)
+    public function selectList()
     {
-        $input = collect($values);
-        $model = $mUnivCodeHead ?: new MUnivCodeHead();
-
-        $model->university_code_name_cd = $input->get('university_code_name_cd');
-        $model->fiscal_year = $input->get('fiscal_year');
-        $model->dept_subject_div = $input->get('dept_subject_div');
-        $model->updated_num  = $input->get('updated_num');
-        $model->setUpdatedAt($input->get('updated_at'));
-
-        $model->save();
+        return $this->repositoryMUniversityCodeHead->selectList();
     }
 }
