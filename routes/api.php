@@ -18,11 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['as' => 'api.'], function () {
-    Route::prefix('/univ_search')->group(function(){
+    Route::group(['prefix' => 'univ_search', 'as' => 'univ_search.'], function () {
         Route::prefix('/v1')->group(function(){
             Route::get("/schools", "Rest\UnivCodeSearchController@getOemSchoolName")->name('OEMSchool.name');
-            Route::get("/testinfos", "Rest\UnivCodeSearchController@getTestInfo")->name('test.name');
-            Route::get("/university_code_heads", 'Rest\UnivCodeSearchController@getUnivCodeHead')->name('university_code_heads_list');
+            Route::get("/test_infos_list", "Rest\UnivCodeSearchController@getTestInfo")->name('test.name');
+            Route::get("/university_code_heads", 'Rest\UnivCodeSearchController@getUnivCodeHead')->name('universityCodeHead');
         });
     });
     Route::group(['prefix' => 'test_management', 'as' => 'test_management.'], function () {
