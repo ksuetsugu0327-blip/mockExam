@@ -47,28 +47,37 @@
                 <input type="hidden" name="updated_at" value="{{ $testInfo->updated_at }}">
                 <table class="test-detail">
                     <tr>
-                        <td><span style="margin: 0 23px 0 23px;">塾</span></td>
-                        <td><span style="width:70px;margin-right:87px;">{{ $testInfo->oem_sch_name }}</span></td>
-                        <td><span style="margin-right:23px;">年度</span></td>
-                        <td><span style="width:100px">{{ $testInfo->fiscal_year }}</span><td>
+                        <td><span>塾</span></td>
+                        <td>
+                            <span style="width:80%;">{{ $testInfo->oem_sch_name }}</span>
+                        </td>
+                        <td><span >年度</span></td>
+                        <td>
+                            <span style="width:100%">{{ $testInfo->fiscal_year }}</span>
+                        <td>
                     </tr>
                     <tr>            
-                        <td><span style="margin: 0 23px 0 23px;">学年</span></td>
-                        <td><span style="width:100px">{{ $grades[$testInfo->grade] }}</span></td>
+                        <td><span>学年</span></td>
+                        <td colspan="3">
+                            <span style="width:30%">{{ $grades[$testInfo->grade] }}</span>
+                        </td>
                     </tr>
                     <tr> 
-                        <td><span style="margin: 0 23px 0 23px;">テスト名</span></td>
-                        <td><span style="width:177px">{{ $testInfo->test_name }}</span></td>
+                        <td><span>テスト名</span></td>
+                        <td colspan="3">
+                            <span style="width:80%">{{ $testInfo->test_name }}</span>
+                        </td>
                     </tr>
                     <tr> 
-                        <td><span for="university_code_head_id" style="margin: 0 23px 0 23px;">大学コード</span></td>
-                        <td>{{ Form::select(
+                        <td><span for="university_code_head_id">大学コード</span></td>
+                        <td colspan="3">
+                            {{ Form::select(
                                 'university_code_head_id', 
                                 ['' => '---'],
                                 old('university_code_head_id', $testInfo->university_code_head_id), 
                                 [
                                     'class' => 'cell',
-                                    'style' => 'width:177px',
+                                    'style' => 'width:80%',
                                     'data-id' => old('university_code_head_id', $testInfo->university_code_head_id)
                                 ]
                             )}}
@@ -76,12 +85,15 @@
                         </td>
                     </tr>
                     <tr> 
-                        <td><span for="highschool_cls" style="margin: 0 23px 0 23px;">備考</span></td>
-                        <td colspan="3">{{ Form::textarea(
+                        <td><span for="highschool_cls">備考</span></td>
+                        <td colspan="3">
+                            {{ Form::textarea(
                                 'highschool_cls', 
                                 old('highschool_cls', $testInfo->highschool_cls), 
-                                ['class' => 'cell',
-                                'style' => 'width:380px;padding:2px;']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:100%;padding:2px;'
+                                ]
                             )}}
                             @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
                         </td>

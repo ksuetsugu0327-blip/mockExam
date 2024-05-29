@@ -46,75 +46,86 @@
                 @csrf
                 <table class="test-detail">
                     <tr>
-                        <td><span for="oem_sch_code" style="margin: 0 23px 0 23px;">塾</span></td>
+                        <td><span for="oem_sch_code">塾</span></td>
                         <td>
                             {{ Form::select(
                                 'oem_sch_code', 
                                 ['' => '---'] + $oemSchoolList,
                                 old('oem_sch_code'),
-                                ['class' => 'cell',
-                                'style' => 'width:70px;margin-right:87px;']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:80%;'
+                                ]
                             )}}
                             @if($errors->has('oem_sch_code'))<br> <span class="error">{{ $errors->first('oem_sch_code') }}</span> @endif
                         </td>
-                        <td><span for="year" style="margin-right:23px;">年度</span></td>
+                        <td><span for="year">年度</span></td>
                         <td>
                             {{ Form::select(
                                 'fiscal_year', 
                                 ['' => '---'] + $years,
                                 old('fiscal_year'), 
-                                ['class' => 'cell',
-                                'style' => 'width:100px']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:100%;'
+                                ]
                             )}}
                             @if($errors->has('fiscal_year'))<br> <span class="error">{{ $errors->first('fiscal_year') }}</span> @endif
                         <td>
                     </tr>
                     <tr>            
-                        <td><span for="grade" style="margin: 0 23px 0 23px;">学年</span></td>
-                        <td>{{ Form::select(
+                        <td><span for="grade">学年</span></td>
+                        <td colspan="3">
+                            {{ Form::select(
                                 'grade', 
                                 $grades,
                                 old('grade'), 
-                                ['class' => 'cell',
-                                'style' => 'width:100px']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:30%;'
+                                ]
                             )}}
                             @if($errors->has('grade'))<br> <span class="error">{{ $errors->first('grade') }}</span> @endif
                         </td>
                     </tr>
                     <tr> 
-                        <td><span for="test_name_cd" style="margin: 0 23px 0 23px;">テスト名</span></td>
-                        <td>{{ Form::select(
+                        <td><span for="test_name_cd">テスト名</span></td>
+                        <td colspan="3">
+                            {{ Form::select(
                                 'test_name_cd', 
                                 ['' => '---'] + $testNameList,
                                 old('test_name_cd'), 
-                                ['class' => 'cell',
-                                'style' => 'width:177px']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:80%;'
+                                ]
                             )}}
                             @if($errors->has('test_name_cd'))<br> <span class="error">{{ $errors->first('test_name_cd') }}</span> @endif
                         </td>
                     </tr>
                     <tr> 
-                        <td><span for="university_code_head_id" style="margin: 0 23px 0 23px;">大学コード</span></td>
-                        <td>{{ Form::select(
+                        <td><span for="university_code_head_id">大学コード</span></td>
+                        <td colspan="3">
+                            {{ Form::select(
                                 'university_code_head_id', 
                                 ['' => '---'],
                                 old('university_code_head_id'), 
                                 [
                                     'class' => 'cell',
-                                    'style' => 'width:177px',
-                                    'data-id' => old('university_code_head_id')
+                                    'data-id' => old('university_code_head_id'),
+                                    'style' => 'width:80%;'
                                 ]
                             )}}
                             @if($errors->has('university_code_head_id'))<br> <span class="error">{{ $errors->first('university_code_head_id') }}</span> @endif
                         </td>
                     </tr>
                     <tr> 
-                        <td><span for="highschool_cls" style="margin: 0 23px 0 23px;">備考</span></td>
+                        <td><span for="highschool_cls">備考</span></td>
                         <td colspan="3">{{ Form::textarea(
                                 'highschool_cls', 
                                 old('highschool_cls'), 
                                 ['class' => 'cell',
-                                'style' => 'width:380px;padding:2px;']
+                                'style' => 'width:100%;padding:2px;']
                             )}}
                             @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
                         </td>
