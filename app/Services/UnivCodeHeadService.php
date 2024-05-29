@@ -23,9 +23,10 @@ class UnivCodeHeadService
 
     /**
      * 【テスト情報】大学コードマスタプルダウン用リスト
+     * @param string $year
      */
-    public function selectList()
+    public function selectList(string $year)
     {
-        return $this->repositoryMUniversityCodeHead->selectList();
+        return $this->repositoryMUniversityCodeHead->selectList($year);
     }
 }

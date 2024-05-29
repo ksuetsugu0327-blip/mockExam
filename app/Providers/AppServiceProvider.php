@@ -124,8 +124,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            \App\Repositories\MUniversityCodeName\MUniversityCodeNameRepositoryInterface::class,
-            \App\Repositories\MUniversityCodeName\MUniversityCodeNameRepository::class
+            \App\Repositories\MUnivCodeName\MUniversityCodeNameRepositoryInterface::class,
+            \App\Repositories\MUnivCodeName\MUniversityCodeNameRepository::class
         );
     }
 }

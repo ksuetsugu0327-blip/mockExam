@@ -7,7 +7,6 @@ use App\Http\Requests\UnivTestEditRequest;
 use App\Services\TTestInfoService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
-use App\Services\MUniversityCodeNameService;
 use Illuminate\Http\Request;
 
 class UnivTestEditController extends Controller
@@ -15,7 +14,6 @@ class UnivTestEditController extends Controller
     private $service;
     private $oemSchoolService;
     private $testNameService;
-    private $universityCodeNameService;
     
     /**
      * コンストラクタ
@@ -25,7 +23,6 @@ class UnivTestEditController extends Controller
         TTestInfoService            $tTestService
         ,MOemSchoolService          $mOemSchoolService
         ,MTestNameService           $mTestNameService
-        ,MUniversityCodeNameService $mUniversityCodeNameService
     )
     {
         // ログイン判定
@@ -33,7 +30,6 @@ class UnivTestEditController extends Controller
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
-        $this->universityCodeNameService = $mUniversityCodeNameService;
     }
 
     /**
@@ -46,15 +42,10 @@ class UnivTestEditController extends Controller
     {
         $testInfo = $this->service->getTestInfoById($id);
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
-        // 大学コードデータ名を取得
-        $universityCodeNameList = $this->universityCodeNameService->selectList()
-                        ->pluck('university_code_name', 'university_code_head_id')
-                        ->toArray();
 
         return view('test_edit', compact(
             'testInfo',
-            'grades',
-            'universityCodeNameList',
+            'grades'
         ));
     }
 

@@ -7,7 +7,6 @@ use App\Http\Requests\UnivTestRegisterRequest;
 use App\Services\TTestInfoService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
-use App\Services\MUniversityCodeNameService;
 use Illuminate\Http\Request;
 
 class UnivTestRegisterController extends Controller
@@ -15,8 +14,7 @@ class UnivTestRegisterController extends Controller
     private $service;
     private $oemSchoolService;
     private $testNameService;
-    private $universityCodeNameService;
-    
+
     /**
      * コンストラクタ
      * @param TTestInfoService $tTestService 模試テーブルサービス
@@ -25,7 +23,6 @@ class UnivTestRegisterController extends Controller
         TTestInfoService            $tTestService
         ,MOemSchoolService          $mOemSchoolService
         ,MTestNameService           $mTestNameService
-        ,MUniversityCodeNameService $mUniversityCodeNameService
     )
     {
         // ログイン判定
@@ -33,7 +30,6 @@ class UnivTestRegisterController extends Controller
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
-        $this->universityCodeNameService = $mUniversityCodeNameService;
     }
 
     /**
@@ -54,17 +50,12 @@ class UnivTestRegisterController extends Controller
         $testNameList = $this->testNameService->selectList()
                         ->pluck('test_name', 'test_name_cd')
                         ->toArray();
-        // 大学コードデータ名を取得
-        $universityCodeNameList = $this->universityCodeNameService->selectList()
-                        ->pluck('university_code_name', 'university_code_head_id')
-                        ->toArray();
 
         return view('test_register', compact(
             'years',
             'grades',
             'oemSchoolList',
-            'testNameList',
-            'universityCodeNameList',
+            'testNameList'
         ));
     }
 

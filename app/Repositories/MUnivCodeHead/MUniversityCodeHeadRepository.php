@@ -88,12 +88,13 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
 
     /**
      * 【テスト情報】大学コードマスタプルダウン用リスト
+     * @param string $year
      * @return 大学コードリスト
      */
-    public function selectList()
+    public function selectList(string $year)
     {
         return $this->MUnivCodeHead::select(
-            'm_university_code_head.id as university_code_head_id',
+            'm_university_code_head.id as id',
             'm_university_code_head.fiscal_year as fiscal_year',
             'm_university_code_name.university_code_name'
         )
@@ -101,7 +102,8 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
             $join->on('m_university_code_head.university_code_name_cd', '=', 'm_university_code_name.university_code_name_cd')
                 ->where('m_university_code_name.invalid_flag', '=', 0);
         })
-        ->orderby('university_code_head_id', 'asc') 
+        ->where('m_university_code_head.fiscal_year', '=', $year)
+        ->orderby('m_university_code_head.id', 'asc') 
         ->get();
     }
 }

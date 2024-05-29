@@ -64,10 +64,13 @@
                         <td><span for="university_code_head_id" style="margin: 0 23px 0 23px;">大学コード</span></td>
                         <td>{{ Form::select(
                                 'university_code_head_id', 
-                                ['' => '---'] + $universityCodeNameList,
+                                ['' => '---'],
                                 old('university_code_head_id', $testInfo->university_code_head_id), 
-                                ['class' => 'cell',
-                                'style' => 'width:177px']
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:177px',
+                                    'data-id' => old('university_code_head_id', $testInfo->university_code_head_id)
+                                ]
                             )}}
                             @if($errors->has('university_code_head_id'))<br> <span class="error">{{ $errors->first('university_code_head_id') }}</span> @endif
                         </td>
@@ -100,6 +103,53 @@
 </form>
 
 <script>
+    $(document).ready(function(){
+        const fiscalYear = `{{ $testInfo->fiscal_year }}`;
+        loadUnivCodeHeadId(fiscalYear);
+    });
+
+    // 年度プルダウンの変更イベント
+    function loadUnivCodeHeadId(fiscalYear) {
+        const univCodeHeadId = $('[name="university_code_head_id"]');
+        const selectedHeadId = univCodeHeadId.data('id');
+        if (!fiscalYear) {
+            restDropdown(univCodeHeadId);
+            return;
+        }
+
+        $.ajax({
+            url: '{{ route('api.test_management.university_code_heads_list')}}',
+            method: 'GET',
+            data: {
+                fy: fiscalYear
+            },
+            success: function(response) {
+                restDropdown(univCodeHeadId);
+                if (response.header.status === 'success') {
+                    var data = response.data;
+                    $.each(data, function(index, item) {
+                        univCodeHeadId.append(`<option value="${item.id}">${item.university_code_name}</option>`);
+                    });
+                    if (selectedHeadId) {
+                        univCodeHeadId.val(selectedHeadId);
+                    }
+                    univCodeHeadId.prop('disabled', false);
+                }
+            },
+            error: function() {
+                restDropdown(univCodeHeadId);
+            }
+        });
+    }
+
+    // 大学コードプルダウンのリセット
+    function restDropdown(univCodeHeadId) {
+        univCodeHeadId.empty();
+        univCodeHeadId.append('<option value="">---</option>');
+        univCodeHeadId.prop('disabled', true);
+    }
+
+    //削除イベント 
     function deleteTest(id){
         if(confirm('{{trans('message.CONFIRM_DELETE_DATA')}}')){
             event.preventDefault();

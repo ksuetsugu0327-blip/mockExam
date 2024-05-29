@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Repositories\MUniversityCodeName\MUniversityCodeNameRepositoryInterface as MUniversityCodeNameRepositoryInterface;
+use App\Repositories\MUnivCodeName\MUniversityCodeNameRepositoryInterface as MUniversityCodeNameRepositoryInterface;
 
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MUniversityCodeNameService {
+class MUnivCodeNameService {
 
     // リポジトリ
     // 大学コードデータ名マスタ 
@@ -19,14 +19,6 @@ class MUniversityCodeNameService {
     public function __construct(MUniversityCodeNameRepositoryInterface $repositoryMUniversityCodeName)
     {
         $this->repositoryMUniversityCodeName = $repositoryMUniversityCodeName;
-    }
-    
-    /**
-     * 一覧取得
-     */
-    public function selectList()
-    {
-        return $this->repositoryMUniversityCodeName->selectList();
     }
 
 }

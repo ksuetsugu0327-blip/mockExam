@@ -15,6 +15,7 @@ interface MUniversityCodeHeadRepositoryInterface
 
     /**
      * 【テスト情報】大学コードマスタプルダウン用リスト
+     * @param string $year
      */
-    public function selectList();
+    public function selectList(string $year);
 }
