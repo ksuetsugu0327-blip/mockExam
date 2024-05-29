@@ -61,4 +61,11 @@ interface TTestInfoRepositoryInterface {
      * @return array
      */
     public function getTestInfo(int $OEMSchCode, int $grade);
+
+    /**
+     * 【【大学コードヘッダー情報】大学コード検索画面用
+     * @param string $testID
+     * @return 大学コードヘッダー
+     */
+    public function getUnivCodeHead(int $testID);
 }

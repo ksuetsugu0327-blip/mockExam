@@ -85,4 +85,13 @@ class TTestInfoService
     {
         return $this->repository->getTestInfo($OEMSchCode, $grade);
     }
+
+    /**
+     * 【大学コードヘッダー情報】大学コード検索画面用
+     * @param int $testID
+     */
+    public function getUnivCodeHead(int $testID)
+    {
+        return $this->repository->getUnivCodeHead($testID);
+    }
 }

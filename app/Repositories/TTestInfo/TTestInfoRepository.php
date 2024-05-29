@@ -211,7 +211,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
     public function getTestInfo($OEMSchCode, $grade){
         return $this->TTestInfo
             ->select(
-                't_test_info.test_name_cd',
+                't_test_info.id as id',
                 'm_test_name.test_name as test_name',
             )
             ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
@@ -219,5 +219,18 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             ->where('t_test_info.grade', $grade)
             //->where('t_test_info.fiscal_year', DB::raw('(SELECT MAX(t_test_info.fiscal_year) FROM t_test_info)'))
             ->get();
+    }
+
+    /**
+     * 【【大学コードヘッダー情報】大学コード検索画面用
+     * @param string $testID
+     * @return 大学コードヘッダー
+     */
+    public function getUnivCodeHead($testID){
+        return DB::table('t_test_info as t_test')
+            ->select('t_test.university_code_head_id', 'm_univ.dept_subject_div')
+            ->join('m_university_code_head as m_univ', 't_test.university_code_head_id', '=', 'm_univ.id')
+            ->where('t_test.id', '=', $testID)
+            ->first();
     }
 }

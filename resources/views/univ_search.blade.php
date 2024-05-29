@@ -16,8 +16,9 @@
 @section('script')
 <script type="text/javascript" src="{{ asset('js/2024_univ_search/js/accordion.js') }}"></script>
 <script>
-getOEMSchoolUrl = '{{route('api.internal.OEMSchool.name')}}';
-getTestNameListUrl = '{{route('api.internal.test.name')}}';
+getOEMSchoolUrl = '{{route('api.univ_search.OEMSchool.name')}}';
+getTestNameListUrl = '{{route('api.univ_search.test.name')}}';
+getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}'
 
 $(document).ready(function() {
     $('.code_select').change(function() {
@@ -31,6 +32,8 @@ $(document).ready(function() {
 
     // 塾コードが入力された時
     $('#sch_code').on('change', function() {
+        $('#use_common_test').next('label').show();
+        
         const schCodeInputField = $(this);
         const schCode = $(this).val();
         
@@ -44,16 +47,16 @@ $(document).ready(function() {
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
                 $('#grade').val('');
-                $('#test_name').val('');
+                $('#test_info').val('');
                 $('#grade').prop('disabled', false);
-                $('#test_name').prop('disabled', true);
+                $('#test_info').prop('disabled', true);
             }
             else{
                 schCodeInputField.next('p').html('');
                 $('#grade').val('');
-                $('#test_name').val('');
+                $('#test_info').val('');
                 $('#grade').prop('disabled', true);
-                $('#test_name').prop('disabled', true);
+                $('#test_info').prop('disabled', true);
             }
             
         })        
@@ -61,7 +64,7 @@ $(document).ready(function() {
             console.log(jqXHR, status, error);
             schCodeInputField.next('p').html('');
             $('#grade').prop('disabled', true);
-            $('#test_name').prop('disabled', true);
+            $('#test_info').prop('disabled', true);
         });
     });
 
@@ -81,8 +84,9 @@ $(document).ready(function() {
             if (data['header']['data_num'] > 0){
                 let testInfoList = data['data']['test_info_list'];
                 $(testInfoList).each(function(idx, ele){
+                    let defaultOptionHtml = '<option value="">テスト選択</option>'
                     let optionHtml = '<option value="'+ele['test_code']+'">'+ele['test_name']+'</option>';
-                    $('#test_info').html(optionHtml);
+                    $('#test_info').html(defaultOptionHtml + optionHtml);
                     $('#test_info').prop('disabled', false);
                 });
             }
@@ -97,18 +101,24 @@ $(document).ready(function() {
     });
 
     // テストが選択された時
-    $('#test_name').on('change', function() {
-        const fiscalYearInputField = $(this);
-        const fiscalYear = $(this).val();
-        
+    $('#test_info').on('change', function() {
+        const testID = $(this).val();
+        console.log(testID)
         var conditions = {
-            'test_name': schCode
+            'test_id': testID
         };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        $.get(getUnivCodeHead, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
+            console.log(testID, data);
             if (data['header']['data_num'] > 0){
+                if(data['data']['dept_subject_div'] == 1){
+                    $('#use_common_test').prop('checked', false);
+                    $('#use_common_test').next('label').hide();
+                }
+                else{
+                    $('#use_common_test').prop('disabled', false);
+                }
             }
             else{
 
@@ -292,7 +302,6 @@ $(document).ready(function() {
 <div class="c-block-input__select" style="width:300px;">
     <select id="test_info" name="test_info" required="required" disabled>
         <option value="">テスト選択</option>
-        <option value="sample_test">サンプルテスト</option>
     </select>
 </div>
 </div>
@@ -424,8 +433,8 @@ $(document).ready(function() {
                             <p>以下</p>
                         </div>
                         <div class="c-block-input__checkbox">
-                            <input type="checkbox" name="チェックボックス" id="checkbox01" checked>
-                            <label for="checkbox01">共通テスト利用</label>
+                            <input type="checkbox" id="use_common_test" name="use_common_test" checked>
+                            <label for="use_common_test">共通テスト利用</label>
                         </div>
                     </div>
                 </div>

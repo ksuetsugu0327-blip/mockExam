@@ -335,8 +335,7 @@ Route::prefix('/account')->group(function () {
     Route::post('/login/{account}', 'PortalTopController@check')->name('PortalAccount.check');
 });
 
- //sessionは反映しない (個人アクセス)
-Route::get('univ-search', function(){
-    return view('univ_search');
-})->name('univ.search');
+//sessionは反映しない (個人アクセス)
+Route::get("/univ-search", "Rest\UnivCodeSearchController@index")->name('index');
+
 
