@@ -26,6 +26,8 @@ Route::group(['as' => 'api.'], function () {
         });
     });
     Route::group(['prefix' => 'test_management', 'as' => 'test_management.'], function () {
-        Route::get("/v1/university_code_heads_list", 'Rest\TestManagementApiController@getUnivCodeHeadList')->name('university_code_heads_list');
+        Route::group(['prefix' => 'v1'], function () {
+            Route::get('university_code_heads_list', 'Rest\TestManagementApiController@getUnivCodeHeadList')->name('university_code_heads_list');
+        });
     });
 });

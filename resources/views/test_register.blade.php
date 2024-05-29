@@ -133,7 +133,7 @@
                 </table>
                 <div class="buttons">
                     <p class="cell"><input class="button bulu" type="submit" name="submit" value="登録"></p>
-                    <p class="cell"><input id="reset" class="button green" type="reset" name="reset" value="クリア"></p>
+                    <p class="cell"><input id="reset" class="button green" type="button" name="reset" value="クリア"></p>
                     <a href="{{ route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" class="cell"><p class="button green">一覧に戻る</p></a>
                 </div>
             </form>
@@ -143,12 +143,19 @@
 
 <script>
     $(document).ready(function(){
-        const fiscalYear = $('[name="fiscal_year"]').val();
-        loadUnivCodeHeadId(fiscalYear);
+        const fiscalYear = $('[name="fiscal_year"]');
+        const univCodeHeadId = $('[name="university_code_head_id"]');
+        loadUnivCodeHeadId(fiscalYear.val());
         // 年度プルダウンの変更イベント
-        $('[name="fiscal_year"]').change(function() {
-            $('[name="university_code_head_id"]').data('id','');
+        $(fiscalYear).change(function() {
+            univCodeHeadId.data('id','');
             loadUnivCodeHeadId($(this).val());
+        });
+        $('#reset').click(function() {
+            $('form select').prop('selectedIndex', 0);
+            $('form textarea').val('');
+            univCodeHeadId.data('id','');
+            restDropdown(univCodeHeadId);
         });
     });
 
@@ -168,7 +175,6 @@
                 fy: fiscalYear
             },
             success: function(response) {
-                console.log(response);
                 restDropdown(univCodeHeadId);
                 if (response.header.status === 'success') {
                     var data = response.data;
