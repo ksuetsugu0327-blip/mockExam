@@ -127,7 +127,11 @@ return[
     // 模試データ管理
     // 模擬試験一覧用
     'SESSION_KEY_TTESTINFO_SEARCH_CONDITION' => 'TTESTINFO_SEARCH_CONDITION',
-    
+
+    // 大学コードデータ削除
+    // 大学コードデータ削除一覧用
+    'SESSION_KEY_UNIVCODE_SEARCH_CONDITION' => 'UNIVCODE_SEARCH_CONDITION',
+
     // 処理結果用
     'RESULT_CODE_SYSTEM_ERROR' => -1,
     'RESULT_CODE_BUSINESS_ERROR' => 0,

@@ -92,7 +92,7 @@ $(document).ready(function() {
         @endif
         <h1>高校・大学コードCSV登録</h1>
         <div class="top-right-link">
-           <a href="#" style="text-decoration: underline;">コードデータ削除</a>
+           <a href="{{ route('univ_code.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" style="text-decoration: underline;">コードデータ削除</a>
         </div>
         <br>
         <form action="{{route('univ.upload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}" method="post" enctype="multipart/form-data">
