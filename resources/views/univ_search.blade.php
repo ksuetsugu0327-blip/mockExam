@@ -11,16 +11,22 @@
         text-align: right;
         margin-left: 20px;
     }
+    .redText {
+        color: red;
+    }
 </style>
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('js/2024_univ_search/js/accordion.js') }}"></script>
 <script>
-getOEMSchoolUrl = '{{route('api.univ_search.OEMSchool.name')}}';
-getTestNameListUrl = '{{route('api.univ_search.test.name')}}';
-getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}'
+const getOEMSchoolUrl = '{{route('api.univ_search.OEMSchool.name')}}';
+const getTestNameListUrl = '{{route('api.univ_search.test.name')}}';
+const getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}'
 
 $(document).ready(function() {
+    const schCodeInputField = $('#sch_code');
+    const maxLength = 7; // Set your desired length here
+
     $('.code_select').change(function() {
         // Get the selected value
         const selectedValue = $(this).val();
@@ -34,8 +40,21 @@ $(document).ready(function() {
     $('#sch_code').on('change', function() {
         $('#use_common_test').next('label').show();
         
-        const schCodeInputField = $(this);
-        const schCode = $(this).val();
+        const currentLength = $(this).val().length;
+        let schCode = $(this).val();
+        
+        if (currentLength > maxLength || !$.isNumeric(schCode)) {
+            schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
+
+            return
+
+        } else {
+            let paddedValue = schCode.padStart(7, '0');
+            schCodeInputField.val(paddedValue);
+            schCode = paddedValue;
+            schCodeInputField.next('p').removeClass('redText');
+            schCodeInputField.next('p').html("");
+        }
         
         const conditions = {
             'oem_sch_code': schCode
@@ -71,7 +90,14 @@ $(document).ready(function() {
     // 学年が選択された時
     $('#grade').on('change', function() {
         const grade = $(this).val();
-        const schCode = $('#sch_code').val();
+        const schCode = schCodeInputField.val();
+        const currentLength = $(this).val().length;
+
+        if (currentLength > maxLength || !$.isNumeric(schCode)) {
+            schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
+
+            return
+        }
 
         const conditions = {
             'oem_sch_code': schCode,
@@ -264,7 +290,6 @@ $(document).ready(function() {
     /* 大学コード検索 */
     // 設置区分が選択された時
     // 
-
 });
 </script>
 @endsection

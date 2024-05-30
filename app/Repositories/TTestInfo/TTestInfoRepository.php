@@ -211,8 +211,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
     public function getTestInfo($OEMSchCode, $grade){
         return $this->TTestInfo
             ->select(
-                't_test_info.id as id',
-                'm_test_name.test_name as test_name',
+                't_test_info.id',
+                'm_test_name.test_name',
             )
             ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
             ->where('t_test_info.oem_sch_code', $OEMSchCode)

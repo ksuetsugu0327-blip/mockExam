@@ -120,7 +120,6 @@ class UnivCodeSearchController extends Controller
      */
     public function getUnivCodeHead(Request $request){
         $testID = $request->get('test_id');
-
         try{
             $result = $this->testInfoService->getUnivCodeHead($testID);
         }
@@ -139,7 +138,7 @@ class UnivCodeSearchController extends Controller
         }
 
         $header = $this->common->makeHeader('success', '', 1);
-        $token = bin2hex(random_bytes(12));
+
         $data = [
             'university_code_head_id' => $result->university_code_head_id,
             'dept_subject_div' => $result->dept_subject_div,
