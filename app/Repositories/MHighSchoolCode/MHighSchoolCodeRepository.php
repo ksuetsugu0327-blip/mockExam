@@ -4,7 +4,7 @@ namespace App\Repositories\MHighSchoolCode;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\MHighSchoolCode;
-use App\Repositories\MHighSchoolCode\MHighSchoolCodeRepositoryInterface as HighCodeRepositoryInterface;
+use App\Repositories\MHighSchoolCode\MHighSchoolCodeRepositoryInterface;
 
 class MHighSchoolCodeRepository implements MHighSchoolCodeRepositoryInterface{
     
@@ -73,6 +73,21 @@ class MHighSchoolCodeRepository implements MHighSchoolCodeRepositoryInterface{
                     $code->delete();
                 }
         });    
+    }
+
+    public function getHighSchoolCode($conditions){
+        return $this->MHighCode::select('highschool_code', 'highschool_name')
+            ->where('prefecture_cd', $conditions['prefecture_cd'])
+            ->when(array_key_exists('highschool_name',$conditions) && isset($conditions['highschool_name']), function ($query) use ($conditions) {
+                return $query->where('highschool_name', 'like', '%'.$conditions['highschool_name'].'%');
+            })
+            ->when(array_key_exists('install_cd',$conditions) && isset($conditions['install_cd']), function ($query) use ($conditions) {
+                return $query->where('install_cd', '=', $conditions['install_cd']);
+            })
+            ->when(array_key_exists('class_cd',$conditions) && isset($conditions['class_cd']), function ($query) use ($conditions) {
+                return $query->where('class_cd', '=', $conditions['class_cd']);
+            })
+            ->get();
     }
     
 }

@@ -127,5 +127,15 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MUnivCodeName\MUniversityCodeNameRepositoryInterface::class,
             \App\Repositories\MUnivCodeName\MUniversityCodeNameRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MHighSchoolInstall\MHighSchoolInstallRepositoryInterface::class,
+            \App\Repositories\MHighSchoolInstall\MHighSchoolInstallRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\MHighSchoolClass\MHighSchoolClassRepositoryInterface::class,
+            \App\Repositories\MHighSchoolClass\MHighSchoolClassRepository::class
+        );
     }
 }
