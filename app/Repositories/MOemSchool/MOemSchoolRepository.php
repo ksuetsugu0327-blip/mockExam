@@ -46,6 +46,6 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
         return $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
             ->where('invalid_flag', 0)
             ->where('oem_sch_code', $OEMSchCode)
-            ->first();
+            ->get();
     }
 }

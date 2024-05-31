@@ -420,9 +420,17 @@ return[
 
     // 年度（過去年数）
     'PAST_YEAR' => 4,
+
     // 年度（未来年数）
     'FUTURE_YEAR' => 1,
+
     // コード表ダウンロード用のリンク
     'UNVC_LIST_DOWNLOAD_LINK' => 'https://m.seihoku.org/pdf/cdn_1_コード番号表.pdf',
+
+    // 全国共通の塾情報
+    'UNVC_COMMON_SCHOOL' => [
+        'SCH_CODE' => 8888880,
+        'SCH_NAME' => '全国共通（一般塾用）',
+    ]
 ];
 

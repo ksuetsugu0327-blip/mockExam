@@ -21,7 +21,8 @@
 <script>
 const getOEMSchoolUrl = '{{route('api.univ_search.OEMSchool.name')}}';
 const getTestNameListUrl = '{{route('api.univ_search.test.name')}}';
-const getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}'
+const getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}';
+const getHighSchoolCode = '{{route('api.univ_search.highSchoolCodeList')}}'
 
 $(document).ready(function() {
     const schCodeInputField = $('#sch_code');
@@ -57,7 +58,7 @@ $(document).ready(function() {
         }
         
         const conditions = {
-            'oem_sch_code': schCode
+            'oem': schCode
         };
 
         $.get(getOEMSchoolUrl, conditions, null, 'json')
@@ -100,8 +101,8 @@ $(document).ready(function() {
         }
 
         const conditions = {
-            'oem_sch_code': schCode,
-            'grade': grade
+            'oem': schCode,
+            'grd': grade
         };
 
         $.get(getTestNameListUrl, conditions, null, 'json')
@@ -109,9 +110,11 @@ $(document).ready(function() {
             console.log(data);
             if (data['header']['data_num'] > 0){
                 let testInfoList = data['data']['test_info_list'];
+                let defaultOptionHtml = '<option value="">テスト選択</option>'
+                let optionHtml = '';
+                
                 $(testInfoList).each(function(idx, ele){
-                    let defaultOptionHtml = '<option value="">テスト選択</option>'
-                    let optionHtml = '<option value="'+ele['test_code']+'">'+ele['test_name']+'</option>';
+                    optionHtml += '<option value="'+ele['test_code']+'">'+ele['test_name']+'</option>';
                     $('#test_info').html(defaultOptionHtml + optionHtml);
                     $('#test_info').prop('disabled', false);
                 });
@@ -131,7 +134,7 @@ $(document).ready(function() {
         const testID = $(this).val();
         console.log(testID)
         var conditions = {
-            'test_id': testID
+            'testid': testID
         };
 
         $.get(getUnivCodeHead, conditions, null, 'json')
@@ -159,132 +162,146 @@ $(document).ready(function() {
     /* 高校コード検索 */
 
     // 高校の都道府県が選択された時
-    $('#high_school_prefecture').on('change', function() {
+    $('#high_school_prefecture, #high_school_name, #high_school_founder, #high_school_class').on('change', function() {
+        let prefCode = $('#high_school_prefecture').val();
+        let highSchoolName = $('#high_school_name').val();
+        let highSchoolFounder = $('#high_school_founder').val();
+        let hihgSchoolClass = $('#high_school_class').val();
         
         var conditions = {
-            'oem_sch_code': schCode
+            'prf': prefCode,
+            'hsn': highSchoolName,
+            'hinst': highSchoolFounder,
+            'hcls': hihgSchoolClass
         };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
+        $.get(getHighSchoolCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
+            console.log(data);
             if (data['header']['data_num'] > 0){
+                let highSchoolCodeList = data['data']['high_school_code_list'];
+                let defaultOptionHtml = '<option value="">高校選択</option>'
+                let optionHtml = '';
+                
+                $(highSchoolCodeList).each(function(idx, ele){
+                    optionHtml += '<option value="'+ele['highschool_code']+'">'+ele['highschool_name']+'</option>';
+                    $('#high_school_select').html(defaultOptionHtml + optionHtml);
+                });
             }
             else{
 
             }
-            
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
         });
     });
 
-    // 高校名が入力された時
-    $('#high_school_name').on('change', function() {
+    // // 高校名が入力された時
+    // $('#high_school_name').on('change', function() {
 
-        var conditions = {
-            'oem_sch_code': schCode
-        };
+    //     var conditions = {
+    //         'oem_sch_code': schCode
+    //     };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
-            if (data['header']['data_num'] > 0){
-            }
-            else{
+    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
+    //     .done(function(data, status, jqXHR) {
+    //         console.log(data['header']['data_num']);
+    //         if (data['header']['data_num'] > 0){
+    //         }
+    //         else{
 
-            }
+    //         }
             
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
-    });
+    //     })        
+    //     .fail(function(jqXHR, status, error) {
+    //         console.log(jqXHR, status, error);
+    //     });
+    // });
 
-    // 高校の設置者が選択された時high_school_founder
-    $('#high_school_founder').on('change', function() {
+    // // 高校の設置者が選択された時high_school_founder
+    // $('#high_school_founder').on('change', function() {
         
-        var conditions = {
-            'oem_sch_code': schCode
-        };
+    //     var conditions = {
+    //         'oem_sch_code': schCode
+    //     };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
-            if (data['header']['data_num'] > 0){
-            }
-            else{
+    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
+    //     .done(function(data, status, jqXHR) {
+    //         console.log(data['header']['data_num']);
+    //         if (data['header']['data_num'] > 0){
+    //         }
+    //         else{
 
-            }
+    //         }
             
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
-    });
-    // 高校種別が選択された時
-    $('#high_school_class').on('change', function() {
+    //     })        
+    //     .fail(function(jqXHR, status, error) {
+    //         console.log(jqXHR, status, error);
+    //     });
+    // });
+    // // 高校種別が選択された時
+    // $('#high_school_class').on('change', function() {
         
-        var conditions = {
-            'oem_sch_code': schCode
-        };
+    //     var conditions = {
+    //         'oem_sch_code': schCode
+    //     };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
-            if (data['header']['data_num'] > 0){
-            }
-            else{
+    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
+    //     .done(function(data, status, jqXHR) {
+    //         console.log(data['header']['data_num']);
+    //         if (data['header']['data_num'] > 0){
+    //         }
+    //         else{
 
-            }
+    //         }
             
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
-    });
+    //     })        
+    //     .fail(function(jqXHR, status, error) {
+    //         console.log(jqXHR, status, error);
+    //     });
+    // });
     // 高校プルダウンが選択された時high_school_select
-    $('#high_school_select').on('change', function() {
+    // $('#high_school_select').on('change', function() {
         
-        var conditions = {
-            'oem_sch_code': schCode
-        };
+    //     var conditions = {
+    //         'oem_sch_code': schCode
+    //     };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
-            if (data['header']['data_num'] > 0){
-            }
-            else{
+    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
+    //     .done(function(data, status, jqXHR) {
+    //         console.log(data['header']['data_num']);
+    //         if (data['header']['data_num'] > 0){
+    //         }
+    //         else{
 
-            }
+    //         }
             
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
-    });
-    // 高校のその他が選択された時
-    $('#high_school_option').on('change', function() {
+    //     })        
+    //     .fail(function(jqXHR, status, error) {
+    //         console.log(jqXHR, status, error);
+    //     });
+    // });
+    // // 高校のその他が選択された時
+    // $('#high_school_option').on('change', function() {
         
-        var conditions = {
-            'oem_sch_code': schCode
-        };
+    //     var conditions = {
+    //         'oem_sch_code': schCode
+    //     };
 
-        $.get(getOEMSchoolUrl, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
-            if (data['header']['data_num'] > 0){
-            }
-            else{
+    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
+    //     .done(function(data, status, jqXHR) {
+    //         console.log(data['header']['data_num']);
+    //         if (data['header']['data_num'] > 0){
+    //         }
+    //         else{
 
-            }
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
-    });
+    //         }
+    //     })        
+    //     .fail(function(jqXHR, status, error) {
+    //         console.log(jqXHR, status, error);
+    //     });
+    // });
     /* 大学コード検索 */
 
     /* 大学コード検索 */
@@ -350,8 +367,9 @@ $(document).ready(function() {
                 <div class="row disp_flex c-block-input__select" style="width:140px;">
                     <select id="high_school_prefecture" name="high_school_prefecture" required="required">
                         <option value="">都道府県</option>
-                        <option value="tokyo">東京都</option>
-                        <option value="osaka">大阪府</option>
+                        @foreach($prefList as $pref)
+                            <option value="{{$pref->pref_code}}">{{$pref->name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class = "row disp_flex c-block-input">
@@ -363,18 +381,23 @@ $(document).ready(function() {
                 <div class="row disp_flex c-block-input__select" style="width:200px;">
                     <select id="high_school_founder" name="high_school_founder" required="required">
                         <option value="">設置者</option>
+                        @foreach($highSchoolInstallCodeList as $highSchoolInstallCode)
+                            <option value="{{$highSchoolInstallCode->install_cd2}}">{{$highSchoolInstallCode->install_name2}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="row disp_flex c-block-input__select" style="width:140px;">
                     <select id="high_school_class" name="high_school_class" required="required">
                         <option value="">高校種別</option>
+                        @foreach($highSchoolClassList as $highSchoolClass)
+                            <option value="{{$highSchoolClass->class_cd}}">{{$highSchoolClass->class_name}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
             <div class = "row disp_flex c-block-input__select">
                 <select id="high_school_select" name="high_school_select" class="col-8 code_select" required="required" style="width:300px;">
                     <option value="">高校選択</option>
-                    <option value="sample_hsdode">サンプル高校</option>
                 </select>
                 <p class="col-4" >コード：</p>
             </div>
