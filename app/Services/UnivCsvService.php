@@ -92,22 +92,22 @@ class UnivCsvService {
                 }
 
                 // CSV内重複チェックキー
-                $csv_key = [
-                    config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME') => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
-                ];
+                // $csv_key = [
+                //     config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME') => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
+                // ];
 
-                //キー重複
-                $csv_keyAry[] = $csv_key;
-                // 配列の数と重複を削除した配列の個数が一致してきること
-                if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
-                    $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
-                    $csv_errors[] = [
-                        'line' => $output_line_num,
-                        'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',["univ_code"
-                                                                                    =>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]]),
-                    ];
-                    continue;
-                }
+                // //キー重複
+                // $csv_keyAry[] = $csv_key;
+                // // 配列の数と重複を削除した配列の個数が一致してきること
+                // if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
+                //     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
+                //     $csv_errors[] = [
+                //         'line' => $output_line_num,
+                //         'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',["univ_code"
+                //                                                                     =>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]]),
+                //     ];
+                //     continue;
+                // }
             }
         }
 

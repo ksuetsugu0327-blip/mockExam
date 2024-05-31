@@ -80,23 +80,23 @@ class HighSchoolCsvService {
                     continue;
                 }
 
-                // CSV内重複チェックキー
-                $csv_key = [
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')  => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
-                ];
+                // // CSV内重複チェックキー
+                // $csv_key = [
+                //     config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')  => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
+                // ];
 
-                //キー重複
-                $csv_keyAry[] = $csv_key;
-                // 配列の数と重複を削除した配列の個数が一致してきること
-                if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
-                    $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
-                    $csv_errors[] = [
-                        'line' => $output_line_num,
-                        'message' => trans('message.CSV_MHIGHSCHOOL_DUPLICATE_DATA',[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')
-                                                                                        =>$csv_key[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')]]),
-                    ];
-                    continue;
-                }
+                // //キー重複
+                // $csv_keyAry[] = $csv_key;
+                // // 配列の数と重複を削除した配列の個数が一致してきること
+                // if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
+                //     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
+                //     $csv_errors[] = [
+                //         'line' => $output_line_num,
+                //         'message' => trans('message.CSV_MHIGHSCHOOL_DUPLICATE_DATA',[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')
+                //                                                                         =>$csv_key[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')]]),
+                //     ];
+                //     continue;
+                // }
             }
         }
 
