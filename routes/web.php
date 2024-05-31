@@ -171,9 +171,12 @@ Route::prefix('/{schCode}/sch')->group(function(){
     Route::post('code-csv-upload', 'UnivCsvUploadController@upload')->name('univ.upload');
     Route::get('code-csv-err/{mode}', 'UnivCsvUploadController@downloadErrCsv')->name('univ.err_csv');
 
-    Route::get('code-csv-delete', function(){
-        return view('univ_delete');
-    })->name('univ.delete');
+    // 大学コードデータ削除
+    // 一覧
+    Route::get('univ-code-list', 'UnivCodeDeleteController@index')->name('univ_code.list');
+    Route::post('univ-code-list', 'UnivCodeDeleteController@search')->name('univ_code.search');
+    // 削除
+    Route::delete('univ-code-delete/{id}', 'UnivCodeDeleteController@delete')->name('univ_code.delete');
     
     //模試データ管理
     // 一覧

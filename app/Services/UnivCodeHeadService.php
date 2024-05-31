@@ -29,4 +29,33 @@ class UnivCodeHeadService
     {
         return $this->repositoryMUniversityCodeHead->selectList($year);
     }
+
+    /**
+     * 年度プルダウンリスト用意処理
+     * @return array
+     */
+    public function generateYearsArray()
+    {
+        return $this->repositoryMUniversityCodeHead->generateYearsArray();
+    }
+
+    /**
+     * 【大学コードデータ削除】一覧取得処理
+     * @param array $conditions 検索条件(連想配列）
+     * @return 大学コードデータリスト
+     */
+    public function univCodeDataList(array $conditions)
+    {
+        return $this->repositoryMUniversityCodeHead->univCodeDataList($conditions);
+    }
+
+    /**
+     *【大学コードデータ削除】一覧削除処理
+     * @param int $id 削除対象ID
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
+     */
+    public function delete(int $id)
+    {
+        return $this->repositoryMUniversityCodeHead->delete($id);
+    }
 }

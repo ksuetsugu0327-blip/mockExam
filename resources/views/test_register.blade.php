@@ -124,7 +124,7 @@
                         <td colspan="3">{{ Form::textarea(
                                 'highschool_cls', 
                                 old('highschool_cls'), 
-                                ['class' => 'cell',
+                                ['class' => 'cell clear',
                                 'style' => 'width:100%;padding:2px;']
                             )}}
                             @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
@@ -133,7 +133,7 @@
                 </table>
                 <div class="buttons">
                     <p class="cell"><input class="button bulu" type="submit" name="submit" value="登録"></p>
-                    <p class="cell"><input id="reset" class="button green" type="button" name="reset" value="クリア"></p>
+                    <p class="cell"><input id="inputClear" class="button green" type="button" name="reset" value="クリア"></p>
                     <a href="{{ route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" class="cell"><p class="button green">一覧に戻る</p></a>
                 </div>
             </form>
@@ -151,9 +151,7 @@
             univCodeHeadId.data('id','');
             loadUnivCodeHeadId($(this).val());
         });
-        $('#reset').click(function() {
-            $('form select').prop('selectedIndex', 0);
-            $('form textarea').val('');
+        $('#inputClear').click(function() {
             univCodeHeadId.data('id','');
             restDropdown(univCodeHeadId);
         });

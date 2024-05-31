@@ -62,6 +62,8 @@ return[
     'MPERSON_EXCLUSIVE_EXCEPTION' => '指定された生徒(塾コード：:sch_code 塾生ID：:psn_code)は既に削除されています。最新の情報を確認してください。',
     // テスト情報削除処理
     'TESTINFO_EXCLUSIVE_EXCEPTION' => '指定されたテスト情報は既に削除されています。最新の情報を確認してください。',
+    // 大学コードデータ削除処理
+    'UNIVCODEHEAD_EXCLUSIVE_EXCEPTION' => '指定された大学コードデータは既に削除されています。最新の情報を確認してください。',
 
     // 楽観ロックエラー
     'CONFLICT_EXCEPTION' => [
@@ -90,6 +92,8 @@ return[
     'SUCCESS_TESTINFO_UPDATE_DATA' => '指定されたテスト情報の修正が完了しました。',
     // テスト情報 削除処理の正常終了時メッセージ
     'SUCCESS_TESTINFO_DELETE_DATA' => '指定されたテスト情報を削除しました。',
+    // 大学コードデータ削除 削除処理の正常終了時メッセージ
+    'SUCCESS_UNIVCODEHEAD_DELETE_DATA' => '指定された大学コードデータを削除しました。',
 
     // 個人マスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MPERSON_REGISTER_DATA' => '新しい生徒（塾コード：:sch_code 塾生ID：:psn_code）の登録が完了しました。',
