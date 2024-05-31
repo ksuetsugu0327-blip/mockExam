@@ -30,31 +30,34 @@ $(document).ready(function() {
 
     $('.code_select').change(function() {
         // Get the selected value
-        const selectedValue = $(this).val();
+        let selectedValue = $(this).val();
 
         // Update the text of a paragraph element with the selected value
-        console.log($(this).next('p'));
+        // console.log($(this).next('p'));
         $(this).next('p').text("コード：" + selectedValue);
     });
 
     // 塾コードが入力された時
     $('#sch_code').on('change', function() {
         $('#use_common_test').next('label').show();
-        
+        $('#grade').val('');
+        $('#test_info').val('');
+        schCodeInputField.next('p').removeClass('redText');
+        schCodeInputField.next('p').html("");
+
         const currentLength = $(this).val().length;
         let schCode = $(this).val();
         
         if (currentLength > maxLength || !$.isNumeric(schCode)) {
-            schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
-
+            if(schCode){
+                schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
+            }
+            
             return
-
         } else {
             let paddedValue = schCode.padStart(7, '0');
             schCodeInputField.val(paddedValue);
             schCode = paddedValue;
-            schCodeInputField.next('p').removeClass('redText');
-            schCodeInputField.next('p').html("");
         }
         
         const conditions = {
@@ -182,7 +185,7 @@ $(document).ready(function() {
                 let highSchoolCodeList = data['data']['high_school_code_list'];
                 let defaultOptionHtml = '<option value="">高校選択</option>'
                 let optionHtml = '';
-                
+
                 $(highSchoolCodeList).each(function(idx, ele){
                     optionHtml += '<option value="'+ele['highschool_code']+'">'+ele['highschool_name']+'</option>';
                     $('#high_school_select').html(defaultOptionHtml + optionHtml);
@@ -404,7 +407,9 @@ $(document).ready(function() {
             <div class = "row disp_flex c-block-input__select" >
                 <select id="high_school_option" name="high_school_option" class="col-8 code_select" required="required" style="width:300px;">
                     <option value="">その他選択</option>
-                    <option value="sample_others">その他サンプル選択</option>
+                    @foreach($highSchoolOptionList as $key => $highSchoolOption)
+                        <option value="{{$key}}">{{$highSchoolOption}}</option>
+                    @endforeach
                 </select>
                 <p class="col-4">コード：</p>
             </div>

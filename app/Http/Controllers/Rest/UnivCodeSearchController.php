@@ -50,11 +50,13 @@ class UnivCodeSearchController extends Controller
         $prefList = $this->prefectureService->selectList();
         $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
         $highSchoolClassList = $this->highSchoolClassService->selectList();
+        $highSchoolOptionList = config('selectlistarray.HIGH_SCHOOL_CODE_SELECT.OPTIONS');
 
         return view('univ_search', compact(
             'prefList',
             'highSchoolInstallCodeList',
             'highSchoolClassList',
+            'highSchoolOptionList',
         ));
     }
 
