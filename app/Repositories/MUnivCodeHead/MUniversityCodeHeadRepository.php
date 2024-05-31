@@ -26,8 +26,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
     public function __construct(
         MUniversityCodeHead $mUnivCodeHead,
         MUniversityCode $mUnivCode
-    )
-    {
+    ) {
         $this->MUnivCodeHead = $mUnivCodeHead;
         $this->MUnivCode = $mUnivCode;
     }
@@ -52,11 +51,10 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
                 $entry = $this->MUnivCodeHead::Create($codeHeadArray);
                 return $entry;
             }
-
         } catch (QueryException $e) {
             // Handle database related exceptions
             Log::Warning('Database error: ' . $e->getMessage());
-        } catch (ExclusionException $e){
+        } catch (ExclusionException $e) {
             Log::Warning('Database error: ' . '大学コードヘッダーID: '.$codeHeadArray['id'].','.trans('message.CONFLICT_EXCEPTION.update'));
             throw new ExclusionException($e->getMessage());
         } catch (Exception $e) {
@@ -68,10 +66,10 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
 
     public function getCodeHeader($dataNameCode)
     {
-       $mUnivCodeHeader = $this->MUnivCodeHead::
+        $mUnivCodeHeader = $this->MUnivCodeHead::
                                 where('university_code_name_cd', $dataNameCode)->first();
 
-       return $mUnivCodeHeader;
+        return $mUnivCodeHeader;
     }
 
     /**
@@ -80,7 +78,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * @param array $values
      * @param MUniversityCodeHead|null $mUnivCodeHead
      */
-    private function save(array $values, MUniversityCodeHead $mUnivCodeHead=null)
+    private function save(array $values, MUniversityCodeHead $mUnivCodeHead = null)
     {
         $input = collect($values);
         $model = $mUnivCodeHead ?: $this->MUnivCodeHead->newInstance();
@@ -111,7 +109,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
                 ->where('m_university_code_name.invalid_flag', '=', 0);
         })
         ->where('m_university_code_head.fiscal_year', '=', $year)
-        ->orderby('m_university_code_head.id', 'asc') 
+        ->orderby('m_university_code_head.id', 'asc')
         ->get();
     }
 
@@ -119,7 +117,8 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * 年度プルダウンリスト用意処理
      * @return array
      */
-    public function generateYearsArray() {
+    public function generateYearsArray()
+    {
         $currentYear = date('Y');
         $noOfFutureYears = config('constants.FUTURE_YEAR');
         $noOfPastYears = config('constants.PAST_YEAR');
@@ -145,7 +144,6 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      */
     public function univCodeDataList(array $conditions)
     {
-        // dd($conditions);
         return $this->MUnivCodeHead::select(
             'm_university_code_head.id as id',
             'm_university_code_head.fiscal_year as fiscal_year',
@@ -156,13 +154,13 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
             $join->on('m_university_code_head.university_code_name_cd', '=', 'm_university_code_name.university_code_name_cd')
                 ->where('m_university_code_name.invalid_flag', '=', 0);
         })
-        ->when(array_key_exists('year',$conditions) && isset($conditions['year']), function ($query) use ($conditions) {
+        ->when(array_key_exists('year', $conditions) && isset($conditions['year']), function ($query) use ($conditions) {
             return $query->where('m_university_code_head.fiscal_year', $conditions['year']);
         })
-        ->when(array_key_exists('data_name',$conditions) && isset($conditions['data_name']), function ($query) use ($conditions) {
+        ->when(array_key_exists('data_name', $conditions) && isset($conditions['data_name']), function ($query) use ($conditions) {
             return $query->where('m_university_code_name.university_code_name', 'like', '%'.trim($conditions['data_name']).'%');
         })
-        ->when(array_key_exists('dept_subject_div',$conditions) && isset($conditions['dept_subject_div']), function ($query) use ($conditions) {
+        ->when(array_key_exists('dept_subject_div', $conditions) && isset($conditions['dept_subject_div']), function ($query) use ($conditions) {
             return $query->where('m_university_code_head.dept_subject_div', $conditions['dept_subject_div']);
         })
         ->orderBy('m_university_code_head.fiscal_year')
@@ -173,11 +171,12 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
     /**
      * 【大学コードデータ削除】一覧取得処理
      * @param int $id
-     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException) 
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
      */
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $mUnivCodeHead = $this->MUnivCodeHead::where('id', $id)->firstOrFail();
 
             // 削除処理
@@ -190,7 +189,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
             DB::rollback();
             report($ex);
             return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.UNIVCODEHEAD_EXCLUSIVE_EXCEPTION'));
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             // システムエラー
             DB::rollback();
             report($ex);

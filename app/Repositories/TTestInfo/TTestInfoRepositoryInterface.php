@@ -13,7 +13,8 @@ namespace App\Repositories\TTestInfo;
 /**
  * テスト情報用リポジトリ
  */
-interface TTestInfoRepositoryInterface {
+interface TTestInfoRepositoryInterface
+{
 
     /**
      * 引数指定での検索処理( 検索画面用 ）
