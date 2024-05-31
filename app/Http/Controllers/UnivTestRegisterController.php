@@ -20,11 +20,10 @@ class UnivTestRegisterController extends Controller
      * @param TTestInfoService $tTestService 模試テーブルサービス
      */
     public function __construct(
-        TTestInfoService            $tTestService
-        ,MOemSchoolService          $mOemSchoolService
-        ,MTestNameService           $mTestNameService
-    )
-    {
+        TTestInfoService            $tTestService,
+        MOemSchoolService          $mOemSchoolService,
+        MTestNameService           $mTestNameService
+    ) {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $tTestService;
@@ -76,6 +75,6 @@ class UnivTestRegisterController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message',$result['message']);
+        return redirect()->route('test.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
     }
 }

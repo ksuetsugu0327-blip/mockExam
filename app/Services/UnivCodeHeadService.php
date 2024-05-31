@@ -16,8 +16,7 @@ class UnivCodeHeadService
      */
     public function __construct(
         MUniversityCodeHeadRepositoryInterface $repositoryMUniversityCodeHead
-    )
-    {
+    ) {
         $this->repositoryMUniversityCodeHead = $repositoryMUniversityCodeHead;
     }
 

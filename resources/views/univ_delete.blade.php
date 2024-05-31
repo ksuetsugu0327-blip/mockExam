@@ -72,7 +72,7 @@
                 <div class="buttons">
                     <input class="button bulu" type="submit" name="submit" value="検索">
                     <input id="inputClear" class="button green" type="button" name="reset" value="クリア">
-                    <a href="{{ route('univ.register',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" class="cell button green">一覧に戻る</a>
+                    <a href="{{ route('univ.register',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" class="cell button green">戻る</a>
                 </div>
             </form>
         </div>
@@ -92,7 +92,7 @@
                     <!-- Table body -->
                         <!-- Example data rows - Replace these with your own data rows -->
                         @foreach($univCodeList as $item)
-                        <tr>
+                        <tr data-id="{{ $item->id }}">
                             <td></td>
                             <td>{{ $item->fiscal_year }}</td>
                             <td>{{ $item->university_code_name }}</td>

@@ -20,11 +20,10 @@ class UnivTestEditController extends Controller
      * @param TTestInfoService $tTestService 模試テーブルサービス
      */
     public function __construct(
-        TTestInfoService            $tTestService
-        ,MOemSchoolService          $mOemSchoolService
-        ,MTestNameService           $mTestNameService
-    )
-    {
+        TTestInfoService            $tTestService,
+        MOemSchoolService          $mOemSchoolService,
+        MTestNameService           $mTestNameService
+    ) {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $tTestService;
@@ -68,7 +67,7 @@ class UnivTestEditController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->route('test.list',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message',$result['message']);
+        return redirect()->route('test.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
     }
 
     /**
@@ -77,15 +76,16 @@ class UnivTestEditController extends Controller
      * @param int $id 削除対象ID
      * @return redirect
      */
-    public function delete(Request $request, int $schCode, int $id) {
+    public function delete(Request $request, int $schCode, int $id)
+    {
         // 削除処理
         $result = $this->service->delete($id);
-        if($result['resultCode']==config('constants.RESULT_CODE_SYSTEM_ERROR')){
+        if ($result['resultCode']==config('constants.RESULT_CODE_SYSTEM_ERROR')) {
             // システムエラーの場合
             abort(500);
         }
         
         // 一覧画面へリダイレクト
-        return redirect()->to(route('test.list',[$schCode]))->with('message',$result['message']);
+        return redirect()->to(route('test.list', [$schCode]))->with('message', $result['message']);
     }
 }

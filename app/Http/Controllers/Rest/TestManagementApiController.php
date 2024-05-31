@@ -22,11 +22,11 @@ class TestManagementApiController extends Controller
     /**
      * 大学コードヘッダー情報取得API(テスト・登録用)
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse 
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getUnivCodeHeadList(Request $request)
     {
-        try{
+        try {
             $year = $request->fy;
             // 大学コードヘッダー情報取得
             $data = $this->univCodeHeadService->selectList($year)->toArray();
@@ -39,9 +39,8 @@ class TestManagementApiController extends Controller
             ];
 
             return response()->json(compact('header', 'data'));
-
-        } catch (\Exception $e){
-            // エラーヘッダー設定   
+        } catch (\Exception $e) {
+            // エラーヘッダー設定
             $header = [
                 'status' => 'error',
                 'message' => '',
