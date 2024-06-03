@@ -128,7 +128,7 @@ class UnivCodeDeleteController extends Controller
     }
 
     /**
-     * テスト情報削除処理を行う。
+     * 【大学コードデータ削除】削除処理
      * @param int $schCode
      * @param int $id 削除対象ID
      * @return redirect
