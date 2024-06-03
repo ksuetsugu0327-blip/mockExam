@@ -22,7 +22,8 @@
 const getOEMSchoolUrl = '{{route('api.univ_search.OEMSchool.name')}}';
 const getTestNameListUrl = '{{route('api.univ_search.test.name')}}';
 const getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}';
-const getHighSchoolCode = '{{route('api.univ_search.highSchoolCodeList')}}'
+const getHighSchoolCode = '{{route('api.univ_search.highSchoolCodeList')}}';
+const getuniversityCode = '{{route('api.univ_search.universityCodeList')}}';
 
 $(document).ready(function() {
     const schCodeInputField = $('#sch_code');
@@ -144,6 +145,8 @@ $(document).ready(function() {
         .done(function(data, status, jqXHR) {
             console.log(testID, data);
             if (data['header']['data_num'] > 0){
+                content = data['data'];
+                $('#search_university_code_head_id').val(content['university_code_head_id']);
                 if(data['data']['dept_subject_div'] == 1){
                     $('#use_common_test').prop('checked', false);
                     $('#use_common_test').next('label').hide();
@@ -190,6 +193,36 @@ $(document).ready(function() {
                     optionHtml += '<option value="'+ele['highschool_code']+'">'+ele['highschool_name']+'</option>';
                     $('#high_school_select').html(defaultOptionHtml + optionHtml);
                 });
+            }
+            else{
+
+            }
+        })        
+        .fail(function(jqXHR, status, error) {
+            console.log(jqXHR, status, error);
+        });
+    });
+
+    $('#search_btn').on('click', function(){
+        event.preventDefault();
+        let nameSearch = $('#name_search').prop('checked');
+        let conditionalSearch = $('#conditional_search').prop('checked');
+        let mode = 0;
+        if (nameSearch){
+            mode = 1;
+        }
+        if (conditionalSearch){
+            mode = 2;
+        }
+        var conditions = {
+            'mode': mode,
+        };
+
+        $.get(getuniversityCode, conditions, null, 'json')
+        .done(function(data, status, jqXHR) {
+            console.log(data);
+            if (data['header']['data_num'] > 0){
+
             }
             else{
 
@@ -421,6 +454,16 @@ $(document).ready(function() {
     <div class="accordion_title js-accordion_title default">
         <h3>　大学コード検索</h3>
         <div class="icon_wrap"><i class="icon"></i></div>
+        <input type="hidden" id="search_university_code_head_id" name="university_code_head_id">
+        <input type="hidden" id="search_dept_subject_divd" name="dept_subject_divd">
+        <input type="hidden" id="search_page_unit" name="page_unit">
+        <input type="hidden" id="search_univ_num" name="univ_num">
+        <input type="hidden" id="search_dept_num" name="dept_num">
+        <input type="hidden" id="search_subj_num" name="subj_num">
+        <input type="hidden" id="search_dsp_cat_div" name="dsp_cat_div">
+        <input type="hidden" id="search_univ_offset_end" name="univ_offset_end">
+        <input type="hidden" id="search_dept_offset_end" name="dept_offset_end">
+        <input type="hidden" id="search_subj_offset_end" name="subj_offset_end">
     </div>
     <div class="accordion_inner js-accordion_inner default">
         <div class="ac_inner_wraper tabs">
@@ -503,7 +546,7 @@ $(document).ready(function() {
         <a href="">条件クリア</a>
     </div>
     <div class = "kensaku_btn">
-        <a href="">検索</a>
+        <a id="search_btn" href="">検索</a>
     </div>
 </div>
 

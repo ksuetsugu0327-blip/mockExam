@@ -24,6 +24,7 @@ Route::group(['as' => 'api.'], function () {
             Route::get("/test_infos_list", "Rest\UnivCodeSearchController@getTestInfo")->name('test.name');
             Route::get("/university_code_heads", "Rest\UnivCodeSearchController@getUnivCodeHead")->name('universityCodeHead');
             Route::get("/highschool_codes_list", "Rest\UnivCodeSearchController@getHighSchoolCodeList")->name('highSchoolCodeList');
+            Route::get("/university_codes_list", "Rest\UnivCodeSearchController@getUniversityCodeList")->name('universityCodeList');
         });
     });
     Route::group(['prefix' => 'test_management', 'as' => 'test_management.'], function () {

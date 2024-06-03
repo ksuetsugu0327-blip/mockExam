@@ -225,4 +225,14 @@ class UnivCodeSearchController extends Controller
 
         return response()->json(compact('header', 'data'));
     }
+    
+    /**
+     * 大学コード検索用
+     *
+     * @return JSON 大学コード検索用
+     */
+    public function getUniversityCodeList(){
+        $mode = $request->get('mode');
+        
+    }
 }
