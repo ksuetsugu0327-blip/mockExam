@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\MOemService;
+use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
+use App\Services\MUnivInstallService;
 use App\Services\UnivCodeHeadService;
+use App\Services\MUnivCodeService;
 use App\Services\MPrefectureService;
 use App\Services\MHighSchoolInstallService;
 use App\Services\MHighSchoolClassService;
@@ -21,6 +23,8 @@ class UnivCodeSearchController extends Controller
     private $highSchoolInstallService;
     private $highSchoolClassService;
     private $highSchoolCodeService;
+    private $univInstallService;
+    private $univCodeService;
 
     private $common;
 
@@ -29,12 +33,14 @@ class UnivCodeSearchController extends Controller
      * @param MOemSchoolService $mOemSchoolService OEM塾マスタサービス
      */
     public function __construct(
-        MOemService $mOemSchoolService,
+        MOemSchoolService $mOemSchoolService,
         TTestInfoService $mTestInfoService,
         MPrefectureService $mPrefectureService,
         MHighSchoolInstallService $mHighSchoolInstallService,
         MHighSchoolClassService $mHighSchoolClassService,
         MHighSchoolCodeService $mHighSchoolCodeService,
+        MUnivInstallService $mUnivInstallService,
+        MUnivCodeService $mUnivCodeService,
         RestCommon $common
     ){
         $this->oemSchoolService = $mOemSchoolService;
@@ -43,6 +49,8 @@ class UnivCodeSearchController extends Controller
         $this->highSchoolInstallService = $mHighSchoolInstallService;
         $this->highSchoolClassService = $mHighSchoolClassService;
         $this->highSchoolCodeService = $mHighSchoolCodeService;
+        $this->univInstallService = $mUnivInstallService;
+        $this->univCodeService = $mUnivCodeService;
         $this->common = $common;
     }
 
@@ -52,11 +60,14 @@ class UnivCodeSearchController extends Controller
         $highSchoolClassList = $this->highSchoolClassService->selectList();
         $highSchoolOptionList = config('selectlistarray.HIGH_SCHOOL_CODE_SELECT.OPTIONS');
 
+        $univInstallCodeList = $this->univInstallService->selectList();
+dd($univInstallCodeList);
         return view('univ_search', compact(
             'prefList',
             'highSchoolInstallCodeList',
             'highSchoolClassList',
             'highSchoolOptionList',
+            'univInstallCodeList',
         ));
     }
 
@@ -231,8 +242,29 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON 大学コード検索用
      */
-    public function getUniversityCodeList(){
+    public function getUniversityCodeList(Request $request){
         $mode = $request->get('mode');
-        
+        if (mode == 1){
+            $conditions = [
+                'univHeaderID' => $request->get('unvhd'),
+                'deptSubjDiv' => $request->get('dptsub'),
+                'uInst1' => $request->get('uinst1'),
+                'univName' => $request->get('unvm'),
+                'deptName' => $request->get('udpnm'),
+                'subjName' => $request->get('usubnm'),
+                'nextOffset' => $request->get('next'),
+            ];
+        }
+
+        if(mode == 2){
+
+        }
+
+        $result = $this->univCodeService->getUnivCount($conditions);
+
+        $header = $this->common->makeHeader('success', '', $result??0);
+
+        return response()->json(compact('header', 'data'));
+
     }
 }

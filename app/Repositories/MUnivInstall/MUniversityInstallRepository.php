@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Repositories\MUnivInstall;
+
+use Illuminate\Support\Facades\DB;
+use App\Models\MUniversityInstall as MUniversityInstall;
+use App\Repositories\MUnivInstall\MUniversityInstallRepositoryInterface;
+
+
+
+/**
+ * 大学設置区分マスタ 用リポジトリ
+ *
+ */
+class MUniversityInstallRepository implements MUniversityInstallRepositoryInterface{
+    
+    /**
+     * 大学設置区分マスタ モデル
+     * @var type model
+     */
+    private $MUnivInstall;
+    
+    /**
+     * コンストラクタ
+     * @param MUniversityInstall $mUnivInstall  大学設置区分マスタモデル
+     */
+    public function __construct(MUniversityInstall $mUnivInstall){
+        $this->MUnivInstall = $mUnivInstall;
+    }
+
+    /**
+     * 大学設置者マスタプルダウン用リスト
+     * @return 大学設置者リスト
+     */
+    public function selectList(){
+        return $this->MUnivInstall;
+        
+        // ::where('invalid_flag', 0) 
+        //     ->orderby('install_name', 'asc')
+        //     ->get();
+    }
+    
+}

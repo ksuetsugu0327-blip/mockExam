@@ -27,8 +27,8 @@ class MHighSchoolInstallRepository implements MHighSchoolInstallRepositoryInterf
     }
 
     /**
-     * OEM塾マスタプルダウン用リスト
-     * @return OEM塾リスト
+     * 高校設置者マスタプルダウン用リスト
+     * @return 高校設置者リスト
      */
     public function selectList()
     {
