@@ -87,5 +87,30 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 }
         });    
     }
+
+    public function getUnivCount($conditions){
+        return $this->MunivCode::distinct('university_cd')
+            ->leftJoin('m_university_code_head as m_univ_head', 'm_univ_head.id', 'university_code_head_id')
+            ->when(array_key_exists('univHeaderID', $conditions) && isset($conditions['univHeaderID']), function ($query) use ($conditions) {
+                return $query->where('university_code_head_id', $conditions['univHeaderID']);
+            })
+            ->when(array_key_exists('deptSubjDiv', $conditions) && isset($conditions['deptSubjDiv']), function ($query) use ($conditions) {
+                return $query->where('dept_subject_div', $conditions['deptSubjDiv']);
+            })
+            ->when(array_key_exists('uInst1', $conditions) && isset($conditions['uInst1']), function ($query) use ($conditions) {
+                return $query->where('install_div', $conditions['uInst1']);
+            })
+            ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
+                return $query->where('university_name', $conditions['univName']);
+            })
+            ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
+                return $query->where('department_name', $conditions['deptName']);
+            })
+            ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
+                return $query->where('subject_name', $conditions['subjName']);
+            })
+            //->count();
+            ->toSql();
+    }
     
 }
