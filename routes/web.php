@@ -339,6 +339,6 @@ Route::prefix('/account')->group(function () {
 });
 
 //sessionは反映しない (個人アクセス)
-Route::get("/univ-search", "Rest\UnivCodeSearchController@index")->name('index');
+Route::get("/univ-search", "Rest\UnivCodeSearchController@index")->name('univ.search');
 
 
