@@ -61,7 +61,7 @@ $(document).ready(function() {
     $radioButtons.on('change', checkRadioButtons);
 
     var errCsvLink = $('#err_csv_link');
-    if (errCsvLink.length) {
+    if (errCsvLink.length && $.isNumeric($('#err_csv_link').html())) {
         const mode = $('#err_csv_link').html().trim();
         var url = "{{route('univ.err_csv', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')), 'mode' => ':parameter'])}}"
         url = url.replace(':parameter', encodeURIComponent(mode));
@@ -119,7 +119,7 @@ $(document).ready(function() {
                 </select>
             </div>
             <div class="form-group disp_flex" style="gap:42px">
-                <label for="data_name">データ名</label>
+                <label for="university_code_name_code">データ名</label>
                 <select class="form-control" id="university_code_name_code" name="university_code_name_code" style="width:200px;">
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
@@ -132,7 +132,7 @@ $(document).ready(function() {
                 @endforeach
             </div>
             <div class="form-group disp_flex" style="gap:42px">  
-                <label for="department" style="margin-right:14px;">学部/学科</label>
+                <label for="dept_subject_div" style="margin-right:14px;">学部/学科</label>
                 <select class="form-control" id="dept_subject_div" name="dept_subject_div">
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
@@ -164,7 +164,7 @@ $(document).ready(function() {
                                 {{-- 最後のメッセージはページ上部と重複するため出さない --}}
                                 @if($error == 1)
                                     <button id="err_csv_link" type="button" style="display: none;">{{$error}}</button>       
-                                @else
+                                @elseif($error == 2)
                                     <button id="err_csv_link" type="button" style="display: none;">{{$error}}</button>                         
                                 @endif
                             @else

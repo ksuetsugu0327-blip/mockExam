@@ -133,7 +133,7 @@ class UnivCsvUploadController extends Controller{
     }
 
     public function downloadErrCsv($schCode, $mode){
-        
+        $fileName = "";
         // if(!isset($sch_code)){
         //     return redirect(route('schoolIdCheck.index',['schCode'=>$schCode]));
         // }
