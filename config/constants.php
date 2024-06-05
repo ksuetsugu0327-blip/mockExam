@@ -431,5 +431,8 @@ return[
     'UNVC_COMMON_SCHOOL' => [
         'SCH_CODE' => 8888880,
         'SCH_NAME' => '全国共通（一般塾用）',
-    ]
+    ],
+
+    // 大学コード検索画面用内部API一回にあたって取得件数
+    'UNVC_PER_PAGE' => 20,
 ];

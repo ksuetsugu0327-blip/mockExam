@@ -142,5 +142,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MUnivInstall\MUniversityInstallRepositoryInterface::class,
             \App\Repositories\MUnivInstall\MUniversityInstallRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MUnivDeptLine\MUniversityDeptLineRepositoryInterface::class,
+            \App\Repositories\MUnivDeptLine\MUniversityDeptLineRepository::class
+        );
     }
 }

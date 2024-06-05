@@ -13,4 +13,14 @@ interface MUniversityCodeRepositoryInterface {
     public function deleteCodes($codeHeadID);
 
     public function getUnivCount(array $conditions);
+
+    public function getDeptCount(array $conditions);
+    
+    public function getSubjCount(array $conditions);
+
+    public function getUnivCodeList(array $conditions);
+
+    public function getDeptList($univCodeHeadID, $univCode);
+
+    public function getSubjList($univCodeHeadID, $univCode, $deptCode);
 }

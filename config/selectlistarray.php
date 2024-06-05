@@ -103,5 +103,19 @@ return[
             '56000G' => '専修学校の高等課程'
         ]
     ],
+
+    // 大学コード検索画面用偏差値プルダウン
+    'UNIV_CODE_DEVIATION' => [
+        'VALUES' => function() {  // config('selectlistarray.UNIV_CODE_DEVIATION.VALUES')()で使う
+            $min = 30;
+            $max = 80;
+            $step = 0.5;
+            $values = [];
+            for ($i = $min; $i <= $max; $i += $step) {
+                $values[] = number_format($i, 1);
+            }
+            return $values;
+        },
+    ],
 ];
 

@@ -22,7 +22,27 @@ class MUnivCodeService {
     }
 
     public function getUnivCount($conditions){
-        $this->repositoryMUniversityCode->getUnivCount($conditions);
+        return $this->repositoryMUniversityCode->getUnivCount($conditions);
+    }
+
+    public function getDeptCount($conditions){
+        return $this->repositoryMUniversityCode->getDeptCount($conditions);
+    }
+
+    public function getSubjCount($conditions){
+        return $this->repositoryMUniversityCode->getSubjCount($conditions);
+    }
+
+    public function getUnivCodeList($conditions){
+        return $this->repositoryMUniversityCode->getUnivCodeList($conditions);
+    }
+
+    public function getDeptList($univCodeHeadID, $univCode){
+        return $this->repositoryMUniversityCode->getDeptList($univCodeHeadID, $univCode);
+    }
+
+    public function getSubjList($univCodeHeadID, $univCode, $deptCode){
+        return $this->repositoryMUniversityCode->getSubjList($univCodeHeadID, $univCode, $deptCode);
     }
 
 }
