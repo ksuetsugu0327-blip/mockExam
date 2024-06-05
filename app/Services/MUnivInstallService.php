@@ -22,7 +22,7 @@ class MUnivInstallService {
     }
 
     public function selectList(){
-        $this->repositoryMUniversityInstall->selectList();
+        return $this->repositoryMUniversityInstall->selectList();
     }
 
 }

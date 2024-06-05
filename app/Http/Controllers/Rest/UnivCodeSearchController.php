@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
 use App\Services\MUnivInstallService;
+use App\Services\MUnivDeptLineService;
 use App\Services\UnivCodeHeadService;
 use App\Services\MUnivCodeService;
 use App\Services\MPrefectureService;
@@ -24,6 +25,7 @@ class UnivCodeSearchController extends Controller
     private $highSchoolClassService;
     private $highSchoolCodeService;
     private $univInstallService;
+    private $univDeptLineService;
     private $univCodeService;
 
     private $common;
@@ -40,6 +42,7 @@ class UnivCodeSearchController extends Controller
         MHighSchoolClassService $mHighSchoolClassService,
         MHighSchoolCodeService $mHighSchoolCodeService,
         MUnivInstallService $mUnivInstallService,
+        MUnivDeptLineService $mUnivDeptLineService,
         MUnivCodeService $mUnivCodeService,
         RestCommon $common
     ){
@@ -50,6 +53,7 @@ class UnivCodeSearchController extends Controller
         $this->highSchoolClassService = $mHighSchoolClassService;
         $this->highSchoolCodeService = $mHighSchoolCodeService;
         $this->univInstallService = $mUnivInstallService;
+        $this->univDeptLineService = $mUnivDeptLineService;
         $this->univCodeService = $mUnivCodeService;
         $this->common = $common;
     }
@@ -59,15 +63,18 @@ class UnivCodeSearchController extends Controller
         $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
         $highSchoolClassList = $this->highSchoolClassService->selectList();
         $highSchoolOptionList = config('selectlistarray.HIGH_SCHOOL_CODE_SELECT.OPTIONS');
-
         $univInstallCodeList = $this->univInstallService->selectList();
-dd($univInstallCodeList);
+        $univDeptLineList = $this->univDeptLineService->selectList();
+        $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION.VALUES')();
+
         return view('univ_search', compact(
             'prefList',
             'highSchoolInstallCodeList',
             'highSchoolClassList',
             'highSchoolOptionList',
             'univInstallCodeList',
+            'univDeptLineList',
+            'deviationValueList',
         ));
     }
 
@@ -244,7 +251,14 @@ dd($univInstallCodeList);
      */
     public function getUniversityCodeList(Request $request){
         $mode = $request->get('mode');
-        if (mode == 1){
+        $offset_end = $request->get('next');
+        //$offset_end = $offset_end + config('constants.UNVC_PER_PAGE');
+        $page_unit = config('constants.UNVC_PER_PAGE');
+        $univ_num = -1;
+        $dept_num = -1;
+        $subj_num = -1;
+
+        if ($mode == 1){
             $conditions = [
                 'univHeaderID' => $request->get('unvhd'),
                 'deptSubjDiv' => $request->get('dptsub'),
@@ -256,15 +270,134 @@ dd($univInstallCodeList);
             ];
         }
 
-        if(mode == 2){
+        if($mode == 2){
+            $conditions = [
+                'univHeaderID' => $request->get('unvhd'),
+                'deptSubjDiv' => $request->get('dptsub'),
+                'uInst2' => $request->get('uinst2'),
+                'prefCode' => $request->get('uprf'),
+                'deviFrom' => $request->get('udevf'),
+                'deviTo' => $request->get('udevt'),
+                'commonTest' => $request->get('ucmt'),
+                'nextOffset' => $request->get('next'),
+            ];
+        }
+        
+        $univCodeCount = $this->univCodeService->getUnivCount($conditions);
+// return response()->json(compact('univCodeCount'));
+        if (!empty($univCodeCount)){
+            $univ_num = $univCodeCount->count;
+        }
+        else{
+            $univ_num = 0;
+        }
+        if ($univ_num == 0){
+            $header = $this->common->makeHeader('success', '大学コード情報が登録されていません。', $result??0);
+            $dataHead = [];
+            $data = [];
 
+            return response()->json(compact('header', 'dataHead','data'));
         }
 
-        $result = $this->univCodeService->getUnivCount($conditions);
+        if($univ_num == 1){
+            $deptList = $this->univCodeService->getDeptList($conditions['univHeaderID'], $univCodeCount->university_cd);
+            $dept_num = $this->univCodeService->getDeptCount($conditions)->count;
 
-        $header = $this->common->makeHeader('success', '', $result??0);
+            if($dept_num == 1 && $conditions['deptSubjDiv'] == 2){
+                $subjList = $this->univCodeService->getSubjList($conditions['univHeaderID'], $deptList[0]->university_cd, $deptList[0]->department_cd);
+                $subj_num = $this->univCodeService->getSubjCount($conditions);
+                
+                $header = $this->common->makeHeader('success', '', $subj_num??0);
+                $dataHead = compact(
+                    'mode',
+                    // 'offset_end',
+                    'page_unit',
+                    // 'next_page',
+                    'list_cat_div',
+                    'univ_num',
+                    'dept_num',
+                    'subj_num',
+                );
+                
+                $result = [];
+                foreach($subjList as $dtl){
+                    $row = [];
+                    $row['dtl_name']          = $dtl->university_name;
+                //  $row['dtl_code']          = $dtl->university_cd;
+                    $row['dtl_deviation_val'] = $dtl->deviation_value;
+                    $row['university_cd']     = $dtl->university_cd;
+                    $row['department_cd']     = $dtl->department_cd;
+                //  $row['subject_cd']        = $dtl->subject_cd;
 
-        return response()->json(compact('header', 'data'));
+                    $result[] = $row;
+                }
+                $data = $result;
+
+                return response()->json(compact('header', 'dataHead', 'data'));
+            }
+
+            // 一覧表示区分：学部一覧
+            $list_cat_div = 2;
+            
+            $header = $this->common->makeHeader('success', '', $dept_num??0);
+            $dataHead = compact(
+                            'mode',
+                            // 'offset_end',
+                            'page_unit',
+                            // 'next_page',
+                            'list_cat_div',
+                            'univ_num',
+                            'dept_num',
+                            'subj_num',
+                        );
+            $result = [];
+            foreach($deptList as $dtl){
+                $row = [];
+                $row['dtl_name']          = $dtl->university_name;
+            //  $row['dtl_code']          = $dtl->university_cd;
+                $row['dtl_deviation_val'] = $dtl->deviation_value;
+                $row['university_cd']     = $dtl->university_cd;
+                $row['department_cd']     = $dtl->department_cd;
+            //  $row['subject_cd']        = $dtl->subject_cd;
+
+                $result[] = $row;
+            }
+            $data = $result;
+
+            return response()->json(compact('header', 'dataHead', 'data'));
+
+        }
+        
+        $list_cat_div = 1;
+        $univCodeList = $this->univCodeService->getUnivCodeList($conditions);
+//$result = $matchedCount;
+
+        $header = $this->common->makeHeader('success', '', $univ_num??0);
+        $dataHead = compact(
+            'mode',
+            // 'offset_end',
+            'page_unit',
+            // 'next_page',
+            'list_cat_div',
+            'univ_num',
+            'dept_num',
+            'subj_num',
+        );
+
+        $result = [];
+        foreach($deptList as $dtl){
+            $row = [];
+            $row['dtl_name']          = $dtl->university_name;
+        //  $row['dtl_code']          = $dtl->university_cd;
+            $row['dtl_deviation_val'] = $dtl->deviation_value;
+            $row['university_cd']     = $dtl->university_cd;
+
+            $result[] = $row;
+        }
+
+        $data = $result;
+
+        return response()->json(compact('header', 'dataHead', 'data'));
 
     }
 }

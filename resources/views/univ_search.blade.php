@@ -40,7 +40,7 @@ $(document).ready(function() {
 
     // 塾コードが入力された時
     $('#sch_code').on('change', function() {
-        $('#use_common_test').next('label').show();
+        $('#search_use_common_test').next('label').show();
         $('#grade').val('');
         $('#test_info').val('');
         schCodeInputField.next('p').removeClass('redText');
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
         $.get(getOEMSchoolUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data['header']['data_num']);
+            console.log(data);
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
                 $('#grade').val('');
@@ -147,12 +147,14 @@ $(document).ready(function() {
             if (data['header']['data_num'] > 0){
                 content = data['data'];
                 $('#search_university_code_head_id').val(content['university_code_head_id']);
+                $('#search_dept_subject_div').val(content['dept_subject_div']);
+
                 if(data['data']['dept_subject_div'] == 1){
-                    $('#use_common_test').prop('checked', false);
-                    $('#use_common_test').next('label').hide();
+                    $('#search_use_common_test').prop('checked', false);
+                    $('#search_use_common_test').next('label').hide();
                 }
                 else{
-                    $('#use_common_test').prop('disabled', false);
+                    $('#search_use_common_test').prop('disabled', false);
                 }
             }
             else{
@@ -210,13 +212,33 @@ $(document).ready(function() {
         let mode = 0;
         if (nameSearch){
             mode = 1;
+            var conditions = {
+                'mode': mode,
+                'unvhd': $('#search_university_code_head_id').val(),
+                'dptsub': $('#search_dept_subject_div').val(),
+                'uinst1': $('#search_univ_install_1').val(),
+                'unvm': $('#search_univ_name').val(),
+                'udpnm': $('#search_dept_name').val(),
+                'usubnm': $('#search_subj_name').val(),
+                'next': $('#univ_offset_end').val()
+            };
         }
         if (conditionalSearch){
             mode = 2;
+            var conditions = {
+                'mode': mode,
+                'unvhd': $('#search_university_code_head_id').val(),
+                'dptsub': $('#search_dept_subject_div').val(),
+                'uinst2': $('#search_univ_install_2').val(),
+                'uprf': $('#search_univ_prefecture').val(),
+                'udptl': $('#search_dept_line').val(),
+                'udevf': $('#search_devi_from').val(),
+                'udevt': $('#search_devi_To').val(),
+                'ucmt': $('#search_use_common_test').val(),
+                'next': $('#univ_offset_end').val()
+            };
         }
-        var conditions = {
-            'mode': mode,
-        };
+console.log(conditions);
 
         $.get(getuniversityCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
@@ -233,116 +255,6 @@ $(document).ready(function() {
         });
     });
 
-    // // 高校名が入力された時
-    // $('#high_school_name').on('change', function() {
-
-    //     var conditions = {
-    //         'oem_sch_code': schCode
-    //     };
-
-    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
-    //     .done(function(data, status, jqXHR) {
-    //         console.log(data['header']['data_num']);
-    //         if (data['header']['data_num'] > 0){
-    //         }
-    //         else{
-
-    //         }
-            
-    //     })        
-    //     .fail(function(jqXHR, status, error) {
-    //         console.log(jqXHR, status, error);
-    //     });
-    // });
-
-    // // 高校の設置者が選択された時high_school_founder
-    // $('#high_school_founder').on('change', function() {
-        
-    //     var conditions = {
-    //         'oem_sch_code': schCode
-    //     };
-
-    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
-    //     .done(function(data, status, jqXHR) {
-    //         console.log(data['header']['data_num']);
-    //         if (data['header']['data_num'] > 0){
-    //         }
-    //         else{
-
-    //         }
-            
-    //     })        
-    //     .fail(function(jqXHR, status, error) {
-    //         console.log(jqXHR, status, error);
-    //     });
-    // });
-    // // 高校種別が選択された時
-    // $('#high_school_class').on('change', function() {
-        
-    //     var conditions = {
-    //         'oem_sch_code': schCode
-    //     };
-
-    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
-    //     .done(function(data, status, jqXHR) {
-    //         console.log(data['header']['data_num']);
-    //         if (data['header']['data_num'] > 0){
-    //         }
-    //         else{
-
-    //         }
-            
-    //     })        
-    //     .fail(function(jqXHR, status, error) {
-    //         console.log(jqXHR, status, error);
-    //     });
-    // });
-    // 高校プルダウンが選択された時high_school_select
-    // $('#high_school_select').on('change', function() {
-        
-    //     var conditions = {
-    //         'oem_sch_code': schCode
-    //     };
-
-    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
-    //     .done(function(data, status, jqXHR) {
-    //         console.log(data['header']['data_num']);
-    //         if (data['header']['data_num'] > 0){
-    //         }
-    //         else{
-
-    //         }
-            
-    //     })        
-    //     .fail(function(jqXHR, status, error) {
-    //         console.log(jqXHR, status, error);
-    //     });
-    // });
-    // // 高校のその他が選択された時
-    // $('#high_school_option').on('change', function() {
-        
-    //     var conditions = {
-    //         'oem_sch_code': schCode
-    //     };
-
-    //     $.get(getOEMSchoolUrl, conditions, null, 'json')
-    //     .done(function(data, status, jqXHR) {
-    //         console.log(data['header']['data_num']);
-    //         if (data['header']['data_num'] > 0){
-    //         }
-    //         else{
-
-    //         }
-    //     })        
-    //     .fail(function(jqXHR, status, error) {
-    //         console.log(jqXHR, status, error);
-    //     });
-    // });
-    /* 大学コード検索 */
-
-    /* 大学コード検索 */
-    // 設置区分が選択された時
-    // 
 });
 </script>
 @endsection
@@ -455,7 +367,7 @@ $(document).ready(function() {
         <h3>　大学コード検索</h3>
         <div class="icon_wrap"><i class="icon"></i></div>
         <input type="hidden" id="search_university_code_head_id" name="university_code_head_id">
-        <input type="hidden" id="search_dept_subject_divd" name="dept_subject_divd">
+        <input type="hidden" id="search_dept_subject_div" name="dept_subject_div">
         <input type="hidden" id="search_page_unit" name="page_unit">
         <input type="hidden" id="search_univ_num" name="univ_num">
         <input type="hidden" id="search_dept_num" name="dept_num">
@@ -473,64 +385,74 @@ $(document).ready(function() {
             <label for = "conditional_search" class = "tab_item">　条件検索</label>
             <div class = "tab_content" id = "name_search_content">
                 <div class="c-block-input__select" style="width:200px;">
-                    <select required="required">
+                    <select id ="search_univ_install_1" name="search_univ_install_1" required="required">
                         <option value="">設置区分</option>
-                        <option value="sample_kubun">サンプル設置区分</option>
+                    @foreach($univInstallCodeList as $univInstallCode)
+                        <option value="{{$univInstallCode->install_cd}}">{{$univInstallCode->install_name}}</option>
+                    @endforeach
                     </select>
                 </div>
                 <div class = "disp_flex c-block-input">
-                    <input style="width:295px;" type="text" placeholder="大学名">
+                    <input id="search_univ_name" name="search_dept_name" style="width:295px;" type="text" placeholder="大学名">
                 </div>
                 <div class = "disp_flex c-block-input">
-                    <input style="width:295px;" type="text" placeholder="学部名">
+                    <input id="search_dept_name" name="search_dept_name" style="width:295px;" type="text" placeholder="学部名">
                 </div>
                 <div class = "disp_flex c-block-input">
-                    <input style="width:295px;" type="text" placeholder="学科名">
+                    <input id="search_subj_name" name="search_dept_name" style="width:295px;" type="text" placeholder="学科名">
                 </div>
             </div>
 
             <div class = "tab_content" id = "conditional_search_content">
                 <div class = "disp_flex">
                 <div class="c-block-input__select" style="width:200px;">
-                    <select required="required">
+                    <select id="search_univ_install_2" name="search_univ_install_2" required="required">
                         <option value="">設置区分</option>
-                        <option value="sample_kubun">サンプル設置区分</option>
+                        @foreach($univInstallCodeList as $univInstallCode)
+                            <option value="{{$univInstallCode->install_cd}}">{{$univInstallCode->install_name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="c-block-input__select" style="width:140px;">
-                    <select required="required">
-                        <option value="">都道府県</option>
-                        <option value="tokyo">東京都</option>
-                        <option value="osaka">大阪府</option>
+                    <select id="search_univ_prefecture" name="search_univ_prefecture" required="required">
+                        @foreach($prefList as $pref)
+                            <option value="{{$pref->pref_code}}">{{$pref->name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 </div>
                 <div class="c-block-input__select" style="width:300px;">
-                    <select required="required">
+                    <select id="search_dept_line" name="search_dept_line" required="required">
                         <option value="">学部系統</option>
-                        <option value="sample_gakubu">サンプル学部系統</option>
+                        @foreach($univDeptLineList as $univDeptLine)
+                            <option value="{{$univDeptLine->dept_line_cd}}">{{$univDeptLine->dept_line_name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class = "hensachi_area">
                     <p>偏差値</p>
                     <div class = "disp_flex hensachi">
                         <div class="c-block-input__select disp_flex" style="width:200px;">
-                            <select required="required">
+                            <select id="search_devi_from" name="search_devi_from" required="required">
                                 <option value="0">下限なし</option>
-                                <option value="1">○○～○○</option>
+                                @foreach($deviationValueList as $score)
+                                    <option value="{{$score}}">{{$score}}</option>
+                                @endforeach
                             </select>
                             <p>以上</p>
                         </div>
                         <div class="c-block-input__select disp_flex" style="width:200px;">
-                            <select required="required">
+                            <select id="search_devi_To" name="search_devi_To" required="required">
                                 <option value="0">上限なし</option>
-                                <option value="1">○○～○○</option>
+                                @foreach($deviationValueList as $score)
+                                    <option value="{{$score}}">{{$score}}</option>
+                                @endforeach
                             </select>
                             <p>以下</p>
                         </div>
                         <div class="c-block-input__checkbox">
-                            <input type="checkbox" id="use_common_test" name="use_common_test" checked>
-                            <label for="use_common_test">共通テスト利用</label>
+                            <input type="checkbox" id="search_use_common_test" name="search_use_common_test" checked>
+                            <label for="search_use_common_test">共通テスト利用</label>
                         </div>
                     </div>
                 </div>

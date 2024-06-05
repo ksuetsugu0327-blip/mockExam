@@ -33,11 +33,9 @@ class MUniversityInstallRepository implements MUniversityInstallRepositoryInterf
      * @return 大学設置者リスト
      */
     public function selectList(){
-        return $this->MUnivInstall;
-        
-        // ::where('invalid_flag', 0) 
-        //     ->orderby('install_name', 'asc')
-        //     ->get();
+        return $this->MUnivInstall::where('invalid_flag', 0) 
+            ->orderby('install_name', 'asc')
+            ->get();
     }
     
 }

@@ -29,4 +29,11 @@ class MOemSchoolService {
         return $this->repositoryMOemSchool->selectList();
     }
 
+    /**
+     * 塾名取得
+     */
+    public function getOemSchoolName($OEMSchCode)
+    {
+        return $this->repositoryMOemSchool->getOemSchoolName($OEMSchCode);
+    }
 }
