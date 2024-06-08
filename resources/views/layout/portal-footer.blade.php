@@ -7,5 +7,4 @@
             </p>
         </div>
     </footer>
-    </div>
 @endsection
