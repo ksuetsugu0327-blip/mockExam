@@ -258,7 +258,7 @@ class UnivCodeSearchController extends Controller
         $dept_num = "";
         $subj_num = "";
 
-        if ($mode == 1){
+        if ($mode == 1 || 11){
             $conditions = [
                 'univHeaderID' => $request->get('unvhd'),
                 'deptSubjDiv' => $request->get('dptsub'),
@@ -270,7 +270,7 @@ class UnivCodeSearchController extends Controller
             ];
         }
 
-        if($mode == 2){
+        if($mode == 2 || 12){
             $conditions = [
                 'univHeaderID' => $request->get('unvhd'),
                 'deptSubjDiv' => $request->get('dptsub'),
@@ -283,20 +283,105 @@ class UnivCodeSearchController extends Controller
             ];
         }
 
-        if($mode == 4){
+        if($mode == 3 || $mode == 13){
+            $conditions = [
+                'univHeaderID' => $request->get('unvhd'),
+                'deptSubjDiv' => $request->get('dptsub'),
+                'univCode' => $request->get('unvcd'),
+            ];
+
+            $univCodeCount = $this->univCodeService->getUnivCount($conditions);
+            $univDeptCount = $this->univCodeService->getDeptCount($conditions);
+            $univSubjCount = $this->univCodeService->getSubjCount($conditions);
+            $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
+            $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
+            $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
+
+            if ($mode == 13){
+                $conditions['nextOffset'] = $request->get('next');
+                $deptList = $this->univCodeService->getDeptList(
+                    $conditions['univHeaderID'],
+                    strval($conditions['univCode']),
+                    $conditions['nextOffset']
+                );
+            }
+            else{
+                $deptList = $this->univCodeService->getDeptList(
+                    $conditions['univHeaderID'],
+                    strval($conditions['univCode']),
+                    $conditions['nextOffset']
+                );
+            }
+
+            $list_cat_div = 2;
+            $list_dsp_title = '0件';
+//To DO: use it on frontside
+            if (!empty($deptList)){
+                $list_dsp_title = $deptList[0]->university_name.'　'.$deptList[0]->department_name.'　学科一覧';
+            }
+            
+            $header = $this->common->makeHeader('success', '', count($deptList)??0);
+            $data_head = compact(
+                'mode',
+                'page_unit',
+                'list_cat_div',
+                'univ_num',
+                'dept_num',
+                'subj_num',
+                'list_dsp_title',
+            );
+    
+            $result = [];
+            foreach($deptList as $dtl){
+                $row = [];
+                $row['dtl_name']          = $dtl->department_name;
+            //  $row['dtl_code']          = $dtl->university_cd;
+                $row['dtl_deviation_val'] = $dtl->deviation_value;
+                $row['university_cd']     = $dtl->university_cd;
+                $row['university_cd']     = $dtl->university_cd;
+                $row['department_cd']     = $dtl->department_cd;
+                $row['subject_cd']        = $dtl->subject_cd;
+    
+                $result[] = $row;
+            }
+    
+            $data = $result;
+    
+            return response()->json(compact('header', 'data_head', 'data'));
+            
+        }
+
+        if($mode == 4 || $mode == 14){
             $conditions = [
                 'univHeaderID' => $request->get('unvhd'),
                 'deptSubjDiv' => $request->get('dptsub'),
                 'univCode' => $request->get('unvcd'),
                 'deptCode' => $request->get('udpcd'),
-                'nextOffset' => $request->get('next'),
             ];
 
-            $subjList = $this->univCodeService->getSubjList(
-                                        $conditions['univHeaderID'],
-                                        strval($conditions['univCode']),
-                                        strval($conditions['deptCode']),
-                                    );
+            $univCodeCount = $this->univCodeService->getUnivCount($conditions);
+            $univDeptCount = $this->univCodeService->getDeptCount($conditions);
+            $univSubjCount = $this->univCodeService->getSubjCount($conditions);
+            $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
+            $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
+            $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
+
+            if ($mode == 14){
+                $conditions['nextOffset'] = $request->get('next');
+                $subjList = $this->univCodeService->getSubjList(
+                    $conditions['univHeaderID'],
+                    strval($conditions['univCode']),
+                    strval($conditions['deptCode']),
+                    $conditions['nextOffset']
+                );
+            }
+            else{
+                $subjList = $this->univCodeService->getSubjList(
+                    $conditions['univHeaderID'],
+                    strval($conditions['univCode']),
+                    strval($conditions['deptCode']),
+                );
+            }
 
             $list_cat_div = 3;
             $list_dsp_title = '0件';
@@ -318,10 +403,13 @@ class UnivCodeSearchController extends Controller
             $result = [];
             foreach($subjList as $dtl){
                 $row = [];
-                $row['dtl_name']          = $dtl->university_name;
+                $row['dtl_name']          = $dtl->subject_name;
             //  $row['dtl_code']          = $dtl->university_cd;
                 $row['dtl_deviation_val'] = $dtl->deviation_value;
                 $row['university_cd']     = $dtl->university_cd;
+                $row['university_cd']     = $dtl->university_cd;
+                $row['department_cd']     = $dtl->department_cd;
+                $row['subject_cd']        = $dtl->subject_cd;
     
                 $result[] = $row;
             }
@@ -387,7 +475,7 @@ class UnivCodeSearchController extends Controller
                     $row['dtl_deviation_val'] = $dtl->deviation_value;
                     $row['university_cd']     = $dtl->university_cd;
                     $row['department_cd']     = $dtl->department_cd;
-                //  $row['subject_cd']        = $dtl->subject_cd;
+                    $row['subject_cd']        = $dtl->subject_cd;
 
                     $result[] = $row;
                 }
@@ -421,7 +509,6 @@ class UnivCodeSearchController extends Controller
                 $row['dtl_deviation_val'] = $dtl->deviation_value;
                 $row['university_cd']     = $dtl->university_cd;
                 $row['department_cd']     = $dtl->department_cd;
-            //  $row['subject_cd']        = $dtl->subject_cd;
 
                 $result[] = $row;
             }
@@ -456,7 +543,7 @@ class UnivCodeSearchController extends Controller
         //  $row['dtl_code']          = $dtl->university_cd;
             $row['dtl_deviation_val'] = $dtl->deviation_value;
             $row['university_cd']     = $dtl->university_cd;
-
+            
             $result[] = $row;
         }
 
