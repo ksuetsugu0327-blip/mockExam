@@ -110,7 +110,7 @@ $(document).ready(function() {
             </div>
             <div class="form-group disp_flex" style="gap:42px">
                 <label for="year" style="margin-right:48px;">年度</label>
-                <select class="form-control" id="year" name="fiscal_year">
+                <select class="form-control" id="year" name="fiscal_year" disabled>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($years as $year)
@@ -120,7 +120,7 @@ $(document).ready(function() {
             </div>
             <div class="form-group disp_flex" style="gap:42px">
                 <label for="university_code_name_code">データ名</label>
-                <select class="form-control" id="university_code_name_code" name="university_code_name_code" style="width:200px;">
+                <select class="form-control" id="university_code_name_code" name="university_code_name_code" style="width:200px;" disabled>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($mUnivCodeName as $item)
@@ -133,7 +133,7 @@ $(document).ready(function() {
             </div>
             <div class="form-group disp_flex" style="gap:42px">  
                 <label for="dept_subject_div" style="margin-right:14px;">学部/学科</label>
-                <select class="form-control" id="dept_subject_div" name="dept_subject_div">
+                <select class="form-control" id="dept_subject_div" name="dept_subject_div" disabled>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($deptSubjSelect as $item)

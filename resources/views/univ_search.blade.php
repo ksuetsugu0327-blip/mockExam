@@ -724,10 +724,9 @@ console.log('Conditions:', conditions);
     <div class = "disp_flex">
     <div class="c-block-input__select" style="width:100px;">
         <select id="grade" name="grade" required="required" disabled>
-            <option value="">学年</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+        foreach($gradeList as $key => $grade)
+            <option value="{{$key}}">{{$grade}}</option>
+        endforeach
         </select>
     </div>
     <div class="c-block-input__select" style="width:300px;">

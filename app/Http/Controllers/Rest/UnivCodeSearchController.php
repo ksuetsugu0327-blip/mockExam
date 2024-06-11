@@ -59,6 +59,8 @@ class UnivCodeSearchController extends Controller
     }
 
     public function index(Request $request) {
+        $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
+        $gradeList[0] = '学年';
         $prefList = $this->prefectureService->selectList();
         $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
         $highSchoolClassList = $this->highSchoolClassService->selectList();
@@ -68,6 +70,7 @@ class UnivCodeSearchController extends Controller
         $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION.VALUES')();
 
         return view('univ_search', compact(
+            'gradeList',
             'prefList',
             'highSchoolInstallCodeList',
             'highSchoolClassList',
