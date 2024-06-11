@@ -60,7 +60,8 @@ class UnivCodeSearchController extends Controller
 
     public function index(Request $request) {
         $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
-        $gradeList[0] = '学年';
+        $gradeList = array_slice($gradeList, 1, NULL, true);
+
         $prefList = $this->prefectureService->selectList();
         $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
         $highSchoolClassList = $this->highSchoolClassService->selectList();
