@@ -241,7 +241,13 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#search_univ_offset_end').val(new_offset);
 
                     generate_univ_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                    $('#result_cnt').html(`学部 ${data_head['dept_num']}件(大学 ${data_head['univ_num']}校)`);
+                    if($('#search_dept_subject_div').val()==1){
+                        $('#result_cnt').html(`学部 ${data_head['dept_num']}件(大学 ${data_head['univ_num']}校)`);
+                    }
+                    else{
+                        $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
+                    }
+
                     $('#msg_area').show();
                 }
                 if(data_head['list_cat_div'] == 2 ){
@@ -252,7 +258,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#dtl_university_cd').val(content[0]['university_cd']);
                     generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
 
-                    $('#result_cnt').html(`学部 ${data_head['dept_num']}件(大学 ${data_head['univ_num']}校)`);
+                    if($('#search_dept_subject_div').val()==1){
+                        $('#result_cnt').html(`学部 ${data_head['dept_num']}件(大学 ${data_head['univ_num']}校)`);
+                    }
+                    else{
+                        $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
+                    }
                     $('#msg_area').show(content[0]);
                 }
                 if(data_head['list_cat_div'] == 3 ){
@@ -263,7 +274,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#dtl_department_cd').val(content[0]['department_cd']);
                     generate_subj_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
                     
-                    $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
+                    if($('#search_dept_subject_div').val()==1){
+                        $('#result_cnt').html(`学部 ${data_head['dept_num']}件(大学 ${data_head['univ_num']}校)`);
+                    }
+                    else{
+                        $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
+                    }
                     $('#msg_area').show();
                 }
             }
@@ -368,8 +384,8 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
 
                                 $('#dtl_university_cd').val(content[0]['university_cd']);
                                 generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                                $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
-                                $('#msg_area').show();
+                                // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
+                                // $('#msg_area').show();
                             }
                         }
                         else{
@@ -556,12 +572,13 @@ console.log('has_next', has_next);
                             if(data_head['list_cat_div'] == 3 ){
                                 let new_offset = +$('#search_subj_offset_end').val()+data_head['page_unit'];
                                 let has_next = (data_cnt - new_offset > 0)?true:false;
+console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 $('#search_subj_offset_end').val(new_offset);
                                 
                                 $('#dtl_department_cd').val(content[0]['department_cd']);
                                 generate_subj_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                                $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
-                                $('#msg_area').show();
+                                // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
+                                // $('#msg_area').show();
                             }
                         }
                         else{
@@ -588,9 +605,9 @@ console.log('has_next', has_next);
                 'unvhd': $('#search_university_code_head_id').val(),
                 'dptsub': $('#search_dept_subject_div').val(),
                 'unvcd': $('#dtl_university_cd').val(),
-                'next': $('#search_univ_offset_end').val(),
+                'next': $('#search_dept_offset_end').val(),
             };
-
+console.log('conditions: ', conditions);
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
                 console.log(data);
@@ -603,11 +620,12 @@ console.log('has_next', has_next);
                     if(data_head['list_cat_div'] == 2 ){
                         let new_offset = +$('#search_dept_offset_end').val()+data_head['page_unit'];
                         let has_next = (data_cnt - new_offset > 0)?true:false;
+console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         $('#search_dept_offset_end').val(new_offset);
 
                         generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                        $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
-                        $('#msg_area').show();
+                        // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
+                        // $('#msg_area').show();
                     }
                 }
                 else{
@@ -697,7 +715,7 @@ console.log(has_next);
                 'dptsub': $('#search_dept_subject_div').val(),
                 'unvcd':  $('#dtl_university_cd').val(),
                 'udpcd':  $('#dtl_department_cd').val(),
-                'next': $('#search_univ_offset_end').val(),
+                'next': $('#search_subj_offset_end').val(),
             };
 
             $.get(getuniversityCode, conditions, null, 'json')
@@ -715,8 +733,8 @@ console.log(has_next);
                         $('#search_subj_offset_end').val(new_offset)
 
                         generate_subj_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                        $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
-                        $('#msg_area').show();
+                        // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
+                        // $('#msg_area').show();
                     }
                 }
                 else{
@@ -751,6 +769,9 @@ console.log(has_next);
         $('#univ_list').empty();
         $('#dept_list').empty();
         $('#subj_list').empty();
+        $('#univ_list').show();
+        $('#dept_list').show();
+        $('#subj_list').show();
         $('#search_univ_offset_end').val(0);
         $('#search_dept_offset_end').val(0);
         $('#search_subj_offset_end').val(0);

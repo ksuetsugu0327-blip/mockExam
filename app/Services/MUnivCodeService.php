@@ -37,12 +37,12 @@ class MUnivCodeService {
         return $this->repositoryMUniversityCode->getUnivCodeList($conditions);
     }
 
-    public function getDeptList($univCodeHeadID, $univCode){
-        return $this->repositoryMUniversityCode->getDeptList($univCodeHeadID, $univCode);
+    public function getDeptList($univCodeHeadID, $univCode, $offset){
+        return $this->repositoryMUniversityCode->getDeptList($univCodeHeadID, $univCode, $offset);
     }
 
-    public function getSubjList($univCodeHeadID, $univCode, $deptCode){
-        return $this->repositoryMUniversityCode->getSubjList($univCodeHeadID, $univCode, $deptCode);
+    public function getSubjList($univCodeHeadID, $univCode, $deptCode, $offset){
+        return $this->repositoryMUniversityCode->getSubjList($univCodeHeadID, $univCode, $deptCode, $offset);
     }
 
 }

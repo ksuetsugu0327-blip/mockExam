@@ -20,7 +20,7 @@ interface MUniversityCodeRepositoryInterface {
 
     public function getUnivCodeList(array $conditions);
 
-    public function getDeptList($univCodeHeadID, $univCode);
+    public function getDeptList($univCodeHeadID, $univCode, $offset);
 
-    public function getSubjList($univCodeHeadID, $univCode, $deptCode);
+    public function getSubjList($univCodeHeadID, $univCode, $deptCode, $offset);
 }

@@ -303,11 +303,13 @@ class UnivCodeSearchController extends Controller
 
             if ($mode == 13){
                 $conditions['nextOffset'] = $request->get('next');
+// return response()->json(compact('conditions'));
                 $deptList = $this->univCodeService->getDeptList(
                     $conditions['univHeaderID'],
                     strval($conditions['univCode']),
                     $conditions['nextOffset']
                 );
+//return response()->json(compact('deptList'));
             }
             else{
                 $deptList = $this->univCodeService->getDeptList(
@@ -322,7 +324,7 @@ class UnivCodeSearchController extends Controller
 //To DO: use it on frontside
  //return response()->json(compact('deptList'));
             if (count($deptList)>0){
-                $list_dsp_title = $deptList[0]->university_name.'　'.$deptList[0]->department_name.'　学科一覧';
+                $list_dsp_title = $deptList[0]->university_name.'　学部一覧';
             }
             
             $header = $this->common->makeHeader('success', '', $dept_num??0);
@@ -367,6 +369,7 @@ class UnivCodeSearchController extends Controller
             $univCodeCount = $this->univCodeService->getUnivCount($conditions);
             $univDeptCount = $this->univCodeService->getDeptCount($conditions);
             $univSubjCount = $this->univCodeService->getSubjCount($conditions);
+//return response()->json(compact('univSubjCount'));
             $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
             $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
             $subj_num = empty($univSubjCount)?0:$univSubjCount->count;

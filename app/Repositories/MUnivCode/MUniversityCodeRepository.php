@@ -299,7 +299,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->get();
     }
 
-    public function getDeptList($univCodeHeadID, $univCode, $offset=null){
+    public function getDeptList($univCodeHeadID, $univCode, $offset){
         return $this->MUnivCode::select(
                 'university_cd',
                 'department_cd',
@@ -311,13 +311,13 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->where('university_cd', '=', $univCode)
             ->orderBy('department_seq')
             ->limit(config('constants.UNVC_PER_PAGE'))
-            ->when($offset, function ($query) use ($offset) {
+            ->when(isset($offset), function ($query) use ($offset) {
                 return $query->offset($offset);
             })
             ->get();
     }
 
-    public function getSubjList($univCodeHeadID, $univCode, $deptCode, $offset=null){
+    public function getSubjList($univCodeHeadID, $univCode, $deptCode, $offset){
         return $this->MUnivCode::select(
                 'university_cd',
                 'department_cd',
@@ -332,7 +332,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->where('department_cd', '=', $deptCode)
             ->orderBy('subject_seq')
             ->limit(config('constants.UNVC_PER_PAGE'))
-            ->when($offset, function ($query) use ($offset) {
+            ->when(isset($offset), function ($query) use ($offset) {
                 return $query->offset($offset);
             })
             ->get();
