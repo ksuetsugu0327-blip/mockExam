@@ -135,10 +135,11 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
-                    ->select(DB::raw('COUNT(*) as count'), 'university_cd')
-                    ->groupBy('university_cd')
+                    ->select(DB::raw('COUNT(*) as count'))
+                    //->groupBy('university_cd')
+
                     ->first();
-// ->getBindings();
+// ->toSql();
         return $count;
     }
 
@@ -189,8 +190,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
-                    ->select(DB::raw('COUNT(*) as count'), 'university_cd', 'department_cd')
-                    ->groupBy('university_cd', 'department_cd')
+                    ->select(DB::raw('COUNT(*) as count'))
+                    //->groupBy('university_cd', 'department_cd')
                     ->first();
 // ->getBindings();
         return $count;
@@ -243,8 +244,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
-                    ->select(DB::raw('COUNT(*) as count'), 'university_cd', 'department_cd', 'subject_cd')
-                    ->groupBy('university_cd', 'department_cd', 'subject_cd')
+                    ->select(DB::raw('COUNT(*) as count'))
+                    //->groupBy('university_cd', 'department_cd', 'subject_cd')
                     ->first();
 // ->getBindings();
         return $count;
