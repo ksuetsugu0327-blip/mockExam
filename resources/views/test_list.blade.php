@@ -44,7 +44,7 @@
                 @csrf
                 <div class="form-group">
                     <!-- Container for label and select dropdown -->
-                    <div class="form-row" style="gap:23px;">
+                    <div class="form-row" style="gap:38px;">
                         <span for="year">年度</span>
                         {{ Form::select(
                            'year', 
@@ -54,9 +54,9 @@
                             'style' => 'width:100px']
                         )}}
                     </div>
-                    <div class="form-row" style="gap:10px;">
+                    <div class="form-row" style="gap:11px;">
                         <!-- Below the select dropdown, we have the input field -->
-                        <span for="test_name">テスト</span>
+                        <span for="test_name">テスト名</span>
                         <input type="text" name="test_name" id="test_name" value="{{ old('test_name', $testNameKeyword) }}" class="cell clear">
                         @if($errors->has('test_name'))<br> <span class="error">{{ $errors->first('test_name') }}</span> @endif
                     </div>
@@ -74,13 +74,13 @@
                 <!-- Table header -->
                 <tbody>
                     <tr>
-                        <th style="width: 22px;"></th>
-                        <th style="width: 88px;">年度</th>
-                        <th style="width: 88px;">テスト名</th>
-                        <th style="width: 88px;">学年</th>
-                        <th style="width: 88px;">大学データ</th>
-                        <th style="width: 88px;"></th>
-                        <th style="width: 88px;"></th>
+                        <th style="width: 2%;"></th>
+                        <th style="width: 8%;">年度</th>
+                        <th style="width: 28%;">テスト名</th>
+                        <th style="width: 8%;">学年</th>
+                        <th style="width: 38%;">大学データ</th>
+                        <th style="width: 8%;"></th>
+                        <th style="width: 8%;"></th>
                     </tr>
                 <!-- Table body -->
                     <!-- Example data rows - Replace these with your own data rows -->
