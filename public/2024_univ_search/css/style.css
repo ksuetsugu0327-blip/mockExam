@@ -699,6 +699,9 @@ input[name="tab_item"] {
 .univ_namebox_02 a {
     display: inline-block;
     text-decoration: none;
+    pointer-events: none; /* Disable click */
+    cursor: not-allowed; /* Change cursor to indicate it's disabled */
+    text-decoration: none; /* Remove underline */
     color: #333;
    /* background-color: #B2E5FF; */
     background-color: #F5F5F5; 
