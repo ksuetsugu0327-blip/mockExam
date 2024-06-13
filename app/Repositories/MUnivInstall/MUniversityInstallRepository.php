@@ -34,7 +34,7 @@ class MUniversityInstallRepository implements MUniversityInstallRepositoryInterf
      */
     public function selectList(){
         return $this->MUnivInstall::where('invalid_flag', 0) 
-            ->orderby('install_name', 'asc')
+            ->orderby('install_cd', 'asc')
             ->get();
     }
     
