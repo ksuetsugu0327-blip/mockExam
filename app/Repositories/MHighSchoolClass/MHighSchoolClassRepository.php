@@ -33,7 +33,7 @@ class MHighSchoolClassRepository implements MHighSchoolClassRepositoryInterface
     public function selectList()
     {
         return $this->MHighSchoolClass::where('invalid_flag', 0) 
-            ->orderby('class_name', 'asc')
+            ->orderby('class_cd', 'asc')
             ->get();
     }
 }
