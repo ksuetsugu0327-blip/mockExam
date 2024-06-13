@@ -270,7 +270,7 @@ class UnivCodeSearchController extends Controller
                 'univName' => $request->get('unvm'),
                 'deptName' => $request->get('udpnm'),
                 'subjName' => $request->get('usubnm'),
-                'nextOffset' => $request->get('next'),
+                'offset' => $request->get('next'),
             ];
         }
 
@@ -283,7 +283,7 @@ class UnivCodeSearchController extends Controller
                 'deviFrom' => $request->get('udevf'),
                 'deviTo' => $request->get('udevt'),
                 'commonTest' => $request->get('ucmt'),
-                'nextOffset' => $request->get('next'),
+                'offset' => $request->get('next'),
             ];
         }
 
@@ -302,21 +302,13 @@ class UnivCodeSearchController extends Controller
             $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
 
             if ($mode == 13){
-                $conditions['nextOffset'] = $request->get('next');
+                $conditions['offset'] = $request->get('next');
 // return response()->json(compact('conditions'));
-                $deptList = $this->univCodeService->getDeptList(
-                    $conditions['univHeaderID'],
-                    strval($conditions['univCode']),
-                    $conditions['nextOffset']
-                );
+                $deptList = $this->univCodeService->getDeptList($conditions);
 //return response()->json(compact('deptList'));
             }
             else{
-                $deptList = $this->univCodeService->getDeptList(
-                    $conditions['univHeaderID'],
-                    strval($conditions['univCode']),
-                    0
-                );
+                $deptList = $this->univCodeService->getDeptList($conditions);
             }
 
             $list_cat_div = 2;
@@ -375,21 +367,11 @@ class UnivCodeSearchController extends Controller
             $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
 
             if ($mode == 14){
-                $conditions['nextOffset'] = $request->get('next');
-                $subjList = $this->univCodeService->getSubjList(
-                    $conditions['univHeaderID'],
-                    strval($conditions['univCode']),
-                    strval($conditions['deptCode']),
-                    $conditions['nextOffset']
-                );
+                $conditions['offset'] = $request->get('next');
+                $subjList = $this->univCodeService->getSubjList($conditions);
             }
             else{
-                $subjList = $this->univCodeService->getSubjList(
-                    $conditions['univHeaderID'],
-                    strval($conditions['univCode']),
-                    strval($conditions['deptCode']),
-                    0
-                );
+                $subjList = $this->univCodeService->getSubjList($conditions);
             }
 
             $list_cat_div = 3;

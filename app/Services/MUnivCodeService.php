@@ -21,28 +21,28 @@ class MUnivCodeService {
         $this->repositoryMUniversityCode = $repositoryMUniversityCode;
     }
 
-    public function getUnivCount($conditions){
+    public function getUnivCount(array $conditions){
         return $this->repositoryMUniversityCode->getUnivCount($conditions);
     }
 
-    public function getDeptCount($conditions){
+    public function getDeptCount(array $conditions){
         return $this->repositoryMUniversityCode->getDeptCount($conditions);
     }
 
-    public function getSubjCount($conditions){
+    public function getSubjCount(array $conditions){
         return $this->repositoryMUniversityCode->getSubjCount($conditions);
     }
 
-    public function getUnivCodeList($conditions){
+    public function getUnivCodeList(array $conditions){
         return $this->repositoryMUniversityCode->getUnivCodeList($conditions);
     }
 
-    public function getDeptList($univCodeHeadID, $univCode, $offset){
-        return $this->repositoryMUniversityCode->getDeptList($univCodeHeadID, $univCode, $offset);
+    public function getDeptList(array $conditions){
+        return $this->repositoryMUniversityCode->getDeptList($conditions);
     }
 
-    public function getSubjList($univCodeHeadID, $univCode, $deptCode, $offset){
-        return $this->repositoryMUniversityCode->getSubjList($univCodeHeadID, $univCode, $deptCode, $offset);
+    public function getSubjList(array $conditions){
+        return $this->repositoryMUniversityCode->getSubjList($conditions);
     }
 
 }
