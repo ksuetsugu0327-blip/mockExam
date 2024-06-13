@@ -1,6 +1,12 @@
 $(document).ready(function() {
-    const schCodeInputField = $('#sch_code');
-    const maxLength = 7; // Set your desired length here
+    let schCodeInputField = $('#sch_code');
+    let maxLength = 7; // Set your desired length here
+    let prevSchCode = '';
+    let prevGrade = '';
+    let prevTestInfo = '';
+    let search_btn_active_color = $('.kensaku_btn a').css('background-color');
+
+    toggle_search_btn();
 
     $('.code_select').change(function() {
         // Get the selected value
@@ -14,22 +20,49 @@ $(document).ready(function() {
             $(this).next('p').html('');
     });
 
+    $('#sch_code').on('focus', function(event) {
+        prevSchCode = $(this).val();
+    });
+    
+    $('#grade').on('focus', function(event) {
+        prevGrade = $(this).val();
+    });
+
+    $('#test_info').on('focus', function(event) {
+        prevTestInfo = $(this).val();
+    });
+
     // 塾コードが入力された時
     $('#sch_code').on('change', function() {
+        let hasUnivList = ($('#univ_list').html().trim() !== '')?true:false;
+        let hasDeptList = ($('#dept_list').html().trim() !== '')?true:false;
+        let hasSubjList = ($('#subj_list').html().trim() !== '')?true:false;
+        if(hasUnivList || hasDeptList || hasSubjList){
+            let proceed = confirm(codeHeadOnChangeMSG);
+            if(!proceed){
+              $(this).val(prevSchCode);
+              return false;
+            }
+        }
+        code_head_info_onchange();
+
         $('#search_use_common_test').next('label').show();
         $('#grade').val('');
         $('#test_info').val('');
         schCodeInputField.next('p').removeClass('redText');
         schCodeInputField.next('p').html("");
 
-        const currentLength = $(this).val().length;
+        let currentLength = $(this).val().length;
         let schCode = $(this).val();
         
         if (currentLength > maxLength || !$.isNumeric(schCode)) {
             if(schCode){
                 schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
             }
-            
+            $('#grade').val('');
+            $('#test_info').val('');
+            $('#grade').prop('disabled', true);
+            $('#test_info').prop('disabled', true);
             return
         } else {
             let paddedValue = schCode.padStart(7, '0');
@@ -37,7 +70,7 @@ $(document).ready(function() {
             schCode = paddedValue;
         }
         
-        const conditions = {
+        let conditions = {
             'oem': schCode
         };
 
@@ -58,21 +91,36 @@ $(document).ready(function() {
                 $('#grade').prop('disabled', true);
                 $('#test_info').prop('disabled', true);
             }
-            
+            toggle_search_btn();
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
             schCodeInputField.next('p').html('');
             $('#grade').prop('disabled', true);
             $('#test_info').prop('disabled', true);
+            toggle_search_btn();
         });
     });
 
     // 学年が選択された時
     $('#grade').on('change', function() {
-        const grade = $(this).val();
-        const schCode = schCodeInputField.val();
-        const currentLength = $(this).val().length;
+        let hasUnivList = ($('#univ_list').html().trim() !== '')?true:false;
+        let hasDeptList = ($('#dept_list').html().trim() !== '')?true:false;
+        let hasSubjList = ($('#subj_list').html().trim() !== '')?true:false;
+        if(hasUnivList || hasDeptList || hasSubjList){
+            let proceed = confirm(codeHeadOnChangeMSG);
+            if(!proceed){
+              $(this).val(prevGrade);
+              return false;
+            }
+        }
+        code_head_info_onchange();
+
+        let grade = $(this).val();
+        let schCode = schCodeInputField.val();
+        let currentLength = $(this).val().length;
+        $('#test_info').val('');
+        $('#test_info').prop('disabled', true);
 
         if (currentLength > maxLength || !$.isNumeric(schCode)) {
             schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
@@ -80,7 +128,7 @@ $(document).ready(function() {
             return
         }
 
-        const conditions = {
+        let conditions = {
             'oem': schCode,
             'grd': grade
         };
@@ -100,47 +148,65 @@ $(document).ready(function() {
                 });
             }
             else{
-
+                //TODO
             }
+            toggle_search_btn();
             
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
+            $('#test_info').prop('disabled', true);
+            toggle_search_btn();
         });
     });
 
     // テストが選択された時
     $('#test_info').on('change', function() {
-        const testID = $(this).val();
+        let hasUnivList = ($('#univ_list').html().trim() !== '')?true:false;
+        let hasDeptList = ($('#dept_list').html().trim() !== '')?true:false;
+        let hasSubjList = ($('#subj_list').html().trim() !== '')?true:false;
+        if(hasUnivList || hasDeptList || hasSubjList){
+            let proceed = confirm(codeHeadOnChangeMSG);
+            if(!proceed){
+              $(this).val(prevTestInfo);
+              return false;
+            }
+        }
+        code_head_info_onchange();
+
+        let testID = $(this).val();
         console.log(testID)
         let conditions = {
             'testid': testID
         };
+        if(testID){
+            $.get(getUnivCodeHead, conditions, null, 'json')
+            .done(function(data, status, jqXHR) {
+                console.log(testID, data);
+                if (data['header']['data_num'] > 0){
+                    content = data['data'];
+                    $('#search_university_code_head_id').val(content['university_code_head_id']);
+                    $('#search_dept_subject_div').val(content['dept_subject_div']);
 
-        $.get(getUnivCodeHead, conditions, null, 'json')
-        .done(function(data, status, jqXHR) {
-            console.log(testID, data);
-            if (data['header']['data_num'] > 0){
-                content = data['data'];
-                $('#search_university_code_head_id').val(content['university_code_head_id']);
-                $('#search_dept_subject_div').val(content['dept_subject_div']);
-
-                if(data['data']['dept_subject_div'] == 1){
-                    $('#search_use_common_test').prop('checked', false);
-                    $('#search_use_common_test').next('label').hide();
+                    if(data['data']['dept_subject_div'] == 1){
+                        $('#search_use_common_test').prop('checked', false);
+                        $('#search_use_common_test').next('label').hide();
+                    }
+                    else{
+                        $('#search_use_common_test').prop('disabled', false);
+                    }
                 }
                 else{
-                    $('#search_use_common_test').prop('disabled', false);
-                }
-            }
-            else{
 
-            }
-            
-        })        
-        .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
-        });
+                }
+                toggle_search_btn();
+            })        
+            .fail(function(jqXHR, status, error) {
+                console.log(jqXHR, status, error);
+                toggle_search_btn();
+            });
+        }
+        toggle_search_btn();
     });
 
     /* 高校コード検索 */
@@ -183,6 +249,13 @@ $(document).ready(function() {
         });
     });
 
+    $('#search_clear_btn').on('click', function(event){
+        event.preventDefault();
+        $('input[id^="search_"]').val('');
+        $('select[id^="search_"]').prop('selectedIndex', 0);
+        $('input[id^="search_"][type="checkbox"]').prop('checked', false);
+    });
+
     $('#search_btn').on('click', function(event){
         event.preventDefault();
         $('#search_01').hide();
@@ -221,7 +294,7 @@ $(document).ready(function() {
                 'udptl': $('#search_dept_line').val(),
                 'udevf': $('#search_devi_from').val(),
                 'udevt': $('#search_devi_To').val(),
-                'ucmt': $('#search_use_common_test').val(),
+                'ucmt': $('#search_use_common_test').prop('checked')?'on':'off',
                 'next': $('#search_univ_offset_end').val()
             };
         }
@@ -254,8 +327,9 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
                     $('#search_univ_offset_end').val(new_offset);
-
-                    $('#dtl_university_cd').val(content[0]['university_cd']);
+                    if(content.length > 0){
+                        $('#dtl_university_cd').val(content[0]['university_cd']);
+                    }
                     generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
 
                     if($('#search_dept_subject_div').val()==1){
@@ -264,14 +338,15 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     else{
                         $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
                     }
-                    $('#msg_area').show(content[0]);
+                    $('#msg_area').show();
                 }
                 if(data_head['list_cat_div'] == 3 ){
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
                     $('#search_univ_offset_end').val(new_offset);
-
-                    $('#dtl_department_cd').val(content[0]['department_cd']);
+                    if(content.length > 0){
+                        $('#dtl_department_cd').val(content[0]['department_cd']);
+                    }
                     generate_subj_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
                     
                     if($('#search_dept_subject_div').val()==1){
@@ -381,8 +456,9 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 let has_next = (data_cnt - new_offset > 0)?true:false;
 console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 $('#search_dept_offset_end').val(new_offset);
-
-                                $('#dtl_university_cd').val(content[0]['university_cd']);
+                                if(content.length > 0){
+                                    $('#dtl_university_cd').val(content[0]['university_cd']);
+                                }
                                 generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
                                 // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
                                 // $('#msg_area').show();
@@ -497,22 +573,26 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
         }
 
         departments.forEach(function(dept) {
-            let code = dept['university_cd'] + '-' + dept['department_cd']
-            let link = $('<a>').html(dept['dtl_name'] + '<br>コード：' + code);
-            if (dept['dtl_deviation_val']) {
-                link.append('<br>偏差値:' + dept['dtl_deviation_val']);
-            }
-            if (dept['department_cd']) {
-                link.attr('id', 'dept_dtl_'+ dept['department_cd']);
-            }
-            univ_namebox_01.append(link);
+            if (dept['university_cd'] && dept['department_cd']) {
+                let code = dept['university_cd'] + '-' + dept['department_cd'];
+            
+                let link = $('<a>').html(dept['dtl_name'] + '<br>コード：' + code);
+                if (dept['dtl_deviation_val']) {
+                    link.append('<br>偏差値:' + dept['dtl_deviation_val']);
+                }
 
-            let hidden_input = $('<input>')
-                            .attr('type', 'hidden')
-                            .attr('id', 'dept_'+ code)
-                            .val('dept_'+ code);
+                link.attr('id', 'dept_dtl_'+ code);
 
-            univ_namebox_01.append(hidden_input);
+                univ_namebox_01.append(link);
+            }
+
+
+            // let hidden_input = $('<input>')
+            //                 .attr('type', 'hidden')
+            //                 .attr('id', 'dept_'+ code)
+            //                 .val('dept_'+ code);
+
+            // univ_namebox_01.append(hidden_input);
         });
         
         dept_list_div.append(univ_namebox_01);
@@ -539,6 +619,10 @@ console.log('has_next', has_next);
 
         $('#univ_back').on('click', function(){
             $('#univ_list').show();
+            let curr_univ_code =  $('#dtl_university_cd').val();
+            let target_univ_tag = $('#univ_dtl_'+curr_univ_code);
+            in_page_link(target_univ_tag)
+console.log(curr_univ_code,target_univ_tag);
             $('#dept_list').empty();
             $('#dtl_university_cd').val('');
             $('#search_dept_offset_end').val(0);
@@ -548,7 +632,7 @@ console.log('has_next', has_next);
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
                     code = $(this).attr('id');
-                    code = code.split('_');
+                    code = code.split('-'); // コードformat: dept_dtl_<univCode>-<deptCode>
 
                     mode = 4;
                     var conditions = {
@@ -556,7 +640,7 @@ console.log('has_next', has_next);
                         'unvhd': $('#search_university_code_head_id').val(),
                         'dptsub': $('#search_dept_subject_div').val(),
                         'unvcd': $('#dtl_university_cd').val(),
-                        'udpcd': code[2],
+                        'udpcd': code[1],
                         //'next': $('#search_subj_offset_end').val(),
                     };
         console.log('conditions: ', conditions);
@@ -574,8 +658,9 @@ console.log('has_next', has_next);
                                 let has_next = (data_cnt - new_offset > 0)?true:false;
 console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 $('#search_subj_offset_end').val(new_offset);
-                                
-                                $('#dtl_department_cd').val(content[0]['department_cd']);
+                                if(content.length > 0){
+                                    $('#dtl_department_cd').val(content[0]['department_cd']);
+                                }
                                 generate_subj_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
                                 // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
                                 // $('#msg_area').show();
@@ -707,6 +792,18 @@ console.log(has_next);
             subj_list_div.append(btn_more);
         }
 
+        $('#dept_back').on('click', function(){
+            $('#dept_list').show();
+            let curr_univ_code = $('#dtl_university_cd').val();
+            let curr_dept_code = $('#dtl_department_cd').val();
+            let target_dept_tag = $('#dept_dtl_'+curr_univ_code+'-'+curr_dept_code);
+            in_page_link(target_dept_tag)
+            $('#subj_list').empty();
+            $('#dtl_department_cd').val('');
+            $('#search_subj_offset_end').val(0);
+            
+        });
+
         $('#subj_more').on('click', function(){
             mode = 14;
             var conditions = {
@@ -749,14 +846,22 @@ console.log(has_next);
                 console.log(jqXHR, status, error);
             });
         });
- 
-        $('#dept_back').on('click', function(){
-            $('#dept_list').show();
-            $('#subj_list').empty();
-            $('#dtl_department_cd').val('');
-            $('#search_subj_offset_end').val(0);
-            
-        });
+    }
+
+    function toggle_search_btn(){
+        let code_head_id = $('#search_university_code_head_id').val().trim();
+        let dept_subject_div = $('#search_dept_subject_div').val().trim();
+
+        if(!code_head_id||!dept_subject_div){
+            $('#search_btn').addClass('disabled');
+            $('.kensaku_btn a').css('background-color', 'gray');
+            $('#search_clear_btn').addClass('disabled');
+        }
+        else{
+            $('#search_btn').removeClass('disabled');
+            $('.kensaku_btn a').css('background-color', search_btn_active_color);
+            $('#search_clear_btn').removeClass('disabled');
+        }
     }
 
     function in_page_link(target)  {
@@ -775,6 +880,17 @@ console.log(has_next);
         $('#search_univ_offset_end').val(0);
         $('#search_dept_offset_end').val(0);
         $('#search_subj_offset_end').val(0);
+    }
+
+    function clear_code_head_info(){
+        $('#search_university_code_head_id').val('');
+        $('#search_dept_subject_div').val('');
+    }
+
+    function code_head_info_onchange(){
+        clear_code_head_info();
+        clear_all_list();
+        $('#search_clear_btn').trigger('click');
     }
 
 });

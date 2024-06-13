@@ -159,4 +159,7 @@ return[
     'CSV_MHIGHSCHOOL_DUPLICATE_DATA' => 'アップロードファイル内で重複しています。（高等学校コード：:high_school_code）',
     'CSV_MHIGHSCHOOL_NOT_DATA' => 'アップロードファイルのデータが0件です。',
 
+    //大学コード検索画面基本情報変更時警告メッセージ
+    'UNVC_CODE_HEAD_INFO_ONCHANGE_ALERT' => '表示中の検索結果はクリアされますが、よろしいですか?',
+
 ];

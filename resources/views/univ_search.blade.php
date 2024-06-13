@@ -13,6 +13,12 @@
     .redText {
         color: red;
     }
+    /* Style for disabled link */
+    .disabled {
+        pointer-events: none; /* Disable click */
+        cursor: not-allowed; /* Change cursor to indicate it's disabled */
+        text-decoration: none; /* Remove underline */
+    }
 </style>
 @endsection
 @section('script')
@@ -22,6 +28,7 @@
     const getUnivCodeHead = '{{route('api.univ_search.universityCodeHead')}}';
     const getHighSchoolCode = '{{route('api.univ_search.highSchoolCodeList')}}';
     const getuniversityCode = '{{route('api.univ_search.universityCodeList')}}';
+    const codeHeadOnChangeMSG = '{{trans('message.UNVC_CODE_HEAD_INFO_ONCHANGE_ALERT')}}'
 </script>
 @endsection
 
@@ -221,7 +228,7 @@
                         </div>
                     </div>
                     <div class="c-block-input__checkbox">
-                        <input type="checkbox" id="search_use_common_test" name="search_use_common_test" checked>
+                        <input type="checkbox" id="search_use_common_test" name="search_use_common_test">
                         <label for="search_use_common_test">共通テスト利用</label>
                     </div>
                 </div>
@@ -233,11 +240,11 @@
 </div>
 
 <div id="search_btn_area_01" class="disp_flex btn_box">
-    <div class = "clear_btn">
-        <a href="">条件クリア</a>
+    <div id="search_clear_btn" class = "clear_btn">
+        <a href="#">条件クリア</a>
     </div>
     <div class = "kensaku_btn">
-        <a id="search_btn" href="">検索</a>
+        <a id="search_btn" class="disabled" href="">検索</a>
     </div>
 </div>
 <div id="search_btn_area_02" class = "disp_flex btn_box" style="display:none;">
