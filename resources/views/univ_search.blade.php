@@ -49,13 +49,13 @@
             <a href="{{config('constants.UNVC_LIST_DOWNLOAD_LINK')}}" style="text-decoration: underline;">コード表ダウンロード</a>
         </label>
     </div>
-    <div class = "disp_flex c-block-input">
+    <div class = "disp_flex c-block-input required">
         <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード">
         <p></p>
     </div>
 
     <div class = "disp_flex">
-    <div class="c-block-input__select" style="width:100px;">
+    <div class="c-block-input__select required" style="width:100px;">
         <select id="grade" name="grade" required="required" disabled>
             <option value="">学年</option>
         @foreach($gradeList as $key => $grade)
@@ -63,7 +63,7 @@
         @endforeach
         </select>
     </div>
-    <div class="c-block-input__select" style="width:300px;">
+    <div class="c-block-input__select required" style="width:300px;">
         <select id="test_info" name="test_info" required="required" disabled>
             <option value="">テスト選択</option>
         </select>
@@ -86,7 +86,7 @@
                         <option value="sample_hsname">サンプル高校名</option>
                     </select>
                 </div> -->
-                <div class="row disp_flex c-block-input__select hsc_sel_pref">
+                <div class="c-block-input__select hsc_sel_pref">
                     <select id="high_school_prefecture" name="high_school_prefecture" required="required">
                         <option value="">都道府県</option>
                         @foreach($prefList as $pref)
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="disp_flex">
-                <div class="row disp_flex c-block-input__select hsc_sel_inst">
+                <div class="c-block-input__select hsc_sel_inst">
                     <select id="high_school_founder" name="high_school_founder" required="required">
                         <option value="">設置者</option>
                         @foreach($highSchoolInstallCodeList as $highSchoolInstallCode)
@@ -107,7 +107,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="row disp_flex c-block-input__select hsc_sel_wide">
+                <div class="c-block-input__select hsc_sel_wide">
                     <select id="high_school_class" name="high_school_class" required="required">
                         <option value="">高校種別</option>
                         @foreach($highSchoolClassList as $highSchoolClass)
@@ -116,13 +116,13 @@
                     </select>
                 </div>
             </div>
-            <div class = "row disp_flex c-block-input__select hsc_sel_middle">
+            <div class = "c-block-input__select hsc_sel_middle">
                 <select id="high_school_select" name="high_school_select" class="col-8 code_select" required="required">
                     <option value="">高校選択</option>
                 </select>
                 <p class="col-4" ></p>
             </div>
-            <div class = "row disp_flex c-block-input__select hsc_sel_middle" >
+            <div class = "c-block-input__select hsc_sel_middle" >
                 <select id="high_school_option" name="high_school_option" class="col-8 code_select" required="required">
                     <option value="">その他選択</option>
                     @foreach($highSchoolOptionList as $key => $highSchoolOption)

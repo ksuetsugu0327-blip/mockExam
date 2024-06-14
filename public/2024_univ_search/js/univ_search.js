@@ -390,7 +390,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
         $('#search_03').show();
         $('#search_btn_area_01').show();
         $('#search_btn_area_02').hide();
-        $('#msg_area').hide();
+        //$('#msg_area').hide();
         return false;
     });
 
@@ -868,13 +868,19 @@ console.log(has_next);
 
         if(!code_head_id||!dept_subject_div){
             $('#search_btn').addClass('disabled');
-            $('.kensaku_btn a').css('background-color', 'gray');
+            $('.kensaku_btn a').css('background-color', '#C0C0C0');
             $('#search_clear_btn').addClass('disabled');
+            $('.clear_btn a')
+                .css('border-color', '#C0C0C0')
+                .css('color', '#C0C0C0');
         }
         else{
             $('#search_btn').removeClass('disabled');
             $('.kensaku_btn a').css('background-color', search_btn_active_color);
             $('#search_clear_btn').removeClass('disabled');
+            $('.clear_btn a')
+                .css('border-color', search_btn_active_color)
+                .css('color', search_btn_active_color);
         }
     }
 

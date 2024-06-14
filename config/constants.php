@@ -330,7 +330,7 @@ return[
             'INDEX' => 3,
         ],
         'INSTALL_CODE' => [
-            'NAME' => '設置者区分',
+            'NAME' => '設置者コード',
             'INDEX' => 4,
         ],
         'CLASS_CODE' => [

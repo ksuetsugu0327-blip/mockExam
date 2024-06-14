@@ -185,6 +185,15 @@ section .hs_title {
     border-radius: 4px
 }
 
+.required input[type="text"]{
+    background-color: #fff0f5;
+    
+}
+
+.required input:focus {
+    background-color: #FFFFFF
+}
+
 .c-block-input input:focus {
     border-color: #E6A54D
 }
@@ -238,69 +247,78 @@ section .hs_title {
     background-repeat: no-repeat;
     border-radius: 4px !important;
     position: relative
-  }
-  .c-block-input__select select::-ms-expand {
-     display: none
-  }
+}
+
+.required select{
+    background-color: #fff0f5;   
+}
+
+.required select:focus {
+    background-color: #FFFFFF
+}
+
+.c-block-input__select select::-ms-expand {
+    display: none
+}
   
-  .c-block-input__select select:focus {
+.c-block-input__select select:focus {
     border-color: #E6A54D;
     outline: none;
-  }
+}
 
-  select:invalid { color: #a9a9a9; }
-  select option { color: #333; }
-  select option:first-child { color: #a9a9a9; }
+select:invalid { color: #a9a9a9; }
+select option { color: #333; }
+select option:first-child { color: #a9a9a9; }
 
 
 
 
 
 /*checkboxの指定*/
-  .c-block-input__checkbox input[type=checkbox] {
-    display: none
-  }
-  
-  .c-block-input__checkbox label {
-    box-sizing: border-box;
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px 0 0 30px;
-    position: relative;
-    width: auto
-  }
-  
-  .c-block-input__checkbox label::before {
-    content: "";
-    display: block;
-    background: #fff;
-    border: 1px solid #999;
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    margin-top: -6px
-  }
-  
-  .c-block-input__checkbox label::after {
-    content: "";
-    display: block;
-    border-right: 3px solid #E6A54D;
-    border-bottom: 3px solid #E6A54D;
-    width: 5px;
-    height: 9px;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    margin-top: -6px;
-    opacity: 0;
-    transform: rotate(45deg)
-  }
-  
-  .c-block-input__checkbox input[type=checkbox]:checked+label::after {
-    opacity: 1
-  }
+.c-block-input__checkbox input[type=checkbox] {
+display: none
+}
+
+.c-block-input__checkbox label {
+box-sizing: border-box;
+cursor: pointer;
+display: inline-block;
+padding: 10px 0 0 30px;
+position: relative;
+width: auto
+}
+
+.c-block-input__checkbox label::before {
+content: "";
+display: block;
+background: #fff;
+border: 1px solid #999;
+width: 15px;
+height: 15px;
+position: absolute;
+left: 5px;
+top: 50%;
+margin-top: -6px
+}
+
+.c-block-input__checkbox label::after {
+content: "";
+display: block;
+border-right: 3px solid #E6A54D;
+border-bottom: 3px solid #E6A54D;
+width: 5px;
+height: 9px;
+position: absolute;
+left: 10px;
+top: 50%;
+margin-top: -6px;
+opacity: 0;
+transform: rotate(45deg)
+}
+
+.c-block-input__checkbox input[type=checkbox]:checked+label::after {
+opacity: 1
+}
 
 
 
