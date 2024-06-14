@@ -11,6 +11,7 @@ return [
       | as the size rules. Feel free to tweak each of these messages here.
       |
      */
+
     'accepted' => ':attributeを承認してください。',
     'active_url' => ':attributeには有効なURLを指定してください。',
     'after' => ':attributeには:date以降の日付を指定してください。',
@@ -103,6 +104,7 @@ return [
     'exam_grade' => ':attributeには:minから:maxの数字を指定してください。',
     'half_kana'  => ':attributeが半角カナになっていません。',
     'decimal'    => '偏差値:attributeの形式を確認ください。',
+    'tel'        => '電話番号の形式に誤りがあります。',
 
     /*
       |--------------------------------------------------------------------------

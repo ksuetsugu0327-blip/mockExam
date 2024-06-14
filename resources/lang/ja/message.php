@@ -67,7 +67,7 @@ return[
 
     // 楽観ロックエラー
     'CONFLICT_EXCEPTION' => [
-        'update' => '指定されたデータが他のユーザーによって更新されました。最新の情報を確認してください。',
+        'update' => '他のユーザーで更新されました。最新の情報を確認してください。',
     ],
 
     // 正常終了メッセージ
@@ -85,7 +85,7 @@ return[
     // 教室マスタ 削除処理の正常終了時メッセージ
     'SUCCESS_MCLASS_DELETE_DATA' => '指定された教室(教室コード：:cls_code)を削除しました。',
     // CSVにて教室マスタ 登録処理の正常終了時メッセージ
-    'SUCCESS_MCLASS_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+    'SUCCESS_MCLASS_CSV_DATA' => 'CSVデータの登録が完了しました。',
     // テスト情報 登録処理の正常終了時メッセージ
     'SUCCESS_TESTINFO_REGISTER_DATA' => '新しいテスト情報の登録が完了しました。',
     // テスト情報 更新処理の正常終了時メッセージ
@@ -102,7 +102,7 @@ return[
     // 個人マスタ 削除処理の正常終了時メッセージ
     'SUCCESS_MPERSON_DELETE_DATA' => '指定された生徒（塾コード：:sch_code 塾生ID：:psn_code）を削除しました。',
     // CSVにて個人マスタ 登録処理の正常終了時メッセージ
-    'SUCCESS_MPERSON_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+    'SUCCESS_MPERSON_CSV_DATA' => 'CSVデータの登録が完了しました。',
 
     // 大学コードマスタ 登録処理の正常終了時メッセージ
     'SUCCESS_MUNIVCODE_REGISTER_DATA' => '新しい大学コード（コードデーター名コード：:code_head_id ）の登録が完了しました。',
@@ -113,7 +113,7 @@ return[
     // 大学コードマスタ 削除処理の正常終了時メッセージ
     'SUCCESS_MUNIVCODE_DELETE_DATA' => '指定された大学コード（塾コード：:sch_code 塾生ID：:psn_code）を削除しました。',
     // CSVにて大学コードマスタ 登録処理の正常終了時メッセージ
-    'SUCCESS_MUNIVCODE_CSV_DATA' => 'CSVﾃﾞｰﾀの登録が完了しました。',
+    'SUCCESS_MUNIVCODE_CSV_DATA' => 'CSVデータの登録が完了しました。',
 
     // 志望校テーブル 登録処理の正常終了時メッセージ
     'SUCCESS_TICKET_REGISTER_DATA' => ':testname 志望校の登録が完了しました。',
