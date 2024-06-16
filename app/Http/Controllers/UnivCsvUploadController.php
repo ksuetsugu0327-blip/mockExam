@@ -274,7 +274,7 @@ class UnivCsvUploadController extends Controller{
 
             // 1行目のヘッダーは取り込まない
             if ($row_count > 0) {
-                $highschool_code     = $row[0];
+                $highschool_code     = substr($row[0], 2, 4);
                 $highschool_name_hkn = $row[1];
                 $zip_num             = $row[2];
                 $tel_num             = $row[3];
@@ -282,7 +282,7 @@ class UnivCsvUploadController extends Controller{
                 $class_cd            = $row[5];
                 $highschool_name     = $row[6];
                 $address             = $row[7];
-                $prefecture_cd	     = $row[8];
+                $prefecture_cd	     = substr($row[0], 0, 2);
 
                 // 登録データを配列に追加
                 $arrayInsertData[] = array(

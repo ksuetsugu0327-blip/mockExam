@@ -23,7 +23,7 @@ class HighSchoolCsvService {
      */
     public function validateCsvData($file) {
         // CSVファイルがヘッダー行を除いて最大行以上の場合はエラー
-        //$file->seek($file->getSize());
+        $file->seek($file->getSize());
 
         // errorリスト
         $csv_errors = array();
@@ -61,7 +61,6 @@ class HighSchoolCsvService {
                     config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')             => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.INDEX')],
                     config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')       => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.INDEX')],
                     config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.PREF_CODE.NAME')              => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.PREF_CODE.INDEX')],
                 );
                 // バリデーションルール生成
                 $rules = $this->makeCsvValidationRules($arrayCheckData);
@@ -80,23 +79,6 @@ class HighSchoolCsvService {
                     continue;
                 }
 
-                // // CSV内重複チェックキー
-                // $csv_key = [
-                //     config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')  => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
-                // ];
-
-                // //キー重複
-                // $csv_keyAry[] = $csv_key;
-                // // 配列の数と重複を削除した配列の個数が一致してきること
-                // if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
-                //     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
-                //     $csv_errors[] = [
-                //         'line' => $output_line_num,
-                //         'message' => trans('message.CSV_MHIGHSCHOOL_DUPLICATE_DATA',[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')
-                //                                                                         =>$csv_key[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')]]),
-                //     ];
-                //     continue;
-                // }
             }
         }
 
@@ -145,9 +127,6 @@ class HighSchoolCsvService {
             
             config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
                 'bail|nullable|string|em_length:30',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.PREF_CODE.NAME')                   => 
-                'bail|required|digits_between:1,2|max:2|exists:m_prefecture,pref_code',
         ];
 
         return $rules;
