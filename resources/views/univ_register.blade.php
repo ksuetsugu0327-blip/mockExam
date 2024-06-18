@@ -47,14 +47,16 @@ $(document).ready(function() {
     // Function to check the selected radio button and enable/disable the select element
     function checkRadioButtons() {
         let disableSelect = true;
+        let required = false;
 
         if ($(this).val() === "{{$codeData['UNIV_CODE']['VALUE']}}") { // Replace 'enable_select' with the appropriate value
             disableSelect = false;
+            required = true;
         }
 
-        $year.prop('disabled', disableSelect);
-        $universityCodeNameCode.prop('disabled', disableSelect);
-        $deptSubjectDiv.prop('disabled', disableSelect);
+        $year.prop('required', required).prop('disabled', disableSelect).val('');
+        $universityCodeNameCode.prop('required', required).prop('disabled', disableSelect).val('');
+        $deptSubjectDiv.prop('required', required).prop('disabled', disableSelect).val('');
     }
 
     // Add event listeners to all radio buttons
@@ -102,7 +104,7 @@ $(document).ready(function() {
                     <label>データ区分</label><br>
                     @foreach($codeData as $index => $item)
                     <div class="disp_flex form-check form-check-inline" style="gap:16px">
-                        <input class="form-check-input" type="radio" name="data_type" id="university_code_{{ $index }}" value="{{ $item['VALUE'] }}">
+                        <input class="form-check-input" type="radio" name="data_type" id="university_code_{{ $index }}" value="{{ $item['VALUE'] }}" {{ old('data_type') == $item['VALUE'] ? 'checked' : '' }} required>
                         <label class="form-check-label" for="university_code_{{ $index }}">{{ $item['NAME'] }}</label>
                     </div>
                     @endforeach
@@ -110,21 +112,21 @@ $(document).ready(function() {
             </div>
             <div class="form-group disp_flex" style="gap:42px">
                 <label for="year" style="margin-right:48px;">年度</label>
-                <select class="form-control" id="year" name="fiscal_year" disabled>
+                <select class="form-control" id="year" name="fiscal_year" {{ old('data_type') == 2 || old('data_type') == null ? 'disabled' : '' }} required>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($years as $year)
-                    <option value="{{$year}}">{{$year}}</option>
+                    <option value="{{$year}}" {{ old('fiscal_year') == $year ? 'selected' : '' }}>{{$year}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group disp_flex" style="gap:42px">
                 <label for="university_code_name_code">データ名</label>
-                <select class="form-control" id="university_code_name_code" name="university_code_name_code" style="width:200px;" disabled>
+                <select class="form-control" id="university_code_name_code" name="university_code_name_code" style="width:200px;" {{ old('data_type') == 2 || old('data_type') == null ? 'disabled' : '' }} required>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($mUnivCodeName as $item)
-                    <option value="{{$item->university_code_name_cd}}">{{$item->university_code_name}}</option>
+                    <option value="{{$item->university_code_name_cd}}" {{ old('university_code_name_code') == $item->university_code_name_cd ? 'selected' : '' }}>{{$item->university_code_name}}</option>
                     @endforeach
                 </select>
                 @foreach($mUnivCodeName as $item)
@@ -133,11 +135,11 @@ $(document).ready(function() {
             </div>
             <div class="form-group disp_flex" style="gap:42px">  
                 <label for="dept_subject_div" style="margin-right:14px;">学部/学科</label>
-                <select class="form-control" id="dept_subject_div" name="dept_subject_div" disabled>
+                <select class="form-control" id="dept_subject_div" name="dept_subject_div" {{ old('data_type') == 2 || old('data_type') == null ? 'disabled' : '' }} required>
                     <!-- Options should be populated dynamically -->
                     <option value="">選択してください</option>
                     @foreach($deptSubjSelect as $item)
-                        <option value="{{$item['VALUE']}}">{{$item['NAME']}}</option>
+                        <option value="{{$item['VALUE']}}" {{ old('dept_subject_div') == $item['VALUE'] ? 'selected' : '' }}>{{$item['NAME']}}</option>
                     @endforeach
                 </select>
             </div>

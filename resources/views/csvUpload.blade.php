@@ -33,7 +33,7 @@
                     <tr>
                         <td>ＣＳＶファイル選択</td>
                         <td>
-                            <label for="file_upload">ファイルを選択して下さい
+                            <label for="file_upload" style="margin-left:12px;">ファイルを選択して下さい
                                 <input type="text" id="file_upload" value="ファイル選択" onClick="$('#file').click();">
                                 <input type="file" name="csv_file" id="file" onchange="$('#fake_text_box').val($(this).val());$('#submit_btn').prop('disabled',false);">
                             </label>
