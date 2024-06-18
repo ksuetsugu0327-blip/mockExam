@@ -128,18 +128,13 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                         return $query->where('common_test_use', '=', 1);
                     }
                     return $query->where('common_test_use', '=', 0);
-                })
-                ->orderBy('install_div')
-                ->orderBy('prefecture_cd')
-                ->orderBy('university_name_hkn');
+                });
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
                     ->select(DB::raw('COUNT(*) as count'))
-                    //->groupBy('university_cd')
-
                     ->first();
-// ->toSql();
+
         return $count;
     }
 
@@ -186,17 +181,13 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                     return $query->where('university_cd', '=', $conditions['univCode']);
-                })
-                ->orderBy('install_div')
-                ->orderBy('prefecture_cd')
-                ->orderBy('university_name_hkn');
+                });
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
                     ->select(DB::raw('COUNT(*) as count'))
-                    //->groupBy('university_cd', 'department_cd')
                     ->first();
-// ->getBindings();
+
         return $count;
     }
 
@@ -246,24 +237,19 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('deptCode', $conditions) && isset($conditions['deptCode']), function ($query) use ($conditions) {
                     return $query->where('department_cd', '=', $conditions['deptCode']);
-                })
-                ->orderBy('install_div')
-                ->orderBy('prefecture_cd')
-                ->orderBy('university_name_hkn');
+                });
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
                     ->select(DB::raw('COUNT(*) as count'))
-                    //->groupBy('university_cd', 'department_cd', 'subject_cd')
                     ->first();
-// ->getBindings();
+
         return $count;
     }
 
     public function getUnivCodeList($conditions){
 
         return $this->MUnivCode::select('university_cd', 'university_name')
-            ->distinct()
             ->leftJoin('m_university_code_head as m_univ_head', 'm_univ_head.id', 'university_code_head_id')
             ->when(array_key_exists('univHeaderID', $conditions) && isset($conditions['univHeaderID']), function ($query) use ($conditions) {
                 return $query->where('university_code_head_id', $conditions['univHeaderID']);
@@ -298,8 +284,13 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->when(array_key_exists('commonTest', $conditions) && isset($conditions['commonTest']), function ($query) use ($conditions) {
                 return $query->where('common_test_use', '=', $conditions['commonTest']);
             })
-            ->orderBy('install_div')
+            ->groupBy('university_cd')
+            ->groupBy('university_name')
+            ->groupBy('install_div')
+            ->groupBy('prefecture_cd')
+            ->groupBy('university_name_hkn')
             ->orderBy('prefecture_cd')
+            ->orderBy('install_div')
             ->orderBy('university_name_hkn')
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions) && isset($conditions['offset']), function ($query) use ($conditions) {
@@ -318,7 +309,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->when($conditions['deptSubjDiv'] == 1, function ($query) use ($conditions) {
                 return $query->addSelect('deviation_value');
             })
-            ->distinct()
             ->leftJoin('m_university_code_head as m_univ_head', 'm_univ_head.id', 'university_code_head_id')
             ->when(array_key_exists('univHeaderID', $conditions) && isset($conditions['univHeaderID']), function ($query) use ($conditions) {
                 return $query->where('university_code_head_id', $conditions['univHeaderID']);
@@ -359,6 +349,15 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                 return $query->where('university_cd', '=', $conditions['univCode']);
             })
+            ->groupBy('university_cd')
+            ->groupBy('university_name')
+            ->groupBy('department_cd')
+            ->groupBy('department_name')
+            ->when($conditions['deptSubjDiv'] == 1, function ($query) use ($conditions) {
+                return $query->groupBy('deviation_value');
+            })
+            ->groupBy('department_seq')
+            ->orderBy('university_cd')
             ->orderBy('department_seq')
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions), function ($query) use ($conditions) {
@@ -420,6 +419,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->when(array_key_exists('deptCode', $conditions) && isset($conditions['deptCode']), function ($query) use ($conditions) {
                 return $query->where('department_cd', '=', $conditions['deptCode']);
             })
+            ->orderBy('university_cd')
+            ->orderBy('department_seq')
             ->orderBy('subject_seq')
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions), function ($query) use ($conditions) {
