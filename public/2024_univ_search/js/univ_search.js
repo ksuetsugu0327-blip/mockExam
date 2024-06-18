@@ -1,6 +1,7 @@
 $(document).ready(function() {
     let schCodeInputField = $('#sch_code');
     let maxLength = 7; // Set your desired length here
+    let maxSearchWordLength = 50;
     let prevSchCode = '';
     let prevGrade = '';
     let prevTestInfo = '';
@@ -258,16 +259,25 @@ $(document).ready(function() {
 
     $('#search_btn').on('click', function(event){
         event.preventDefault();
+        clear_all_list();
+        $('#msg_area').show();
+
+        if (!validateConditions()) {
+            $('#result_num').hide();
+            return false; // Prevent form submission if validation fails
+        }
+        $('#result_num').show();
+        $('#result_text').html('');
         $('#search_01').hide();
         $('#search_02').hide();
         $('#search_03').hide();
         $('#search_btn_area_01').hide();
         $('#search_btn_area_02').show();
-        $('#result_text').html('');
-        $('#msg_area').show();
         
-        clear_all_list();
         
+        
+        
+
         let nameSearch = $('#name_search').prop('checked');
         let conditionalSearch = $('#conditional_search').prop('checked');
         let mode = 0;
@@ -860,6 +870,54 @@ console.log(has_next);
                 console.log(jqXHR, status, error);
             });
         });
+    }
+
+    function getStringLength(str) {
+        // Logic to calculate the length of Japanese characters
+        let length = 0;
+        for (let i = 0; i < str.length; i++) {
+            // Assuming double-byte characters for Japanese characters
+            if (str.charCodeAt(i) > 255) {
+                length += 2;
+            } else {
+                length += 1;
+            }
+        }
+        return length / 2; // Adjust this factor based on your requirement
+    }
+
+    function validateConditions() {
+        let isValid = true;
+        let errorMessage = '';
+
+        // Get the input fields
+        const univNameInput = $('#search_univ_name');
+        const deptNameInput = $('#search_dept_name');
+        const subjNameInput = $('#search_subj_name');
+console.log(`Length: ${getStringLength(univNameInput.val())}`);
+        // Validate the length of the input fields
+        if (getStringLength(univNameInput.val()) > 50) {
+            errorMessage += searchWordLimitMSGUniv+'<br>';
+            isValid = false;
+        }
+        if (getStringLength(deptNameInput.val()) > 50) {
+            errorMessage += searchWordLimitMSGDept+'<br>';
+            isValid = false;
+        }
+        if (getStringLength(subjNameInput.val()) > 50) {
+            errorMessage += searchWordLimitMSGSubj+'<br>';
+            isValid = false;
+        }
+
+        // Output the error message to the result_text <p> element
+        if (!isValid) {
+            $('#result_text').html(errorMessage);
+        } 
+        else {
+            $('#result_text').html(''); // Clear the error message if validation passes
+        }
+
+        return isValid;
     }
 
     function toggle_search_btn(){

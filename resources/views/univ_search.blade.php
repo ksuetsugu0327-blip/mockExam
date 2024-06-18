@@ -29,6 +29,9 @@
     const getHighSchoolCode = '{{route('api.univ_search.highSchoolCodeList')}}';
     const getuniversityCode = '{{route('api.univ_search.universityCodeList')}}';
     const codeHeadOnChangeMSG = '{{trans('message.UNVC_CODE_HEAD_INFO_ONCHANGE_ALERT')}}'
+    const searchWordLimitMSGUniv = '{{trans('validation.em_length', ['attribute' => '大学名','max' => 50])}}';
+    const searchWordLimitMSGDept = '{{trans('validation.em_length', ['attribute' => '学部名','max' => 50])}}';
+    const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 50])}}';
 </script>
 @endsection
 
