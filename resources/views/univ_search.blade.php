@@ -40,11 +40,16 @@
 
 
 @section('content')
+<div id="loader-bg" class="is-hide">
+    <div id="loader" class="is-hide">
+        <p>
+            <img src="/img/loading.gif"><br>
+            読み込み中
+        </p>
+    </div>
+</div>
 <main style='margin-top:40px;'>
-<!-- <div class="c-block-input__checkbox" style="margin-bottom:5px;">
-    <input type="checkbox" name="チェックボックス" id="checkbox00" checked="">
-    <label for="checkbox00">前年度（2023年度）のコードを検索する。</label>
-</div> -->
+
 <section id="search_01">
     <div class="top-right-link">
         <div style="background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:inline-block;margin-left: -32px;margin-bottom:-8px"></div>

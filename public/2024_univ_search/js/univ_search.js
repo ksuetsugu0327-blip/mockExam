@@ -1,13 +1,29 @@
 $(document).ready(function() {
+    /* 読み込み完了 */
+    $(window).on('load', hideLoader);
+
+    let bg = $('#loader-bg');
+    let loader = $('#loader');
     let schCodeInputField = $('#sch_code');
     let maxLength = 7; // Set your desired length here
-    let maxSearchWordLength = 50;
     let prevSchCode = '';
     let prevGrade = '';
     let prevTestInfo = '';
     let search_btn_active_color = $('.kensaku_btn a').css('background-color');
 
     toggle_search_btn();
+    
+    /* ローディング画面の非表示を解除 */
+    function showLoader(){
+        bg.removeClass('is-hide');
+        loader.removeClass('is-hide');
+    }
+
+    /* ローディング画面を非表示にする処理 */
+    function hideLoader(){
+        bg.delay(900).fadeOut(800);
+        loader.delay(900).fadeOut(300);
+    }
 
     $('.code_select').change(function() {
         // Get the selected value
@@ -74,10 +90,16 @@ $(document).ready(function() {
         let conditions = {
             'oem': schCode
         };
+        
+        /* 10秒経ったら強制的にローディング画面を非表示にする */
+        showLoader();
+        setTimeout(function(){hideLoader();}, 10000);
 
         $.get(getOEMSchoolUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
             console.log(data);
+            hideLoader();
+
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
                 $('#grade').val('');
@@ -96,6 +118,8 @@ $(document).ready(function() {
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
+            hideLoader();
+
             schCodeInputField.next('p').html('');
             $('#grade').prop('disabled', true);
             $('#test_info').prop('disabled', true);
@@ -134,9 +158,15 @@ $(document).ready(function() {
             'grd': grade
         };
 
+        /* 10秒経ったら強制的にローディング画面を非表示にする */
+        showLoader();
+        setTimeout(function(){hideLoader();}, 10000);
+        
         $.get(getTestNameListUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
             console.log(data);
+            hideLoader();
+
             if (data['header']['data_num'] > 0){
                 let testInfoList = data['data']['test_info_list'];
                 let defaultOptionHtml = '<option value="">テスト選択</option>'
@@ -156,6 +186,8 @@ $(document).ready(function() {
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
+            hideLoader();
+
             $('#test_info').prop('disabled', true);
             toggle_search_btn();
         });
@@ -181,9 +213,15 @@ $(document).ready(function() {
             'testid': testID
         };
         if(testID){
+            /* 10秒経ったら強制的にローディング画面を非表示にする */
+            showLoader();
+            setTimeout(function(){hideLoader();}, 10000);
+
             $.get(getUnivCodeHead, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
                 console.log(testID, data);
+                hideLoader();
+                
                 if (data['header']['data_num'] > 0){
                     content = data['data'];
                     $('#search_university_code_head_id').val(content['university_code_head_id']);
@@ -204,6 +242,8 @@ $(document).ready(function() {
             })        
             .fail(function(jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                hideLoader();
+
                 toggle_search_btn();
             });
         }
@@ -228,9 +268,15 @@ $(document).ready(function() {
             'hcls': hihgSchoolClass
         };
 
+        /* 10秒経ったら強制的にローディング画面を非表示にする */
+        showLoader();
+        setTimeout(function(){hideLoader();}, 10000);
+
         $.get(getHighSchoolCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
             console.log(data);
+            hideLoader();
+
             if (data['header']['data_num'] > 0){
                 let highSchoolCodeList = data['data']['high_school_code_list'];
                 let defaultOptionHtml = '<option value="">高校選択</option>'
@@ -247,6 +293,7 @@ $(document).ready(function() {
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
+            hideLoader();
         });
     });
 
@@ -260,6 +307,7 @@ $(document).ready(function() {
     $('#search_btn').on('click', function(event){
         event.preventDefault();
         clear_all_list();
+        $('#result_cnt').show();
         $('#msg_area').show();
 
         if (!validateConditions()) {
@@ -311,9 +359,15 @@ $(document).ready(function() {
         }
 console.log('Conditions:', conditions);
 
+        /* 10秒経ったら強制的にローディング画面を非表示にする */
+        showLoader();
+        setTimeout(function(){hideLoader();}, 10000);
+
         $.get(getuniversityCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
             console.log(data);
+            hideLoader();
+
             let data_cnt = data['header']['data_num'];
             if (data_cnt > 0){
                 let data_head = data['data_head'];
@@ -388,9 +442,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 var target = $("#msg_area");
                 in_page_link(target);
             }
+            adjust_footer();
         })        
         .fail(function(jqXHR, status, error) {
             console.log(jqXHR, status, error);
+            hideLoader();
+            adjust_footer();
         });
     });
 
@@ -464,10 +521,16 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         'unvcd': code[2],
                         //'next': $('#search_dept_offset_end').val(),
                     };
+
+                    /* 10秒経ったら強制的にローディング画面を非表示にする */
+                    showLoader();
+                    setTimeout(function(){hideLoader();}, 10000);
             
                     $.get(getuniversityCode, conditions, null, 'json')
                     .done(function(data, status, jqXHR) {
                         console.log(data);
+                        hideLoader();
+
                         let data_cnt = data['header']['data_num'];
                         if (data_cnt > 0){
                             $('#univ_list').hide();
@@ -500,6 +563,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     })
                     .fail(function(jqXHR, status, error) {
                         console.log(jqXHR, status, error);
+                        hideLoader();
                     });
                 });
                 $(this).data('click-event-attached', true);
@@ -539,9 +603,15 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 };
             }
     console.log('Conditions:', conditions);
+            /* 10秒経ったら強制的にローディング画面を非表示にする */
+            showLoader();
+            setTimeout(function(){hideLoader();}, 10000);
+
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
     console.log(data);
+                hideLoader();
+
                 let data_cnt = data['header']['data_num'];
                 if (data_cnt > 0){
                     let data_head = data['data_head'];
@@ -568,6 +638,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
             })
             .fail(function(jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                hideLoader();
             });
         });
     }
@@ -665,9 +736,16 @@ console.log(curr_univ_code,target_univ_tag);
                         //'next': $('#search_subj_offset_end').val(),
                     };
         console.log('conditions: ', conditions);
+
+                    /* 10秒経ったら強制的にローディング画面を非表示にする */
+                    showLoader();
+                    setTimeout(function(){hideLoader();}, 10000);
+
                     $.get(getuniversityCode, conditions, null, 'json')
                     .done(function(data, status, jqXHR) {
                         console.log(data);
+                        hideLoader();
+
                         let data_cnt = data['header']['data_num'];
                         if (data_cnt > 0){
                             $('#dept_list').hide();
@@ -700,6 +778,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     })
                     .fail(function(jqXHR, status, error) {
                         console.log(jqXHR, status, error);
+                        hideLoader();
                     });
                 });
                 $(this).data('click-event-attached', true);
@@ -717,9 +796,16 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 'next': $('#search_dept_offset_end').val(),
             };
 console.log('conditions: ', conditions);
+
+            /* 10秒経ったら強制的にローディング画面を非表示にする */
+            showLoader();
+            setTimeout(function(){hideLoader();}, 10000);
+
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
                 console.log(data);
+                hideLoader();
+                
                 let data_cnt = data['header']['data_num'];
                 if (data_cnt > 0){
                     $('#univ_list').hide();
@@ -750,6 +836,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
             })
             .fail(function(jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                hideLoader();
             });
 
         });
@@ -836,9 +923,15 @@ console.log(has_next);
                 'next': $('#search_subj_offset_end').val(),
             };
 
+            /* 10秒経ったら強制的にローディング画面を非表示にする */
+            showLoader();
+            setTimeout(function(){hideLoader();}, 10000);
+
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
                 console.log(data);
+                hideLoader();
+
                 let data_cnt = data['header']['data_num'];
                 if (data_cnt > 0){
                     $('#dept_list').hide();
@@ -868,6 +961,7 @@ console.log(has_next);
             })
             .fail(function(jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                hideLoader();
             });
         });
     }
@@ -958,6 +1052,8 @@ console.log(`Length: ${getStringLength(univNameInput.val())}`);
         $('#search_univ_offset_end').val(0);
         $('#search_dept_offset_end').val(0);
         $('#search_subj_offset_end').val(0);
+        $('#result_cnt').hide();
+        $('#result_cnt').html('');
     }
 
     function clear_code_head_info(){
@@ -971,4 +1067,26 @@ console.log(`Length: ${getStringLength(univNameInput.val())}`);
         $('#search_clear_btn').trigger('click');
     }
 
+    function adjust_footer() {
+        let footerId = "#footer";
+        
+        // Set footer's top position to 0px initially
+        $(footerId).css("top", "0px");
+        
+        // Footer's top position
+        var ft = $(footerId).offset().top;
+        
+        // Footer height
+        var fh = $(footerId).outerHeight();
+        
+        // Get Window height
+        var wh = $(window).height();
+        
+        if (ft + fh < wh) {
+            $(footerId).css({
+                "position": "relative",
+                "top": (wh - fh - ft - 1) + "px"
+            });
+        }
+    }
 });
