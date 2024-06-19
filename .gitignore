@@ -1,4 +1,17 @@
+/node_modules
+/nbproject/private/private.xml
+
+/public/hot
 /public/storage
+/public/codelist
+/public/listening
+/public/try
+/public/2023_password_new
+/public/2024_univ_search/css
+/public/2024_univ_search/img
+/public/css
+/public/css_
+/public/font
 /storage/*.key
 /vendor
 .phpunit.result.cache
@@ -6,3 +19,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+*.phpbk
+*.phpbkk
+.env
