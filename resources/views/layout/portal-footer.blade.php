@@ -1,5 +1,5 @@
 @section('footer')
-    <footer id="portal-footer">
+    <footer id="footer">
         <div>
             <p>
                 <span class="copyright">(C) 2019 Seihoku Publishing Company.All Rights Reserved.</span>

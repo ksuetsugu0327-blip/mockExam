@@ -21,6 +21,7 @@
 <script src="{{ asset('/js/common.js') }}"></script>
 <script src="{{ asset('/2024_univ_search/js/accordion.js') }}"></script>
 <script src="{{ asset('/2024_univ_search/js/univ_search.js') }}"></script>
+<script src="{{ asset('/2024_univ_search/js/footer.js') }}"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>
 @yield('script')
 <script>
