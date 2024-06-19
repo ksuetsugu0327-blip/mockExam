@@ -6,80 +6,30 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
-use App\Services\MUnivInstallService;
-use App\Services\MUnivDeptLineService;
-use App\Services\UnivCodeHeadService;
 use App\Services\MUnivCodeService;
-use App\Services\MPrefectureService;
-use App\Services\MHighSchoolInstallService;
-use App\Services\MHighSchoolClassService;
 use App\Services\MHighSchoolCodeService;
-
 
 class UnivCodeSearchController extends Controller
 {
     private $oemSchoolService;
     private $testNameService;
-    private $prefectureService;
-    private $highSchoolInstallService;
-    private $highSchoolClassService;
     private $highSchoolCodeService;
-    private $univInstallService;
-    private $univDeptLineService;
     private $univCodeService;
 
     private $common;
 
-    /**
-     * コンストラクタ
-     * @param MOemSchoolService $mOemSchoolService OEM塾マスタサービス
-     */
     public function __construct(
         MOemSchoolService $mOemSchoolService,
         TTestInfoService $mTestInfoService,
-        MPrefectureService $mPrefectureService,
-        MHighSchoolInstallService $mHighSchoolInstallService,
-        MHighSchoolClassService $mHighSchoolClassService,
         MHighSchoolCodeService $mHighSchoolCodeService,
-        MUnivInstallService $mUnivInstallService,
-        MUnivDeptLineService $mUnivDeptLineService,
         MUnivCodeService $mUnivCodeService,
         RestCommon $common
     ){
         $this->oemSchoolService = $mOemSchoolService;
         $this->testInfoService = $mTestInfoService;
-        $this->prefectureService = $mPrefectureService;
-        $this->highSchoolInstallService = $mHighSchoolInstallService;
-        $this->highSchoolClassService = $mHighSchoolClassService;
         $this->highSchoolCodeService = $mHighSchoolCodeService;
-        $this->univInstallService = $mUnivInstallService;
-        $this->univDeptLineService = $mUnivDeptLineService;
         $this->univCodeService = $mUnivCodeService;
         $this->common = $common;
-    }
-
-    public function index(Request $request) {
-        $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
-        $gradeList = array_slice($gradeList, 1, NULL, true);
-
-        $prefList = $this->prefectureService->selectList();
-        $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
-        $highSchoolClassList = $this->highSchoolClassService->selectList();
-        $highSchoolOptionList = config('selectlistarray.HIGH_SCHOOL_CODE_SELECT.OPTIONS');
-        $univInstallCodeList = $this->univInstallService->selectList();
-        $univDeptLineList = $this->univDeptLineService->selectList();
-        $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION.VALUES')();
-
-        return view('univ_search', compact(
-            'gradeList',
-            'prefList',
-            'highSchoolInstallCodeList',
-            'highSchoolClassList',
-            'highSchoolOptionList',
-            'univInstallCodeList',
-            'univDeptLineList',
-            'deviationValueList',
-        ));
     }
 
     /**
