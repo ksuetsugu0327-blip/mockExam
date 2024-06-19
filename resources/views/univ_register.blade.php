@@ -71,6 +71,63 @@ $(document).ready(function() {
         window.location.href=url
     }
 });
+//バリデーションメッセージカスタマイズ
+$(function(){
+//data_type
+
+    $('input[name="data_type"]')
+    .on("invalid", function(e){
+      if ( e.currentTarget.validity.valueMissing ) {
+        this.setCustomValidity("データ区分を選択してください。");
+      }
+    })
+//メッセージリセット
+    .on("input",function(){
+    this.blur();
+    this.setCustomValidity("");
+    this.focus();
+    });
+//year
+    $('#year')
+    .on("invalid", function(e){
+      if ( e.currentTarget.validity.valueMissing ) {
+        this.setCustomValidity("年度を入力してください。");
+      }
+    })
+//メッセージリセット
+    .on("input",function(){
+    this.blur();
+    this.setCustomValidity("");
+    this.focus();
+    });
+//university_code_name_code
+    $('#university_code_name_code')
+    .on("invalid", function(e){
+      if ( e.currentTarget.validity.valueMissing ) {
+        this.setCustomValidity("データ名を選択してください。");
+      }
+    })
+//メッセージリセット
+    .on("input",function(){
+    this.blur();
+    this.setCustomValidity("");
+    this.focus();
+    });
+//dept_subject_div
+    $('#dept_subject_div')
+    .on("invalid", function(e){
+      if ( e.currentTarget.validity.valueMissing ) {
+        this.setCustomValidity("学部/学科を選択してください。");
+      }
+    })
+//メッセージリセット
+    .on("input",function(){
+    this.blur();
+    this.setCustomValidity("");
+    this.focus();
+    });
+});
+
 </script>
 @endsection
 
@@ -104,7 +161,7 @@ $(document).ready(function() {
                     <label>データ区分</label><br>
                     @foreach($codeData as $index => $item)
                     <div class="disp_flex form-check form-check-inline" style="gap:16px">
-                        <input class="form-check-input" type="radio" name="data_type" id="university_code_{{ $index }}" value="{{ $item['VALUE'] }}" {{ old('data_type') == $item['VALUE'] ? 'checked' : '' }} required>
+                        <input class="form-check-input" type="radio" name="data_type" id="university_code_{{ $index }}" value="{{ $item['VALUE'] }}" {{ old('data_type') == $item['VALUE'] ? 'checked' : '' }} @if($loop->iteration == 1)required @endif>
                         <label class="form-check-label" for="university_code_{{ $index }}">{{ $item['NAME'] }}</label>
                     </div>
                     @endforeach
