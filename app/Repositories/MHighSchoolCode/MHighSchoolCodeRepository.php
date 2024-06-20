@@ -66,15 +66,6 @@ class MHighSchoolCodeRepository implements MHighSchoolCodeRepositoryInterface{
 
     }
 
-    public function deleteCodes($codeHeadID){
-        $this->MUnivCode->where('university_code_head_id', $codeHeadID)
-            ->chunk(100, function($codes){
-                foreach($codes as $code){
-                    $code->delete();
-                }
-        });    
-    }
-
     public function getHighSchoolCode($conditions){
         return $this->MHighCode::select('highschool_code', 'highschool_name')
             ->where('prefecture_cd', $conditions['prefecture_cd'])
@@ -90,4 +81,18 @@ class MHighSchoolCodeRepository implements MHighSchoolCodeRepositoryInterface{
             ->get();
     }
     
+    public function clearTable(){
+        try {
+            DB::beginTransaction();
+        
+            // 全件削除
+            $this->MHighCode::query()->delete();
+        
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            report($ex);
+            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+        }
+    }
 }

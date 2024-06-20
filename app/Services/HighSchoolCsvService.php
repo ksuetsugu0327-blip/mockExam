@@ -36,9 +36,11 @@ class HighSchoolCsvService {
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
+
             if(mb_check_encoding($line, 'SJIS')){
                 $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             }
+
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
@@ -121,12 +123,18 @@ class HighSchoolCsvService {
             
             config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')                  => 
                 'bail|required|digits:1|exists:m_highschool_class,class_cd',
-            
+/*            
             config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            => 
                 'bail|required|string|em_length:20',
             
             config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
                 'bail|nullable|string|em_length:30',
+*/
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            => 
+                'bail|required|string|max:20',
+            
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
+                'bail|nullable|string|max:30',
         ];
 
         return $rules;
@@ -163,5 +171,12 @@ class HighSchoolCsvService {
      */
     public function registerArray(array $highCodeArr){
         return $this->mHighCodeRepository->registerArray($highCodeArr);
+    }
+
+    /**
+     * テーブル全件DELETE処理
+     */
+    public function clearTable(){
+        return $this->mHighCodeRepository->clearTable();
     }
 }
