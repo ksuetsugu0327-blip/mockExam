@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Faker\Factory as Faker;
 
@@ -82,7 +83,7 @@ class UnivCsvUploadController extends Controller{
         $file->setFlags(SplFileObject::READ_CSV);
 
         // CSVの中身に対するバリデーションを実施
-        if($dataType == 1){
+        if($dataType == 1){ //大学
             $csv_errors = $this->univCsvService->validateCsvData($file);
         }
         else{
@@ -120,6 +121,7 @@ class UnivCsvUploadController extends Controller{
                 $this->insertUnivCodeData($file, $univCodeHeader, $param);
             }
             else{
+                $this->highSchoolCsvService->clearTable();
                 $this->insertHighSchoolCodeData($file);
             }
            
@@ -195,66 +197,84 @@ class UnivCsvUploadController extends Controller{
 
     private function insertUnivCodeData($file, $univCodeHeader, $param){
         $row_count = 0;
+        $commit_count = 0;
+        try{
+            DB::beginTransaction();
+            //取得したオブジェクトを読み込み
+            foreach ($file as $row) {
+                // CSVの文字コードがSJISの場合、UTF-8に変更
 
-        //取得したオブジェクトを読み込み
-        foreach ($file as $row) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更
-            if(mb_check_encoding($row, 'SJIS')){
-                $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+                // if(mb_check_encoding($row, 'SJIS')){
+                //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+                // }
+
+                // 最終行の処理(最終行が空っぽの場合の対策
+                if ($row === [null])
+                    continue;
+
+                // 1行目のヘッダーは取り込まない
+                if ($row_count > 0) {
+                    $university_cd        = $row[0];
+                    $prefecture_cd        = $row[1];
+                    $install_div          = $row[2];
+                    $dept_line_cd         = $row[3];
+                    $university_name_hkn  = $row[4];
+                    $university_name      = $row[5];
+                    $department_cd        = $row[6];
+                    $department_seq       = $row[7];
+                    $department_name	  = $row[8];
+                    $common_test_use	  = $row[13];								
+                    $deviation_value	  = $row[14];
+                    
+                    if($param['deptOrSubject'] == 2){
+                        $subject_cd			  = $row[9];						
+                        $subject_seq		  = $row[10];							
+                        $subject_name		  = $row[11];							
+                        $search_subject_name  = $row[12];	
+                    }			
+
+                    // 登録データを配列に追加
+                    $arrayInsertData = array(
+                        'university_cd'       => $university_cd,
+                        'prefecture_cd'       => $prefecture_cd,
+                        'install_div'         => $install_div,
+                        'dept_line_cd'        => $dept_line_cd,
+                        'university_name_hkn' => $university_name_hkn,
+                        'university_name'     => $university_name,
+                        'department_cd'       => $department_cd,
+                        'department_seq'      => $department_seq,
+                        'department_name'     => $department_name,
+                        'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
+                        'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
+                        'subject_name'        => empty($subject_name)?NULL:$subject_name,
+                        'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
+                        'common_test_use'     => $common_test_use,
+                        'deviation_value'     => $deviation_value,
+                    );
+
+                    if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
+                        // Insert処理
+                        $this->univCsvService->registerArray($univCodeHeader->id, $arrayInsertData);
+                    }
+                }
+                if ($commit_count == config('constants.PSN_IMP_COMMIT_COUNT')){
+                    DB::commit();
+                    $commit_count = 0;
+                }
+                // 行カウンタをインクリメント
+                $row_count++;
+                $commit_count++;
             }
-
-            // 最終行の処理(最終行が空っぽの場合の対策
-            if ($row === [null])
-                continue;
-
-            // 1行目のヘッダーは取り込まない
-            if ($row_count > 0) {
-                $university_cd        = $row[0];
-                $prefecture_cd        = $row[1];
-                $install_div          = $row[2];
-                $dept_line_cd         = $row[3];
-                $university_name_hkn  = $row[4];
-                $university_name      = $row[5];
-                $department_cd        = $row[6];
-                $department_seq       = $row[7];
-                $department_name	  = $row[8];
-                $common_test_use	  = $row[13];								
-                $deviation_value	  = $row[14];
-                
-                if($param['deptOrSubject'] == 2){
-                    $subject_cd			  = $row[9];						
-                    $subject_seq		  = $row[10];							
-                    $subject_name		  = $row[11];							
-                    $search_subject_name  = $row[12];	
-                }			
-
-                // 登録データを配列に追加
-                $arrayInsertData[] = array(
-                    'university_cd'       => $university_cd,
-                    'prefecture_cd'       => $prefecture_cd,
-                    'install_div'         => $install_div,
-                    'dept_line_cd'        => $dept_line_cd,
-                    'university_name_hkn' => $university_name_hkn,
-                    'university_name'     => $university_name,
-                    'department_cd'       => $department_cd,
-                    'department_seq'      => $department_seq,
-                    'department_name'     => $department_name,
-                    'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
-                    'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
-                    'subject_name'        => empty($subject_name)?NULL:$subject_name,
-                    'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
-                    'common_test_use'     => $common_test_use,
-                    'deviation_value'     => $deviation_value,
-                );
-                
-            }
-            // 行カウンタをインクリメント
-            $row_count++;
+            DB::commit(); //  CSV最後の一行読み込み終わったらcommitする、でないと最後の一バッチは未commitのまま処理終わる
         }
-
-        if( !empty($arrayInsertData) &&  !empty($univCodeHeader)){
-          // Insert処理
-          $this->univCsvService->registerArray($univCodeHeader->id, $arrayInsertData);
+        catch (Exception $ex) {
+            // システムエラー
+            DB::rollBack();
+            report($ex);
+            return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+            ->with(array_merge([
+                'message' => $ex->getMessage(),
+            ],$this->prepareSelectList()));
         }
     }
 
@@ -264,9 +284,10 @@ class UnivCsvUploadController extends Controller{
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
-            if(mb_check_encoding($row, 'SJIS')){
-                $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
-            }
+
+            // if(mb_check_encoding($row, 'SJIS')){
+            //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            // }
 
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])
@@ -274,7 +295,7 @@ class UnivCsvUploadController extends Controller{
 
             // 1行目のヘッダーは取り込まない
             if ($row_count > 0) {
-                $highschool_code     = substr($row[0], 2, 4);
+                $highschool_code     = $row[0];
                 $highschool_name_hkn = $row[1];
                 $zip_num             = $row[2];
                 $tel_num             = $row[3];

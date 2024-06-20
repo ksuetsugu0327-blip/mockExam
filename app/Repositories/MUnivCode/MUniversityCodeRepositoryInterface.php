@@ -8,7 +8,7 @@ namespace App\Repositories\MUnivCode;
  */
 interface MUniversityCodeRepositoryInterface {
 
-    public function registerArray($univCodeHeadID, array $univCodeArr);
+    public function registerArray($univCodeHeadID, array $univCode);
 
     public function deleteCodes($codeHeadID);
 
