@@ -3,15 +3,19 @@
 namespace App\Services;
 
 use Validator;
+use App\Rules\EmailFormat;
+use App\Repositories\MSchool\MSchoolRepositoryInterface;
 use App\Repositories\MPerson\MPersonRepositoryInterface as MPersonRepositoryInterface;
 
 class CsvService {
 
     // リポジトリ
     private $mPersonRepository;
+    private $mschoolRepository;
 
-    public function __construct(MPersonRepositoryInterface $repository){
+    public function __construct(MPersonRepositoryInterface $repository, MSchoolRepositoryInterface $mSchoolRepository){
         $this->mPersonRepository = $repository;
+        $this->mSchoolRepository = $mSchoolRepository;
     }
 
     /**
@@ -43,24 +47,45 @@ class CsvService {
             // データ件数カウントアップ
             $dataCnt++;
             $output_line_num = $line_num + 1;
+            //dd(count($line),count(config('constants.CSV_HEADER_NUM')));
             if (count($line) !== count(config('constants.CSV_HEADER_NUM'))) {
                 $csv_errors[] = [$output_line_num, ' カラム数が不正です'];
             } else{
                 // 入力値を配列に設定
                 $arrayCheckData = array(
-                    config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.SCH_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.CLS_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.CLS_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')   => $line[config('constants.CSV_HEADER_NUM.PSN_CODE.INDEX')],
-                    config('constants.CSV_HEADER_NUM.NAME.NAME')       => $line[config('constants.CSV_HEADER_NUM.NAME.INDEX')],
-                    config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')   => $line[config('constants.CSV_HEADER_NUM.BIRTHLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME') => $line[config('constants.CSV_HEADER_NUM.POSTALLLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.TELLOW.NAME')     => $line[config('constants.CSV_HEADER_NUM.TELLOW.INDEX')],
-                    config('constants.CSV_HEADER_NUM.PASSWORD.NAME')   => $line[config('constants.CSV_HEADER_NUM.PASSWORD.INDEX')],
-                    config('constants.CSV_HEADER_NUM.TEMPPASS.NAME')   => $line[config('constants.CSV_HEADER_NUM.TEMPPASS.INDEX')],
+                    config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.SCH_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.PSN_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.CLS_CODE.NAME')     => $line[config('constants.CSV_HEADER_NUM.CLS_CODE.INDEX')],
+                    config('constants.CSV_HEADER_NUM.NAME.NAME')         => $line[config('constants.CSV_HEADER_NUM.NAME.INDEX')],
+                    config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')     => $line[config('constants.CSV_HEADER_NUM.BIRTHLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME')   => $line[config('constants.CSV_HEADER_NUM.POSTALLLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.TELLOW.NAME')       => $line[config('constants.CSV_HEADER_NUM.TELLOW.INDEX')],
+                    config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.NAME') => $line[config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.INDEX')],
+                    config('constants.CSV_HEADER_NUM.PASSWORD.NAME')     => $line[config('constants.CSV_HEADER_NUM.PASSWORD.INDEX')],
+                    config('constants.CSV_HEADER_NUM.TEMPPASS.NAME')     => $line[config('constants.CSV_HEADER_NUM.TEMPPASS.INDEX')]
                 );
+
+                // 塾の存在チェックとパスワード変更可能チェック
+                $psn_psw_chg_flg = $this->changePasswordAllowed($arrayCheckData[config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')]);
+                if ($psn_psw_chg_flg == -1){
+                    $csv_errors[] = array(
+                        'line' => $output_line_num,
+                        'message' => "指定された塾は存在しません。"
+                    );
+                    continue;
+                }
+
+                if(!empty($arrayCheckData[config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.NAME')]) && 
+                    !$psn_psw_chg_flg){
+                        $csv_errors[] = array(
+                            'line' => $output_line_num,
+                            'message' => "生徒パスワード変更不可の塾ではメールアドレスは入力できません。"
+                        );
+                        continue;
+                }
+
                 // バリデーションルール生成
                 $rules = $this->makeCsvValidationRules($arrayCheckData);
-
                 // 入力値を元にエラーメッセージ生成
                 $messages = $this->makeCsvValidationMessages($arrayCheckData);
                 // 入力値バリデーション
@@ -118,7 +143,7 @@ class CsvService {
         // bailをつけることで、複数のバリデーションエラー出力を止める
         $rules = [
             config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')   =>
-                'bail|required|digits_between:1,7|max:7|exists:m_school,sch_code',
+                'bail|required|digits_between:1,7|max:7',
 
             config('constants.CSV_HEADER_NUM.CLS_CODE.NAME')   =>
                 'bail|required|digits_between:1,4|max:4|exists:m_class,cls_code,sch_code,'.$value[config('constants.CSV_HEADER_NUM.SCH_CODE.NAME')],
@@ -128,10 +153,12 @@ class CsvService {
             config('constants.CSV_HEADER_NUM.PSN_CODE.NAME')   =>
                 'bail|required|only_alpha_num|between:1,11|max:11',
 
-            config('constants.CSV_HEADER_NUM.NAME.NAME')       => 'em_length:20',
-            config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')   => 'bail|birth_low4',
-            config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME') => 'bail|postal_low4',
-            config('constants.CSV_HEADER_NUM.TELLOW.NAME')     => 'bail|tel_low4',
+            config('constants.CSV_HEADER_NUM.NAME.NAME')         => 'em_length:20',
+            config('constants.CSV_HEADER_NUM.BIRTHLOW.NAME')     => 'bail|birth_low4',
+            config('constants.CSV_HEADER_NUM.POSTALLLOW.NAME')   => 'bail|postal_low4',
+            config('constants.CSV_HEADER_NUM.TELLOW.NAME')       => 'bail|tel_low4',
+            config('constants.CSV_HEADER_NUM.PASSWORD.NAME')     => 'bail|nullable|string|regex:/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[!-~]{12,50}$/',
+            config('constants.CSV_HEADER_NUM.MAIL_ADDRESS.NAME') =>  ['bail', new EmailFormat()]
         ];
 
         return $rules;
@@ -167,10 +194,14 @@ class CsvService {
      * @param array $personAry 個人用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray(array $personAry){
-        return $this->mPersonRepository->registerArray($personAry);
+    public function registerArray(array $person){
+        return $this->mPersonRepository->importFromCsv($person);
     }
     public function isNewMPerson($sch_code, $cls_code, $psn_code){
         return 0 == $this->mPersonRepository->countMPerson($sch_code, $cls_code, $psn_code);
+    }
+    private function changePasswordAllowed($sch_code){
+        $school = $this->mSchoolRepository->selectOneByKey($sch_code)->first();
+        return is_null($school)? -1: $school->psn_psw_update_flg;
     }
 }
