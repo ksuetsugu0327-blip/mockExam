@@ -100,14 +100,15 @@ class ValidationServiceProvider extends ServiceProvider {
 
         // 電話番号
         Validator::extend('tel', function ($attribute, $value, $parameters, $validator){
-            $pattern = '/\d{2,4}-\d{2,4}-\d{4}/';
+           // $pattern = '/\d{2,4}-\d{2,4}-\d{4}/';
+            $pattern = '/^0[0-9]{1,4}-[0-9]{1,4}-[0-9]{3,4}\z/';
             return preg_match($pattern, $value) === 1;
         });
 
         // 大学コード検索で試験偏差値用
         Validator::extend('decimal', function ($attribute, $value, $parameters, $validator){
-            $pattern = '/^\d{1,3}(\.\d{1})?$/';
-            return preg_match($pattern, $value) === 1;
+            $pattern = '/^\d+(\.\d{1})?$/';
+            return preg_match($pattern, floatval($value))=== 1;
         });
     }
 }
