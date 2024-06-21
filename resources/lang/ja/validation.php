@@ -23,6 +23,7 @@ return [
     'before' => ':attributeには:date以前の日付を指定してください。',
     'before_or_equal' => ':attributeには:dateかそれ以前の日付を指定してください。',
     'between' => [
+        'decimal' => ':attributeには:min〜:maxまでの数値を指定してください。',
         'numeric' => ':attributeには:min〜:maxまでの数値を指定してください。',
         'file' => ':attributeには:min〜:max KBのファイルを指定してください。',
         'string' => ':attributeには:min〜:max文字を指定してください。',
@@ -102,8 +103,9 @@ return [
     'univ_no_set' => '大学を１つは選択してください。',
 
     'exam_grade' => ':attributeには:minから:maxの数字を指定してください。',
+    'max_digits' => ':attributeには:max_digits桁以内の数字を指定してください。',
     'half_kana'  => ':attributeが半角カナになっていません。',
-    'decimal'    => '偏差値:attributeの形式を確認ください。',
+    'decimal'   => ':attributeは小数点1桁を指定してください。',
     'tel'        => '電話番号の形式に誤りがあります。',
 
     /*
