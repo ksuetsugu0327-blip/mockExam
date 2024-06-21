@@ -84,7 +84,7 @@ class UnivCsvUploadController extends Controller{
 
         // CSVの中身に対するバリデーションを実施
         if($dataType == 1){ //大学
-            $csv_errors = $this->univCsvService->validateCsvData($file);
+            $csv_errors = $this->univCsvService->validateCsvData($file,$deptOrSubject);
         }
         else{
             $csv_errors = $this->highSchoolCsvService->validateCsvData($file);

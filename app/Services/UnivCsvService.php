@@ -25,7 +25,7 @@ class UnivCsvService {
      *
      * @return $csv_errors エラーメッセージの配列
      */
-    public function validateCsvData($file) {
+    public function validateCsvData($file,$deptOrSubject) {
         // CSVファイルがヘッダー行を除いて最大行以上の場合はエラー
         $file->seek($file->getSize());
 
@@ -40,9 +40,9 @@ class UnivCsvService {
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
-            if(mb_check_encoding($line, 'SJIS')){
-                $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
-            }
+            // if(mb_check_encoding($line, 'SJIS')){
+            //      $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            // }
 
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
@@ -74,8 +74,9 @@ class UnivCsvService {
                     config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.NAME')       => $line[config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           => $line[config('constants.UNIV_CSV_HEADER.DEVI_VAL.INDEX')],
                 );
+
                 // バリデーションルール生成
-                $rules = $this->makeCsvValidationRules($arrayCheckData);
+                $rules = $this->makeCsvValidationRules($arrayCheckData,$deptOrSubject);
 
                 // 入力値を元にエラーメッセージ生成
                 $messages = $this->makeCsvValidationMessages($arrayCheckData);
@@ -91,23 +92,6 @@ class UnivCsvService {
                     continue;
                 }
 
-                // CSV内重複チェックキー
-                // $csv_key = [
-                //     config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME') => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
-                // ];
-
-                // //キー重複
-                // $csv_keyAry[] = $csv_key;
-                // // 配列の数と重複を削除した配列の個数が一致してきること
-                // if(count($csv_keyAry) != count(array_unique($csv_keyAry,SORT_REGULAR))){
-                //     $csv_keyAry = array_unique($csv_keyAry,SORT_REGULAR);
-                //     $csv_errors[] = [
-                //         'line' => $output_line_num,
-                //         'message' => trans('message.CSV_MUNIVCODE_DUPLICATE_DATA',["univ_code"
-                //                                                                     =>$csv_key[config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')]]),
-                //     ];
-                //     continue;
-                // }
             }
         }
 
@@ -127,59 +111,96 @@ class UnivCsvService {
      *
      * @return $rules バリデーションルールの配列
      */
-    private function makeCsvValidationRules($value) {
+    private function makeCsvValidationRules($value,$deptOrSubject) {
         $rules = []; //$rulesという箱を作る
 
-        // 名前で指定
-        // bailをつけることで、複数のバリデーションエラー出力を止める
-        $rules = [
-            config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')          =>
-                'bail|required|digits_between:1,4|max:4',
+        if ($deptOrSubject == 1){
+                // 名前で指定
+                // bailをつけることで、複数のバリデーションエラー出力を止める
+                $rules = [
+                    config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')          =>  //大学コード
+                        'bail|required|string|size:4',
+                    config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')         =>   //都道府県コード
+                        'bail|required|exists:m_prefecture,pref_code',
 
-            config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')         =>
-                'bail|required|digits_between:1,4|max:4',
+                    config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       =>  //設置区分コード
+                        'bail|required|exists:m_university_install,install_cd',
 
-            config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       =>
-                'bail|required|string|max:1',
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     =>  //学部系統コード
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
+                        'bail|required|string|max:80|half_kana',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME.NAME')               =>  //大学名
+                        'bail|required|string|max:40',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          =>  //学部コード
+                        'bail|required|string|size:4',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           =>  //学部表示順
+                        'bail|numeric|max:9',
 
-            config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     => 
-                'bail|required|string|max:1',
-            
-            config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           => 
-                'bail|required|string|max:100|half_kana',
-            
-            config('constants.UNIV_CSV_HEADER.NAME.NAME')               => 
-                'bail|required|string|max:50',
-            
-            config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          => 
-                'bail|required|digits_between:1,4|max:4',
-            
-            config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           => 
-                'bail|integer',
-            
-            config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          => 
-                'bail|required|string|max:50',
-            
-            config('constants.UNIV_CSV_HEADER.SUBJ_CODE.NAME')          => 
-                'bail|digits_between:1,4|max:4',
-            
-            config('constants.UNIV_CSV_HEADER.SUBJ_SEQ.NAME')           => 
-                'bail|integer',
-            
-            config('constants.UNIV_CSV_HEADER.SUBJ_NAME.NAME')          => 
-                'bail|string|max:80',
-            
-            config('constants.UNIV_CSV_HEADER.SEARCH_SUBJ_NAME.NAME')   => 
-                'bail|string|max:80',
-            
-            config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.NAME')       => 
-                'bail|required|integer|min:0|max:255',
-            
-            config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           => 
-                'bail|required|numeric|decimal|between:30,80',
-        ];
+                    config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          =>  //学部名
+                        'bail|required|string|max:40',
 
+                    config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.NAME')       =>  //共通テスト利用
+                        'bail|required|in:0,1',
+
+                    config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           =>  //偏差値
+                        'bail|required|decimal|numeric|between:30,80', 
+
+                ];
+        }else{
+                $rules = [
+                    config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')          =>  //大学コード
+                        'bail|required|string|size:4',
+                    config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')         =>   //都道府県コード
+                        'bail|required|exists:m_prefecture,pref_code',
+
+                    config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       =>  //設置区分コード
+                        'bail|required|exists:m_university_install,install_cd',
+
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     =>  //学部系統コード
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
+                        'bail|required|string|max:80|half_kana',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME.NAME')               =>  //大学名
+                        'bail|required|string|max:40',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          =>  //学部コード
+                        'bail|required|string|size:4',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           =>  //学部表示順
+                        'bail|numeric|max:9',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          =>  //学部名
+                        'bail|required|string|max:40',
+                    
+                    config('constants.UNIV_CSV_HEADER.SUBJ_CODE.NAME')          =>  //学科コード
+                        'bail|required|string|size:4',
+                    
+                    config('constants.UNIV_CSV_HEADER.SUBJ_SEQ.NAME')           =>  //学科表示順
+                        'bail|required|numeric|max:9',
+                    
+                    config('constants.UNIV_CSV_HEADER.SUBJ_NAME.NAME')          =>  //学科名
+                        'bail|required|string|max:60',
+                    
+                    config('constants.UNIV_CSV_HEADER.SEARCH_SUBJ_NAME.NAME')   =>  //検索用学科名
+                        'bail|required|max:60',
+                    
+                    config('constants.UNIV_CSV_HEADER.CMN_TEST_USE.NAME')       =>  //共通テスト利用
+                        'bail|required|in:0,1',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEVI_VAL.NAME')           =>  //偏差値
+                        'bail|required|decimal|numeric|between:30,80', 
+        
+                ];
+        }  
         return $rules;
+
     }
 
     /**
@@ -201,9 +222,7 @@ class UnivCsvService {
             'digits_between' => trans('validation.digits_between'),
             'half_kana'      => trans('validation.half_kana'),
             'decimal'        => trans('validation.decimal'),
-
-            // config('constants.UNIV_CSV_HEADER.PSN_CODE.NAME').'.unique'
-            //     => trans('validation.unique').$value[config('constants.UNIV_CSV_HEADER.PSN_CODE.NAME')],
+            'numeric'        => trans('validation.numeric'),
         ];
         return $messages;
     }
@@ -213,8 +232,8 @@ class UnivCsvService {
      * @param array $personAry 個人用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray($univCodeHeadID, array $univCodeArr){
-        return $this->mUnivCodeRepository->registerArray($univCodeHeadID, $univCodeArr);
+    public function registerArray($univCodeHeadID, array $univCode){
+        return $this->mUnivCodeRepository->registerArray($univCodeHeadID, $univCode);
     }
 
     public function deleteUnivCodesWithHeadID($univCodeHeadID){
