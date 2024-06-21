@@ -15,14 +15,17 @@ $(document).ready(function() {
     
     /* ローディング画面の非表示を解除 */
     function showLoader(){
+        console.log("loading starts");
         bg.removeClass('is-hide');
         loader.removeClass('is-hide');
     }
 
     /* ローディング画面を非表示にする処理 */
     function hideLoader(){
-        bg.delay(900).fadeOut(800);
-        loader.delay(900).fadeOut(300);
+        bg.addClass('is-hide');
+        loader.addClass('is-hide');
+        bg.fadeOut(800);
+        loader.fadeOut(300);
     }
 
     $('.code_select').change(function() {
@@ -30,7 +33,6 @@ $(document).ready(function() {
         let selectedValue = $(this).val();
 
         // Update the text of a paragraph element with the selected value
-        // console.log($(this).next('p'));
         if(selectedValue)
             $(this).next('p').html("コード：" + selectedValue);
         else
@@ -93,7 +95,7 @@ $(document).ready(function() {
         
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
-        setTimeout(function(){hideLoader();}, 10000);
+        // setTimeout(function(){hideLoader();}, 10000);
 
         $.get(getOEMSchoolUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
@@ -117,7 +119,7 @@ $(document).ready(function() {
             toggle_search_btn();
         })        
         .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
+            // console.log(jqXHR, status, error);
             hideLoader();
 
             schCodeInputField.next('p').html('');
@@ -160,7 +162,7 @@ $(document).ready(function() {
 
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
-        setTimeout(function(){hideLoader();}, 10000);
+        // setTimeout(function(){hideLoader();}, 10000);
         
         $.get(getTestNameListUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
@@ -185,7 +187,7 @@ $(document).ready(function() {
             
         })        
         .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
+            // console.log(jqXHR, status, error);
             hideLoader();
 
             $('#test_info').prop('disabled', true);
@@ -208,14 +210,14 @@ $(document).ready(function() {
         code_head_info_onchange();
 
         let testID = $(this).val();
-        console.log(testID)
+        // console.log(testID)
         let conditions = {
             'testid': testID
         };
         if(testID){
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
-            setTimeout(function(){hideLoader();}, 10000);
+            // setTimeout(function(){hideLoader();}, 10000);
 
             $.get(getUnivCodeHead, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
@@ -241,7 +243,7 @@ $(document).ready(function() {
                 toggle_search_btn();
             })        
             .fail(function(jqXHR, status, error) {
-                console.log(jqXHR, status, error);
+                // console.log(jqXHR, status, error);
                 hideLoader();
 
                 toggle_search_btn();
@@ -270,11 +272,11 @@ $(document).ready(function() {
 
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
-        setTimeout(function(){hideLoader();}, 10000);
+        // setTimeout(function(){hideLoader();}, 10000);
 
         $.get(getHighSchoolCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data);
+            // console.log(data);
             hideLoader();
 
             if (data['header']['data_num'] > 0){
@@ -292,7 +294,7 @@ $(document).ready(function() {
             }
         })        
         .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
+            // console.log(jqXHR, status, error);
             hideLoader();
         });
     });
@@ -357,15 +359,15 @@ $(document).ready(function() {
                 'next': $('#search_univ_offset_end').val()
             };
         }
-console.log('Conditions:', conditions);
+// console.log('Conditions:', conditions);
 
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
-        setTimeout(function(){hideLoader();}, 10000);
+        // setTimeout(function(){hideLoader();}, 10000);
 
         $.get(getuniversityCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data);
+            // console.log(data);
             hideLoader();
 
             let data_cnt = data['header']['data_num'];
@@ -375,7 +377,7 @@ console.log('Conditions:', conditions);
                 if(data_head['list_cat_div'] == 1 ){
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
-console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#search_univ_offset_end').val(new_offset);
 
                     generate_univ_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
@@ -445,7 +447,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
             adjust_footer();
         })        
         .fail(function(jqXHR, status, error) {
-            console.log(jqXHR, status, error);
+            // console.log(jqXHR, status, error);
             hideLoader();
             adjust_footer();
         });
@@ -524,11 +526,11 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
 
                     /* 10秒経ったら強制的にローディング画面を非表示にする */
                     showLoader();
-                    setTimeout(function(){hideLoader();}, 10000);
+                    // setTimeout(function(){hideLoader();}, 10000);
             
                     $.get(getuniversityCode, conditions, null, 'json')
                     .done(function(data, status, jqXHR) {
-                        console.log(data);
+                        // console.log(data);
                         hideLoader();
 
                         let data_cnt = data['header']['data_num'];
@@ -540,7 +542,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                             if(data_head['list_cat_div'] == 2 ){
                                 let new_offset = +$('#search_dept_offset_end').val()+data_head['page_unit'];
                                 let has_next = (data_cnt - new_offset > 0)?true:false;
-console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 $('#search_dept_offset_end').val(new_offset);
                                 if(content.length > 0){
                                     $('#dtl_university_cd').val(content[0]['university_cd']);
@@ -560,10 +562,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                             var target = $("#msg_area");
                             in_page_link(target);
                         }
+                        adjust_footer();
                     })
                     .fail(function(jqXHR, status, error) {
-                        console.log(jqXHR, status, error);
+                        // console.log(jqXHR, status, error);
                         hideLoader();
+                        adjust_footer();
                     });
                 });
                 $(this).data('click-event-attached', true);
@@ -602,14 +606,14 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     'next': $('#search_univ_offset_end').val()
                 };
             }
-    console.log('Conditions:', conditions);
+    // console.log('Conditions:', conditions);
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
-            setTimeout(function(){hideLoader();}, 10000);
+            // setTimeout(function(){hideLoader();}, 10000);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-    console.log(data);
+    // console.log(data);
                 hideLoader();
 
                 let data_cnt = data['header']['data_num'];
@@ -635,11 +639,13 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     var target = $("#msg_area");
                     in_page_link(target);
                 }
+                adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                console.log(jqXHR, status, error);
+                // console.log(jqXHR, status, error);
                 hideLoader();
             });
+            adjust_footer();
         });
     }
 
@@ -688,7 +694,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
         });
         
         dept_list_div.append(univ_namebox_01);
-console.log('has_next', has_next);
+// console.log('has_next', has_next);
         if(has_next){  // Create and append the "more" button area
             let btn_more = $('#dept_more_div');
             if (btn_more.length === 0) {
@@ -714,10 +720,11 @@ console.log('has_next', has_next);
             let curr_univ_code =  $('#dtl_university_cd').val();
             let target_univ_tag = $('#univ_dtl_'+curr_univ_code);
             in_page_link(target_univ_tag)
-console.log(curr_univ_code,target_univ_tag);
+// console.log(curr_univ_code,target_univ_tag);
             $('#dept_list').empty();
             $('#dtl_university_cd').val('');
             $('#search_dept_offset_end').val(0);
+            adjust_footer();
         });
 
         $('a[id^="dept_dtl"]').each(function(){
@@ -735,15 +742,15 @@ console.log(curr_univ_code,target_univ_tag);
                         'udpcd': code[1],
                         //'next': $('#search_subj_offset_end').val(),
                     };
-        console.log('conditions: ', conditions);
+        // console.log('conditions: ', conditions);
 
                     /* 10秒経ったら強制的にローディング画面を非表示にする */
                     showLoader();
-                    setTimeout(function(){hideLoader();}, 10000);
+                    // setTimeout(function(){hideLoader();}, 10000);
 
                     $.get(getuniversityCode, conditions, null, 'json')
                     .done(function(data, status, jqXHR) {
-                        console.log(data);
+                        // console.log(data);
                         hideLoader();
 
                         let data_cnt = data['header']['data_num'];
@@ -755,7 +762,7 @@ console.log(curr_univ_code,target_univ_tag);
                             if(data_head['list_cat_div'] == 3 ){
                                 let new_offset = +$('#search_subj_offset_end').val()+data_head['page_unit'];
                                 let has_next = (data_cnt - new_offset > 0)?true:false;
-console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                                 $('#search_subj_offset_end').val(new_offset);
                                 if(content.length > 0){
                                     $('#dtl_department_cd').val(content[0]['department_cd']);
@@ -775,10 +782,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                             var target = $("#msg_area");
                             in_page_link(target);
                         }
+                        adjust_footer();
                     })
                     .fail(function(jqXHR, status, error) {
-                        console.log(jqXHR, status, error);
+                        // console.log(jqXHR, status, error);
                         hideLoader();
+                        adjust_footer();
                     });
                 });
                 $(this).data('click-event-attached', true);
@@ -795,15 +804,15 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 'unvcd': $('#dtl_university_cd').val(),
                 'next': $('#search_dept_offset_end').val(),
             };
-console.log('conditions: ', conditions);
+// console.log('conditions: ', conditions);
 
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
-            setTimeout(function(){hideLoader();}, 10000);
+            // setTimeout(function(){hideLoader();}, 10000);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-                console.log(data);
+                // console.log(data);
                 hideLoader();
                 
                 let data_cnt = data['header']['data_num'];
@@ -815,7 +824,7 @@ console.log('conditions: ', conditions);
                     if(data_head['list_cat_div'] == 2 ){
                         let new_offset = +$('#search_dept_offset_end').val()+data_head['page_unit'];
                         let has_next = (data_cnt - new_offset > 0)?true:false;
-console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         $('#search_dept_offset_end').val(new_offset);
 
                         generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
@@ -833,10 +842,12 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     var target = $("#msg_area");
                     in_page_link(target);
                 }
+                adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                console.log(jqXHR, status, error);
+                // console.log(jqXHR, status, error);
                 hideLoader();
+                adjust_footer();
             });
 
         });
@@ -880,7 +891,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
         });
 
         subj_list_div.append(univ_namebox_02);
-console.log(has_next);
+// console.log(has_next);
         if(has_next){  // Create and append the "more" button area
             let btn_more = $('#subj_more_div');
             if (btn_more.length === 0) {
@@ -909,6 +920,7 @@ console.log(has_next);
             $('#subj_list').empty();
             $('#dtl_department_cd').val('');
             $('#search_subj_offset_end').val(0);
+            adjust_footer();
             
         });
 
@@ -925,11 +937,11 @@ console.log(has_next);
 
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
-            setTimeout(function(){hideLoader();}, 10000);
+            // setTimeout(function(){hideLoader();}, 10000);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-                console.log(data);
+                // console.log(data);
                 hideLoader();
 
                 let data_cnt = data['header']['data_num'];
@@ -958,10 +970,12 @@ console.log(has_next);
                     var target = $("#msg_area");
                     in_page_link(target);
                 }
+                adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                console.log(jqXHR, status, error);
+                // console.log(jqXHR, status, error);
                 hideLoader();
+                adjust_footer();
             });
         });
     }
@@ -988,7 +1002,7 @@ console.log(has_next);
         const univNameInput = $('#search_univ_name');
         const deptNameInput = $('#search_dept_name');
         const subjNameInput = $('#search_subj_name');
-console.log(`Length: ${getStringLength(univNameInput.val())}`);
+// console.log(`Length: ${getStringLength(univNameInput.val())}`);
         // Validate the length of the input fields
         if (getStringLength(univNameInput.val()) > 50) {
             errorMessage += searchWordLimitMSGUniv+'<br>';
@@ -1037,8 +1051,11 @@ console.log(`Length: ${getStringLength(univNameInput.val())}`);
     }
 
     function in_page_link(target)  {
-        let position = $(target).offset().top;
-        $('html,body').animate({scrollTop: position}, 400);
+        if($(target).length > 0){
+            let position = $(target).offset().top;
+            $('html,body').animate({scrollTop: position}, 400);
+        }
+
         return false;
     }
 
