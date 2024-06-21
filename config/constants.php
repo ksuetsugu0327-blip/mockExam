@@ -177,6 +177,12 @@ return[
     // 高校コード　インポートCSVエラーファイル名
     'HIGH_SCHOOL_CODE_IMPORT_CSV_ERRFILENAME' => 'high_school_code_registration_error.csv',
 
+    // 生徒マスタCSV登録一回コミットにあたってコミットするレコード数
+    'PSN_IMP_COMMIT_COUNT' => 10000,
+
+    // 大学コードCSV登録一回コミットにあたってコミットするレコード数
+    'UNVC_IMP_COMMIT_COUNT' => 10000,
+
     // 明細最大表示件数
     'VIEW_RECORD_COUNT' => 10000,
 
