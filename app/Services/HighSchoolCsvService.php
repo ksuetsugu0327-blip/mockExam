@@ -106,23 +106,23 @@ class HighSchoolCsvService {
         // 名前で指定
         // bailをつけることで、複数のバリデーションエラー出力を止める
         $rules = [
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')            =>
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')            =>  //高等学校等コード
                 'bail|required|string|size:6',
 
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME')        =>
-                'bail|required|string|max:40',
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME')        =>  //高等学校等名（半角カナ）
+                'bail|required|string|max:40|half_kana',
 
-            config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME')                     =>
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME')                     =>  //郵便番号
                 'bail|nullable|string|size:7',
             
-            config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME')                     => 
+            config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME')                     =>  //電話番号
                 'bail|nullable|string|max:15|tel',
             
-            config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME')                => 
-                'bail|required|digits:1|exists:m_highschool_install,install_cd2',
+            config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME')                =>  //設置者コード
+                'bail|required|exists:m_highschool_install,install_cd2',
             
-            config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')                  => 
-                'bail|required|digits:1|exists:m_highschool_class,class_cd',
+            config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')                  =>  //高校種別コード
+                'bail|required|exists:m_highschool_class,class_cd',
 /*            
             config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            => 
                 'bail|required|string|em_length:20',
@@ -130,10 +130,10 @@ class HighSchoolCsvService {
             config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
                 'bail|nullable|string|em_length:30',
 */
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            => 
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            =>   //高等学校等名（全角）
                 'bail|required|string|max:20',
             
-            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     =>   //所在地（全角）
                 'bail|nullable|string|max:30',
         ];
 
