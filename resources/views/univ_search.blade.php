@@ -94,7 +94,7 @@
                         <option value="sample_hsname">サンプル高校名</option>
                     </select>
                 </div> -->
-                <div class="c-block-input__select hsc_sel_pref">
+                <div class="c-block-input__select hsc_sel_pref required">
                     <select id="high_school_prefecture" name="high_school_prefecture" required="required">
                         <option value="">都道府県</option>
                         @foreach($prefList as $pref)
