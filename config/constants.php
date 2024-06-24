@@ -438,4 +438,7 @@ return[
     // 大学コード検索画面用内部API一回にあたって取得件数
     'UNVC_PER_PAGE' => 5,  // TODO: テスト
     //'UNVC_PER_PAGE' => 20, 
+
+    // 大学コード検索画面用最大取得件数
+    'UNVC_RESULT_MAX' => 100,
 ];
