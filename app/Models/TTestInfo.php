@@ -28,7 +28,7 @@ class TTestInfo extends Model
         'grade',
         'test_name_cd',
         'university_code_head_id',
-        'highschool_cls',
+        'remarks',
         'created_at',
         'updated_at',
     ];

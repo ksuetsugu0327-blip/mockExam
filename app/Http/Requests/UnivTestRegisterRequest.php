@@ -29,7 +29,7 @@ class UnivTestRegisterRequest extends FormRequest
             'fiscal_year' => 'required',
             'grade' => 'required',
             'test_name_cd' => 'required',
-            'highschool_cls' => 'nullable|max:1000',
+            'remarks' => 'nullable|max:1000',
         ];
     }
 
@@ -40,7 +40,7 @@ class UnivTestRegisterRequest extends FormRequest
             'fiscal_year.required' => '年度は必須です。',
             'grade.required' => '学年は必須です。',
             'test_name_cd.required' => 'テスト名は必須です。',
-            'highschool_cls.max' => '備考には:max文字以下の文字列を指定してください。',
+            'remarks.max' => '備考には:max文字以下の文字列を指定してください。',
         ];
     }
     

@@ -79,7 +79,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo->grade = $testInfo['grade'];
             $tTestInfo->test_name_cd = $testInfo['test_name_cd'];
             $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
-            $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+            $tTestInfo->remarks = $testInfo['remarks'];
             $tTestInfo->save();
 
             DB::commit();
@@ -108,7 +108,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo = $this->TTestInfo::findOrFail($id);
             // 更新情報情報セット
             $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
-            $tTestInfo->highschool_cls = $testInfo['highschool_cls'];
+            $tTestInfo->remarks = $testInfo['remarks'];
             $tTestInfo->setUpdatedAt($testInfo['updated_at']);
             $tTestInfo->save();
 
@@ -174,7 +174,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                 't_test_info.grade',
                 'm_test_name.test_name as test_name',
                 't_test_info.university_code_head_id as university_code_head_id',
-                't_test_info.highschool_cls as highschool_cls',
+                't_test_info.remarks as remarks',
                 't_test_info.updated_at',
             )
             ->leftJoin('m_oem_school', 't_test_info.oem_sch_code', '=', 'm_oem_school.oem_sch_code')

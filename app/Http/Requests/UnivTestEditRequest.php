@@ -24,14 +24,14 @@ class UnivTestEditRequest extends FormRequest
      */
     public function rules() {
         return [
-            'highschool_cls' => 'nullable|max:1000',
+            'remarks' => 'nullable|max:1000',
         ];
     }
 
     public function messages()
     {
         return [
-            'highschool_cls.max' => '備考には:max文字以下の文字列を指定してください。',
+            'remarks.max' => '備考には:max文字以下の文字列を指定してください。',
         ];
     }
     

@@ -85,17 +85,17 @@
                         </td>
                     </tr>
                     <tr> 
-                        <td><span for="highschool_cls">備考</span></td>
+                        <td><span for="remarks">備考</span></td>
                         <td colspan="3">
                             {{ Form::textarea(
-                                'highschool_cls', 
-                                old('highschool_cls', $testInfo->highschool_cls), 
+                                'remarks', 
+                                old('remarks', $testInfo->remarks), 
                                 [
                                     'class' => 'cell',
                                     'style' => 'width:100%;padding:2px;'
                                 ]
                             )}}
-                            @if($errors->has('highschool_cls'))<br> <span class="error">{{ $errors->first('highschool_cls') }}</span> @endif
+                            @if($errors->has('remarks'))<br> <span class="error">{{ $errors->first('remarks') }}</span> @endif
                         </td>
                     </tr>
                 </table>
