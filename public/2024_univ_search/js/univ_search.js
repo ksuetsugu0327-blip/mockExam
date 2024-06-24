@@ -319,7 +319,8 @@ console.log($(this).val());
 
     $('#search_clear_btn').on('click', function(event){
         event.preventDefault();
-        $('input[id^="search_"]').val('');
+        $('input[id^="search_"]').not('#search_university_code_head_id')
+            .not('#search_dept_subject_div').val('');
         $('select[id^="search_"]').prop('selectedIndex', 0);
         $('input[id^="search_"][type="checkbox"]').prop('checked', false);
     });
@@ -392,6 +393,8 @@ console.log('Conditions:', conditions);
             if (data_cnt > 0){
                 let data_head = data['data_head'];
                 let content = data['data'];
+                $('#search_page_unit').val(data_head['page_unit']);
+
                 if(data_head['list_cat_div'] == 1 ){
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
@@ -410,7 +413,11 @@ console.log('Conditions:', conditions);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
                     if(data_cnt > maxResultCnt){
+                        $('#result_cnt').hide();
                         $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
+                    else{
+                        $('#result_cnt').show();
                     }
                     $('#msg_area').show();
                 }
@@ -434,7 +441,11 @@ console.log('Conditions:', conditions);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
                     if(data_cnt > maxResultCnt){
+                        $('#result_cnt').hide();
                         $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
+                    else{
+                        $('#result_cnt').show();
                     }
                     $('#msg_area').show();
                 }
@@ -457,7 +468,11 @@ console.log('Conditions:', conditions);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
                     if(data_cnt > maxResultCnt){
+                        $('#result_cnt').hide();
                         $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
+                    else{
+                        $('#result_cnt').show();
                     }
                     $('#msg_area').show();
                 }
