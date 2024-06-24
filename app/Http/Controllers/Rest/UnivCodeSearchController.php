@@ -230,11 +230,14 @@ class UnivCodeSearchController extends Controller
                 'deptSubjDiv' => $request->get('dptsub'),
                 'uInst2' => $request->get('uinst2'),
                 'prefCode' => $request->get('uprf'),
-                'deviFrom' => $request->get('udevf'),
-                'deviTo' => $request->get('udevt'),
+                'deptLineCode' => $request->get('udptl'),
                 'commonTest' => $request->get('ucmt'),
                 'offset' => $request->get('next'),
             ];
+            if($request->get('udevf')>0)
+                $conditions['deviFrom'] = $request->get('udevf');
+            if($request->get('udevt')>0)
+                $conditions['deviTo'] = $request->get('udevt');
         }
 
         if($mode == 3 || $mode == 13){
@@ -261,8 +264,7 @@ class UnivCodeSearchController extends Controller
 
             $list_cat_div = 2;
             $list_dsp_title = '0件';
-//To DO: use it on frontside
- //return response()->json(compact('deptList'));
+
             if (count($deptList)>0){
                 $list_dsp_title = $deptList[0]->university_name.'　学部一覧';
             }
@@ -308,7 +310,7 @@ class UnivCodeSearchController extends Controller
             $univCodeCount = $this->univCodeService->getUnivCount($conditions);
             $univDeptCount = $this->univCodeService->getDeptCount($conditions);
             $univSubjCount = $this->univCodeService->getSubjCount($conditions);
-//return response()->json(compact('univSubjCount'));
+
             $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
             $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
             $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
@@ -365,7 +367,6 @@ class UnivCodeSearchController extends Controller
         $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
         $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
         $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
-
 
         if ($univ_num == 0){
             $header = $this->common->makeHeader('success', '大学コード情報が登録されていません。', $result??0);
@@ -459,7 +460,7 @@ class UnivCodeSearchController extends Controller
             return response()->json(compact('header', 'data_head', 'data'));
 
         }
-        
+
         $list_cat_div = 1;
         $list_dsp_title = '大学一覧';
         $univCodeList = $this->univCodeService->getUnivCodeList($conditions);
@@ -467,6 +468,7 @@ class UnivCodeSearchController extends Controller
 //$result = $matchedCount;
 
         $header = $this->common->makeHeader('success', '', $univ_num??0);
+
         $data_head = compact(
             'mode',
             // 'offset_end',
