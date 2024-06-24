@@ -109,6 +109,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
                     return $query->where('prefecture_cd', $conditions['prefCode']);
                 })
+                ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                    return $query->where('dept_line_cd', $conditions['deptLineCode']);
+                })
                 ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                     return $query->where('deviation_value', '>=', floatval($conditions['deviFrom']));
                 })
@@ -158,6 +161,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
                     return $query->where('prefecture_cd', $conditions['prefCode']);
+                })
+                ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                    return $query->where('dept_line_cd', $conditions['deptLineCode']);
                 })
                 ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                     return $query->where('deviation_value', '>=', floatval($conditions['deviFrom']));
@@ -212,6 +218,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
                     return $query->where('prefecture_cd', $conditions['prefCode']);
                 })
+                ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                    return $query->where('dept_line_cd', $conditions['deptLineCode']);
+                })
                 ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                     return $query->where('deviation_value', '>=', floatval($conditions['deviFrom']));
                 })
@@ -262,10 +271,13 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
             })
             ->when(array_key_exists('uInst2', $conditions) && isset($conditions['uInst2']), function ($query) use ($conditions) {
-                return $query->where('install_div', '%'.$conditions['uInst2'].'%');
+                return $query->where('install_div', $conditions['uInst2']);
             })
             ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
-                return $query->where('prefecture_cd', '%'.$conditions['prefCode'].'%');
+                return $query->where('prefecture_cd', $conditions['prefCode']);
+            })
+            ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                return $query->where('dept_line_cd', $conditions['deptLineCode']);
             })
             ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                 return $query->where('deviation_value', '>=', $conditions['deviFrom']);
@@ -274,7 +286,10 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('deviation_value', '<=', $conditions['deviTo']);
             })
             ->when(array_key_exists('commonTest', $conditions) && isset($conditions['commonTest']), function ($query) use ($conditions) {
-                return $query->where('common_test_use', '=', $conditions['commonTest']);
+                if($conditions['commonTest'] == 'on'){
+                    return $query->where('common_test_use', '=', 1);
+                }
+                return $query->where('common_test_use', '=', 0);
             })
             ->groupBy('university_cd')
             ->groupBy('university_name')
@@ -325,6 +340,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             })
             ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
                 return $query->where('prefecture_cd', $conditions['prefCode']);
+            })
+            ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                return $query->where('dept_line_cd', $conditions['deptLineCode']);
             })
             ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                 return $query->where('deviation_value', '>=', floatval($conditions['deviFrom']));
@@ -392,6 +410,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             })
             ->when(array_key_exists('prefCode', $conditions) && isset($conditions['prefCode']), function ($query) use ($conditions) {
                 return $query->where('prefecture_cd', $conditions['prefCode']);
+            })
+            ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
+                return $query->where('dept_line_cd', $conditions['deptLineCode']);
             })
             ->when(array_key_exists('deviFrom', $conditions) && isset($conditions['deviFrom']), function ($query) use ($conditions) {
                 return $query->where('deviation_value', '>=', floatval($conditions['deviFrom']));
