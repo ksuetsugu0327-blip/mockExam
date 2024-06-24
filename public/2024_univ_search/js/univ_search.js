@@ -230,11 +230,13 @@ $(document).ready(function() {
                     $('#search_dept_subject_div').val(content['dept_subject_div']);
 
                     if(data['data']['dept_subject_div'] == 1){
-                        $('#search_use_common_test').prop('checked', false);
+                        $('#search_use_common_test').prop('checked', false); //チェック外してからdisableする
+                        $('#search_use_common_test').prop('disabled', true);
                         $('#search_use_common_test').next('label').hide();
                     }
                     else{
                         $('#search_use_common_test').prop('disabled', false);
+                        $('#search_use_common_test').next('label').show();
                     }
                 }
                 else{
@@ -253,8 +255,24 @@ $(document).ready(function() {
     });
 
     /* 高校コード検索 */
-
+    
     // 高校の都道府県が選択された時
+    $('#high_school_prefecture').on('change', function(){
+console.log($(this).val());
+        if ($(this).val()>0){
+            $('#high_school_name').prop('disabled', false);
+            $('#high_school_founder').prop('disabled', false);
+            $('#high_school_class').prop('disabled', false);
+            $('#high_school_select').prop('disabled', false);
+        }
+        else{
+            $('#high_school_name').prop('disabled', true);
+            $('#high_school_founder').prop('disabled', true);
+            $('#high_school_class').prop('disabled', true);
+            $('#high_school_select').prop('disabled', true);
+        }
+    });
+
     $('#high_school_prefecture, #high_school_name, #high_school_founder, #high_school_class').on('change', function() {
         $('#high_school_select').html('<option value="">高校選択</option>');
         $('#high_school_select').next('p').html('');
@@ -359,7 +377,7 @@ $(document).ready(function() {
                 'next': $('#search_univ_offset_end').val()
             };
         }
-// console.log('Conditions:', conditions);
+console.log('Conditions:', conditions);
 
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
@@ -367,7 +385,7 @@ $(document).ready(function() {
 
         $.get(getuniversityCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            // console.log(data);
+ console.log(conditions, data);
             hideLoader();
 
             let data_cnt = data['header']['data_num'];
@@ -391,7 +409,9 @@ $(document).ready(function() {
                         $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
-
+                    if(data_cnt > maxResultCnt){
+                        $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
                     $('#msg_area').show();
                 }
                 if(data_head['list_cat_div'] == 2 ){
@@ -413,7 +433,9 @@ $(document).ready(function() {
                         $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
-                    
+                    if(data_cnt > maxResultCnt){
+                        $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
                     $('#msg_area').show();
                 }
                 if(data_head['list_cat_div'] == 3 ){
@@ -434,12 +456,16 @@ $(document).ready(function() {
                         $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
+                    if(data_cnt > maxResultCnt){
+                        $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
                     $('#msg_area').show();
                 }
             }
             else{
+                $('#reset_btn').click();
                 $('#result_cnt').html('大学 0件');
-                $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                $('#result_text').html('検索条件に該当する大学が見つかりません。');
                 $('#msg_area').show();
                 var target = $("#msg_area");
                 in_page_link(target);
@@ -557,7 +583,7 @@ $(document).ready(function() {
                         }
                         else{
                             $('#result_cnt').html('学部 0件');
-                            $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                            $('#result_text').html('検索条件に該当する大学が見つかりません。');
                             $('#msg_area').show();
                             var target = $("#msg_area");
                             in_page_link(target);
@@ -634,7 +660,7 @@ $(document).ready(function() {
                 }
                 else{
                     $('#result_cnt').html('大学0件');
-                    $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    $('#result_text').html('検索条件に該当する大学が見つかりません。');
                     $('#msg_area').show();
                     var target = $("#msg_area");
                     in_page_link(target);
@@ -777,7 +803,7 @@ $(document).ready(function() {
                         }
                         else{
                             $('#result_cnt').html('学科 0件');
-                            $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                            $('#result_text').html('検索条件に該当する大学が見つかりません。');
                             $('#msg_area').show();
                             var target = $("#msg_area");
                             in_page_link(target);
@@ -837,7 +863,7 @@ $(document).ready(function() {
                 }
                 else{
                     $('#result_cnt').html('大学 0件');
-                    $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    $('#result_text').html('検索条件に該当する大学が見つかりません。');
                     $('#msg_area').show();
                     var target = $("#msg_area");
                     in_page_link(target);
@@ -965,7 +991,7 @@ $(document).ready(function() {
                 }
                 else{
                     $('#result_cnt').html('大学 0件');
-                    $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    $('#result_text').html('検索条件に該当する大学が見つかりません。');
                     $('#msg_area').show();
                     var target = $("#msg_area");
                     in_page_link(target);

@@ -32,6 +32,7 @@
     const searchWordLimitMSGUniv = '{{trans('validation.em_length', ['attribute' => '大学名','max' => 50])}}';
     const searchWordLimitMSGDept = '{{trans('validation.em_length', ['attribute' => '学部名','max' => 50])}}';
     const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 50])}}';
+    const maxResultCnt = {{config('constants.UNVC_RESULT_MAX')}};
 </script>
 @endsection
 
@@ -103,12 +104,12 @@
                     </select>
                 </div>
                 <div class = "disp_flex c-block-input hsc_text_wide">
-                    <input class="hsc_text_wide" type="text" id="high_school_name" name="high_school_name" placeholder="高校名">
+                    <input class="hsc_text_wide" type="text" id="high_school_name" name="high_school_name" placeholder="高校名" disabled>
                 </div>
             </div>
             <div class="disp_flex">
                 <div class="c-block-input__select hsc_sel_inst">
-                    <select id="high_school_founder" name="high_school_founder" required="required">
+                    <select id="high_school_founder" name="high_school_founder" required="required" disabled>
                         <option value="">設置者</option>
                         @foreach($highSchoolInstallCodeList as $highSchoolInstallCode)
                             <option value="{{$highSchoolInstallCode->install_cd2}}">{{$highSchoolInstallCode->install_name2}}</option>
@@ -116,7 +117,7 @@
                     </select>
                 </div>
                 <div class="c-block-input__select hsc_sel_wide">
-                    <select id="high_school_class" name="high_school_class" required="required">
+                    <select id="high_school_class" name="high_school_class" required="required"disabled>
                         <option value="">高校種別</option>
                         @foreach($highSchoolClassList as $highSchoolClass)
                             <option value="{{$highSchoolClass->class_cd}}">{{$highSchoolClass->class_name}}</option>
@@ -125,7 +126,7 @@
                 </div>
             </div>
             <div class = "c-block-input__select hsc_sel_middle">
-                <select id="high_school_select" name="high_school_select" class="col-8 code_select" required="required">
+                <select id="high_school_select" name="high_school_select" class="col-8 code_select" required="required" disabled>
                     <option value="">高校選択</option>
                 </select>
                 <p class="col-4" ></p>
