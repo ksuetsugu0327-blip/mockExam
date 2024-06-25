@@ -50,7 +50,7 @@ class UnivCodeSearchController extends Controller
             return response()->json(compact('header', 'data', 500));
         }
 
-        if( empty($list) || count($list) > 1){
+        if( $list->isEmpty() || count($list) > 1){
             $header = $this->common->makeHeader('success', '', 1);
             $data = [
                 'oem_sch_code' => config('constants.UNVC_COMMON_SCHOOL.SCH_CODE'),
@@ -206,7 +206,6 @@ class UnivCodeSearchController extends Controller
     public function getUniversityCodeList(Request $request){
         $mode = intval($request->get('mode'));
         $offset_end = $request->get('next');
-        //$offset_end = $offset_end + config('constants.UNVC_PER_PAGE');
         $page_unit = config('constants.UNVC_PER_PAGE');
         $univ_num = "";
         $dept_num = "";

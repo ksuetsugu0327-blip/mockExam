@@ -104,6 +104,8 @@ $(document).ready(function() {
 
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
+                if (data['data']['oem_sch_name']== commonOEMSchoolName)
+                    schCodeInputField.val(commonOEMSchoolCode)
                 $('#grade').val('');
                 $('#test_info').val('');
                 $('#grade').prop('disabled', false);
@@ -119,10 +121,10 @@ $(document).ready(function() {
             toggle_search_btn();
         })        
         .fail(function(jqXHR, status, error) {
-            // console.log(jqXHR, status, error);
+console.log(jqXHR, status, error);
             hideLoader();
 
-            schCodeInputField.next('p').html('');
+            schCodeInputField.next('p').html('該当塾なし');
             $('#grade').prop('disabled', true);
             $('#test_info').prop('disabled', true);
             toggle_search_btn();
