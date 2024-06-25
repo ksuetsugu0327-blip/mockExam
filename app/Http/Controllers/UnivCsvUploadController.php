@@ -8,6 +8,7 @@ use App\Utils\FileUtil;
 use App\Models\MUniversityCodeName as MUnivCodeName;
 use App\Services\UnivCsvService;
 use App\Services\HighSchoolCsvService;
+use App\Services\MUnivCodeNameService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Exceptions\ExclusionException;
@@ -24,11 +25,13 @@ class UnivCsvUploadController extends Controller{
 
     private $univCsvService;
     private $highSchoolCsvService;
+    private $mUnivCodeNameService;
 
-    public function __construct(UnivCsvService $univCsvService, HighSchoolCsvService $highSchoolCsvService) {
+    public function __construct(UnivCsvService $univCsvService, HighSchoolCsvService $highSchoolCsvService, MUnivCodeNameService $univCodeNameService) {
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->univCsvService = $univCsvService;
         $this->highSchoolCsvService = $highSchoolCsvService;
+        $this->mUnivCodeNameService = $univCodeNameService;
     }
 
     /**
@@ -38,12 +41,8 @@ class UnivCsvUploadController extends Controller{
 
         $codeData = config('selectlistarray.CODE_DATA');
         $years = $this->generateYearsArray();
-        $mUnivCodeName = DB::table('m_university_code_name')
-        ->leftJoin('m_university_code_head', 'm_university_code_head.university_code_name_cd', 'm_university_code_name.university_code_name_cd')
-        ->select('m_university_code_name.university_code_name_cd', 'university_code_name', 'm_university_code_head.updated_at')
-        ->orderBy('m_university_code_name.university_code_name','ASC')
-        ->get();
-        
+        $mUnivCodeName = $this->mUnivCodeNameService->selectList();
+
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
 
         return view('univ_register', compact(

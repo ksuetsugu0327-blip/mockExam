@@ -21,4 +21,12 @@ class MUnivCodeNameService {
         $this->repositoryMUniversityCodeName = $repositoryMUniversityCodeName;
     }
 
+    /**
+     * 一覧取得
+     */
+    public function selectList()
+    {
+        return $this->repositoryMUniversityCodeName->selectList();
+    }
+
 }

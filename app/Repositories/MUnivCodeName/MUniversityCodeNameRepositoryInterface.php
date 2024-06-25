@@ -8,5 +8,9 @@ namespace App\Repositories\MUnivCodeName;
  */
 interface MUniversityCodeNameRepositoryInterface
 {
-
+    /**
+     * 【高校・大学CSVデータ登録】大学コードデータ名マスタプルダウン用リスト
+     * @param string $year
+     */
+    public function selectList();
 }
