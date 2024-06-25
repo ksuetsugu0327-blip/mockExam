@@ -76,7 +76,7 @@ $(document).ready(function() {
         
         if (currentLength > maxLength || !$.isNumeric(schCode)) {
             if(schCode){
-                schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
+                schCodeInputField.next('p').addClass('redText').html("塾コードは半角７文字以内の数字で入力してください。");
             }
             $('#grade').val('');
             $('#test_info').val('');
@@ -150,7 +150,7 @@ $(document).ready(function() {
         $('#test_info').prop('disabled', true);
 
         if (currentLength > maxLength || !$.isNumeric(schCode)) {
-            schCodeInputField.next('p').addClass('redText').html("塾コードを半角７文字以内の数字にしてください。");
+            schCodeInputField.next('p').addClass('redText').html("塾コードは半角７文字以内の数字で入力してください。");
 
             return
         }
@@ -398,7 +398,7 @@ console.log('Conditions:', conditions);
                 if(data_head['list_cat_div'] == 1 ){
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
-// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#search_univ_offset_end').val(new_offset);
 
                     generate_univ_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
