@@ -49,6 +49,9 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                         ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd', 'm_tn.test_name_cd')
                         ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
                         ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
+                        ->when(array_key_exists('oem_school', $conditions) && isset($conditions['oem_school']), function ($query) use ($conditions) {
+                            return $query->where('t_ti.oem_sch_code', $conditions['oem_school']);
+                        })
                         ->when(array_key_exists('year', $conditions) && isset($conditions['year']), function ($query) use ($conditions) {
                             return $query->where('t_ti.fiscal_year', $conditions['year']);
                         })

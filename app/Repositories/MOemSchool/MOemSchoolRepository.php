@@ -33,6 +33,7 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
     public function selectList()
     {
         return $this->MOemSchool::where('invalid_flag', 0) 
+            ->orderby('display_seq', 'asc')
             ->orderby('oem_sch_code', 'asc') 
             ->get();
     }
@@ -46,6 +47,7 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
         return $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
             ->where('invalid_flag', 0)
             ->where('oem_sch_code', $OEMSchCode)
+            ->orderby('display_seq', 'asc')
             ->get();
     }
 }

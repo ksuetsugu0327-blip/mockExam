@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UnivTestListRequest;
 use App\Http\Requests\UnivTestRegisterRequest;
 use App\Services\TTestInfoService;
+use App\Services\MOemSchoolService;
 use Illuminate\Http\Request;
 
 class UnivTestListController extends Controller
@@ -18,11 +19,12 @@ class UnivTestListController extends Controller
      * コンストラクタ
      * @param TTestInfoService $tTestService 模試テーブルサービス
      */
-    public function __construct(TTestInfoService $tTestService)
+    public function __construct(TTestInfoService $tTestService, MOemSchoolService $mOemSchoolService)
     {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $tTestService;
+        $this->oemSchoolService = $mOemSchoolService;
     }
 
     public function index(Request $request) {
@@ -36,6 +38,9 @@ class UnivTestListController extends Controller
             
             // セッションをクリア
             $request->session()->forget(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
+
+            //OEM塾プルダウンを用意
+            $oemSchools = $this->oemSchoolService->selectList();
             
             // 年度プルダウンを用意
             $years = $this->service->generateYearsArray();
@@ -53,8 +58,10 @@ class UnivTestListController extends Controller
                 'testList' => null,
                 'resultCount' => 0,
                 'message' => $message,
+                'oemSchools' => $oemSchools,
                 'grades' => $grades,
                 'years' => $years,
+                'selectedOEM' => $conditions['oem_school'],
                 'selectedYear' => $conditions['year'],
                 'testNameKeyword' => $conditions['test_name']
             ]);
@@ -62,6 +69,9 @@ class UnivTestListController extends Controller
         else{
            // 塾マスタ管理画面から来た場合、セッション情報を引き継いで検索処理を実施する
             $conditions = $request->session()->get(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'));
+
+            //OEM塾プルダウンを用意
+            $oemSchools = $this->oemSchoolService->selectList();
             
             // 年度プルダウンを用意
             $years = $this->service->generateYearsArray();
@@ -80,11 +90,12 @@ class UnivTestListController extends Controller
             // 表示件数を取得
             $resultCount = $testList->count();
 
-            return view('test_list', compact('testList', 'years'))
+            return view('test_list', compact('testList', 'years','oemSchools'))
                 ->with([
                     'resultCount' => $resultCount,
                     'message' => $message,
                     'grades' => $grades,
+                    'selectedOEM' => $conditions['oem_school'],
                     'selectedYear' => $conditions['year'],
                     'testNameKeyword' => $conditions['test_name']
                 ]);
@@ -100,9 +111,13 @@ class UnivTestListController extends Controller
 
         // 検索条件の値を取得
         $conditions = [
+            'oem_school'=>$request->get('oem_school'),
             'year'=>$request->get('year'),
             'test_name'=>$request->get('test_name'),
         ];
+
+        //OEM塾プルダウンを用意
+        $oemSchools = $this->oemSchoolService->selectList();
 
         // 年度プルダウンを用意
         $years = $this->service->generateYearsArray();
@@ -112,7 +127,7 @@ class UnivTestListController extends Controller
             
         // 模試リストを取得
         $testList = $this->service->selectList($conditions);
-//dd($testList);
+
         // 表示件数を取得
         $resultCount = $testList->count();
         
@@ -131,10 +146,11 @@ class UnivTestListController extends Controller
 
         $request->session()->put(config('constants.SESSION_KEY_TTESTINFO_SEARCH_CONDITION'),$conditions);
 
-        return view('test_list', compact('testList', 'years'))
+        return view('test_list', compact('testList', 'years','oemSchools'))
             ->with('resultCount', $resultCount)
             ->with('message', $message)
             ->with('grades', $grades)
+            ->with('selectedOEM', $conditions['oem_school'])
             ->with('selectedYear', $conditions['year'])
             ->with('testNameKeyword', $conditions['test_name']);
     }

@@ -28,7 +28,7 @@
 
 @section('content')
 <div id="portal-content" class="idlogin">
-    <div id="content">
+    <div id="content" style="width:800px;">
         <h1>テスト一覧</h1><br>
         @if (isset($message))
         <div class="error_message">
@@ -44,6 +44,15 @@
                 @csrf
                 <div class="form-group">
                     <!-- Container for label and select dropdown -->
+                    <div class="form-row" style="gap:22px;">
+                        <span for="oem_school">OEM塾</span>
+                        <select id="oem_school" name="oem_school" style="width:163px;">
+                            <option value=""></option>
+                            @foreach($oemSchools as $oem)
+                            <option value="{{$oem->oem_sch_code}}" {{ $oem->oem_sch_code == $selectedOEM ? 'selected' : '' }}>{{$oem->oem_sch_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="form-row" style="gap:38px;">
                         <span for="year">年度</span>
                         {{ Form::select(
@@ -68,25 +77,27 @@
             </form>
         </div>
         @if($resultCount>0)
-        <div id="test_list" class="List2">
+        <div id="test_list" class="List2" >
             <p>({{ $resultCount }}件表示)</p> 
             <table class="mastertable">
                 <!-- Table header -->
                 <tbody>
                     <tr>
                         <th style="width: 2%;"></th>
-                        <th style="width: 8%;">年度</th>
-                        <th style="width: 28%;">テスト名</th>
-                        <th style="width: 8%;">学年</th>
-                        <th style="width: 38%;">大学データ</th>
-                        <th style="width: 8%;"></th>
-                        <th style="width: 8%;"></th>
+                        <th style="width: 19%;">OEM塾</th>
+                        <th style="width: 6%;">年度</th>
+                        <th style="width: 25%;">テスト名</th>
+                        <th style="width: 5%;">学年</th>
+                        <th style="width: 34%;">大学データ</th>
+                        <th style="width: 5%;"></th>
+                        <th style="width: 5%;"></th>
                     </tr>
                 <!-- Table body -->
                     <!-- Example data rows - Replace these with your own data rows -->
                     @foreach($testList as $item)
                     <tr>
                         <td></td>
+                        <td>{{$item->oem_sch_name}}</td>
                         <td>{{$item->fiscal_year}}</td>
                         <td>{{$item->test_name}}</td>
                         <td>{{(array_key_exists($item->grade, $grades))?$grades[$item->grade]:$item->grade}}</td>
