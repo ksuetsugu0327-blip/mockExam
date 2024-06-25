@@ -37,7 +37,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
     public function registerArray($codeHeadID, array $univCode){
 
         try{
-            //dd($univCode);
+            
             // キーに合致するデータがあればUPDATE/なければINSERT
             $mUnivCode = $this->MUnivCode->updateOrCreate(
                     [
@@ -122,7 +122,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     if($conditions['commonTest'] == 'on'){
                         return $query->where('common_test_use', '=', 1);
                     }
-                    return $query->where('common_test_use', '=', 0);
                 });
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
@@ -175,7 +174,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     if($conditions['commonTest'] == 'on'){
                         return $query->where('common_test_use', '=', 1);
                     }
-                    return $query->where('common_test_use', '=', 0);
                 })
                 ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                     return $query->where('university_cd', '=', $conditions['univCode']);
@@ -231,7 +229,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     if($conditions['commonTest'] == 'on'){
                         return $query->where('common_test_use', '=', 1);
                     }
-                    return $query->where('common_test_use', '=', 0);
                 })
                 ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                     return $query->where('university_cd', '=', $conditions['univCode']);
@@ -289,7 +286,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 if($conditions['commonTest'] == 'on'){
                     return $query->where('common_test_use', '=', 1);
                 }
-                return $query->where('common_test_use', '=', 0);
             })
             ->groupBy('university_cd')
             ->groupBy('university_name')
@@ -354,7 +350,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 if($conditions['commonTest'] == 'on'){
                     return $query->where('common_test_use', '=', 1);
                 }
-                return $query->where('common_test_use', '=', 0);
             })
             ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                 return $query->where('university_cd', '=', $conditions['univCode']);
@@ -424,7 +419,6 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 if($conditions['commonTest'] == 'on'){
                     return $query->where('common_test_use', '=', 1);
                 }
-                return $query->where('common_test_use', '=', 0);
             })
             ->when(array_key_exists('univCode', $conditions) && isset($conditions['univCode']), function ($query) use ($conditions) {
                 return $query->where('university_cd', '=', $conditions['univCode']);
