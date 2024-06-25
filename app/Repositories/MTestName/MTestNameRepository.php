@@ -32,7 +32,8 @@ class MTestNameRepository implements MTestNameRepositoryInterface
      */
     public function selectList()
     {
-        return $this->MTestName::where('invalid_flag', 0) 
+        return $this->MTestName::where('invalid_flag', 0)
+                            ->orderby('display_seq', 'asc')
                             ->orderby('test_name_cd', 'asc') 
                             ->get();
     }
