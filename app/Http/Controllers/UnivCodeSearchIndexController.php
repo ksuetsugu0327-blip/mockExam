@@ -8,6 +8,7 @@ use App\Services\MHighSchoolClassService;
 use App\Services\MHighSchoolInstallService;
 use App\Services\MUnivInstallService;
 use App\Services\MUnivDeptLineService;
+use App\Services\MOemSchoolService;
 
 class UnivCodeSearchIndexController extends Controller
 {
@@ -16,13 +17,15 @@ class UnivCodeSearchIndexController extends Controller
         MHighSchoolInstallService $mHighSchoolInstallService,
         MHighSchoolClassService $mHighSchoolClassService,
         MUnivInstallService $mUnivInstallService,
-        MUnivDeptLineService $mUnivDeptLineService
+        MUnivDeptLineService $mUnivDeptLineService,
+        MOemSchoolService $mOemSchoolService
     ){
         $this->prefectureService = $mPrefectureService;
         $this->highSchoolInstallService = $mHighSchoolInstallService;
         $this->highSchoolClassService = $mHighSchoolClassService;
         $this->univInstallService = $mUnivInstallService;
         $this->univDeptLineService = $mUnivDeptLineService;
+        $this->oemSchoolService = $mOemSchoolService;
     }
 
     public function index(Request $request) {
@@ -36,6 +39,8 @@ class UnivCodeSearchIndexController extends Controller
         $univInstallCodeList = $this->univInstallService->selectList();
         $univDeptLineList = $this->univDeptLineService->selectList();
         $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION_VALUES');
+        $commonOemResults = $this->oemSchoolService->getOemSchoolName(config('constants.UNVC_COMMON_SCHOOL.SCH_CODE'));
+        $commonOEMSchoolName = (count($commonOemResults) > 0)? $commonOemResults[0]->oem_sch_name:'';
 
         return view('univ_search', compact(
             'gradeList',
@@ -46,6 +51,7 @@ class UnivCodeSearchIndexController extends Controller
             'univInstallCodeList',
             'univDeptLineList',
             'deviationValueList',
+            'commonOEMSchoolName',
         ));
     }
 }
