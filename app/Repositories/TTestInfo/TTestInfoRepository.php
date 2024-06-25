@@ -44,7 +44,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
     public function selectList(array $conditions)
     {
         $testLists = DB::table('t_test_info as t_ti')
-                        ->select('t_ti.id', 't_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name')
+                        ->select('t_ti.id', 'm_oem.oem_sch_name','t_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name')
+                        ->leftJoin('m_oem_school as m_oem', 't_ti.oem_sch_code', 'm_oem.oem_sch_code')
                         ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd', 'm_tn.test_name_cd')
                         ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
                         ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
@@ -54,6 +55,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                         ->when(array_key_exists('test_name', $conditions) && isset($conditions['test_name']), function ($query) use ($conditions) {
                             return $query->where('m_tn.test_name', 'like', '%'.trim($conditions['test_name']).'%');
                         })
+                        ->orderBy('t_ti.oem_sch_code')
                         ->orderBy('t_ti.fiscal_year')
                         ->orderBy('t_ti.grade')
                         ->orderBy('m_tn.test_name')
