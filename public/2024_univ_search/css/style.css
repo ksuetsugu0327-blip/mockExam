@@ -584,6 +584,11 @@ input[name="tab_item"] {
 
 /*検索ボタン*/
 
+.reset_btn {
+   min-width: 97%;
+   max-width: 100%;
+}
+
 .reset_btn a {  /*SUE */
    margin-top:-20px;
    margin-bottom:-20px;
@@ -601,9 +606,13 @@ input[name="tab_item"] {
 
 }
 
+.clear_btn {
+   min-width: 165px;
+   max-width: 170px;
+}
 .clear_btn a {
     text-decoration: none;
-    width: 170px;
+/*    width: 170px; */
     /* min-width: min(170px, 100%); */
     text-align: center;
     /* font-weight: bold; */
@@ -620,10 +629,13 @@ input[name="tab_item"] {
     opacity: 0.5;
 }
 
-
+.kensaku_btn {
+   min-width: 165px;
+   max-width: 170px;
+}
 .kensaku_btn a {
     text-decoration: none;
-    width: 170px;
+/*    width: 170px; */
     /* min-width: min(170px, 100%); */
     text-align: center;
     /* font-weight: bold; */
@@ -645,7 +657,8 @@ input[name="tab_item"] {
     gap: 5px;
    /* padding-bottom: 60px; */
     display: inline-block;
-    background-color: #fffacd; 
+/*    background-color: #fffacd; */
+    background-color: #ebf6fd;
    /* margin: 0 0 0 1em; */
     margin: 0 0 20px 0; 
     width: 100%;
@@ -658,7 +671,8 @@ input[name="tab_item"] {
     font-size: 1.0rem;
     font-weight: bold;
 /*    color: #EE4266;  SUE */
-    color: #bb0808; 
+/*   color: #bb0808; */
+    color: #025587; 
 /* SUE */
     display: flex;
     align-items: center;

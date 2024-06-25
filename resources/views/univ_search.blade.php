@@ -9,7 +9,13 @@
     .top-right-link {
         text-align: right;
         margin-left: 20px;
+        margin-bottom: -10px;
+    }@media screen and (max-width: 480px) {
+        .top-right-link {
+          margin-bottom: 15px;
+        }
     }
+
     .redText {
         color: red;
     }
@@ -55,7 +61,7 @@
     <div class="top-right-link">
         <div style="background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:inline-block;margin-left: -32px;margin-bottom:-8px"></div>
         <label style="display:inline-block;">
-            <a href="{{config('constants.UNVC_LIST_DOWNLOAD_LINK')}}" style="text-decoration: underline;">コード表ダウンロード</a>
+            <a href="{{config('constants.UNVC_LIST_DOWNLOAD_LINK')}}" target="_blank" style="text-decoration: underline;">コード表ダウンロード</a>
         </label>
     </div>
     <div class = "disp_flex c-block-input required">
@@ -257,7 +263,7 @@
     </div>
 </div>
 <div id="search_btn_area_02" class = "disp_flex btn_box" style="display:none;">
-    <div class = "reset_btn" style="width:100%">
+    <div class = "reset_btn">
         <a id="reset_btn" href="">検索条件を変更する</a>
     </div>
 </div>
