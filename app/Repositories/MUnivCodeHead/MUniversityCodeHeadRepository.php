@@ -109,6 +109,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
                 ->where('m_university_code_name.invalid_flag', '=', 0);
         })
         ->where('m_university_code_head.fiscal_year', '=', $year)
+        ->orderby('m_university_code_name.display_seq', 'asc')
         ->orderby('m_university_code_head.university_code_name_cd', 'asc')
         ->get();
     }
