@@ -52,7 +52,7 @@ class UnivTestListController extends Controller
                 $message = $request->session()->get('message');
             }
 
-            $conditions = ['year'=>'','test_name'=>''];
+            $conditions = ['year'=>'','test_name'=>'', 'oem_school'=>''];
 
             return view('test_list')->with([
                 'testList' => null,
