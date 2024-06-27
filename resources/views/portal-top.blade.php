@@ -14,7 +14,7 @@
 @section('content')
 <div id="portal-content" class="idlogin">
     <div id="content">
-        <h1>入り口</h1>
+        <h1>模試サイトポータル</h1>
 
         <div id="portal_psn_area">
             <a href="{{ route('PortalAccount.account', ['account'=>'psn']) }}">生徒様はこちら &raquo;</a>
