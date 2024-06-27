@@ -37,7 +37,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
     public function registerArray($codeHeadID, array $univCode){
 
         try{
-            
+
             // キーに合致するデータがあればUPDATE/なければINSERT
             $mUnivCode = $this->MUnivCode->updateOrCreate(
                     [
@@ -364,6 +364,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->groupBy('department_seq')
             ->orderBy('university_cd')
             ->orderBy('department_seq')
+            ->orderBy('department_cd')
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions), function ($query) use ($conditions) {
                 return $query->offset($conditions['offset']);
@@ -428,7 +429,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             })
             ->orderBy('university_cd')
             ->orderBy('department_seq')
+            ->orderBy('department_cd')
             ->orderBy('subject_seq')
+            ->orderBy('subject_cd')
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions), function ($query) use ($conditions) {
                 return $query->offset($conditions['offset']);
