@@ -24,9 +24,9 @@ class MOemSchoolService {
     /**
      * 一覧取得
      */
-    public function selectList()
+    public function selectList($OEMSchCode="")
     {
-        return $this->repositoryMOemSchool->selectList();
+        return $this->repositoryMOemSchool->selectList($OEMSchCode);
     }
 
     /**
