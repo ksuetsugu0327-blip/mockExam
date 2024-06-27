@@ -104,8 +104,8 @@ $(document).ready(function() {
 
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
-                if (data['data']['oem_sch_name']== commonOEMSchoolName)
-                    schCodeInputField.val(commonOEMSchoolCode)
+                schCodeInputField.val(String(data['data']['oem_sch_code']).padStart(7, '0'));
+                
                 $('#grade').val('');
                 $('#test_info').val('');
                 $('#grade').prop('disabled', false);
