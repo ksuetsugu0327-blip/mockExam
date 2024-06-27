@@ -39,9 +39,7 @@ class UnivCodeSearchIndexController extends Controller
         $univInstallCodeList = $this->univInstallService->selectList();
         $univDeptLineList = $this->univDeptLineService->selectList();
         $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION_VALUES');
-        $commonOemResults = $this->oemSchoolService->getOemSchoolName(config('constants.UNVC_COMMON_SCHOOL.SCH_CODE'));
-        $commonOEMSchoolName = (count($commonOemResults) > 0)? $commonOemResults[0]->oem_sch_name:'';
-
+        
         return view('univ_search', compact(
             'gradeList',
             'prefList',
@@ -51,7 +49,6 @@ class UnivCodeSearchIndexController extends Controller
             'univInstallCodeList',
             'univDeptLineList',
             'deviationValueList',
-            'commonOEMSchoolName',
         ));
     }
 }

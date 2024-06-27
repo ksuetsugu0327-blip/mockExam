@@ -30,9 +30,12 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
      * OEM塾マスタプルダウン用リスト
      * @return OEM塾リスト
      */
-    public function selectList()
+    public function selectList($OEMSchCode="")
     {
-        return $this->MOemSchool::where('invalid_flag', 0) 
+        return $this->MOemSchool::where('invalid_flag', 0)
+            ->when(!empty($OEMSchCode), function ($query) use ($OEMSchCode) {
+                return $query->where('oem_sch_code', $OEMSchCode);
+            }) 
             ->orderby('display_seq', 'asc')
             ->orderby('oem_sch_code', 'asc') 
             ->get();
@@ -44,10 +47,12 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
      */
     public function getOemSchoolName($OEMSchCode)
     {
-        return $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
+        $OEMSchool = $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
             ->where('invalid_flag', 0)
             ->where('oem_sch_code', $OEMSchCode)
             ->orderby('display_seq', 'asc')
-            ->get();
+            ->first();
+        
+        return $OEMSchool->oem_sch_name;
     }
 }

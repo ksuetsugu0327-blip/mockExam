@@ -40,7 +40,6 @@
     const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 50])}}';
     const maxResultCnt = {{config('constants.UNVC_RESULT_MAX')}};
     const commonOEMSchoolCode = '{{config('constants.UNVC_COMMON_SCHOOL.SCH_CODE')}}';
-    const commonOEMSchoolName = '{{$commonOEMSchoolName}}';
 </script>
 @endsection
 

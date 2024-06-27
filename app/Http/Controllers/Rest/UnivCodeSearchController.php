@@ -41,7 +41,7 @@ class UnivCodeSearchController extends Controller
         $OEMSchCode = $request->get('oem');
 
         try{
-            $list = $this->oemSchoolService->getOemSchoolName($OEMSchCode);
+            $list = $this->oemSchoolService->selectList($OEMSchCode);
         }
         catch (\Exception $e){        
             $header = $this->common->makeHeader('error', '', 0);
@@ -52,9 +52,11 @@ class UnivCodeSearchController extends Controller
 
         if( $list->isEmpty() || count($list) > 1){
             $header = $this->common->makeHeader('success', '', 1);
+            $defaultOEMCode = config('constants.UNVC_COMMON_SCHOOL.SCH_CODE');
+            $defaultOEMName = $this->oemSchoolService->getOemSchoolName($defaultOEMCode);
             $data = [
-                'oem_sch_code' => config('constants.UNVC_COMMON_SCHOOL.SCH_CODE'),
-                'oem_sch_name' => config('constants.UNVC_COMMON_SCHOOL.SCH_NAME'),
+                'oem_sch_code' => $defaultOEMCode,
+                'oem_sch_name' => $defaultOEMName,
             ];
 
             return response()->json(compact('header', 'data'));
