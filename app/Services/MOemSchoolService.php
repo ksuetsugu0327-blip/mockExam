@@ -24,16 +24,16 @@ class MOemSchoolService {
     /**
      * 一覧取得
      */
-    public function selectList($OEMSchCode="")
+    public function selectList()
     {
-        return $this->repositoryMOemSchool->selectList($OEMSchCode);
+        return $this->repositoryMOemSchool->selectList();
     }
 
     /**
      * 塾名取得
      */
-    public function getOemSchoolName($OEMSchCode)
+    public function getOemSchoolByCode($OEMSchCode)
     {
-        return $this->repositoryMOemSchool->getOemSchoolName($OEMSchCode);
+        return $this->repositoryMOemSchool->getOemSchoolByCode($OEMSchCode);
     }
 }

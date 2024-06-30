@@ -41,7 +41,7 @@ class UnivCodeSearchController extends Controller
         $OEMSchCode = $request->get('oem');
 
         try{
-            $list = $this->oemSchoolService->selectList($OEMSchCode);
+            $OEMSchool = $this->oemSchoolService->getOemSchoolByCode($OEMSchCode);
         }
         catch (\Exception $e){        
             $header = $this->common->makeHeader('error', '', 0);
@@ -50,10 +50,10 @@ class UnivCodeSearchController extends Controller
             return response()->json(compact('header', 'data', 500));
         }
 
-        if( $list->isEmpty() || count($list) > 1){
+        if( empty($OEMSchool) ){  // 塾マスターがみつからない場合、デフォルト塾名を返す
             $header = $this->common->makeHeader('success', '', 1);
             $defaultOEMCode = config('constants.UNVC_COMMON_SCHOOL.SCH_CODE');
-            $defaultOEMName = $this->oemSchoolService->getOemSchoolName($defaultOEMCode);
+            $defaultOEMName = $this->oemSchoolService->getOemSchoolByCode($defaultOEMCode)->oem_sch_name;
             $data = [
                 'oem_sch_code' => $defaultOEMCode,
                 'oem_sch_name' => $defaultOEMName,
@@ -62,13 +62,12 @@ class UnivCodeSearchController extends Controller
             return response()->json(compact('header', 'data'));
         }
         else{
-            $item = $list[0];
 
             $header = $this->common->makeHeader('success', '', 1);
 
             $data = [
-                'oem_sch_code' => $item->oem_sch_code,
-                'oem_sch_name' => $item->oem_sch_name,
+                'oem_sch_code' => $OEMSchool->oem_sch_code,
+                'oem_sch_name' => $OEMSchool->oem_sch_name,
             ];
     
             return response()->json(compact('header', 'data'));

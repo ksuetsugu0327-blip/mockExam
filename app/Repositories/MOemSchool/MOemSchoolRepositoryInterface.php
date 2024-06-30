@@ -17,6 +17,6 @@ interface MOemSchoolRepositoryInterface
      * 塾名取得
      * @return OEM塾名取得
      */
-    public function getOemSchoolName($OEMSchCode);
+    public function getOemSchoolByCode($OEMSchCode);
 
 }
