@@ -55,7 +55,7 @@ interface TTestInfoRepositoryInterface
      * 年度プルダウンリスト用意処理
      * @return array
      */
-    public function generateYearsArray();
+    public function generateYearsArray($mode);
 
     /**
      * テスト名リスト取得

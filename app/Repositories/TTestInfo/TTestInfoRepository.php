@@ -192,24 +192,23 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      * 年度プルダウンリスト用意処理
      * @return array
      */
-    public function generateYearsArray()
-    {
+    public function generateYearsArray($mode) {
         $currentYear = date('Y');
-        $noOfFutureYears = config('constants.FUTURE_YEAR');
-        $noOfPastYears = config('constants.PAST_YEAR');
         $years = [];
 
-        // 年度未指定のoption
-        $years[''] = "";
-        
-        // Add next year
-        for ($i = 1; $i < $noOfFutureYears + 1; $i++) {
-            $years[strval($currentYear + $i)] = $currentYear + $i;
+        if ($mode == "far"){
+            $previousYears = 4;
+        }
+        else{ //  テスト登録時過去は1年だけ表示
+            $previousYears = 1;
         }
 
+        // Add next year
+        $years[] = $currentYear + 1;
+
         // Add previous 4 years
-        for ($i = 0; $i < $noOfPastYears + 1; $i++) {
-            $years[strval($currentYear - $i)] = $currentYear - $i;
+        for ($i = 0; $i <= $previousYears; $i++) {
+            $years[] = $currentYear - $i;
         }
 
         return $years;

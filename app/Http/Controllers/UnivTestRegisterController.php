@@ -38,7 +38,7 @@ class UnivTestRegisterController extends Controller
     public function register()
     {
         // 年度プルダウンを用意
-        $years = $this->service->generateYearsArray();
+        $years = $this->service->generateYearsArray("near");
         // 学年プルダウンを用意
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
         // OEM塾を取得

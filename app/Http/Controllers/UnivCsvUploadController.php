@@ -9,6 +9,7 @@ use App\Models\MUniversityCodeName as MUnivCodeName;
 use App\Services\UnivCsvService;
 use App\Services\HighSchoolCsvService;
 use App\Services\MUnivCodeNameService;
+use App\Services\TTestInfoService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Exceptions\ExclusionException;
@@ -26,12 +27,19 @@ class UnivCsvUploadController extends Controller{
     private $univCsvService;
     private $highSchoolCsvService;
     private $mUnivCodeNameService;
+    private $tTestService;
 
-    public function __construct(UnivCsvService $univCsvService, HighSchoolCsvService $highSchoolCsvService, MUnivCodeNameService $univCodeNameService) {
+    public function __construct(
+        UnivCsvService $univCsvService,
+        HighSchoolCsvService $highSchoolCsvService,
+        MUnivCodeNameService $univCodeNameService,
+        TTestInfoService $testService
+    ) {
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->univCsvService = $univCsvService;
         $this->highSchoolCsvService = $highSchoolCsvService;
         $this->mUnivCodeNameService = $univCodeNameService;
+        $this->tTestService = $testService;
     }
 
     /**
@@ -40,7 +48,7 @@ class UnivCsvUploadController extends Controller{
     public function index() {
 
         $codeData = config('selectlistarray.CODE_DATA');
-        $years = $this->generateYearsArray();
+        $years = $this->tTestService->generateYearsArray("far");
         $mUnivCodeName = $this->mUnivCodeNameService->selectList();
 
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
@@ -329,7 +337,7 @@ class UnivCsvUploadController extends Controller{
 
     private function prepareSelectList(){
         $codeData = config('selectlistarray.CODE_DATA');
-        $years = $this->generateYearsArray();
+        $years = $this->tTestService->generateYearsArray("far");
         $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
 
@@ -341,19 +349,19 @@ class UnivCsvUploadController extends Controller{
         );
     }
     // TODO サービスに持たせる予定
-    private function generateYearsArray() {
-        $currentYear = date('Y');
-        $years = [];
+    // private function generateYearsArray() {
+    //     $currentYear = date('Y');
+    //     $years = [];
 
-        // Add next year
-        $years[] = $currentYear + 1;
+    //     // Add next year
+    //     $years[] = $currentYear + 1;
 
-        // Add previous 4 years
-        for ($i = 0; $i < 5; $i++) {
-            $years[] = $currentYear - $i;
-        }
+    //     // Add previous 4 years
+    //     for ($i = 0; $i < 5; $i++) {
+    //         $years[] = $currentYear - $i;
+    //     }
 
-        return $years;
-    }
+    //     return $years;
+    // }
 
 }
