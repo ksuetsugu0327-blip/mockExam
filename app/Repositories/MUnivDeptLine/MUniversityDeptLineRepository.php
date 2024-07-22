@@ -34,7 +34,7 @@ class MUniversityDeptLineRepository implements MUniversityDeptLineRepositoryInte
      */
     public function selectList(){
         return $this->MUnivDeptLine::where('invalid_flag', 0) 
-            ->orderby('dept_line_name', 'asc')
+            ->orderby('dept_line_cd', 'asc')
             ->get();
     }
     

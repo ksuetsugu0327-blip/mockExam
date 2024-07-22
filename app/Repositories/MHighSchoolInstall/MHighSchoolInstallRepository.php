@@ -33,7 +33,6 @@ class MHighSchoolInstallRepository implements MHighSchoolInstallRepositoryInterf
     public function selectList()
     {
         return $this->MHighSchoolInstall::where('invalid_flag', 0) 
-            ->orderby('install_cd1', 'asc')
             ->orderby('install_cd2', 'asc')
             ->get();
     }
