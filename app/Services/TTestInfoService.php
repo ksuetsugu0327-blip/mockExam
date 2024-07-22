@@ -73,9 +73,9 @@ class TTestInfoService
      * 年度プルダウンリスト用意処理
      * @return array
      */
-    public function generateYearsArray()
+    public function generateYearsArray($mode="far")
     {
-        return $this->repository->generateYearsArray();
+        return $this->repository->generateYearsArray($mode);
     }
 
     /**
