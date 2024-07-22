@@ -71,7 +71,7 @@
     </div>
 
     <div class = "disp_flex">
-    <div class="c-block-input__select required" style="width:100px;">
+    <div class="c-block-input__select required" style="width:120px;">
         <select id="grade" name="grade" required="required" disabled>
             <option value="">学年</option>
         @foreach($gradeList as $key => $grade)
