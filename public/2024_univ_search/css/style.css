@@ -179,7 +179,7 @@ section .hs_title {
     border: 1px solid #999;
     outline: none !important;
     box-shadow: none;
-    height: 35px;
+    height: 40px;
     padding: 2px 16px;
     border-color: #999;
     border-radius: 4px
@@ -190,6 +190,23 @@ section .hs_title {
     
 }
 
+::placeholder {
+    color: #a9a9a9;
+    opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12 -18 */
+    color: #a9a9a9;
+}
+
+::-webkit-input-placeholder {
+    color: #a9a9a9; /* Change to your desired color */
+}
+
+input[type="text"]:disabled {
+    background-color: #dcdcdc !important;
+}
+  
 .required input:focus {
     background-color: #FFFFFF
 }
@@ -198,9 +215,6 @@ section .hs_title {
     border-color: #E6A54D
 }
 
-.c-block-input ::-webkit-input-placeholder {
-    color: #a9a9a9
-}
 
 
 
@@ -270,6 +284,11 @@ select:invalid { color: #a9a9a9; }
 select option { color: #333; }
 select option:first-child { color: #a9a9a9; }
 
+select:disabled {
+    background-color: #dcdcdc !important;
+    color: #a9a9a9;
+    opacity: 1 !important;
+}
 
 
 
