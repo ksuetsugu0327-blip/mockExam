@@ -182,14 +182,38 @@ class UnivCodeSearchController extends Controller
         }
 
         $header = $this->common->makeHeader('success', '', count($result)??0);
-
         $rows = [];
 
-        foreach($result as $highSchoolCode) {
-            $rows[] = [
-                'highschool_code' => $highSchoolCode->highschool_code,
-                'highschool_name' => $highSchoolCode->highschool_name,
+        if (count($result) > 0) {
+            
+            foreach($result as $highSchoolCode) {
+                $rows[] = [
+                    'highschool_code' => $highSchoolCode->highschool_code,
+                    'highschool_name' => $highSchoolCode->highschool_name,
+                ];
+            }
+        }
+        else{
+            $conditions = [
+                'prefecture_cd'   => $prefecture,
+                'install_cd'      => 9,
+                'class_cd'        => 9,
             ];
+            
+            $result = $this->highSchoolCodeService->getHighSchoolCode($conditions);
+            
+            if (count($result) == 1) {
+                $header = $this->common->makeHeader('success', '', 1);
+
+                $rows[] = [
+                    'highschool_code' => $result->first()->highschool_code,
+                    'highschool_name' => $result->first()->highschool_name,
+                ];
+                
+            }
+            else{
+                $header = $this->common->makeHeader('fail', '上記の以外の高等学校等正しく取得できなかった。', count($result));
+            }
         }
 
         $data = [
