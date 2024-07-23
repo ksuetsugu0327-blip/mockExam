@@ -61,7 +61,15 @@ class UnivCsvService {
                     config('constants.UNIV_CSV_HEADER.UNIV_CODE.NAME')          => $line[config('constants.UNIV_CSV_HEADER.UNIV_CODE.INDEX')],
                     config('constants.UNIV_CSV_HEADER.PREF_CODE.NAME')          => $line[config('constants.UNIV_CSV_HEADER.PREF_CODE.INDEX')],
                     config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       => $line[config('constants.UNIV_CSV_HEADER.INSTALL_CODE.INDEX')],
-                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.INDEX')],
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE1.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE1.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.NAME')     => $line[config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.INDEX')],
+
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME_HKN.INDEX')],
                     config('constants.UNIV_CSV_HEADER.NAME.NAME')               => $line[config('constants.UNIV_CSV_HEADER.NAME.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          => $line[config('constants.UNIV_CSV_HEADER.DEPT_CODE.INDEX')],
@@ -125,8 +133,26 @@ class UnivCsvService {
 
                     config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       =>  //設置区分コード
                         'bail|required|exists:m_university_install,install_cd',
-
-                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     =>  //学部系統コード
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE1.NAME')     => //学部系統コード1
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.NAME')     => //学部系統コード2
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.NAME')     => //学部系統コード3
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.NAME')     => //学部系統コード4
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.NAME')     => //学部系統コード5
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.NAME')     => //学部系統コード6
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',                 
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.NAME')     => //学部系統コード7
                         'bail|required|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
@@ -161,7 +187,25 @@ class UnivCsvService {
                     config('constants.UNIV_CSV_HEADER.INSTALL_CODE.NAME')       =>  //設置区分コード
                         'bail|required|exists:m_university_install,install_cd',
 
-                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE.NAME')     =>  //学部系統コード
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE1.NAME')     => //学部系統コード1
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.NAME')     => //学部系統コード2
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.NAME')     => //学部系統コード3
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.NAME')     => //学部系統コード4
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.NAME')     => //学部系統コード5
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.NAME')     => //学部系統コード6
+                        'bail|required|exists:m_university_dept_line,dept_line_cd',                 
+                    
+                    config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.NAME')     => //学部系統コード7
                         'bail|required|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
