@@ -267,55 +267,80 @@ return[
             'NAME' => '設置区分コード',
             'INDEX' => 2,
         ],
-		'DEPT_LINE_CODE' => [
-            'NAME' => '学部系統コード',
+        'DEPT_LINE_CODE1' => [
+            'NAME' => '学部系統コード1',
             'INDEX' => 3,
+        ],
+        'DEPT_LINE_CODE2' => [
+            'NAME' => '学部系統コード2',
+            'INDEX' => 4,
+        ],
+        'DEPT_LINE_CODE3' => [
+            'NAME' => '学部系統コード3',
+            'INDEX' => 5,
+        ],
+        'DEPT_LINE_CODE4' => [
+            'NAME' => '学部系統コード4',
+            'INDEX' => 6,
+        ],
+        'DEPT_LINE_CODE5' => [
+            'NAME' => '学部系統コード5',
+            'INDEX' => 7,
+        ],
+        'DEPT_LINE_CODE6' => [
+            'NAME' => '学部系統コード6',
+            'INDEX' => 8,
+        ],
+        'DEPT_LINE_CODE7' => [
+            'NAME' => '学部系統コード7',
+            'INDEX' => 9,
         ],
         'NAME_HKN' => [
             'NAME' => '大学名（半角カナ）',
-            'INDEX' => 4,
+            'INDEX' => 10,
         ],
         'NAME' => [
             'NAME' => '大学名',
-            'INDEX' => 5,
+            'INDEX' => 11,
         ],
         'DEPT_CODE' => [
             'NAME' => '学部コード',
-            'INDEX' => 6,
+            'INDEX' => 12,
         ],
         'DEPT_SEQ' => [
             'NAME' => '学部表示順',
-            'INDEX' => 7,
+            'INDEX' => 13,
         ],
         'DEPT_NAME' => [
             'NAME' => '学部名',
-            'INDEX' => 8,
+            'INDEX' => 14,
         ],
         'SUBJ_CODE' => [
             'NAME' => '学科コード',
-            'INDEX' => 9,
+            'INDEX' => 15,
         ],
         'SUBJ_SEQ' => [
             'NAME' => '学科表示順',
-            'INDEX' => 10,
+            'INDEX' => 16,
         ],
         'SUBJ_NAME' => [
             'NAME' => '学科名',
-            'INDEX' => 11,
+            'INDEX' => 17,
         ],
         'SEARCH_SUBJ_NAME' => [
             'NAME' => '検索用学科名',
-            'INDEX' => 12,
+            'INDEX' => 18,
         ],
         'CMN_TEST_USE' => [
             'NAME' => '共通テスト利用',
-            'INDEX' => 13,
+            'INDEX' => 19,
         ],
         'DEVI_VAL' => [
             'NAME' => '偏差値',
-            'INDEX' => 14,
+            'INDEX' => 20,
         ],
     ],
+
 
     // 高校用CSVのヘッダーの順序
     'HIGH_SCHOOL_CSV_HEADER' => [
@@ -435,8 +460,8 @@ return[
     ],
 
     // 大学コード検索画面用内部API一回にあたって取得件数
-    'UNVC_PER_PAGE' => 5,  // TODO: テスト
-    //'UNVC_PER_PAGE' => 20, 
+    //'UNVC_PER_PAGE' => 5,  // TODO: テスト
+    'UNVC_PER_PAGE' => 18,
 
     // 大学コード検索画面用最大取得件数
     'UNVC_RESULT_MAX' => 100,
