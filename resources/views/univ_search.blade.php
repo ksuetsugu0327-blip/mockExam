@@ -7,13 +7,9 @@
 @section('pageCss')
 <style>
     .top-right-link {
-        text-align: right;
-        margin-left: 20px;
+        margin-left: 30px;
         margin-bottom: -10px;
-    }@media screen and (max-width: 480px) {
-        .top-right-link {
-          margin-bottom: 15px;
-        }
+        margin-top: 10px;
     }
 
     .redText {
@@ -40,6 +36,7 @@
     const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 50])}}';
     const maxResultCnt = {{config('constants.UNVC_RESULT_MAX')}};
     const commonOEMSchoolCode = '{{config('constants.UNVC_COMMON_SCHOOL.SCH_CODE')}}';
+    const codeBookPath = '{{config('constants.UNVC_CODEBOOK_PATH')}}';
 </script>
 @endsection
 
@@ -59,31 +56,31 @@
 <main style='margin-top:40px;'>
 
 <section id="search_01">
-    <div class="top-right-link">
-        <div style="background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:inline-block;margin-left: -32px;margin-bottom:-8px"></div>
-        <label style="display:inline-block;">
-            <a href="{{config('constants.UNVC_LIST_DOWNLOAD_LINK')}}" target="_blank" style="text-decoration: underline;">コード表ダウンロード</a>
-        </label>
-    </div>
     <div class = "disp_flex c-block-input required">
         <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード">
         <p></p>
     </div>
 
     <div class = "disp_flex">
-    <div class="c-block-input__select required" style="width:120px;">
-        <select id="grade" name="grade" required="required" disabled>
-            <option value="">学年</option>
-        @foreach($gradeList as $key => $grade)
-            <option value="{{$key}}">{{$grade}}</option>
-        @endforeach
-        </select>
-    </div>
-    <div class="c-block-input__select required" style="width:300px;">
-        <select id="test_info" name="test_info" required="required" disabled>
-            <option value="">テスト選択</option>
-        </select>
-    </div>
+        <div class="c-block-input__select required" style="width:120px;">
+            <select id="grade" name="grade" required="required" disabled>
+                <option value="">学年</option>
+            @foreach($gradeList as $key => $grade)
+                <option value="{{$key}}">{{$grade}}</option>
+            @endforeach
+            </select>
+        </div>
+        <div class="c-block-input__select required" style="width:300px;">
+            <select id="test_info" name="test_info" required="required" disabled>
+                <option value="">テスト選択</option>
+            </select>
+        </div>
+        </div><div class="top-right-link">
+            <div id ="codebook_link_icon" style="background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:none;margin-left: -32px;margin-bottom:-8px"></div>
+            <label id="codebook_link_label" style="display:none;">
+                <a id ="codebook_link" href="{{ '/pdf/cdn_1_コード番号表.pdf' }}" target="_blank" style="text-decoration: underline;">コード表ダウンロード</a>
+            </label>
+        </div>
     </div>
 </section>
 <div class = "accordion">
@@ -96,12 +93,6 @@
     <div class="accordion_inner js-accordion_inner default">
         <div class="ac_inner_wraper">
             <div class="disp_flex">
-                <!-- <div class="c-block-input__select" style="width:200px;">
-                    <select id="high_school_name" name="high_school_name" required="required">
-                        <option value="">高校名</option>
-                        <option value="sample_hsname">サンプル高校名</option>
-                    </select>
-                </div> -->
                 <div class="c-block-input__select hsc_sel_pref required">
                     <select id="high_school_prefecture" name="high_school_prefecture" required="required">
                         <option value="">都道府県</option>

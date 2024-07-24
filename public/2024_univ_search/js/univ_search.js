@@ -230,10 +230,18 @@ $(document).ready(function() {
                 
                 if (data['header']['data_num'] > 0){
                     content = data['data'];
+                    let codebookFileName = content['codebook_file_name'];
+                    let codebookLink = codeBookPath + '/' +codebookFileName;
+
                     $('#search_university_code_head_id').val(content['university_code_head_id']);
                     $('#search_dept_subject_div').val(content['dept_subject_div']);
 
-                    if(data['data']['dept_subject_div'] == 1){
+                    $('#codebook_link').attr('href',codebookLink);
+                    $('#codebook_link_icon').css('display', 'inline-block');
+                    $('#codebook_link_label').css('display', 'inline-block');
+
+
+                    if(content['dept_subject_div'] == 1){
                         $('#search_use_common_test').prop('checked', false); //チェック外してからdisableする
                         $('#search_use_common_test').prop('disabled', true);
                         $('#search_use_common_test').next('label').hide();
@@ -1096,6 +1104,10 @@ $(document).ready(function() {
             $('.clear_btn a')
                 .css('border-color', '#C0C0C0')
                 .css('color', '#C0C0C0');
+            $('#codebook_link').attr('href','');
+            $('#codebook_link_icon').hide();
+            $('#codebook_link_label').hide();
+            
         }
         else{
             $('#search_btn').removeClass('disabled');
