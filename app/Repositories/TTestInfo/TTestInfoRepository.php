@@ -204,11 +204,11 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
         }
 
         // Add next year
-        $years[] = $currentYear + 1;
+        $years[$currentYear + 1] = $currentYear + 1;
 
         // Add previous 4 years
         for ($i = 0; $i <= $previousYears; $i++) {
-            $years[] = $currentYear - $i;
+            $years[$currentYear - $i] = $currentYear - $i;
         }
 
         return $years;
