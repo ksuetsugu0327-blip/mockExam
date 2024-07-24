@@ -147,6 +147,7 @@ class UnivCodeSearchController extends Controller
 
         $data = [
             'university_code_head_id' => $result->university_code_head_id,
+            'codebook_file_name' => $result->codebook_file_name,
             'dept_subject_div' => $result->dept_subject_div,
         ];
 

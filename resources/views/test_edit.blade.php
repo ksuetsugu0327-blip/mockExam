@@ -85,6 +85,21 @@
                         </td>
                     </tr>
                     <tr> 
+                        <td><span for="codebook_pdf">コード表PDF</span></td>
+                        <td colspan="3">
+                            {{ Form::select(
+                                'codebook_pdf', 
+                                ['' => '---'] + $codeBookList,
+                                old('codebook_pdf', $testInfo->codebook_cd), 
+                                [
+                                    'class' => 'cell',
+                                    'style' => 'width:80%;'
+                                ]
+                            )}}
+                            @if($errors->has('codebook_pdf'))<br> <span class="error">{{ $errors->first('codebook_pdf') }}</span> @endif
+                        </td>
+                    </tr>
+                    <tr> 
                         <td><span for="remarks">備考</span></td>
                         <td colspan="3">
                             {{ Form::textarea(

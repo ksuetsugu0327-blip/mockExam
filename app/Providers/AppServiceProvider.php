@@ -147,5 +147,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MUnivDeptLine\MUniversityDeptLineRepositoryInterface::class,
             \App\Repositories\MUnivDeptLine\MUniversityDeptLineRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\MCodeBook\MCodeBookRepositoryInterface::class,
+            \App\Repositories\MCodeBook\MCodeBookRepository::class
+        );
     }
 }

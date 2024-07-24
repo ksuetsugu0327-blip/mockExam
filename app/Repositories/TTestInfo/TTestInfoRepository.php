@@ -44,11 +44,12 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
     public function selectList(array $conditions)
     {
         $testLists = DB::table('t_test_info as t_ti')
-                        ->select('t_ti.id', 'm_oem.oem_sch_name','t_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name')
+                        ->select('t_ti.id', 'm_oem.oem_sch_name','t_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name', 'm_cb.codebook_cd', 'm_cb.codebook_name')
                         ->leftJoin('m_oem_school as m_oem', 't_ti.oem_sch_code', 'm_oem.oem_sch_code')
                         ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd', 'm_tn.test_name_cd')
                         ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
                         ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
+                        ->leftJoin('m_codebook as m_cb', 't_ti.codebook_cd', 'm_cb.codebook_cd')
                         ->when(array_key_exists('oem_school', $conditions) && isset($conditions['oem_school']), function ($query) use ($conditions) {
                             return $query->where('t_ti.oem_sch_code', $conditions['oem_school']);
                         })
@@ -84,6 +85,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo->grade = $testInfo['grade'];
             $tTestInfo->test_name_cd = $testInfo['test_name_cd'];
             $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
+            $tTestInfo->codebook_cd = $testInfo['codebook_pdf'];
             $tTestInfo->remarks = $testInfo['remarks'];
             $tTestInfo->save();
 
@@ -179,11 +181,13 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
                 't_test_info.grade',
                 'm_test_name.test_name as test_name',
                 't_test_info.university_code_head_id as university_code_head_id',
+                'm_codebook.codebook_cd as codebook_cd',
                 't_test_info.remarks as remarks',
                 't_test_info.updated_at',
             )
             ->leftJoin('m_oem_school', 't_test_info.oem_sch_code', '=', 'm_oem_school.oem_sch_code')
             ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
+            ->leftJoin('m_codebook', 't_test_info.codebook_cd', 'm_codebook.codebook_cd')
             ->where('t_test_info.id', $id)
             ->first();
     }
@@ -196,19 +200,21 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
         $currentYear = date('Y');
         $years = [];
 
+        $futureYears = config('constants.FUTURE_YEAR');
+
         if ($mode == "far"){
-            $previousYears = 4;
+            $previousYears = config('constants.PAST_YEAR');
         }
         else{ //  テスト登録時過去は1年だけ表示
             $previousYears = 1;
         }
 
         // Add next year
-        $years[$currentYear + 1] = $currentYear + 1;
+        $years[strval($currentYear + $futureYears)] = $currentYear + $futureYears;
 
         // Add previous 4 years
         for ($i = 0; $i <= $previousYears; $i++) {
-            $years[$currentYear - $i] = $currentYear - $i;
+            $years[strval($currentYear - $i)] = $currentYear - $i;
         }
 
         return $years;
@@ -242,8 +248,9 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
     public function getUnivCodeHead($testID)
     {
         return DB::table('t_test_info as t_test')
-            ->select('t_test.university_code_head_id', 'm_univ.dept_subject_div')
+            ->select('t_test.university_code_head_id', 'm_univ.dept_subject_div', 'mcb.codebook_file_name')
             ->join('m_university_code_head as m_univ', 't_test.university_code_head_id', '=', 'm_univ.id')
+            ->leftjoin('m_codebook as mcb', 'mcb.codebook_cd', '=', 't_test.codebook_cd')
             ->where('t_test.id', '=', $testID)
             ->first();
     }

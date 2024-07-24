@@ -28,7 +28,7 @@
 
 @section('content')
 <div id="portal-content" class="idlogin">
-    <div id="content" style="width:800px;">
+    <div id="content" style="width:940px;">
         <h1>テスト一覧</h1><br>
         @if (isset($message))
         <div class="error_message">
@@ -57,8 +57,8 @@
                         <span for="year">年度</span>
                         {{ Form::select(
                            'year', 
-                           $years,
-                           $selectedYear, 
+                           ['' => ''] + $years,
+                           old('year', $selectedYear), 
                            ['class' => 'cell',
                             'style' => 'width:100px']
                         )}}
@@ -82,16 +82,18 @@
             <table class="mastertable">
                 <!-- Table header -->
                 <tbody>
-                    <tr>
-                        <th style="width: 2%;"></th>
-                        <th style="width: 19%;">OEM塾</th>
-                        <th style="width: 6%;">年度</th>
-                        <th style="width: 25%;">テスト名</th>
-                        <th style="width: 5%;">学年</th>
-                        <th style="width: 34%;">大学データ</th>
-                        <th style="width: 5%;"></th>
-                        <th style="width: 5%;"></th>
-                    </tr>
+                <tr>
+                    <th style="width: 1%;"></th>
+                    <th style="width: 14%;">OEM塾</th>
+                    <th style="width: 5%;">年度</th>
+                    <th style="width: 25%;">テスト名</th>
+                    <th style="width: 7%;">学年</th>
+                    <th style="width: 21%;">大学データ</th>
+                    <th style="width:20%;">コード表PDF</th>
+                    <th style="width: 4%;"></th>
+                    <th style="width: 4%;"></th>
+                </tr>
+
                 <!-- Table body -->
                     <!-- Example data rows - Replace these with your own data rows -->
                     @foreach($testList as $item)
@@ -102,6 +104,7 @@
                         <td>{{$item->test_name}}</td>
                         <td>{{(array_key_exists($item->grade, $grades))?$grades[$item->grade]:$item->grade}}</td>
                         <td>{{$item->university_code_name}}</td>
+                        <td>{{$item->codebook_name}}</td>
                         <td><a href="{{ route('test.edit',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')), 'id' => $item->id]) }}">修正</a></td>
                         <td>
                             <a href="" onclick="return deleteTest({{$item->id}})">削除</a>

@@ -7,6 +7,7 @@ use App\Http\Requests\UnivTestEditRequest;
 use App\Services\TTestInfoService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
+use App\Services\MCodeBookService;
 use Illuminate\Http\Request;
 
 class UnivTestEditController extends Controller
@@ -22,13 +23,15 @@ class UnivTestEditController extends Controller
     public function __construct(
         TTestInfoService            $tTestService,
         MOemSchoolService          $mOemSchoolService,
-        MTestNameService           $mTestNameService
+        MTestNameService           $mTestNameService,
+        MCodeBookService           $mCodeBookService
     ) {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
+        $this->codeBookService = $mCodeBookService;
     }
 
     /**
@@ -42,9 +45,15 @@ class UnivTestEditController extends Controller
         $testInfo = $this->service->getTestInfoById($id);
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
 
+        // コード表PDF
+        $codeBookList = $this->codeBookService->selectList()
+                        ->pluck('codebook_name', 'codebook_cd')
+                        ->toArray();
+
         return view('test_edit', compact(
             'testInfo',
-            'grades'
+            'grades',
+            'codeBookList'
         ));
     }
 

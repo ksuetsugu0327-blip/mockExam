@@ -7,6 +7,7 @@ use App\Http\Requests\UnivTestRegisterRequest;
 use App\Services\TTestInfoService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
+use App\Services\MCodeBookService;
 use Illuminate\Http\Request;
 
 class UnivTestRegisterController extends Controller
@@ -22,13 +23,15 @@ class UnivTestRegisterController extends Controller
     public function __construct(
         TTestInfoService            $tTestService,
         MOemSchoolService          $mOemSchoolService,
-        MTestNameService           $mTestNameService
+        MTestNameService           $mTestNameService,
+        MCodeBookService           $mCodeBookService
     ) {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
+        $this->codeBookService = $mCodeBookService;
     }
 
     /**
@@ -49,11 +52,16 @@ class UnivTestRegisterController extends Controller
         $testNameList = $this->testNameService->selectList()
                         ->pluck('test_name', 'test_name_cd')
                         ->toArray();
+        // コード表PDF
+        $codeBookList = $this->codeBookService->selectList()
+                        ->pluck('codebook_name', 'codebook_cd')
+                        ->toArray();
 
         return view('test_register', compact(
             'years',
             'grades',
             'oemSchoolList',
+            'codeBookList',
             'testNameList'
         ));
     }

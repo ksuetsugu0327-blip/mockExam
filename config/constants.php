@@ -465,4 +465,6 @@ return[
 
     // 大学コード検索画面用最大取得件数
     'UNVC_RESULT_MAX' => 100,
+
+    'UNVC_CODEBOOK_PATH' => '/pdf/univ_search'
 ];
