@@ -50,4 +50,34 @@ class TestManagementApiController extends Controller
             return response()->json(compact('header', [], 500));
         }
     }
+
+    public function chkExistUnivCodeHead(Request $request){
+        try{
+            $fiscalYear = $request->fy;
+            $univCodeNameCode = $request->dtcd;
+            $deptSubjDiv = $request->dptsub;
+
+            $data = $this->univCodeHeadService->chkExistUnivCodeHead($fiscalYear, $univCodeNameCode, $deptSubjDiv)->toArray();
+
+            // ヘッダー設定
+            $data_num = count($data);
+            $header = [
+                'status' => 'success',
+                'message' => '',
+                'data_num' => $data_num
+            ];
+
+            return response()->json(compact('header', 'data'));
+        }
+        catch(\Exception $e){
+            // エラーヘッダー設定
+            $header = [
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data_num' => 0
+            ];
+
+            return response()->json(compact('header', [], 500));
+        }
+    }
 }

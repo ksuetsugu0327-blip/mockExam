@@ -156,7 +156,7 @@ $(function(){
            <a href="{{ route('univ_code.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}" style="text-decoration: underline;">コードデータ削除</a>
         </div>
         <br>
-        <form action="{{route('univ.upload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}" method="post" enctype="multipart/form-data">
+        <form id ="univCodeCSVUploadForm" action="{{route('univ.upload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <div class="disp_flex">
@@ -235,11 +235,47 @@ $(function(){
                     @endif
             </div>
             <div class="form-group disp_flex" style="justify-content: center;">
-                <button type="submit" class="button bulu" style="width:193px;margin-right:55px;">CSVファイルアップロード</button>
+                <button id="univCodeCSVUploadBtn" type="button" class="button bulu" style="width:193px;margin-right:55px;">CSVファイルアップロード</button>
             </div>
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#univCodeCSVUploadBtn').on('click', function(event) {
+            //event.preventDefault();
+            
+            var formData = {
+                fy: $('#year').val(),
+                dtcd: $('#university_code_name_code').val(),
+                dptsub: $('#dept_subject_div').val()
+            };
+            
+            $.ajax({
+                url: "{{ route('api.test_management.university_code_heads_check') }}", // Route defined in web.php
+                type: 'GET',
+                data: formData,
+                success: function(response) {
+console.log(response);
+                    let dataNum = response.header.data_num;
+
+                    if(dataNum != 0) {
+                        if(!confirm("入力された年度、データ名、学部/学科の大学データは登録済です。\nデータ登録は上書きで行います。")){
+                            $('#year').focus();
+                            return;
+                        }
+                    }
+
+                    $('#univCodeCSVUploadForm').submit();
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    alert("システムエラーが発生しました。");
+                }
+            });
+        });
+    });
+</script>
 @endsection
 
 @include('layout.footer')

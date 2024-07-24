@@ -57,4 +57,17 @@ class UnivCodeHeadService
     {
         return $this->repositoryMUniversityCodeHead->delete($id);
     }
+
+    /**
+     *【大学コードヘッダー存在チェック】大学コードCSV登録処理
+     * @param int $fy
+     * @param string $dtcd
+     * @param int $dptsub
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
+     */
+    public function chkExistUnivCodeHead(int $fy, string $dtcd, int $dptsub)
+    {
+        return $this->repositoryMUniversityCodeHead->chkExistUnivCodeHead($fy, $dtcd, $dptsub);
+    }
+
 }

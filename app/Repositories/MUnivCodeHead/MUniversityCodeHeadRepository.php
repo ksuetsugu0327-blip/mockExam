@@ -198,4 +198,17 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
         }
         return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_UNIVCODEHEAD_DELETE_DATA'));
     }
+
+    /**
+     * 【大学コードデータ削除】一覧取得処理
+     * @param int $id
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
+     */
+    public function chkExistUnivCodeHead(int $fy, string $dtcd, int $dptsub){
+        return $this->MUnivCodeHead::select('id')
+            ->where('fiscal_year', $fy)
+            ->where('university_code_name_cd', $dtcd)
+            ->where('dept_subject_div', $dptsub)
+            ->get();
+    } 
 }
