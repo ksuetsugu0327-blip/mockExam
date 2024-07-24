@@ -15,7 +15,7 @@ $(document).ready(function() {
     
     /* ローディング画面の非表示を解除 */
     function showLoader(){
-        console.log("loading starts");
+// console.log("loading starts");
         bg.removeClass('is-hide');
         loader.removeClass('is-hide');
     }
@@ -99,13 +99,15 @@ $(document).ready(function() {
 
         $.get(getOEMSchoolUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data);
+// console.log(data);
             hideLoader();
 
             if (data['header']['data_num'] > 0){
                 schCodeInputField.next('p').html(data['data']['oem_sch_name']);
+                //if (data['data']['oem_sch_name']=='全国共通（一般塾用）')
+                //    schCodeInputField.val('8888880')
                 schCodeInputField.val(String(data['data']['oem_sch_code']).padStart(7, '0'));
-                
+                //
                 $('#grade').val('');
                 $('#test_info').val('');
                 $('#grade').prop('disabled', false);
@@ -121,7 +123,7 @@ $(document).ready(function() {
             toggle_search_btn();
         })        
         .fail(function(jqXHR, status, error) {
-console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
             hideLoader();
 
             schCodeInputField.next('p').html('該当塾なし');
@@ -168,7 +170,7 @@ console.log(jqXHR, status, error);
         
         $.get(getTestNameListUrl, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            console.log(data);
+// console.log(data);
             hideLoader();
 
             if (data['header']['data_num'] > 0){
@@ -189,7 +191,7 @@ console.log(jqXHR, status, error);
             
         })        
         .fail(function(jqXHR, status, error) {
-            // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
             hideLoader();
 
             $('#test_info').prop('disabled', true);
@@ -212,7 +214,7 @@ console.log(jqXHR, status, error);
         code_head_info_onchange();
 
         let testID = $(this).val();
-        // console.log(testID)
+// console.log(testID)
         let conditions = {
             'testid': testID
         };
@@ -223,7 +225,7 @@ console.log(jqXHR, status, error);
 
             $.get(getUnivCodeHead, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-                console.log(testID, data);
+// console.log(testID, data);
                 hideLoader();
                 
                 if (data['header']['data_num'] > 0){
@@ -247,7 +249,7 @@ console.log(jqXHR, status, error);
                 toggle_search_btn();
             })        
             .fail(function(jqXHR, status, error) {
-                // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
                 hideLoader();
 
                 toggle_search_btn();
@@ -260,8 +262,14 @@ console.log(jqXHR, status, error);
     
     // 高校の都道府県が選択された時
     $('#high_school_prefecture').on('change', function(){
-console.log($(this).val());
+//console.log($(this).val());
         if ($(this).val()>0){
+            
+            $('#high_school_name').val('');
+            $('#high_school_founder').val('');
+            $('#high_school_class').val('');
+            $('#high_school_select').val('');
+
             $('#high_school_name').prop('disabled', false);
             $('#high_school_founder').prop('disabled', false);
             $('#high_school_class').prop('disabled', false);
@@ -296,7 +304,7 @@ console.log($(this).val());
 
         $.get(getHighSchoolCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
-            // console.log(data);
+// console.log(data);
             hideLoader();
 
             if (data['header']['data_num'] > 0){
@@ -314,7 +322,7 @@ console.log($(this).val());
             }
         })        
         .fail(function(jqXHR, status, error) {
-            // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
             hideLoader();
         });
     });
@@ -332,7 +340,6 @@ console.log($(this).val());
         clear_all_list();
         $('#result_cnt').show();
         $('#msg_area').show();
-
         if (!validateConditions()) {
             $('#result_num').hide();
             return false; // Prevent form submission if validation fails
@@ -380,7 +387,7 @@ console.log($(this).val());
                 'next': $('#search_univ_offset_end').val()
             };
         }
-console.log('Conditions:', conditions);
+// console.log('Conditions:', conditions);
 
         /* 10秒経ったら強制的にローディング画面を非表示にする */
         showLoader();
@@ -388,7 +395,7 @@ console.log('Conditions:', conditions);
 
         $.get(getuniversityCode, conditions, null, 'json')
         .done(function(data, status, jqXHR) {
- console.log(conditions, data);
+// console.log(conditions, data);
             hideLoader();
 
             let data_cnt = data['header']['data_num'];
@@ -400,7 +407,7 @@ console.log('Conditions:', conditions);
                 if(data_head['list_cat_div'] == 1 ){
                     let new_offset = +$('#search_univ_offset_end').val()+data_head['page_unit'];
                     let has_next = (data_cnt - new_offset > 0)?true:false;
-console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
+// console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     $('#search_univ_offset_end').val(new_offset);
 
                     generate_univ_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
@@ -414,13 +421,20 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['dept_num']}学部)`);
                         $('#search_subj_num').val(data_head['subj_num']);
                     }
+/*
                     if(data_cnt > maxResultCnt){
                         $('#result_cnt').hide();
                         $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
                     }
+
                     else{
                         $('#result_cnt').show();
                     }
+*/
+                    if(data_cnt > maxResultCnt){
+                        $('#result_text').html('検索条件を指定して絞り込むことをおすすめします。');
+                    }
+                    $('#result_cnt').show();
                     $('#msg_area').show();
                 }
                 if(data_head['list_cat_div'] == 2 ){
@@ -490,7 +504,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
             adjust_footer();
         })        
         .fail(function(jqXHR, status, error) {
-            // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
             hideLoader();
             adjust_footer();
         });
@@ -573,7 +587,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
             
                     $.get(getuniversityCode, conditions, null, 'json')
                     .done(function(data, status, jqXHR) {
-                        // console.log(data);
+// console.log(data);
                         hideLoader();
 
                         let data_cnt = data['header']['data_num'];
@@ -608,7 +622,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         adjust_footer();
                     })
                     .fail(function(jqXHR, status, error) {
-                        // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
                         hideLoader();
                         adjust_footer();
                     });
@@ -649,14 +663,14 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                     'next': $('#search_univ_offset_end').val()
                 };
             }
-    // console.log('Conditions:', conditions);
+// console.log('Conditions:', conditions);
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
             // setTimeout(function(){hideLoader();}, 10000);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-    // console.log(data);
+// console.log(data);
                 hideLoader();
 
                 let data_cnt = data['header']['data_num'];
@@ -685,7 +699,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
                 hideLoader();
             });
             adjust_footer();
@@ -785,7 +799,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                         'udpcd': code[1],
                         //'next': $('#search_subj_offset_end').val(),
                     };
-        // console.log('conditions: ', conditions);
+// console.log('conditions: ', conditions);
 
                     /* 10秒経ったら強制的にローディング画面を非表示にする */
                     showLoader();
@@ -855,7 +869,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-                // console.log(data);
+// console.log(data);
                 hideLoader();
                 
                 let data_cnt = data['header']['data_num'];
@@ -888,7 +902,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
                 hideLoader();
                 adjust_footer();
             });
@@ -984,7 +998,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
 
             $.get(getuniversityCode, conditions, null, 'json')
             .done(function(data, status, jqXHR) {
-                // console.log(data);
+// console.log(data);
                 hideLoader();
 
                 let data_cnt = data['header']['data_num'];
@@ -1016,7 +1030,7 @@ console.log(`data_cnt: ${data_cnt}`, `new_offset: ${new_offset}`);
                 adjust_footer();
             })
             .fail(function(jqXHR, status, error) {
-                // console.log(jqXHR, status, error);
+// console.log(jqXHR, status, error);
                 hideLoader();
                 adjust_footer();
             });
