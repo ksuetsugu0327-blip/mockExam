@@ -39,7 +39,7 @@ class UnivCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更
+            // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
             // if(mb_check_encoding($line, 'SJIS')){
             //      $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             // }
@@ -97,6 +97,7 @@ class UnivCsvService {
                         'line' => $output_line_num,
                         'message' => implode(',', $validator->errors()->all())
                     );
+
                     continue;
                 }
 
@@ -138,22 +139,22 @@ class UnivCsvService {
                         'bail|required|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.NAME')     => //学部系統コード2
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.NAME')     => //学部系統コード3
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.NAME')     => //学部系統コード4
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.NAME')     => //学部系統コード5
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.NAME')     => //学部系統コード6
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',                 
+                        'bail|exists:m_university_dept_line,dept_line_cd',                 
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.NAME')     => //学部系統コード7
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
                         'bail|required|string|max:80|half_kana',
@@ -191,22 +192,22 @@ class UnivCsvService {
                         'bail|required|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE2.NAME')     => //学部系統コード2
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE3.NAME')     => //学部系統コード3
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE4.NAME')     => //学部系統コード4
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE5.NAME')     => //学部系統コード5
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE6.NAME')     => //学部系統コード6
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',                 
+                        'bail|exists:m_university_dept_line,dept_line_cd',                 
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_LINE_CODE7.NAME')     => //学部系統コード7
-                        'bail|required|exists:m_university_dept_line,dept_line_cd',
+                        'bail|exists:m_university_dept_line,dept_line_cd',
                     
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           =>  //大学名（半角カナ）
                         'bail|required|string|max:80|half_kana',
@@ -242,7 +243,7 @@ class UnivCsvService {
                         'bail|required|decimal|numeric|between:30,80', 
         
                 ];
-        }  
+        }
         return $rules;
 
     }

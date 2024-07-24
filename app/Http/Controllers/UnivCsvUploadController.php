@@ -48,7 +48,7 @@ class UnivCsvUploadController extends Controller{
     public function index() {
 
         $codeData = config('selectlistarray.CODE_DATA');
-        $years = $this->tTestService->generateYearsArray("far");
+        $years = $this->tTestService->generateYearsArray("near");
         $mUnivCodeName = $this->mUnivCodeNameService->selectList();
 
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
@@ -209,7 +209,7 @@ class UnivCsvUploadController extends Controller{
             DB::beginTransaction();
             //取得したオブジェクトを読み込み
             foreach ($file as $row) {
-                // CSVの文字コードがSJISの場合、UTF-8に変更
+                // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
 
                 // if(mb_check_encoding($row, 'SJIS')){
                 //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
@@ -224,20 +224,26 @@ class UnivCsvUploadController extends Controller{
                     $university_cd        = $row[0];
                     $prefecture_cd        = $row[1];
                     $install_div          = $row[2];
-                    $dept_line_cd         = $row[3];
-                    $university_name_hkn  = $row[4];
-                    $university_name      = $row[5];
-                    $department_cd        = $row[6];
-                    $department_seq       = $row[7];
-                    $department_name	  = $row[8];
-                    $common_test_use	  = $row[13];								
-                    $deviation_value	  = $row[14];
+                    $dept_line_cd1        = $row[3];
+                    $dept_line_cd2        = $row[4];
+                    $dept_line_cd3        = $row[5];
+                    $dept_line_cd4        = $row[6];
+                    $dept_line_cd5        = $row[7];
+                    $dept_line_cd6        = $row[8];
+                    $dept_line_cd7        = $row[9];
+                    $university_name_hkn  = $row[10];
+                    $university_name      = $row[11];
+                    $department_cd        = $row[12];
+                    $department_seq       = $row[13];
+                    $department_name	  = $row[14];
+                    $common_test_use	  = $row[19];								
+                    $deviation_value	  = $row[20];
                     
                     if($param['deptOrSubject'] == 2){
-                        $subject_cd			  = $row[9];						
-                        $subject_seq		  = $row[10];							
-                        $subject_name		  = $row[11];							
-                        $search_subject_name  = $row[12];	
+                        $subject_cd			  = $row[15];						
+                        $subject_seq		  = $row[16];							
+                        $subject_name		  = $row[17];							
+                        $search_subject_name  = $row[18];	
                     }			
 
                     // 登録データを配列に追加
@@ -245,7 +251,13 @@ class UnivCsvUploadController extends Controller{
                         'university_cd'       => $university_cd,
                         'prefecture_cd'       => $prefecture_cd,
                         'install_div'         => $install_div,
-                        'dept_line_cd'        => $dept_line_cd,
+                        'dept_line_cd1'       => $dept_line_cd1,
+                        'dept_line_cd2'       => empty($dept_line_cd2)?NULL:$dept_line_cd2,
+                        'dept_line_cd3'       => empty($dept_line_cd3)?NULL:$dept_line_cd3,
+                        'dept_line_cd4'       => empty($dept_line_cd4)?NULL:$dept_line_cd4,
+                        'dept_line_cd5'       => empty($dept_line_cd5)?NULL:$dept_line_cd5,
+                        'dept_line_cd6'       => empty($dept_line_cd6)?NULL:$dept_line_cd6,
+                        'dept_line_cd7'       => empty($dept_line_cd7)?NULL:$dept_line_cd7,
                         'university_name_hkn' => $university_name_hkn,
                         'university_name'     => $university_name,
                         'department_cd'       => $department_cd,
@@ -290,7 +302,7 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更
+            // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
 
             // if(mb_check_encoding($row, 'SJIS')){
             //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
@@ -337,7 +349,7 @@ class UnivCsvUploadController extends Controller{
 
     private function prepareSelectList(){
         $codeData = config('selectlistarray.CODE_DATA');
-        $years = $this->tTestService->generateYearsArray("far");
+        $years = $this->tTestService->generateYearsArray("near");
         $mUnivCodeName = MUnivCodeName::select('university_code_name_cd', 'university_code_name')->get();
         $deptSubjSelect = config('selectlistarray.DEPT_SUBJ_SELECT');
 
