@@ -230,16 +230,17 @@ $(document).ready(function() {
                 
                 if (data['header']['data_num'] > 0){
                     content = data['data'];
+
                     let codebookFileName = content['codebook_file_name'];
-                    let codebookLink = codeBookPath + '/' +codebookFileName;
+                    if (codebookFileName){
+                        let codebookLink = codeBookPath + '/' + encodeURIComponent(codebookFileName);
+                        $('#codebook_link').attr('href',codebookLink);
+                        $('#codebook_link_icon').css('display', 'inline-block');
+                        $('#codebook_link_label').css('display', 'inline-block');
+                    }
 
                     $('#search_university_code_head_id').val(content['university_code_head_id']);
                     $('#search_dept_subject_div').val(content['dept_subject_div']);
-
-                    $('#codebook_link').attr('href',codebookLink);
-                    $('#codebook_link_icon').css('display', 'inline-block');
-                    $('#codebook_link_label').css('display', 'inline-block');
-
 
                     if(content['dept_subject_div'] == 1){
                         $('#search_use_common_test').prop('checked', false); //チェック外してからdisableする
