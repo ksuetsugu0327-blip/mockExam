@@ -204,7 +204,7 @@ section .hs_title {
 }
 
 input[type="text"]:disabled {
-    background-color: #dcdcdc !important;
+    background-color: #e0e0e0 !important;
 }
   
 .required input:focus {
@@ -285,7 +285,7 @@ select option { color: #333; }
 select option:first-child { color: #a9a9a9; }
 
 select:disabled {
-    background-color: #dcdcdc !important;
+    background-color: #e0e0e0 !important;
     color: #a9a9a9;
     opacity: 1 !important;
 }
