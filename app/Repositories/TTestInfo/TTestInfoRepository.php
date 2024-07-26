@@ -115,6 +115,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo = $this->TTestInfo::findOrFail($id);
             // 更新情報情報セット
             $tTestInfo->university_code_head_id = $testInfo['university_code_head_id'];
+            $tTestInfo->codebook_cd = $testInfo['codebook_pdf'];
             $tTestInfo->remarks = $testInfo['remarks'];
             $tTestInfo->setUpdatedAt($testInfo['updated_at']);
             $tTestInfo->save();
