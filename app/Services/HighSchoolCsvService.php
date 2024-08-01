@@ -35,7 +35,7 @@ class HighSchoolCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更
+            // CSVの文字コードがSJISの場合、UTF-8に変更  (WINDOWS上実行する場合、適用してください。)
 
             // if(mb_check_encoding($line, 'SJIS')){
             //     $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
