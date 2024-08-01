@@ -105,7 +105,8 @@ return [
     'exam_grade' => ':attributeには:minから:maxの数字を指定してください。',
     'max_digits' => ':attributeには:max_digits桁以内の数字を指定してください。',
     'half_kana'  => ':attributeが半角カナになっていません。',
-    'decimal'   => ':attributeは小数点1桁を指定してください。',
+    'half_kana2'  => ':attributeが半角カナまたは許可する半角文字になっていません。',
+    'decimal'   => ':attributeは小数点1桁の数値を指定してください。',
     'tel'        => '電話番号の形式に誤りがあります。',
 
     /*

@@ -37,9 +37,9 @@ class HighSchoolCsvService {
         foreach ($file as $line_num => $line) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
 
-            if(mb_check_encoding($line, 'SJIS')){
-                $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
-            }
+            // if(mb_check_encoding($line, 'SJIS')){
+            //     $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            // }
 
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
@@ -110,13 +110,13 @@ class HighSchoolCsvService {
                 'bail|required|string|size:6',
 
             config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME')        =>  //高等学校等名（半角カナ）
-                'bail|required|string|max:40|half_kana',
+                'bail|required|string|max:40|half_kana2',
 
             config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME')                     =>  //郵便番号
-                'bail|nullable|string|size:7',
+                'bail|nullable|string|between:7,8',
             
             config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME')                     =>  //電話番号
-                'bail|nullable|string|max:15|tel',
+                'bail|nullable|string|max:15',
             
             config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME')                =>  //設置者コード
                 'bail|required|exists:m_highschool_install,install_cd2',
@@ -160,6 +160,7 @@ class HighSchoolCsvService {
             'string'         => trans('validation.string'),
             'digits_between' => trans('validation.digits_between'),
             'full_space'     => trans('validation.full_space'),
+            'half_kana2'     => trans('validation.half_kana2'),
         ];
         return $messages;
     }

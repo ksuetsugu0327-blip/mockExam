@@ -88,7 +88,12 @@ class ValidationServiceProvider extends ServiceProvider {
 
         // 半角カナ
         Validator::extend('half_kana', function ($attribute, $value, $parameters, $validator){
-            $pattern = '/^[\x{FF61}-\x{FF9F}]+$/u';
+           $pattern = '/^[\x{FF61}-\x{FF9F}]+$/u';
+            return preg_match($pattern, $value) === 1;
+        });
+        // 半角カナと//「.」（ドット）、「-」(ハイフン）、「 」半角スペース、()（カッコ）を許容する
+        Validator::extend('half_kana2', function ($attribute, $value, $parameters, $validator){
+            $pattern = '/^[\x{FF61}-\x{FF9F}-\s\.\\(\\)]+$/u';  
             return preg_match($pattern, $value) === 1;
         });
 
