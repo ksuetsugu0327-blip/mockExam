@@ -69,6 +69,10 @@ return[
     'SESSION_KEY_SCH_NAME_HIDE_FLG' => 'SCH_NAME_HIDE_FLG',
     // 個人登録票利用フラグ
     'SESSION_KEY_PSN_CARD_REGIST_FLG' => 'PSN_CARD_REGIST_FLG',
+    // 生徒パスワード変更可能フラグ
+    'SESSION_KEY_PSN_PSW_CHANGE_FLG' => 'PSN_PSW_CHANGE_FLG',
+    // 教室成績データCSVダウンロード可能フラグ
+    'SESSION_KEY_CLS_GRADE_CSV_FLG' => 'CLS_GRADE_CSV_FLG',
     // 塾生コード
     'SESSION_KEY_PSNCODE' => 'PSN_CODE',
     // 塾生氏名
@@ -123,7 +127,7 @@ return[
     'SESSION_KEY_TICKET_SEARCH_CONDITION' => 'TICKET_SEARCH_CONDITION',
     // 検索結果一覧リスト
     'SESSION_KEY_TICKET_LIST' => 'TICKET_LIST',
-    
+
     // 模試データ管理
     // 模擬試験一覧用
     'SESSION_KEY_TTESTINFO_SEARCH_CONDITION' => 'TTESTINFO_SEARCH_CONDITION',
@@ -151,6 +155,12 @@ return[
     // 個人登録票利用フラグ　0:非表示 1:表示
     'PSN_CARD_HIDE_FLG' => '0',
     'PSN_CARD_NO_HIDE_FLG' => '1',
+    // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
+    'PSN_CHANGE_PW_HIDE_FLG' => '0',
+    'PSN_CHANGE_PW_NO_HIDE_FLG' => '1',
+    // 教室成績データCSVダウンロード可能フラグ　0:利用しない 1:利用する
+    'CLS_GRADE_CSV_NOT_USE_FLG' => '0',
+    'CLS_GRADE_CSV_USE_FLG' => '1',
     // テスト回数表示区分  0:マーク・記述毎 1:マーク・記述通算 2:塾マスタ(回数毎)をもとに回数表示
     'CNTTEST_KBN_BY_TEST' => 0,
     'CNTTEST_KBN_SUMUP' => 1,
@@ -166,10 +176,10 @@ return[
     'PREFIX_SURROGATE_LOGIN' => 'SURROGATE_LOGIN_',
 
     // 生徒マスタ ダウンロードCSVファイル名
-    'PERSON_DOWNLOAD_CSV_FILENAME' => 'pearsonList.csv',
+    'PERSON_DOWNLOAD_CSV_FILENAME' => 'personList.csv',
 
     // 生徒マスタ ダウンロードCSVファイル名
-    'PERSON_IMPORT_CSV_ERRFILENAME' => 'pearson_registration_error.csv',
+    'PERSON_IMPORT_CSV_ERRFILENAME' => 'person_registration_error.csv',
 
     // 大学コード　インポートCSVエラーファイル名
     'UNIV_CODE_IMPORT_CSV_ERRFILENAME' => 'university_code_registration_error.csv',
@@ -188,6 +198,12 @@ return[
 
     // CSVインポート最大許容行数
     'CSV_IMPORT_MAX_LINE' => 50,
+
+    // CSVインポート時間制限（秒単位）
+    'PERSON_IMPORT_CSV_TIME_LIMIT' => 900,
+
+    //学年
+    'PSN_IMP_COMMIT_COUNT' => 1000,
 
     // CSVのヘッダーの順序
     'CSV_HEADER_NUM' => [
@@ -219,39 +235,20 @@ return[
             'NAME' => 'tellow4',
             'INDEX' => 6,
         ],
+        'MAIL_ADDRESS' => [
+            'NAME' => 'mail_address',
+            'INDEX' => 7
+        ],
          'PASSWORD' => [
             'NAME' => 'password',
-            'INDEX' => 7,
+            'INDEX' => 8,
          ],
         'TEMPPASS' => [
             'NAME' => 'temppassword',
-            'INDEX' => 8,
+            'INDEX' => 9,
         ],
     ],
 
-    // 教室用CSVのヘッダーの順序
-    'CLS_CSV_HEADER_NUM' => [
-        'SCH_CODE' => [
-            'NAME' => 'sch_code',
-            'INDEX' => 0,
-        ],
-        'CLS_CODE' => [
-            'NAME' => 'cls_code',
-            'INDEX' => 1,
-        ],
-        'CLS_NAME' => [
-            'NAME' => 'cls_name',
-            'INDEX' => 2,
-        ],
-        'PASSWORD' => [
-            'NAME' => 'password',
-            'INDEX' => 3,
-        ],
-        'TEMPPASS' => [
-            'NAME' => 'temppassword',
-            'INDEX' => 4,
-        ],
-    ],
 
     // 大学用CSVのヘッダーの順序
     'UNIV_CSV_HEADER' => [
@@ -378,6 +375,30 @@ return[
         ],
     ],
 
+    // 教室用CSVのヘッダーの順序
+    'CLS_CSV_HEADER_NUM' => [
+        'SCH_CODE' => [
+            'NAME' => 'sch_code',
+            'INDEX' => 0,
+        ],
+        'CLS_CODE' => [
+            'NAME' => 'cls_code',
+            'INDEX' => 1,
+        ],
+        'CLS_NAME' => [
+            'NAME' => 'cls_name',
+            'INDEX' => 2,
+        ],
+        'PASSWORD' => [
+            'NAME' => 'password',
+            'INDEX' => 3,
+        ],
+        'TEMPPASS' => [
+            'NAME' => 'temppassword',
+            'INDEX' => 4,
+        ],
+    ],
+
     // 教室マスタ ダウンロードCSVファイル名
     'CLASS_IMPORT_CSV_ERRFILENAME' => 'class_registration_error.csv',
 
@@ -445,6 +466,11 @@ return[
     // 受験番号アップロードエラーCSVファイル名
     'EXAMNUM_IMPORT_ERR_FILENAME' => 'exam_number_registration_error.csv',
 
+    //パスワード再設定メール用
+    'MAIL_FROM_ADDRESS' => env('MAIL_FROM_ADDRESS'),
+    'MAIL_FROM_NAME'    => env('MAIL_FROM_NAME'),
+    'REPLY_TO'          => 'info@seihoku.org',
+
     // 年度（過去年数）
     'PAST_YEAR' => 4,
 
@@ -466,5 +492,11 @@ return[
     // 大学コード検索画面用最大取得件数
     'UNVC_RESULT_MAX' => 100,
 
-    'UNVC_CODEBOOK_PATH' => '/pdf/univ_search'
+    // コード表ディレクトリ
+    'UNVC_CODEBOOK_PATH' => '/pdf/univ_search',
+
+    // テスト情報取得APIで年度の条件
+    'CURRENT_YEAR' => env('CURRENT_YEAR'),
 ];
+
+
