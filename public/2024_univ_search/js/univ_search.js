@@ -1,7 +1,9 @@
 $(document).ready(function() {
     /* 読み込み完了 */
     $(window).on('load', hideLoader);
-
+    //大学検索の学科を初期非表示
+    $('#search_subj_name').hide();
+    //
     let bg = $('#loader-bg');
     let loader = $('#loader');
     let schCodeInputField = $('#sch_code');
@@ -246,10 +248,12 @@ $(document).ready(function() {
                         $('#search_use_common_test').prop('checked', false); //チェック外してからdisableする
                         $('#search_use_common_test').prop('disabled', true);
                         $('#search_use_common_test').next('label').hide();
+                        $('#search_subj_name').hide();
                     }
                     else{
                         $('#search_use_common_test').prop('disabled', false);
                         $('#search_use_common_test').next('label').show();
+                        $('#search_subj_name').show();
                     }
                 }
                 else{
