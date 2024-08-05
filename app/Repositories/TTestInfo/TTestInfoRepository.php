@@ -235,7 +235,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             ->leftJoin('m_test_name', 't_test_info.test_name_cd', '=', 'm_test_name.test_name_cd')
             ->where('t_test_info.oem_sch_code', $OEMSchCode)
             ->where('t_test_info.grade', $grade)
-            ->where('t_test_info.fiscal_year', DB::raw('(SELECT MAX(t_test_info.fiscal_year) FROM t_test_info)'))
+            ->where('t_test_info.fiscal_year', config('constants.CURRENT_YEAR'))
             ->orderby('m_test_name.display_seq', 'asc')
             ->orderby('m_test_name.test_name_cd', 'asc')
             ->get();
