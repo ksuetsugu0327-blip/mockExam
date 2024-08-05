@@ -181,7 +181,7 @@
                     <input id="search_dept_name" name="search_dept_name" class = "univ_text_wide" type="text" placeholder="学部名">
                 </div>
                 <div class = "disp_flex c-block-input univ_text_wide">
-                    <input id="search_subj_name" name="search_dept_name" class = "univ_text_wide" type="text" placeholder="学科名">
+                    <input id="search_subj_name" name="search_subj_name" class = "univ_text_wide" type="text" placeholder="学科名">
                 </div>
             </div>
 
