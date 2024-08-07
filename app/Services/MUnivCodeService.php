@@ -37,8 +37,8 @@ class MUnivCodeService {
         return $this->repositoryMUniversityCode->getUnivCodeList($conditions);
     }
 
-    public function getDeptList(array $conditions){
-        return $this->repositoryMUniversityCode->getDeptList($conditions);
+    public function getDeptList(array $conditions, $deptSubjDiv){
+        return $this->repositoryMUniversityCode->getDeptList($conditions, $deptSubjDiv);
     }
 
     public function getSubjList(array $conditions){

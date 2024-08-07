@@ -582,18 +582,36 @@ $(document).ready(function() {
         $('a[id^="univ_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
+                    let nameSearch = $('#name_search').prop('checked');
+                    let conditionalSearch = $('#conditional_search').prop('checked');
+
                     code = $(this).attr('id');
                     code = code.split('_');
 
-                    mode = 3;
-                    var conditions = {
-                        'mode': mode,
-                        'unvhd': $('#search_university_code_head_id').val(),
-                        'dptsub': $('#search_dept_subject_div').val(),
-                        'unvcd': code[2],
-                        //'next': $('#search_dept_offset_end').val(),
-                    };
-
+                    if (nameSearch) {  // 名称検証
+                        mode = 3;
+                        var conditions = {
+                            'mode': mode,
+                            'unvhd': $('#search_university_code_head_id').val(),
+                            'dptsub': $('#search_dept_subject_div').val(),
+                            'unvcd': code[2],
+                            'udpnm': $('#search_dept_name').val()
+                        }
+                    }
+                    if (conditionalSearch) {  //条件検索
+                        mode = 23;
+                        var conditions = {
+                            'mode': mode,
+                            'unvhd': $('#search_university_code_head_id').val(),
+                            'dptsub': $('#search_dept_subject_div').val(),
+                            'unvcd': code[2],
+                            'udptl': $('#search_dept_line').val(),
+                            'udevf': $('#search_devi_from').val(),
+                            'udevt': $('#search_devi_To').val(),
+                            'ucmt': $('#search_use_common_test').prop('checked')?'on':'off'
+                        };
+                    }
+//console.log(conditions);
                     /* 10秒経ったら強制的にローディング画面を非表示にする */
                     showLoader();
                     // setTimeout(function(){hideLoader();}, 10000);
@@ -618,8 +636,7 @@ $(document).ready(function() {
                                     $('#dtl_university_cd').val(content[0]['university_cd']);
                                 }
                                 generate_dept_block(data_head['mode'],has_next,data_head['list_dsp_title'],content);
-                                // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
-                                // $('#msg_area').show();
+
                                 $('#search_univ_num').val(data_head['univ_num']);
                                 $('#search_dept_num').val(data_head['dept_num']);
                                 $('#search_subj_num').val(data_head['subj_num']);
@@ -731,7 +748,7 @@ $(document).ready(function() {
             dept_list_div.append(title);
         }
 
-        if(mode > 2 && mode != 13){  // Create and append the back link
+        if(mode > 2 && mode != 13 && mode != 33){  // Create and append the back link
             let back_link_div = $('<div>').addClass('back_link');
             let back_link = $('<a>').attr('id', 'univ_back').html('＜大学一覧に戻る');
             back_link_div.append(back_link);
@@ -800,19 +817,38 @@ $(document).ready(function() {
         $('a[id^="dept_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
+                    let nameSearch = $('#name_search').prop('checked');
+                    let conditionalSearch = $('#conditional_search').prop('checked');
+                    
                     code = $(this).attr('id');
                     code = code.split('-'); // コードformat: dept_dtl_<univCode>-<deptCode>
 
-                    mode = 4;
-                    var conditions = {
-                        'mode': mode,
-                        'unvhd': $('#search_university_code_head_id').val(),
-                        'dptsub': $('#search_dept_subject_div').val(),
-                        'unvcd': $('#dtl_university_cd').val(),
-                        'udpcd': code[1],
-                        //'next': $('#search_subj_offset_end').val(),
-                    };
-// console.log('conditions: ', conditions);
+                    if (nameSearch) {  // 名称検索
+                        mode = 4;
+                        var conditions = {
+                            'mode': mode,
+                            'unvhd': $('#search_university_code_head_id').val(),
+                            'dptsub': $('#search_dept_subject_div').val(),
+                            'unvcd': $('#dtl_university_cd').val(),
+                            'udpcd': code[1],
+                            'usubnm': $('#search_subj_name').val()
+                        };
+                    }
+                    if (conditionalSearch) {  // 条件検索
+                        mode = 24
+                        var conditions = {
+                            'mode': mode,
+                            'unvhd': $('#search_university_code_head_id').val(),
+                            'dptsub': $('#search_dept_subject_div').val(),
+                            'unvcd': $('#dtl_university_cd').val(),
+                            'udpcd': code[1],
+                            'udptl': $('#search_dept_line').val(),
+                            'udevf': $('#search_devi_from').val(),
+                            'udevt': $('#search_devi_To').val(),
+                            'ucmt': $('#search_use_common_test').prop('checked')?'on':'off',
+                        };
+                    }
+//console.log('conditions: ', conditions);
 
                     /* 10秒経ったら強制的にローディング画面を非表示にする */
                     showLoader();
@@ -865,15 +901,33 @@ $(document).ready(function() {
         });
 
         $('#dept_more').on('click', function(){
+            let nameSearch = $('#name_search').prop('checked');
+            let conditionalSearch = $('#conditional_search').prop('checked');
 
-            mode = 13;
-            var conditions = {
-                'mode': mode,
-                'unvhd': $('#search_university_code_head_id').val(),
-                'dptsub': $('#search_dept_subject_div').val(),
-                'unvcd': $('#dtl_university_cd').val(),
-                'next': $('#search_dept_offset_end').val(),
-            };
+            if (nameSearch) {  // 名称検索
+                mode = 13;
+                var conditions = {
+                    'mode': mode,
+                    'unvhd': $('#search_university_code_head_id').val(),
+                    'dptsub': $('#search_dept_subject_div').val(),
+                    'unvcd': $('#dtl_university_cd').val(),
+                    'udpnm': $('#search_dept_name').val(),
+                    'next': $('#search_dept_offset_end').val()
+                };
+            }
+            if (conditionalSearch) {  // 条件検索
+                mode = 33;
+                var conditions = {
+                    'mode': mode,
+                    'unvhd': $('#search_university_code_head_id').val(),
+                    'dptsub': $('#search_dept_subject_div').val(),
+                    'unvcd': $('#dtl_university_cd').val(),
+                    'udptl': $('#search_dept_line').val(),
+                    'udevf': $('#search_devi_from').val(),
+                    'udevt': $('#search_devi_To').val(),
+                    'next': $('#search_dept_offset_end').val()
+                };
+            }
 // console.log('conditions: ', conditions);
 
             /* 10秒経ったら強制的にローディング画面を非表示にする */
@@ -901,8 +955,6 @@ $(document).ready(function() {
                         $('#search_univ_num').val(data_head['univ_num']);
                         $('#search_dept_num').val(data_head['dept_num']);
                         $('#search_subj_num').val(data_head['subj_num']);
-                        // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校)`);
-                        // $('#msg_area').show();
                     }
                 }
                 else{
@@ -935,7 +987,7 @@ $(document).ready(function() {
             let title = $('<h3>').html(display_title);
             subj_list_div.append(title);
         }
-        if(mode > 2 && mode != 14){  // Create and append the back link
+        if(mode > 2 && mode != 14 && mode != 34){  // Create and append the back link
             let back_link_div = $('<div>').addClass('back_link');
             let back_link = $('<a>').attr('id', 'dept_back').html('＜学部一覧に戻る');
             back_link_div.append(back_link);
@@ -995,15 +1047,37 @@ $(document).ready(function() {
         });
 
         $('#subj_more').on('click', function(){
-            mode = 14;
-            var conditions = {
-                'mode': mode,
-                'unvhd': $('#search_university_code_head_id').val(),
-                'dptsub': $('#search_dept_subject_div').val(),
-                'unvcd':  $('#dtl_university_cd').val(),
-                'udpcd':  $('#dtl_department_cd').val(),
-                'next': $('#search_subj_offset_end').val(),
-            };
+            let nameSearch = $('#name_search').prop('checked');
+            let conditionalSearch = $('#conditional_search').prop('checked');
+            
+            if (nameSearch) {
+                mode = 14;
+                var conditions = {
+                    'mode': mode,
+                    'unvhd': $('#search_university_code_head_id').val(),
+                    'dptsub': $('#search_dept_subject_div').val(),
+                    'unvcd':  $('#dtl_university_cd').val(),
+                    'udpcd':  $('#dtl_department_cd').val(),
+                    'uinst1': $('#search_univ_install_1').val(),
+                    'usubnm': $('#search_subj_name').val(),
+                    'next': $('#search_subj_offset_end').val()
+                };
+            }
+            if (conditionalSearch) {
+                mode = 34;
+                var conditions = {
+                    'mode': mode,
+                    'unvhd': $('#search_university_code_head_id').val(),
+                    'dptsub': $('#search_dept_subject_div').val(),
+                    'unvcd': $('#dtl_university_cd').val(),
+                    'udpcd':  $('#dtl_department_cd').val(),
+                    'udptl': $('#search_dept_line').val(),
+                    'udevf': $('#search_devi_from').val(),
+                    'udevt': $('#search_devi_To').val(),
+                    'ucmt': $('#search_use_common_test').prop('checked')?'on':'off',
+                    'next': $('#search_subj_offset_end').val()
+                };
+            }
 
             /* 10秒経ったら強制的にローディング画面を非表示にする */
             showLoader();
@@ -1073,6 +1147,7 @@ $(document).ready(function() {
         const deptNameInput = $('#search_dept_name');
         const subjNameInput = $('#search_subj_name');
 // console.log(`Length: ${getStringLength(univNameInput.val())}`);
+        
         // Validate the length of the input fields
         if (getStringLength(univNameInput.val()) > 50) {
             errorMessage += searchWordLimitMSGUniv+'<br>';
@@ -1082,7 +1157,7 @@ $(document).ready(function() {
             errorMessage += searchWordLimitMSGDept+'<br>';
             isValid = false;
         }
-        if (getStringLength(subjNameInput.val()) > 50) {
+        if (getStringLength(subjNameInput.val()) > 80) {
             errorMessage += searchWordLimitMSGSubj+'<br>';
             isValid = false;
         }
@@ -1180,4 +1255,5 @@ $(document).ready(function() {
             });
         }
     }
+
 });

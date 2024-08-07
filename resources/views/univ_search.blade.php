@@ -33,7 +33,7 @@
     const codeHeadOnChangeMSG = '{{trans('message.UNVC_CODE_HEAD_INFO_ONCHANGE_ALERT')}}'
     const searchWordLimitMSGUniv = '{{trans('validation.em_length', ['attribute' => '大学名','max' => 50])}}';
     const searchWordLimitMSGDept = '{{trans('validation.em_length', ['attribute' => '学部名','max' => 50])}}';
-    const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 50])}}';
+    const searchWordLimitMSGSubj = '{{trans('validation.em_length', ['attribute' => '学科名','max' => 80])}}';
     const maxResultCnt = {{config('constants.UNVC_RESULT_MAX')}};
     const commonOEMSchoolCode = '{{config('constants.UNVC_COMMON_SCHOOL.SCH_CODE')}}';
     const codeBookPath = '{{config('constants.UNVC_CODEBOOK_PATH')}}';

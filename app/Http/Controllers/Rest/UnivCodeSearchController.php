@@ -8,6 +8,7 @@ use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
 use App\Services\MUnivCodeService;
 use App\Services\MHighSchoolCodeService;
+use Illuminate\Support\Facades\Log;
 
 class UnivCodeSearchController extends Controller
 {
@@ -233,157 +234,97 @@ class UnivCodeSearchController extends Controller
         $mode = intval($request->get('mode'));
         $offset_end = $request->get('next');
         $page_unit = config('constants.UNVC_PER_PAGE');
+        $deptSubjDiv = $request->get('dptsub');
         $univ_num = "";
         $dept_num = "";
         $subj_num = "";
+        $conditions = array();
+//Debug用
+//Log::Warning('Mode: '. $mode);
 
-        if ($mode == 1 || $mode == 11){
-            $conditions = [
-                'univHeaderID' => $request->get('unvhd'),
-                'deptSubjDiv' => $request->get('dptsub'),
-                'uInst1' => $request->get('uinst1'),
-                'univName' => $request->get('unvm'),
-                'deptName' => $request->get('udpnm'),
-                'subjName' => $request->get('usubnm'),
-                'offset' => $request->get('next'),
-            ];
+        switch($mode){
+            // 大学一覧(名称検索)
+            case 1:  // 検索ボタン
+            case 11: // 大学一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'uInst1' => $request->get('uinst1'),
+                    'univName' => $request->get('unvm'),
+                    'deptName' => $request->get('udpnm'),
+                    'subjName' => $request->get('usubnm'),
+                    'offset' => $request->get('next'),
+                ];
+                break;
+            // 大学一覧(条件検索)
+            case 2:  // 検索ボタン
+            case 12: // 大学一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'uInst2' => $request->get('uinst2'),
+                    'prefCode' => $request->get('uprf'),
+                    'deptLineCode' => $request->get('udptl'),
+                    'commonTest' => $request->get('ucmt'),
+                    'offset' => $request->get('next'),
+                ];
+                if($request->get('udevf')>0)
+                    $conditions['deviFrom'] = $request->get('udevf');
+                if($request->get('udevt')>0)
+                    $conditions['deviTo'] = $request->get('udevt');
+                break;
+            // 学部一覧 (名称検索)
+            case 3:  // 大学一覧の大学明細クリック
+            case 13: // 学部一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'univCode' => $request->get('unvcd'),
+                    'deptName' => $request->get('udpnm'),
+                ];
+                
+                return $this->getDepList($mode, $conditions, $offset_end, $deptSubjDiv);
+            // 学部一覧 (条件検索)
+            case 23: // 大学一覧の大学明細クリック
+            case 33: // 学部一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'univCode' => $request->get('unvcd'),
+                    'deptLineCode' => $request->get('udptl'),
+                ];
+                if($request->get('udevf')>0)
+                    $conditions['deviFrom'] = $request->get('udevf');
+                if($request->get('udevt')>0)
+                    $conditions['deviTo'] = $request->get('udevt');
+                
+                return $this->getDepList($mode, $conditions, $offset_end, $deptSubjDiv);
+            // 学科一覧（名称検索）
+            case 4: // 学部一覧の学部明細クリック
+            case 14: // 学科一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'univCode' => $request->get('unvcd'),
+                    'deptCode' => $request->get('udpcd'),
+                    'subjName' => $request->get('usubnm'),
+                ];
+ 
+                return $this->getSubjList($mode, $conditions, $offset_end);
+            // 学科一覧（条件検索）
+            case 24: // 学部一覧の学部明細クリック
+            case 34: // 学科一覧のもっと見る
+                $conditions = [
+                    'univHeaderID' => $request->get('unvhd'),
+                    'univCode' => $request->get('unvcd'),
+                    'deptCode' => $request->get('udpcd'),
+                    'deptLineCode' => $request->get('udptl'),
+                    'commonTest' => $request->get('ucmt')
+                ];
+                if($request->get('udevf')>0)
+                    $conditions['deviFrom'] = $request->get('udevf');
+                if($request->get('udevt')>0)
+                    $conditions['deviTo'] = $request->get('udevt');
+                
+                return $this->getSubjList($mode, $conditions, $offset_end);
         }
-
-        if($mode == 2 || $mode == 12){
-            $conditions = [
-                'univHeaderID' => $request->get('unvhd'),
-                'deptSubjDiv' => $request->get('dptsub'),
-                'uInst2' => $request->get('uinst2'),
-                'prefCode' => $request->get('uprf'),
-                'deptLineCode' => $request->get('udptl'),
-                'commonTest' => $request->get('ucmt'),
-                'offset' => $request->get('next'),
-            ];
-            if($request->get('udevf')>0)
-                $conditions['deviFrom'] = $request->get('udevf');
-            if($request->get('udevt')>0)
-                $conditions['deviTo'] = $request->get('udevt');
-        }
-
-        if($mode == 3 || $mode == 13){
-            $conditions = [
-                'univHeaderID' => $request->get('unvhd'),
-                'deptSubjDiv' => $request->get('dptsub'),
-                'univCode' => $request->get('unvcd'),
-            ];
-
-            $univCodeCount = $this->univCodeService->getUnivCount($conditions);
-            $univDeptCount = $this->univCodeService->getDeptCount($conditions);
-            $univSubjCount = $this->univCodeService->getSubjCount($conditions);
-            $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
-            $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
-            $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
-
-            if ($mode == 13){
-                $conditions['offset'] = $request->get('next');
-                $deptList = $this->univCodeService->getDeptList($conditions);
-            }
-            else{
-                $deptList = $this->univCodeService->getDeptList($conditions);
-            }
-
-            $list_cat_div = 2;
-            $list_dsp_title = '0件';
-
-            if (count($deptList)>0){
-                $list_dsp_title = $deptList[0]->university_name.'　学部一覧';
-            }
-            
-            $header = $this->common->makeHeader('success', '', $dept_num??0);
-            $data_head = compact(
-                'mode',
-                'page_unit',
-                'list_cat_div',
-                'univ_num',
-                'dept_num',
-                'subj_num',
-                'list_dsp_title',
-            );
-    
-            $result = [];
-            foreach($deptList as $dtl){
-                $row = [];
-                $row['dtl_name']          = $dtl->department_name;
-                $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd;
-                $row['dtl_deviation_val'] = $dtl->deviation_value;
-                $row['university_cd']     = $dtl->university_cd;
-                $row['university_cd']     = $dtl->university_cd;
-                $row['department_cd']     = $dtl->department_cd;
-    
-                $result[] = $row;
-            }
-    
-            $data = $result;
-    
-            return response()->json(compact('header', 'data_head', 'data'));
-            
-        }
-
-        if($mode == 4 || $mode == 14){
-            $conditions = [
-                'univHeaderID' => $request->get('unvhd'),
-                'deptSubjDiv' => $request->get('dptsub'),
-                'univCode' => $request->get('unvcd'),
-                'deptCode' => $request->get('udpcd'),
-            ];
-
-            $univCodeCount = $this->univCodeService->getUnivCount($conditions);
-            $univDeptCount = $this->univCodeService->getDeptCount($conditions);
-            $univSubjCount = $this->univCodeService->getSubjCount($conditions);
-
-            $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
-            $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
-            $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
-
-            if ($mode == 14){
-                $conditions['offset'] = $request->get('next');
-                $subjList = $this->univCodeService->getSubjList($conditions);
-            }
-            else{
-                $subjList = $this->univCodeService->getSubjList($conditions);
-            }
-
-            $list_cat_div = 3;
-            $list_dsp_title = '0件';
-            if (count($subjList) > 0){
-                $list_dsp_title = $subjList[0]->university_name.'　'.$subjList[0]->department_name.'　学科一覧';
-            }
-
-            $header = $this->common->makeHeader('success', '', $subj_num??0);
-            $data_head = compact(
-                'mode',
-                'page_unit',
-                'list_cat_div',
-                'univ_num',
-                'dept_num',
-                'subj_num',
-                'list_dsp_title',
-            );
-    
-            $result = [];
-            foreach($subjList as $dtl){
-                $row = [];
-                $row['dtl_name']          = $dtl->subject_name;
-                $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd.'-'.$dtl->subject_cd;
-                $row['dtl_deviation_val'] = $dtl->deviation_value;
-                $row['university_cd']     = $dtl->university_cd;
-                $row['university_cd']     = $dtl->university_cd;
-                $row['department_cd']     = $dtl->department_cd;
-                $row['subject_cd']        = $dtl->subject_cd;
-    
-                $result[] = $row;
-            }
-    
-            $data = $result;
-    
-            return response()->json(compact('header', 'data_head', 'data'));
-            
-        }
+//Debug用
+//Log::Warning('Conditions', $conditions);
 
         $univCodeCount = $this->univCodeService->getUnivCount($conditions);
         $univDeptCount = $this->univCodeService->getDeptCount($conditions);
@@ -401,60 +342,59 @@ class UnivCodeSearchController extends Controller
             return response()->json(compact('header', 'data_head','data'));
         }
 
-        if($univ_num == 1){
+        if($univ_num == 1){  // 大学の件数は1件の場合、自動的に学部の検索を行う
             $univCodeList = $this->univCodeService->getUnivCodeList($conditions);
             $conditions['univCode'] = $univCodeList[0]->university_cd;
 
-            if($dept_num == 1 && $conditions['deptSubjDiv'] == 2){
-                $deptList = $this->univCodeService->getDeptList($conditions);
+            // 学部の件数は1件かつ学科判定の場合、自動的に学科の検索を行う
+            if($dept_num == 1 && $deptSubjDiv == 2){
+                $deptList = $this->univCodeService->getDeptList($conditions, $deptSubjDiv);
               
                 $conditions['deptCode'] = $deptList[0]->department_cd;
-
-
-                $subjList = $this->univCodeService->getSubjList($conditions);
-                //$subj_num = $this->univCodeService->getSubjCount($conditions);
                 
                 // 一覧表示区分：学科一覧
-                $list_cat_div = 3;
-                $list_dsp_title = $subjList[0]->university_name.'　'.$subjList[0]->department_name.'　学科一覧';
-
-                $header = $this->common->makeHeader('success', '', $subj_num??0);
-                $data_head = compact(
-                    'mode',
-                    // 'offset_end',
-                    'page_unit',
-                    // 'next_page',
-                    'list_cat_div',
-                    'univ_num',
-                    'dept_num',
-                    'subj_num',
-                    'list_dsp_title',
-                );
+                $subjList = $this->univCodeService->getSubjList($conditions);
                 
-                $result = [];
-                foreach($subjList as $dtl){
-                    $row = [];
-                    $row['dtl_name']          = $dtl->subject_name;
-                    $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd.'-'.$dtl->subject_cd;
-                    $row['dtl_deviation_val'] = $dtl->deviation_value;
-                    $row['university_cd']     = $dtl->university_cd;
-                    $row['department_cd']     = $dtl->department_cd;
-                    $row['subject_cd']        = $dtl->subject_cd;
+                if(count($subjList)>0){
+                    $list_cat_div = 3;  // 表示区分=学科
+                    $list_dsp_title = $subjList[0]->university_name.'　'.$subjList[0]->department_name.'　学科一覧';
 
-                    $result[] = $row;
+                    $header = $this->common->makeHeader('success', '', $subj_num??0);
+                    $data_head = compact(
+                        'mode',
+                        'page_unit',
+                        'list_cat_div',
+                        'univ_num',
+                        'dept_num',
+                        'subj_num',
+                        'list_dsp_title',
+                    );
+                    
+                    $result = [];
+                    foreach($subjList as $dtl){
+                        $row = [];
+                        $row['dtl_name']          = $dtl->subject_name;
+                        $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd.'-'.$dtl->subject_cd;
+                        $row['dtl_deviation_val'] = $dtl->deviation_value;
+                        $row['university_cd']     = $dtl->university_cd;
+                        $row['department_cd']     = $dtl->department_cd;
+                        $row['subject_cd']        = $dtl->subject_cd;
+
+                        $result[] = $row;
+                    }
+                    $data = $result;
+
+                    return response()->json(compact('header', 'data_head', 'data'));
                 }
-                $data = $result;
-
-                return response()->json(compact('header', 'data_head', 'data'));
             }
 
             // 一覧表示区分：学部一覧
-            $univCodeList = $this->univCodeService->getUnivCodeList($conditions);
-            $conditions['univCode'] = $univCodeList[0]->university_cd;
+            // $univCodeList = $this->univCodeService->getUnivCodeList($conditions);
+            // $conditions['univCode'] = $univCodeList[0]->university_cd;
 
-            $deptList = $this->univCodeService->getDeptList($conditions);
-//return response()->json(compact('deptList')); 
-            $list_cat_div = 2;
+            $deptList = $this->univCodeService->getDeptList($conditions, $deptSubjDiv);
+ 
+            $list_cat_div = 2;  // 表示区分=学部
             $list_dsp_title = $deptList[0]->university_name.'　学部一覧';
 
             $header = $this->common->makeHeader('success', '', $dept_num??0);
@@ -521,5 +461,121 @@ class UnivCodeSearchController extends Controller
 
         return response()->json(compact('header', 'data_head', 'data'));
 
+    }
+
+    private function getDepList($mode, $conditions, $offset_end, $deptSubjDiv){
+        //debug用
+        //Log::Warning('Conditions: ', $conditions);
+        $page_unit = config('constants.UNVC_PER_PAGE');
+
+        $univCodeCount = $this->univCodeService->getUnivCount($conditions);
+        $univDeptCount = $this->univCodeService->getDeptCount($conditions);
+        $univSubjCount = $this->univCodeService->getSubjCount($conditions);
+    // Log::Warning('univCodeCount: '. $univCodeCount->count);
+    // Log::Warning('univDeptCount: '. $univDeptCount->count);
+    // Log::Warning('univSubjCount: '. $univSubjCount->count);
+        $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
+        $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
+        $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
+
+        if ($mode == 13 || $mode == 33){
+            $conditions['offset'] = $offset_end;
+            $deptList = $this->univCodeService->getDeptList($conditions, $deptSubjDiv);
+        }
+        else{
+            $deptList = $this->univCodeService->getDeptList($conditions, $deptSubjDiv);
+        }
+    //Log::Warning('dept: '. count($deptList));
+        $list_cat_div = 2;
+        $list_dsp_title = '0件';
+
+        if (count($deptList)>0){
+            $list_dsp_title = $deptList[0]->university_name.'　学部一覧';
+        }
+        
+        $header = $this->common->makeHeader('success', '', $dept_num??0);
+        $data_head = compact(
+            'mode',
+            'page_unit',
+            'list_cat_div',
+            'univ_num',
+            'dept_num',
+            'subj_num',
+            'list_dsp_title',
+        );
+
+        $result = [];
+        foreach($deptList as $dtl){
+            $row = [];
+            $row['dtl_name']          = $dtl->department_name;
+            $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd;
+            $row['dtl_deviation_val'] = $dtl->deviation_value;
+            $row['university_cd']     = $dtl->university_cd;
+            $row['university_cd']     = $dtl->university_cd;
+            $row['department_cd']     = $dtl->department_cd;
+
+            $result[] = $row;
+        }
+
+        $data = $result;
+
+        return response()->json(compact('header', 'data_head', 'data'));
+    }
+
+    private function getSubjList($mode, $conditions, $offset_end){
+        //debug用
+        //Log::Warning('Conditions: ', $conditions);
+        $page_unit = config('constants.UNVC_PER_PAGE');
+
+        $univCodeCount = $this->univCodeService->getUnivCount($conditions);
+        $univDeptCount = $this->univCodeService->getDeptCount($conditions);
+        $univSubjCount = $this->univCodeService->getSubjCount($conditions);
+
+        $univ_num = empty($univCodeCount)?0:$univCodeCount->count;
+        $dept_num = empty($univDeptCount)?0:$univDeptCount->count;
+        $subj_num = empty($univSubjCount)?0:$univSubjCount->count;
+
+        if ($mode == 14 || $mode == 34){
+            $conditions['offset'] = $offset_end;
+            $subjList = $this->univCodeService->getSubjList($conditions);
+        }
+        else{
+            $subjList = $this->univCodeService->getSubjList($conditions);
+        }
+
+        $list_cat_div = 3;
+        $list_dsp_title = '0件';
+        if (count($subjList) > 0){
+            $list_dsp_title = $subjList[0]->university_name.'　'.$subjList[0]->department_name.'　学科一覧';
+        }
+
+        $header = $this->common->makeHeader('success', '', $subj_num??0);
+        $data_head = compact(
+            'mode',
+            'page_unit',
+            'list_cat_div',
+            'univ_num',
+            'dept_num',
+            'subj_num',
+            'list_dsp_title',
+        );
+
+        $result = [];
+        foreach($subjList as $dtl){
+            $row = [];
+            $row['dtl_name']          = $dtl->subject_name;
+            $row['dtl_code']          = $dtl->university_cd.'-'.$dtl->department_cd.'-'.$dtl->subject_cd;
+            $row['dtl_deviation_val'] = $dtl->deviation_value;
+            $row['university_cd']     = $dtl->university_cd;
+            $row['university_cd']     = $dtl->university_cd;
+            $row['department_cd']     = $dtl->department_cd;
+            $row['subject_cd']        = $dtl->subject_cd;
+
+            $result[] = $row;
+        }
+
+        $data = $result;
+
+        return response()->json(compact('header', 'data_head', 'data'));
     }
 }

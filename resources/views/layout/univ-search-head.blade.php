@@ -11,17 +11,17 @@
 <meta name="keywords" itemprop="keywords" content="@yield('keywords')">
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
-<link rel="stylesheet" href="{{ asset('/2024_univ_search/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('/2024_univ_search/css/style.css') }}?v={{ now()->format('YmdHis') }}">
 <link rel="stylesheet" href="{{ asset('/css/webfont.css') }}" />
 <link rel="stylesheet" href="{{ asset('/css/animation.css') }}" />
-<link rel="stylesheet" href="{{asset('/css/psnmenu_css/webfont.css')}}" />
-<link rel="stylesheet" href="{{asset('/css/psnmenu_css/animation.css')}}" />
+<link rel="stylesheet" href="{{ asset('/css/psnmenu_css/webfont.css') }}" />
+<link rel="stylesheet" href="{{ asset('/css/psnmenu_css/animation.css') }}" />
 @yield('pageCss')
 <script src="{{ asset('/js/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('/js/common.js') }}"></script>
-<script src="{{ asset('/2024_univ_search/js/accordion.js') }}"></script>
-<script src="{{ asset('/2024_univ_search/js/univ_search.js') }}"></script>
-<script src="{{ asset('/2024_univ_search/js/footer.js') }}"></script>
+<script src="{{ asset('/js/common.js') }}?v={{ now()->format('YmdHis') }}"></script>
+<script src="{{ asset('/2024_univ_search/js/accordion.js') }}?v={{ now()->format('YmdHis') }}"></script>
+<script src="{{ asset('/2024_univ_search/js/univ_search.js') }}?v={{ now()->format('YmdHis') }}"></script>
+<script src="{{ asset('/2024_univ_search/js/footer.js') }}?v={{ now()->format('YmdHis') }}"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140481385-1"></script>
 @yield('script')
 <script>
