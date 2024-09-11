@@ -204,7 +204,7 @@ section .hs_title {
 }
 
 input[type="text"]:disabled {
-    background-color: #e0e0e0 !important;
+    background-color: #ededed !important;
 }
   
 .required input:focus {
@@ -285,7 +285,7 @@ select option { color: #333; }
 select option:first-child { color: #a9a9a9; }
 
 select:disabled {
-    background-color: #e0e0e0 !important;
+    background-color: #ededed !important;
     color: #a9a9a9;
     opacity: 1 !important;
 }
@@ -440,9 +440,11 @@ opacity: 1
     min-width: 200px;
     width: 60%;
 }
+/*  20240910
 div.hsc_text_wide {
  padding-right:10px;
 }
+*/
 .hsc_sel_narrow {
     max-width: 200px;
     min-width: 120px;
@@ -464,9 +466,11 @@ div.hsc_text_wide {
 
 
 @media screen and (max-width: 480px) {
+/* 20240910
     .hsc_text_wide {
         width: 85%;
     }
+*/
     .hsc_sel_middle {
         width: 95%;
     }
@@ -996,3 +1000,25 @@ footer p {
 #loader p img {
     display: inline-block;
 }
+
+/* 高校検索のガイダンス */
+.hsc-gide-space  {
+       width: 190px;
+       display: block;
+}
+.hsc-gide-text {
+    line-height:1.5em;
+    margin-top: -5px;
+    margin-bottom:10px;
+    font-size: 0.7rem;
+}
+@media screen and (max-width: 480px) {
+    .hsc-gide-space  {
+        display: none;
+    }
+    .hsc-gide-text {
+        margin-left:5px;
+        font-size: 0.6rem;
+    }
+}
+
