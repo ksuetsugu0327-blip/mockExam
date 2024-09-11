@@ -70,7 +70,7 @@
             @endforeach
             </select>
         </div>
-        <div class="c-block-input__select required" style="width:300px;">
+        <div class="c-block-input__select required hsc_sel_wide">
             <select id="test_info" name="test_info" required="required" disabled>
                 <option value="">テスト選択</option>
             </select>
@@ -103,6 +103,16 @@
                 </div>
                 <div class = "disp_flex c-block-input hsc_text_wide">
                     <input class="hsc_text_wide" type="text" id="high_school_name" name="high_school_name" placeholder="高校名" disabled>
+                </div>
+            </div>
+            <div class="disp_flex">
+                <div class="hsc-gide-space">&nbsp;
+                 </div>
+                <div class="hsc_text_wide">
+                     <p class="hsc-gide-text">※高校名は設置者（県立など）と高校種別（高等学校など）を除いた<br>
+                     &nbsp;&nbsp;&nbsp;名称であいまい検索ができます。<br>
+                     <span style="margin-left:10px;text-decoration:underline;">例）A県立〇〇〇〇高等学校の場合「〇〇〇〇」の部分を入力</span>
+                     </p>
                 </div>
             </div>
             <div class="disp_flex">
