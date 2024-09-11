@@ -244,35 +244,39 @@ $(function(){
     $(document).ready(function() {
         $('#univCodeCSVUploadBtn').on('click', function(event) {
             //event.preventDefault();
-            
-            var formData = {
-                fy: $('#year').val(),
-                dtcd: $('#university_code_name_code').val(),
-                dptsub: $('#dept_subject_div').val()
-            };
-            
-            $.ajax({
-                url: "{{ route('api.test_management.university_code_heads_check') }}", // Route defined in web.php
-                type: 'GET',
-                data: formData,
-                success: function(response) {
-console.log(response);
-                    let dataNum = response.header.data_num;
+            //高校の時はそのままサブミット
+            if ($("input[name='data_type']:checked").val() == 2) {
+               $('#univCodeCSVUploadForm').submit();
+            } else {
+                var formData = {
+                    fy: $('#year').val(),
+                    dtcd: $('#university_code_name_code').val(),
+                    dptsub: $('#dept_subject_div').val()
+                };
+                
+                $.ajax({
+                    url: "{{ route('api.test_management.university_code_heads_check') }}", // Route defined in web.php
+                    type: 'GET',
+                    data: formData,
+                    success: function(response) {
+    console.log(response);
+                        let dataNum = response.header.data_num;
 
-                    if(dataNum != 0) {
-                        if(!confirm("入力された年度、データ名、学部/学科の大学データは登録済です。\nデータ登録は上書きで行います。")){
-                            $('#year').focus();
-                            return;
+                        if(dataNum != 0) {
+                            if(!confirm("入力された年度、データ名、学部/学科の大学データは登録済です。\nデータ登録は上書きで行います。")){
+                                $('#year').focus();
+                                return;
+                            }
                         }
-                    }
 
-                    $('#univCodeCSVUploadForm').submit();
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                    alert("システムエラーが発生しました。");
-                }
-            });
+                        $('#univCodeCSVUploadForm').submit();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert("システムエラーが発生しました。");
+                    }
+                });
+           } //else
         });
     });
 </script>
