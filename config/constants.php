@@ -497,6 +497,12 @@ return[
 
     // テスト情報取得APIで年度の条件
     'CURRENT_YEAR' => env('CURRENT_YEAR'),
+
+    // ご利用の手引きPDFディレクトリ
+    'UNVC_GUIDEBOOK_PATH' => '/pdf/univ_search',
+
+    // ご利用の手引きPDFのファイル名
+    'GUIDE_BOOK_NAME' => env('GUIDE_BOOK_NAME'),
 ];
 
 

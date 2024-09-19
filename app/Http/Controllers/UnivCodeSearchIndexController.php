@@ -39,7 +39,16 @@ class UnivCodeSearchIndexController extends Controller
         $univInstallCodeList = $this->univInstallService->selectList();
         $univDeptLineList = $this->univDeptLineService->selectList();
         $deviationValueList = config('selectlistarray.UNIV_CODE_DEVIATION_VALUES');
+
+        $guideBookFolder = config('constants.UNVC_GUIDEBOOK_PATH');
+        $guideBookFileName = config('constants.GUIDE_BOOK_NAME');
+        $guideBookPath =  $guideBookFolder.DIRECTORY_SEPARATOR.$guideBookFileName;
         
+        $hasGuideBookLink = false; 
+        if(file_exists(public_path($guideBookPath))){
+            $hasGuideBookLink = true;
+        }
+
         return view('univ_search', compact(
             'gradeList',
             'prefList',
@@ -49,6 +58,8 @@ class UnivCodeSearchIndexController extends Controller
             'univInstallCodeList',
             'univDeptLineList',
             'deviationValueList',
+            'hasGuideBookLink',
+            'guideBookPath',
         ));
     }
 }
