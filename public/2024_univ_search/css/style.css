@@ -1021,4 +1021,18 @@ footer p {
         font-size: 0.6rem;
     }
 }
+/* マニュアルリンク */
+.top-manual-link {
+    text-align: right; 
+    margin-left: 30px;
+    margin-bottom: -10px;
+    margin-top: -15px;
+
+}@media  screen and (max-width: 480px) {
+    .top-manual-link {
+      margin-top: -20px;
+      margin-bottom: 15px;
+    }
+
+}
 

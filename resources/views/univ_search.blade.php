@@ -56,6 +56,12 @@
 <main style='margin-top:40px;'>
 
 <section id="search_01">
+    <div class="top-manual-link"> <!-- 20240917 -->
+        <div style="text-align: right; background : url('/png/pdf_icon(edge).png') no-repeat;background-size : cover;height : 32px; width : 32px;display:inline-block;margin-left: -32px;margin-bottom:-8px"></div>
+        <label style="display:inline-block;">
+            <a href="#" style="text-decoration: underline;">ご利用の手引き</a>
+        </label>
+    </div>
     <div class = "disp_flex c-block-input required">
         <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード">
         <p></p>
