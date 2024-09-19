@@ -42,10 +42,10 @@ class UnivCodeSearchIndexController extends Controller
 
         $guideBookFolder = config('constants.UNVC_GUIDEBOOK_PATH');
         $guideBookFileName = config('constants.GUIDE_BOOK_NAME');
-        $guideBookPath =  $guideBookFolder.DIRECTORY_SEPARATOR.$guideBookFileName;
+        $guideBookPath =  $guideBookFolder.'/'.$guideBookFileName;
         
         $hasGuideBookLink = false; 
-        if(file_exists(public_path($guideBookPath))){
+        if(file_exists(public_path($guideBookPath))&& is_file(public_path($guideBookPath))){
             $hasGuideBookLink = true;
         }
 
