@@ -79,7 +79,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
 
     public function deleteCodes($codeHeadID){
         $this->MUnivCode->where('university_code_head_id', $codeHeadID)
-            ->chunk(100, function($codes){
+            ->chunkById(100, function($codes){
                 foreach($codes as $code){
                     $code->delete();
                 }
