@@ -72,7 +72,7 @@ class UnivCsvService {
 
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME_HKN.INDEX')],
                     config('constants.UNIV_CSV_HEADER.NAME.NAME')               => $line[config('constants.UNIV_CSV_HEADER.NAME.INDEX')],
-                    config('constants.UNIV_CSV_HEADER.NAME_NEW.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.NAME_NEW.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME_NEW.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          => $line[config('constants.UNIV_CSV_HEADER.DEPT_CODE.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           => $line[config('constants.UNIV_CSV_HEADER.DEPT_SEQ.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          => $line[config('constants.UNIV_CSV_HEADER.DEPT_NAME.INDEX')],
