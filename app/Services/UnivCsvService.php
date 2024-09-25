@@ -72,6 +72,7 @@ class UnivCsvService {
 
                     config('constants.UNIV_CSV_HEADER.NAME_HKN.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME_HKN.INDEX')],
                     config('constants.UNIV_CSV_HEADER.NAME.NAME')               => $line[config('constants.UNIV_CSV_HEADER.NAME.INDEX')],
+                    config('constants.UNIV_CSV_HEADER.NAME_NEW.NAME')           => $line[config('constants.UNIV_CSV_HEADER.NAME.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          => $line[config('constants.UNIV_CSV_HEADER.DEPT_CODE.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           => $line[config('constants.UNIV_CSV_HEADER.DEPT_SEQ.INDEX')],
                     config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          => $line[config('constants.UNIV_CSV_HEADER.DEPT_NAME.INDEX')],
@@ -109,7 +110,7 @@ class UnivCsvService {
             // データ件数が0件のエラー
             $csv_errors[] = [
                 'line' => '' ,
-                'message' => trans('message.CSV_MPERSON_NOT_DATA'),
+                'message' => trans('message.CSV_MUNIV_NOT_DATA'),
             ];
         }
         return $csv_errors;
@@ -160,6 +161,9 @@ class UnivCsvService {
                         'bail|required|string|max:80|half_kana',
                     
                     config('constants.UNIV_CSV_HEADER.NAME.NAME')               =>  //大学名
+                        'bail|required|string|max:40',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME_NEW.NAME')           =>  //大学名（新字）
                         'bail|required|string|max:40',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          =>  //学部コード
@@ -213,6 +217,9 @@ class UnivCsvService {
                         'bail|required|string|max:80|half_kana',
                     
                     config('constants.UNIV_CSV_HEADER.NAME.NAME')               =>  //大学名
+                        'bail|required|string|max:40',
+                    
+                    config('constants.UNIV_CSV_HEADER.NAME_NEW.NAME')           =>  //大学名（新字）
                         'bail|required|string|max:40',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_CODE.NAME')          =>  //学部コード

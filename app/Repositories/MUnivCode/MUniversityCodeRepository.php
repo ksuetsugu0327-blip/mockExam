@@ -54,6 +54,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                         'dept_line_cd7'           => $univCode['dept_line_cd7'],
                         'university_name_hkn'     => $univCode['university_name_hkn'],
                         'university_name'         => $univCode['university_name'],
+                        'university_name_new'     => $univCode['university_name_new'],
                         'department_cd'           => $univCode['department_cd'],
                         'department_seq'          => $univCode['department_seq'],
                         'department_name'         => $univCode['department_name'],
@@ -93,7 +94,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
+                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
                     return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
@@ -150,7 +152,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
+                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
                     return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
@@ -210,7 +213,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
+                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
                     return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
@@ -272,7 +276,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('install_div', $conditions['uInst1']);
             })
             ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                return $query->where('university_name', 'like', '%'.$conditions['univName'].'%');
+                return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
+                            ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
             })
             ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
                 return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');

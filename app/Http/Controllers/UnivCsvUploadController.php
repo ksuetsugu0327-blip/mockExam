@@ -124,7 +124,7 @@ class UnivCsvUploadController extends Controller{
                                 'message' => $e->getMessage(),
                             ],$this->prepareSelectList()));
                 }
-                
+
                 $this->insertUnivCodeData($file, $univCodeHeader, $param);
             }
             else{
@@ -233,17 +233,18 @@ class UnivCsvUploadController extends Controller{
                     $dept_line_cd7        = $row[9];
                     $university_name_hkn  = $row[10];
                     $university_name      = $row[11];
-                    $department_cd        = $row[12];
-                    $department_seq       = $row[13];
-                    $department_name	  = $row[14];
-                    $common_test_use	  = $row[19];								
-                    $deviation_value	  = $row[20];
+                    $university_name_new  = $row[12];
+                    $department_cd        = $row[13];
+                    $department_seq       = $row[14];
+                    $department_name	  = $row[15];
+                    $common_test_use	  = $row[20];								
+                    $deviation_value	  = $row[21];
                     
                     if($param['deptOrSubject'] == 2){
-                        $subject_cd			  = $row[15];						
-                        $subject_seq		  = $row[16];							
-                        $subject_name		  = $row[17];							
-                        $search_subject_name  = $row[18];	
+                        $subject_cd			  = $row[16];						
+                        $subject_seq		  = $row[17];							
+                        $subject_name		  = $row[18];							
+                        $search_subject_name  = $row[19];	
                     }			
 
                     // 登録データを配列に追加
@@ -260,6 +261,7 @@ class UnivCsvUploadController extends Controller{
                         'dept_line_cd7'       => empty($dept_line_cd7)?NULL:$dept_line_cd7,
                         'university_name_hkn' => $university_name_hkn,
                         'university_name'     => $university_name,
+                        'university_name_new' => $university_name_new,
                         'department_cd'       => $department_cd,
                         'department_seq'      => $department_seq,
                         'department_name'     => $department_name,

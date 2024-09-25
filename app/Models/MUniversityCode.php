@@ -33,6 +33,7 @@ class MUniversityCode extends Model
         'dept_line_cd7',
         'university_name_hkn',
         'university_name',
+        'university_name_new',
         'department_cd',
         'department_seq',
         'department_name',
