@@ -39,10 +39,20 @@ class UnivCsvService {
 
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
-            // if(mb_check_encoding($line, 'SJIS')){
-            //      $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
-            // }
+            // CSVの文字コードがシステム文字コードと一致しない場合、エラーを返す。
+            $systemCharCode = config('constants.CHARACTER_CODE');
+            if(!mb_check_encoding($line, $systemCharCode)){
+                $csv_errors[] = [
+                    'charCodeErr' => true,
+                    'message' => trans('message.UNVC_CODE_CSV_CHAR_CODE_ERR', ['system_char_code' => $systemCharCode]),
+                ];
+
+                return $csv_errors;
+            }
+
+            if(mb_check_encoding($line, 'SJIS')){
+                $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
+            }
 
             if (0 === $line_num || 1 === count($line)) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視

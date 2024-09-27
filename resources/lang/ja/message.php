@@ -162,4 +162,7 @@ return[
     //大学コード検索画面基本情報変更時警告メッセージ
     'UNVC_CODE_HEAD_INFO_ONCHANGE_ALERT' => '表示中の検索結果はクリアされますが、よろしいですか?',
 
+    //大学コードCSVの文字コードがシステムのと一致しない時エラーメッセージ
+    'UNVC_CODE_CSV_CHAR_CODE_ERR' => '文字コードが間違っています。文字コードは :system_char_code にしてください。',
+
 ];

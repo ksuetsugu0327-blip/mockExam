@@ -102,6 +102,18 @@ class UnivCsvUploadController extends Controller{
 
         // エラー有無をチェック
         if (count($csv_errors) > 0) {
+            $systemCharCode = config('constants.CHARACTER_CODE');
+            foreach($csv_errors as $errs){
+                //dd($errs);
+                if(array_key_exists('charCodeErr',$errs)){
+                    // 画面表示
+                    return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+                                ->withInput()
+                                ->with(array_merge([
+                                    'message' => $errs['message'],
+                                ],$this->prepareSelectList()));
+                }
+            }
             // Set the session message
             session()->put('csv_errors', $csv_errors);
 
@@ -113,6 +125,8 @@ class UnivCsvUploadController extends Controller{
                 ->withErrors($errors);
         }
         else{
+            //ローカルで実行する場合、タイムアウトしたら下記を適用してください。
+            //set_time_limit(5000);
             if($dataType == 1){
                 try{
                     $univCodeHeader = $this->handleUnivCodeHeader($param);
@@ -209,11 +223,10 @@ class UnivCsvUploadController extends Controller{
             DB::beginTransaction();
             //取得したオブジェクトを読み込み
             foreach ($file as $row) {
-                // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
-
-                // if(mb_check_encoding($row, 'SJIS')){
-                //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
-                // }
+                // CSVの文字コードがSJISの場合、UTF-8に変更
+                if(mb_check_encoding($row, 'SJIS')){
+                    $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+                }
 
                 // 最終行の処理(最終行が空っぽの場合の対策
                 if ($row === [null])
@@ -304,11 +317,10 @@ class UnivCsvUploadController extends Controller{
 
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
-            // CSVの文字コードがSJISの場合、UTF-8に変更　(WINDOWS上実行する場合、適用してください。)
-
-            // if(mb_check_encoding($row, 'SJIS')){
-            //     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
-            // }
+            // CSVの文字コードがSJISの場合、UTF-8に変更
+            if(mb_check_encoding($row, 'SJIS')){
+                $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
+            }
 
             // 最終行の処理(最終行が空っぽの場合の対策
             if ($row === [null])
