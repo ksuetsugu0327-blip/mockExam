@@ -507,6 +507,9 @@ return[
 
     // ご利用の手引きPDFのファイル名
     'GUIDE_BOOK_NAME' => env('GUIDE_BOOK_NAME'),
+
+    // システムの文字コード
+    'CHARACTER_CODE' => env('CHARACTER_CODE'),
 ];
 
 
