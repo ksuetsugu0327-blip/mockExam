@@ -102,7 +102,6 @@ class UnivCsvUploadController extends Controller{
 
         // エラー有無をチェック
         if (count($csv_errors) > 0) {
-            $systemCharCode = config('constants.CHARACTER_CODE');
             foreach($csv_errors as $errs){
                 //dd($errs);
                 if(array_key_exists('charCodeErr',$errs)){
@@ -126,7 +125,7 @@ class UnivCsvUploadController extends Controller{
         }
         else{
             //ローカルで実行する場合、タイムアウトしたら下記を適用してください。
-            //set_time_limit(5000);
+            set_time_limit(5000);
             if($dataType == 1){
                 try{
                     $univCodeHeader = $this->handleUnivCodeHeader($param);
@@ -224,7 +223,8 @@ class UnivCsvUploadController extends Controller{
             //取得したオブジェクトを読み込み
             foreach ($file as $row) {
                 // CSVの文字コードがSJISの場合、UTF-8に変更
-                if(mb_check_encoding($row, 'SJIS')){
+                $systemCharCode = config('constants.CHARACTER_CODE');
+                if($systemCharCode==="SJIS" && mb_check_encoding($row, 'SJIS')){
                     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
                 }
 
@@ -318,7 +318,8 @@ class UnivCsvUploadController extends Controller{
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
-            if(mb_check_encoding($row, 'SJIS')){
+            $systemCharCode = config('constants.CHARACTER_CODE');
+            if($systemCharCode==="SJIS" && mb_check_encoding($row, 'SJIS')){
                 $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
             }
 
