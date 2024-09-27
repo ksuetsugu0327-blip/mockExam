@@ -47,7 +47,7 @@ class HighSchoolCsvService {
                 return $csv_errors;
             }
 
-            if(mb_check_encoding($line, 'SJIS')){
+            if($systemCharCode==="SJIS" && mb_check_encoding($line, 'SJIS')){
                 $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             }
 
