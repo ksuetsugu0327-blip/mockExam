@@ -188,9 +188,7 @@ $(function(){
                     <option value="{{$item->university_code_name_cd}}" {{ old('university_code_name_code') == $item->university_code_name_cd ? 'selected' : '' }}>{{$item->university_code_name}}</option>
                     @endforeach
                 </select>
-                @foreach($mUnivCodeName as $item)
-                    <input type="hidden" name="{{$item->university_code_name_cd}}_updated_at" value="{{old($item->university_code_name_cd.'_updated_at', $item->updated_at??null)}}" />
-                @endforeach
+                <input type="hidden" id="univ_code_head_updated_at" name="univ_code_head_updated_at" value="" />
             </div>
             <div class="form-group disp_flex" style="gap:42px">  
                 <label for="dept_subject_div" style="margin-right:14px;">学部/学科</label>
@@ -242,41 +240,54 @@ $(function(){
 </div>
 <script>
     $(document).ready(function() {
+        var form = $("#univCodeCSVUploadForm");
+            
         $('#univCodeCSVUploadBtn').on('click', function(event) {
             //event.preventDefault();
-            //高校の時はそのままサブミット
-            if ($("input[name='data_type']:checked").val() == 2) {
-               $('#univCodeCSVUploadForm').submit();
-            } else {
-                var formData = {
-                    fy: $('#year').val(),
-                    dtcd: $('#university_code_name_code').val(),
-                    dptsub: $('#dept_subject_div').val()
-                };
-                
-                $.ajax({
-                    url: "{{ route('api.test_management.university_code_heads_check') }}", // Route defined in web.php
-                    type: 'GET',
-                    data: formData,
-                    success: function(response) {
-    console.log(response);
-                        let dataNum = response.header.data_num;
 
-                        if(dataNum != 0) {
-                            if(!confirm("入力された年度、データ名、学部/学科の大学データは登録済です。\nデータ登録は上書きで行います。")){
-                                $('#year').focus();
+            // バリデーションを実行
+            if(form[0].reportValidity()){
+                //高校の時はそのままサブミット
+                if ($("input[name='data_type']:checked").val() == 2) {
+                    $('#univCodeCSVUploadForm').submit();
+                } else {
+                    var formData = {
+                        fy: $('#year').val(),
+                        dtcd: $('#university_code_name_code').val(),
+                        dptsub: $('#dept_subject_div').val()
+                    };
+                    
+                    $.ajax({
+                        url: "{{ route('api.test_management.university_code_heads_check') }}", // Route defined in web.php
+                        type: 'GET',
+                        data: formData,
+                        success: function(response) {
+                            let dataNum = response.header.data_num;
+// console.log(response);
+                            if(dataNum !== 0) { // 大学コードヘッダーが存在しているので上書き更新の確認。
+                                if(!confirm("入力された年度、データ名、学部/学科の大学データは登録済です。\nデータ登録は上書きで行います。")){
+                                    $('#year').focus();
+                                    return;
+                                }
+                            }
+                            if(dataNum > 1){ // 大学コードヘッダー情報が複数存在しているはずがないので確認必要、アップロードを中止する。
+                                alert("指定された条件で大学コードヘッダー情報が複数存在しています。ご確認ください。");
                                 return;
                             }
-                        }
+                            if (response.data[0] && response.data[0].updated_at){ // 大学コードヘッダーが存在する場合、最終更新日時をパラメータに追加する。
+                                $('#univ_code_head_updated_at').val(response.data[0].updated_at);
+                            }
 
-                        $('#univCodeCSVUploadForm').submit();
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        alert("システムエラーが発生しました。");
-                    }
-                });
-           } //else
+                            // CSVアップロードフォームをPOSTする。
+                            $('#univCodeCSVUploadForm').submit(); 
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            alert("大学コードヘッダー情報取得できません。システムエラーが発生しました。");
+                        }
+                    });
+                } //else
+            }
         });
     });
 </script>

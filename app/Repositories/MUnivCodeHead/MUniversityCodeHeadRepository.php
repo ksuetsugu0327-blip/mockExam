@@ -64,10 +64,13 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
         return $entry;
     }
 
-    public function getCodeHeader($dataNameCode)
+    public function getCodeHeader($param)
     {
         $mUnivCodeHeader = $this->MUnivCodeHead::
-                                where('university_code_name_cd', $dataNameCode)->first();
+                                  where('fiscal_year', $param['year'])
+                                ->where('university_code_name_cd', $param['univCodeNameCode'])
+                                ->where('dept_subject_div', $param['deptOrSubject'])
+                                ->first();
 
         return $mUnivCodeHeader;
     }
@@ -205,7 +208,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
      */
     public function chkExistUnivCodeHead(int $fy, string $dtcd, int $dptsub){
-        return $this->MUnivCodeHead::select('id')
+        return $this->MUnivCodeHead::select('id','updated_at')
             ->where('fiscal_year', $fy)
             ->where('university_code_name_cd', $dtcd)
             ->where('dept_subject_div', $dptsub)

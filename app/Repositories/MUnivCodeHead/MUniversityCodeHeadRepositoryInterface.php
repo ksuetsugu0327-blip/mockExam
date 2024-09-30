@@ -11,7 +11,7 @@ interface MUniversityCodeHeadRepositoryInterface
 
     public function createOrUpdateCodeHead($codeHeadArray, $mode);
 
-    public function getCodeHeader($dataCodeHead);
+    public function getCodeHeader($param);
 
     /**
      * 【テスト情報】大学コードマスタプルダウン用リスト

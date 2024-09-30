@@ -78,7 +78,7 @@ class UnivCsvUploadController extends Controller{
         $year = $request->input('fiscal_year');
         $univCodeNameCode = $request->input('university_code_name_code');
         $deptOrSubject = $request->input('dept_subject_div');
-        $updated_at = $request->input($univCodeNameCode.'_updated_at');
+        $updated_at = $request->input('univ_code_head_updated_at');
         $univCodeHeader = NULL;
 
         $param = compact('year', 'univCodeNameCode', 'deptOrSubject', 'updated_at');
@@ -194,7 +194,7 @@ class UnivCsvUploadController extends Controller{
             'updated_at' => $param['updated_at'],
         ];
 
-        $univCodeHead = $this->univCsvService->getUnivCodeHeader($param['univCodeNameCode']);
+        $univCodeHead = $this->univCsvService->getUnivCodeHeader($param);
         if (empty($univCodeHead)){
             $univCodeHeader = $this->univCsvService->createOrUpdateUnivCodeHead($univCodeHeadArr, "create");
         }

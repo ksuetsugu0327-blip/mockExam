@@ -302,8 +302,8 @@ class UnivCsvService {
         return $this->mUnivCodeRepository->deleteCodes($univCodeHeadID);
     }
 
-    public function getUnivCodeHeader($dataNameCode){
-        return $this->mUnivCodeHeadRepository->getCodeHeader($dataNameCode);
+    public function getUnivCodeHeader($param){
+        return $this->mUnivCodeHeadRepository->getCodeHeader($param);
     }
 
     public function createOrUpdateUnivCodeHead(array $codeHeadArray, $mode){
