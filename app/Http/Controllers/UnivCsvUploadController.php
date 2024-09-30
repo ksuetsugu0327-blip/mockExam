@@ -223,8 +223,8 @@ class UnivCsvUploadController extends Controller{
             //取得したオブジェクトを読み込み
             foreach ($file as $row) {
                 // CSVの文字コードがSJISの場合、UTF-8に変更
-                $systemCharCode = config('constants.CHARACTER_CODE');
-                if($systemCharCode==="SJIS" && mb_check_encoding($row, 'SJIS')){
+                $systemCharCode = strtolower(config('constants.CHARACTER_CODE'));
+                if($systemCharCode==="sjis" && mb_check_encoding($row, 'SJIS')){
                     $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
                 }
 
@@ -318,8 +318,8 @@ class UnivCsvUploadController extends Controller{
         //取得したオブジェクトを読み込み
         foreach ($file as $row) {
             // CSVの文字コードがSJISの場合、UTF-8に変更
-            $systemCharCode = config('constants.CHARACTER_CODE');
-            if($systemCharCode==="SJIS" && mb_check_encoding($row, 'SJIS')){
+            $systemCharCode = strtolower(config('constants.CHARACTER_CODE'));
+            if($systemCharCode==="sjis" && mb_check_encoding($row, 'SJIS')){
                 $row = mb_convert_encoding($row, 'UTF-8', 'SJIS');
             }
 

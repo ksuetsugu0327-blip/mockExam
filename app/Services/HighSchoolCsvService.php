@@ -36,7 +36,7 @@ class HighSchoolCsvService {
         // CSVファイル内のバリデーション
         foreach ($file as $line_num => $line) {
             // CSVの文字コードがシステム文字コードと一致しない場合、エラーを返す。
-            $systemCharCode = config('constants.CHARACTER_CODE');
+            $systemCharCode = strtolower(config('constants.CHARACTER_CODE'));
             //dd($systemCharCode);
             if(!mb_check_encoding($line, $systemCharCode)){
                 $csv_errors[] = [
@@ -47,7 +47,7 @@ class HighSchoolCsvService {
                 return $csv_errors;
             }
 
-            if($systemCharCode==="SJIS" && mb_check_encoding($line, 'SJIS')){
+            if($systemCharCode==="sjis" && mb_check_encoding($line, 'SJIS')){
                 $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             }
 
