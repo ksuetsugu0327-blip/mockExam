@@ -32,6 +32,7 @@ return[
     // 回数コンバートマスタ
     'KAIA010_KBN_MARK_INPUT' => '9',
     'KAIA020_KBN_MARK_INPUT' => 7,
+    'PRIVATE_UNI_KBN_INPUT' => 5,
     'CNTTEST_KBN_MARK' => 1,
     'CNTTEST_KBN_INPUT' => 2,
     'CNTTEST_KBN_DATE' => 3,
