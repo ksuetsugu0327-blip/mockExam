@@ -16,7 +16,7 @@
         <h1>ログイン</h1>
         <div id="hp_login" class="login">
          @if ($errors->has('message'))
-      	　　 <div class="error_message">
+      	     <div class="error_message">
                    <strong>{{ $errors->first('message') }}</strong>
              </div>
          @endif
@@ -40,6 +40,14 @@
                 </table>
                 <div><input class="button  bulu" type="submit" name="login" value="ログイン" /></div>
             </form>
+            @if(session(config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')) === config('constants.PSN_CHANGE_PW_NO_HIDE_FLG'))
+            <form method="post" name="form1" action="{{route('personLogin.passwordreset', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}">
+                @csrf
+                <input type="hidden" id="redirect_sch_code" name="redirect_sch_code" value="{{session(config('constants.SESSION_KEY_SCHCODE'))}}" />
+                <input type="hidden" id="redirect_psn_code" name="redirect_psn_code" value="{{$psn_code}}" />
+                <div><a href="javascript:form1.submit()">パスワードを忘れた方</a></div>
+            </form>
+            @endif
         </div>
     </div>
 </div>

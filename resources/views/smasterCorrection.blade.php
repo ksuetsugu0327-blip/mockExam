@@ -120,6 +120,20 @@
                             </p>
                         </td>
                     </tr>
+                    @if($psn_psw_update_flg)
+                    <tr>
+                        <td>
+                            <p>メールアドレス</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" style="width: 220px;" type="text" name="email" id="email" value="{{ old('email',$person->mail_address) }}" maxlength="50">
+                                <br>
+                                @if($errors->has('email'))<span class="error">{{ $errors->first('email') }}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <td>
                             <p>仮パスワード</p>
@@ -213,6 +227,20 @@
                             </p>
                         </td>
                     </tr>
+                    @if($psn_psw_update_flg)
+                    <tr>
+                        <td>
+                            <p>メールアドレス</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" style="width: 220px;" type="text" name="email" id="email" value="{{ old('email',$person->mail_address) }}" maxlength="50">
+                                <br>
+                                @if($errors->has('email'))<span class="error">{{ $errors->first('email') }}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <td>
                             <p>仮パスワード　　</p>

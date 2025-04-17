@@ -152,7 +152,7 @@
                         </td>
                         <td>
                             <p>
-                                <input class="cell clear" type="text" name="psn_psw_update_flg" value="{{ old('psn_psw_update_flg', config('constants.PSN_CARD_NOT_USE_FLG')) }}" required maxlength='1'>
+                                <input class="cell clear" type="text" name="psn_psw_update_flg" value="{{ old('psn_psw_update_flg', config('constants.PSN_CHANGE_PW_HIDE_FLG')) }}" required maxlength='1'>
                                 <br>
                                 @if($errors->has('psn_psw_update_flg'))<span class="error">{{ $errors->first('psn_psw_update_flg') }}</span> @endif
                             </p>

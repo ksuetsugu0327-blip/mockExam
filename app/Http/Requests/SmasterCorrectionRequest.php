@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SmasterCorrectionRequest extends FormRequest
@@ -28,6 +29,7 @@ class SmasterCorrectionRequest extends FormRequest
             'birthlow4'  => 'sometimes|birth_low4',
             'postallow4' => 'sometimes|postal_low4',
             'tellow4'    => 'sometimes|tel_low4',
+            'email' => ['sometimes', 'required', new EmailFormat()]
         ];
     }
 
@@ -37,16 +39,23 @@ class SmasterCorrectionRequest extends FormRequest
      */
     public function withValidator($validator){        
         // パスワードのチェック(管理者以外の場合、必須設定) 
-        // 塾ユーザ || 教室ユーザ || (管理者 && 代理ログイン中)の時必須
+        // (塾ユーザ&&メールアドレスない) || (教室ユーザ&&メールアドレスない) || (管理者 && 代理ログイン&&メールアドレスない)の時必須
         $validator->sometimes('temppasswordReissueCheck','required',function(){
-            return (
-                    auth()->guard(config('constants.GUARD_SCHOOL'))->check() || 
-                    auth()->guard(config('constants.GUARD_CLASS'))->check() ||
-                    (
-                        auth()->guard(config('constants.GUARD_ADMIN'))->check() && 
-                        session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))
-                    )
-            );
+            // メールアドレスが存在する場合、必須設定しない
+            if (request()->has('mail_address')){
+                return false;
+            }
+            else{
+              return (
+                auth()->guard(config('constants.GUARD_SCHOOL'))->check()|| 
+                auth()->guard(config('constants.GUARD_CLASS'))->check() ||
+                (
+                    auth()->guard(config('constants.GUARD_ADMIN'))->check() && 
+                    session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))
+                )
+              );
+            }
+
         });        
         
         $validator->after(function($validator){

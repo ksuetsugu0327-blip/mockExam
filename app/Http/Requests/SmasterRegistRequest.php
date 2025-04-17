@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailFormat;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SmasterRegistRequest extends FormRequest
@@ -30,6 +31,7 @@ class SmasterRegistRequest extends FormRequest
             'birthlow4'  => 'birth_low4',
             'postallow4' => 'postal_low4',
             'tellow4'    => 'tel_low4',
+            'mail_address' => new EmailFormat()
         ];
     }
 

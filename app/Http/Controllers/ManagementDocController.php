@@ -74,8 +74,15 @@ class ManagementDocController extends Controller {
             if ($dir > 0){
                 $param["dir"] = true;
             }
-            if ($clsGradeCsvFlag && $csv_dir > 0){
-                $param["csv_dir"] = true;
+            if (isset($clsGradeCsvFlag)){
+                if($clsGradeCsvFlag && $csv_dir > 0){
+                    $param["csv_dir"] = true;
+                }
+            }
+            else{
+                if ($csv_dir > 0){
+                    $param["csv_dir"] = true;
+                }
             }
             
            $input=[
@@ -154,8 +161,15 @@ class ManagementDocController extends Controller {
         if ($dir > 0){
             $param["dir"] = true;
         }
-        if ($clsGradeCsvFlag && $csv_dir > 0){
-            $param["csv_dir"] = true;
+        if (isset($clsGradeCsvFlag)){
+            if($clsGradeCsvFlag && $csv_dir > 0){
+                $param["csv_dir"] = true;
+            }
+        }
+        else{
+            if ($csv_dir > 0){
+                $param["csv_dir"] = true;
+            }
         }
 
         // 画面情報を連想配列に設定
@@ -321,10 +335,19 @@ class ManagementDocController extends Controller {
         $param = $request->session()->get(config('constants.SESSION_KEY_MANAGEMENTDOC_LIST'));
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
-        if($request->has('CATEGORY_KBN_CSV'))
-            $category_kbn = "csv";
-        else
+        
+        if($request->has('CATEGORY_KBN_CSV')){
+            if(!empty($clsCode)){
+                $category_kbn = "csv_cls";
+            }
+            else{
+                $category_kbn = "csv";
+            }
+        }
+        else{
             $category_kbn =  !isset($clsCode) ? config('constants.CATEGORY_KBN_SCH') : config('constants.CATEGORY_KBN_CLS');
+        }
+
         try{
             $order=[
                 'year'=>$param["year"],

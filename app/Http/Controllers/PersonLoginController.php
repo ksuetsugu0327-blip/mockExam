@@ -160,6 +160,7 @@ class PersonLoginController extends Controller
             session([config('constants.SESSION_KEY_PSN_HIDE_FLG')=>$school->psn_hide_flg]);
             session([config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')=>$school->schname_hide_flg]);
             session([config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')=>$school->psncard_regist_flg]);
+            session([config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')=>$school->psn_psw_update_flg]);
             session([config('constants.SESSION_KEY_SCHADMINKBN')=>config('constants.ADMIN_KBN_GENERAL')]);
 
             $persons = $this->mPersonService->selectOneByKeyWithSchCls( (int)$schCode, $request->psn_code );
@@ -231,4 +232,14 @@ class PersonLoginController extends Controller
             .' hash_key : ' .( $request->input('hash_key') ?? '' )
         );
     }
+
+    /**
+     * パスワード再設定画面にリダイレクト
+     * @param Request $request
+     */
+    public function passwordResetIndex(Request $request)
+    {
+        return redirect()->route('personPasswordReset.index',['sch_code'=>$request->get('redirect_sch_code')])->with('psn_code', $request->get('redirect_psn_code'));
+    }
+
 }

@@ -69,6 +69,7 @@ class PersonIDLoginCheckController extends Controller
         session([config('constants.SESSION_KEY_PSN_HIDE_FLG')=>$school->psn_hide_flg]);
         session([config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')=>$school->schname_hide_flg]);
         session([config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')=>$school->psncard_regist_flg]);
+        session([config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')=>$school->psn_psw_update_flg]);
         session([config('constants.SESSION_KEY_SCHADMINKBN')=>config('constants.ADMIN_KBN_GENERAL')]);      // 管理権限は一般を設定 
         
         
