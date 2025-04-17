@@ -35,6 +35,8 @@ class JmasterRegistRequest extends FormRequest
             'psn_hide_flg'   => 'required|digits:1|in:0,1',
             'schname_hide_flg' => 'required|digits:1|in:0,1',
             'psncard_regist_flg' => 'required|digits:1|in:0,1',
+            'psn_psw_update_flg' => 'required|digits:1|in:0,1',
+            'cls_grade_csv_flg'  => 'required|digits:1|in:0,1',
             'permit_ip'       => ['nullable',new IPAddressFormat],
             'password'       => 'required|only_alpha_num|between:8,50|confirmed', //  正規表現（半角英字1文字以上 かつ 半角数字1文字以上）で仮設定、記号追加の場合修正
             'password_confirmation' => 'required'

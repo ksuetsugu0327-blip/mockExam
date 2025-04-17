@@ -160,7 +160,8 @@ class SurrogateLoginController extends Controller
         $request->session()->put(config('constants.SESSION_KEY_PSN_HIDE_FLG'),$class->psn_hide_flg);        
         $request->session()->put(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG'),$class->schname_hide_flg);        
         $request->session()->put(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG'),$class->psncard_regist_flg);
-        
+        $request->session()->put(config('constants.SESSION_KEY_CLS_GRADE_CSV_FLG'),$class->cls_grade_csv_flg);
+        //dd($request->session());
         // セッションの教室マスタ検索条件をクリア
         $request->session()->forget(config('constants.SESSION_KEY_MCLASS_SEARCH_CONDITION'));
        
@@ -231,6 +232,7 @@ class SurrogateLoginController extends Controller
             config('constants.SESSION_KEY_PSN_HIDE_FLG') => $request->session()->get(config('constants.SESSION_KEY_PSN_HIDE_FLG')),
             config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG') => $request->session()->get(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')),
             config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG') => $request->session()->get(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')),
+            config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')=> $request->session()->get(config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG')),
         ];
         $request->session()->put(config('constants.SESSION_KEY_SURROGATE_LOGIN_PERSON'),$adminInfo);
 
@@ -248,7 +250,8 @@ class SurrogateLoginController extends Controller
         $request->session()->put(config('constants.SESSION_KEY_PSN_HIDE_FLG'),$person->psn_hide_flg);
         $request->session()->put(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG'),$person->schname_hide_flg);
         $request->session()->put(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG'),$person->psncard_regist_flg);
-        
+        $request->session()->put(config('constants.SESSION_KEY_PSN_PSW_CHANGE_FLG'),$person->psn_psw_update_flg);
+
         // セッションの生徒マスタ検索条件をクリア
         $request->session()->forget(config('constants.SESSION_KEY_MPERSON_SEARCH_CONDITION'));
        

@@ -32,6 +32,8 @@ class JmasterCorrectionRequest extends FormRequest
             'psn_hide_flg'    => 'required|digits:1|in:0,1',
             'schname_hide_flg'=> 'required|digits:1|in:0,1',
             'psncard_regist_flg'=> 'required|digits:1|in:0,1',
+            'psn_psw_update_flg'=> 'required|digits:1|in:0,1',
+            'cls_grade_csv_flg' => 'required|digits:1|in:0,1',
             'permit_ip'       => ['nullable',new IPAddressFormat]
         ];
     }

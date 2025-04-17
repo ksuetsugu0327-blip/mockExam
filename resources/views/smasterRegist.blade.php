@@ -114,7 +114,21 @@
                             </p>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <p>メールアドレス</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" style="width: 220px;" type="text" name="mail_address" id="mail_address" value="" maxlength="50">
+                                <br>
+                                @if($errors->has('mail_address'))<span class="error">{{ $errors->first('mail_address') }}</span> @endif
+                                @if(session('mail_update_failed'))<span class="error">{!! nl2br(e(session('mail_update_failed'))) !!}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
                 </table>
+                <div style="margin:2px 0 0 115px;width:500px;">※メールアドレスは生徒パスワードが変更可能な塾の場合のみ入力してください。</div>
                 <div class="sbuttons">
                     <p class="cell"><input class="button bulu" type="submit" name="submit" value="登録"></p>
                     <p class="cell"><input id="inputClear" class="button green" type="button" name="reset" value="クリア"></p>

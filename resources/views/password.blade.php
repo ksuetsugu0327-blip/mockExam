@@ -11,42 +11,43 @@
 @include('layout.header')
 
 @section('content')
-<div id="site_content" class="unlogin">
-    <div class="content_ps">
-        <h1>パスワード</h1>
-        <div id="un_login" class="unlogin">
-　　　 　　　 @if ($errors->has('message'))
+<div id="site_content" class="logtouroku">
+    <div id="content">
+        <h1>本パスワード登録</h1>
+            @if ($errors->has('message'))
       		  <div class="error_message">
-           　　　　 	<strong>{{ $errors->first('message') }}</strong>
+             	<strong>{{ $errors->first('message') }}</strong>
         	  </div>
-    　　    @endif
+            @endif
             
             <form action="{{route('changePassword.register',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])}}" method="post">
                 @csrf
                 <input type="hidden" id="psn_code" name="psn_code" value="{{$psn_code}}" />
-                <table style="width: 100%;">
+                <div id="log_touroku" class="login">
+                <table>
+                    <tbody>
                     <tr><td>塾生ID</td><td>{{$psn_code}}</td></tr>
                     <tr>
-                        <td>&nbsp;</td>
-                        <td style="font-size: 70%;">
-                            半角英数8～50文字を指定してください。<br>
-                            （英数字混在推奨）
+                        <td style="padding:6px 0 0 0;">&nbsp;</td>
+                        <td style="font-size: 70%;padding:6px 0 0 0;">
+                            パスワードは、半角英数12～50文字以内で<br>
+                            半角の英大文字、英小文字、数字を混在させてください。
                         </td>
                     </tr>
                     <tr><td style="padding:0 6px 1em 0">新しいパスワード</td>
                         <td style="padding:0 0 1em 0">
-                            <input id="password" type="password" name="password" required autofocus>
+                            <input id="password" type="password" name="password" value="{{old('password')}}" required autofocus>
                             @if ($errors->has('password'))
                                 <br/>
                                 <span class="error">
-                                    <strong>{{ $errors->first('password') }}</strong>
+                                    <strong>{!! nl2br(e ($errors->first('password'))) !!}</strong>
                                 </span>
                             @endif
                         </td>
                     </tr>
                     <tr><td>新しいパスワード確認</td>
                         <td>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required>
+                            <input id="password_confirmation" type="password" name="password_confirmation" value="{{old('password_confirmation')}}" required>
                             @if ($errors->has('password_confirm'))
                                 <br/>
                                 <span class="error">
@@ -55,11 +56,49 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <td style="padding:1em 0 0 0;">&nbsp;</td>
+                        <td><input class="show-password" type="checkbox" name="hide" value="" style="margin-top:10px"><span style="margin-left:5px">パスワードを表示する</span></td>
+                    </tr>
+                    @if($psn_psw_update_flg)
+                    <tr>
+                        <td style="padding:1em 0 0 0;">&nbsp;</td>
+                        <td style="font-size: 70%;padding:1em 0 0 0;">
+                            パスワードを忘れた場合に<br>仮パスワードを再発行するためのメールアドレスを入力してください。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0 6px 1em 0">メールアドレス&nbsp;</td>
+                        <td style="padding:0 0 1em 0">
+                            <input type="text" name="email" value="{{old('email')}}" required autofocus/>
+                            @if ($errors->has('email'))
+                                <br/>
+                                <span class="error">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:150px">メールアドレス(確認)&nbsp;</td>
+                        <td>
+                            <input type="text" name="email_confirmation" value="{{old('email_confirmation')}}" required/>
+                            @if ($errors->has('email_confirmation'))
+                                <br/>
+                                <span class="error">
+                                    <strong>{{ $errors->first('email_confirmation') }}</strong>
+                                </span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endif
+                  </tbody>
                 </table>
                 <div><input class="button  bulu" type="submit" name="register" value="登録" /></div>
+                </div>
             </form>
 
-        </div>
+   
     </div>
 </div>
 @endsection

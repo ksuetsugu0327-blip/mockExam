@@ -26,6 +26,7 @@ class MPerson extends Authenticatable
         'birthlow4',
         'postallow4',
         'tellow4',
+        'mail_address',
         'password',
         'temppassword',
         'hsc_code'

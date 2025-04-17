@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\MSchoolService;
 use App\Services\MPersonService;
 use App\Utils\FileUtil;
 use App\Utils\PasswordUtil;
@@ -15,12 +16,14 @@ class SmasterListController extends Controller {
     /**
      * コンストラクタ
      * @param MPersonService $mPersonService 個人マスタサービス
+     * @param MSchoolService $mSchoolService 塾マスタサービス
      */
-    public function __construct(MPersonService $mPersonService){
+    public function __construct(MPersonService $mPersonService, MSchoolService $mSchoolService){
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
                 .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));        
         $this->service = $mPersonService;
+        $this->mSchoolService = $mSchoolService;
     }
 
     /**
@@ -30,7 +33,6 @@ class SmasterListController extends Controller {
      * @return view
      */
     public function index(Request $request) {
-
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -148,16 +150,22 @@ class SmasterListController extends Controller {
      * @param Request $request  リクエスト
      */
     public function downloadCsv(Request $request){
-         $outputFlg = 0;
+        $outputFlg = 0;
+        $isAdmin = false;
         // 出力内容設定とヘッダの設定
         if(auth(config('constants.GUARD_ADMIN'))->check() && !session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))){
             //代理ログインしていない管理者の場合
+            $isAdmin = true;
             $outputFlg  = 1;
-            $csvHeader =  ['塾生ID', '氏名', '塾', '教室', '仮パスワード'];
+            $csvHeader =  ['塾生ID', '氏名', '塾', '教室','仮パスワード'];
         }elseif(
                 (auth(config('constants.GUARD_ADMIN'))->check() && session()->has(config('constants.SESSION_KEY_SURROGATE_LOGIN_SCHOOL'))) || 
                  auth(config('constants.GUARD_SCHOOL'))->check()
         ){
+            //管理者の場合
+            if(auth(config('constants.GUARD_ADMIN'))->check()){
+                $isAdmin = true;
+            }
             //塾アカウント または 塾アカウントで代理ログインしている管理者
             $outputFlg = 2;
             $csvHeader =  ['塾生ID', '氏名', '教室コード', '教室', '仮パスワード'];
@@ -174,32 +182,59 @@ class SmasterListController extends Controller {
             // 出力用に編集
             $outputDataList = [];
             foreach($persons as $person){
+                $school = $this->mSchoolService->selectOneByKey($person->sch_code)->first();
+                $psnPswChangeFlag = $school->psn_psw_update_flg;
+
                 if($outputFlg == 1){
+                    $csvHeader =  ['塾生ID', '氏名', '塾', '教室', 'メールアドレス', '仮パスワード'];
                     array_push($outputDataList,[
                         'psn_code'     => $person->psn_code,
                         'psn_name'     => $person->psn_name,
                         'sch_name'     => $person->sch_name,
                         'cls_name'     => $person->cls_name,
+                        'mail_address' => $person->mail_address,
                         'temppassword' => PasswordUtil::decryptString($person->temppassword)
                     ]);
                 }
                 elseif($outputFlg == 2){
-                    array_push($outputDataList,[
-                        'psn_code'     => $person->psn_code,
-                        'psn_name'     => $person->psn_name,
-                        'cls_code'     => $person->cls_code,
-                        'cls_name'     => $person->cls_name,
-                        'temppassword' => PasswordUtil::decryptString($person->temppassword)
-                    ]);
-                    
+                    if($psnPswChangeFlag || $isAdmin){
+                        $csvHeader =  ['塾生ID', '氏名', '教室コード', '教室', 'メールアドレス', '仮パスワード'];
+                        array_push($outputDataList,[
+                            'psn_code'     => $person->psn_code,
+                            'psn_name'     => $person->psn_name,
+                            'cls_code'     => $person->cls_code,
+                            'cls_name'     => $person->cls_name,
+                            'mail_address' => $person->mail_address,
+                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
+                        ]);
+                    }
+                    else{
+                        array_push($outputDataList,[
+                            'psn_code'     => $person->psn_code,
+                            'psn_name'     => $person->psn_name,
+                            'cls_code'     => $person->cls_code,
+                            'cls_name'     => $person->cls_name,
+                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
+                        ]);
+                    }
                 }
                 else{
-                    array_push($outputDataList,[
-                        'psn_code'     => $person->psn_code,
-                        'psn_name'     => $person->psn_name,
-                        'temppassword' => PasswordUtil::decryptString($person->temppassword)
-                    ]);
-                    
+                    if($psnPswChangeFlag){
+                        $csvHeader =  ['塾生ID', '氏名', 'メールアドレス', '仮パスワード'];
+                        array_push($outputDataList,[
+                            'psn_code'     => $person->psn_code,
+                            'psn_name'     => $person->psn_name,
+                            'mail_address' => $person->mail_address,
+                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
+                        ]);
+                    }
+                    else{
+                        array_push($outputDataList,[
+                            'psn_code'     => $person->psn_code,
+                            'psn_name'     => $person->psn_name,
+                            'temppassword' => PasswordUtil::decryptString($person->temppassword)
+                        ]);    
+                    }
                 }
             }
         }else{

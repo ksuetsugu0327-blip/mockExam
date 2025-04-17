@@ -144,6 +144,10 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
         $mSchool->schname_hide_flg = $school['schname_hide_flg'];
         // 個人登録票利用フラグ
         $mSchool->psncard_regist_flg = $school['psncard_regist_flg'];
+        // 生徒パスワード変更可能フラグ
+        $mSchool->psn_psw_update_flg = $school['psn_psw_update_flg'];
+        // 教室成績データCSVデータダウンロード可能フラグ
+        $mSchool->cls_grade_csv_flg = $school['cls_grade_csv_flg'];
         // アクセス許可IP
         $mSchool->permit_ip = $school['permit_ip'];
         // パスワード(ハッシュ化)
@@ -188,6 +192,10 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
             $mSchool->schname_hide_flg = $school['schname_hide_flg'];
             // 個人登録票利用フラグ
             $mSchool->psncard_regist_flg = $school['psncard_regist_flg'];
+            // 生徒パスワード変更可能フラグ
+            $mSchool->psn_psw_update_flg = $school['psn_psw_update_flg'];
+            // 教室成績データCSVデータダウンロード可能フラグ
+            $mSchool->cls_grade_csv_flg = $school['cls_grade_csv_flg'];
             // アクセス許可IP
             $mSchool->permit_ip = $school['permit_ip'];
             // パスワード更新有無判定

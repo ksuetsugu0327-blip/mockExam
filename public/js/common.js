@@ -56,6 +56,15 @@ $(function () {
         $('#exam_upload_loading').hide();
     })
 
+    $(".show-password").on('click', function(event){
+        $("input[name*='password']").each(function(){
+            if (this.type === "password") {
+                this.type = "text";
+            } else {
+                this.type = "password";
+            }
+        });
+    });
 });
 
 
