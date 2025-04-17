@@ -34,12 +34,14 @@ class ManagementDocController extends Controller {
      * @return view
      */
     public function index(Request $request,int $sch_code) {
+        //dd($request);
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
         $current = str_replace('/list','',url()->current());
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
+        $clsGradeCsvFlag = $request->session()->get(config('constants.SESSION_KEY_CLS_GRADE_CSV_FLG'));
         
         if($request->session()->has(config('constants.SESSION_KEY_MANAGEMENTDOC_LIST'))){
 
@@ -72,7 +74,7 @@ class ManagementDocController extends Controller {
             if ($dir > 0){
                 $param["dir"] = true;
             }
-            if (($csv_dir > 0)&&empty($clsCode)){
+            if ($clsGradeCsvFlag && $csv_dir > 0){
                 $param["csv_dir"] = true;
             }
             
@@ -90,8 +92,13 @@ class ManagementDocController extends Controller {
             $param["zip"] = $zipInfo;
             $param["zipfilepass"] = isset($zipInfo) && isset($zipInfo->zipfilepass) ? $this->service->decrypt($zipInfo->zipfilepass) : null ;
             
-            $input['category_kbn'] = 'csv';
             // CSV zip情報取得
+            if(!empty($clsCode)){
+                $input['category_kbn'] = 'csv_cls';
+            }
+            else{
+                $input['category_kbn'] = 'csv';
+            }
             $zipInfo_csv = $this->service->zipDownloadPath($input);
             $param["zip_csv"] = $zipInfo_csv;
             $param["zipfilepass_csv"] = isset($zipInfo_csv) && isset($zipInfo_csv->zipfilepass) ? $this->service->decrypt($zipInfo_csv->zipfilepass) : null ;
@@ -115,10 +122,10 @@ class ManagementDocController extends Controller {
      * @return view
      */
     public function open(Request $request,int $sch_code,int $index) {
-        
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
-        
+        $clsGradeCsvFlag = $request->session()->get(config('constants.SESSION_KEY_CLS_GRADE_CSV_FLG'));
+   
         // 試験回数一覧
         $managementList = $request->session()->get(config('constants.SESSION_KEY_MANAGEMENT_LIST'));
         // テスト情報
@@ -147,7 +154,7 @@ class ManagementDocController extends Controller {
         if ($dir > 0){
             $param["dir"] = true;
         }
-        if (($csv_dir > 0)&&empty($clsCode)){
+        if ($clsGradeCsvFlag && $csv_dir > 0){
             $param["csv_dir"] = true;
         }
 
@@ -165,9 +172,14 @@ class ManagementDocController extends Controller {
         $zipInfo = $this->service->zipDownloadPath($input);
         $param["zip"] = $zipInfo;
         $param["zipfilepass"] = isset($zipInfo) && isset($zipInfo->zipfilepass) ? $this->service->decrypt($zipInfo->zipfilepass) : null ;
-
-        $input['category_kbn'] = 'csv';
+        
         // CSV zip情報取得
+        if(!empty($clsCode)){
+            $input['category_kbn'] = 'csv_cls';
+        }
+        else{
+            $input['category_kbn'] = 'csv';
+        }
         $zipInfo_csv = $this->service->zipDownloadPath($input);
         $param["zip_csv"] = $zipInfo_csv;
         $param["zipfilepass_csv"] = isset($zipInfo_csv) && isset($zipInfo_csv->zipfilepass) ? $this->service->decrypt($zipInfo_csv->zipfilepass) : null ;
@@ -244,7 +256,12 @@ class ManagementDocController extends Controller {
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
         if($request->has('CATEGORY_KBN_CSV'))
-            $category_kbn = "csv";
+            if (!empty($clsCode)){
+                $category_kbn = "csv_cls";
+            }
+            else{
+                $category_kbn = "csv";
+            }
         else
             $category_kbn =  !isset($clsCode) ? config('constants.CATEGORY_KBN_SCH') : config('constants.CATEGORY_KBN_CLS');
         //dd($category_kbn);

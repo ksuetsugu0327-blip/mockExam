@@ -33,6 +33,8 @@ class MSchool  extends Authenticatable
         'psn_hide_flg',
         'schname_hide_flg',
         'psncard_regist_flg',
+        'psn_psw_update_flg',
+        'cls_grade_csv_flg',
         'permit_ip'
     ];
 
