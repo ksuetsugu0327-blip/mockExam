@@ -14,10 +14,9 @@
 <div id="site_content" class="logtouroku">
     <div id="content">
         <h1>本パスワード登録</h1>
-
             @if ($errors->has('message'))
       		  <div class="error_message">
-           　　　　 	<strong>{{ $errors->first('message') }}</strong>
+             	<strong>{{ $errors->first('message') }}</strong>
         	  </div>
             @endif
             

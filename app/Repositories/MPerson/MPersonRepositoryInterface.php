@@ -30,6 +30,15 @@ interface MPersonRepositoryInterface {
      * @return int id   更新対象のid
      */
     public function registerPassword(int $schCode,string $psnCode,string $password);
+
+    /**
+     * 仮パスワード更新処理
+     * @param int $schCode 塾コード
+     * @param string $psnCode 個人コード
+     * @param string $tempPass 仮パスワード
+     * @return int id 更新データのid
+     */
+    public function registerTempPassword(int $schCode, string $psnCode, string $tempPass);
     
     /**
      * 引数指定での検索処理( 検索画面用 ）

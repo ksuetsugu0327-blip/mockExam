@@ -48,6 +48,7 @@
                 <div><a href="javascript:form1.submit()">パスワードを忘れた方</a></div>
             </form>
             @endif
+
         </div>
     </div>
 </div>
