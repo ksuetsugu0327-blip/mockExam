@@ -916,6 +916,7 @@ $(document).ready(function() {
                     'dptsub': $('#search_dept_subject_div').val(),
                     'unvcd': $('#dtl_university_cd').val(),
                     'udpnm': $('#search_dept_name').val(),
+                    'usubnm': $('#search_subj_name').val(),
                     'next': $('#search_dept_offset_end').val()
                 };
             }
