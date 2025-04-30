@@ -278,6 +278,7 @@ class UnivCodeSearchController extends Controller
                     'univHeaderID' => $request->get('unvhd'),
                     'univCode' => $request->get('unvcd'),
                     'deptName' => $request->get('udpnm'),
+                    'subjName' => $request->get('usubnm'),
                 ];
                 
                 return $this->getDepList($mode, $conditions, $offset_end, $deptSubjDiv);

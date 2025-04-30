@@ -582,7 +582,6 @@ $(document).ready(function() {
         $('a[id^="univ_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
-                    $('#msg_area').hide();
                     let nameSearch = $('#name_search').prop('checked');
                     let conditionalSearch = $('#conditional_search').prop('checked');
 
@@ -596,7 +595,8 @@ $(document).ready(function() {
                             'unvhd': $('#search_university_code_head_id').val(),
                             'dptsub': $('#search_dept_subject_div').val(),
                             'unvcd': code[2],
-                            'udpnm': $('#search_dept_name').val()
+                            'udpnm': $('#search_dept_name').val(),
+                            'usubnm': $('#search_subj_name').val()
                         }
                     }
                     if (conditionalSearch) {  //条件検索
@@ -641,6 +641,7 @@ $(document).ready(function() {
                                 $('#search_univ_num').val(data_head['univ_num']);
                                 $('#search_dept_num').val(data_head['dept_num']);
                                 $('#search_subj_num').val(data_head['subj_num']);
+                                $('#result_text').html('');
                             }
                         }
                         else{
@@ -663,7 +664,6 @@ $(document).ready(function() {
         });
 
         $('#univ_more').on('click', function(){
-            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
             let mode = 0;
@@ -805,7 +805,7 @@ $(document).ready(function() {
         }
 
         $('#univ_back').on('click', function(){
-            $('#msg_area').hide();
+            $('#result_text').html('');
             $('#univ_list').show();
             let curr_univ_code =  $('#dtl_university_cd').val();
             let target_univ_tag = $('#univ_dtl_'+curr_univ_code);
@@ -820,7 +820,6 @@ $(document).ready(function() {
         $('a[id^="dept_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
-                    $('#msg_area').hide();
                     let nameSearch = $('#name_search').prop('checked');
                     let conditionalSearch = $('#conditional_search').prop('checked');
                     
@@ -883,6 +882,7 @@ $(document).ready(function() {
                                 $('#search_subj_num').val(data_head['subj_num']);
                                 // $('#result_cnt').html(`学科 ${data_head['subj_num']}件(大学 ${data_head['univ_num']}校・学部 ${data_head['univ_num']}学部)`);
                                 // $('#msg_area').show();
+                                $('#result_text').html('');
                             }
                         }
                         else{
@@ -905,7 +905,6 @@ $(document).ready(function() {
         });
 
         $('#dept_more').on('click', function(){
-            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
 
@@ -1039,7 +1038,7 @@ $(document).ready(function() {
         }
 
         $('#dept_back').on('click', function(){
-            $('#msg_area').hide();
+            $('#result_text').html('');
             $('#dept_list').show();
             let curr_univ_code = $('#dtl_university_cd').val();
             let curr_dept_code = $('#dtl_department_cd').val();
@@ -1053,7 +1052,6 @@ $(document).ready(function() {
         });
 
         $('#subj_more').on('click', function(){
-            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
             

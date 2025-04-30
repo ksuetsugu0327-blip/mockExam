@@ -363,6 +363,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
                 return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
             })
+            ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
+                return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
+            })
             ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                 return $query->where(function ($query) use ($conditions) {
                     $query->where('dept_line_cd1', $conditions['deptLineCode'])
