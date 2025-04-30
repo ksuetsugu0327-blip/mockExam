@@ -36,7 +36,15 @@ class PersonReportCardListController extends Controller
             $psnId = (string)$request->session()->get(config('constants.SESSION_KEY_PSNCODE'));
             // 検索
             $selectList = $this->service->search($schCode,$psnId);
-            $resultCount = isset($selectList) ? count($selectList) : 0;
+            // 生徒公開フラグが 1 のレコード数をカウントする
+            $resultCount = 0;
+            if (isset($selectList)) {
+                foreach ($selectList as $item) {
+                    if ($item['psn_report_publish_flg'] == '1') {
+                        $resultCount++;
+                    }
+                }
+            }
             if($resultCount==0){
                 // 該当データがない場合
                 $message = trans('message.SEARCH_NO_DATA');

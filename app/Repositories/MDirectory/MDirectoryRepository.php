@@ -75,8 +75,8 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
             $query->where('category_kbn', '=', $conditions["category_kbn"]);
         }
         
-        $query->select('year','cnttest','grade')
-                ->groupBy('year','cnttest','grade')
+        $query->select('year','cnttest','grade','psn_report_publish_flg')
+                ->groupBy('year','cnttest','grade','psn_report_publish_flg')
                 ->orderBy('year','desc')
                 ->orderBy('cnttest','desc')
                 ->orderBy('grade','asc');
@@ -284,7 +284,7 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
                              ->where('cmt_dir.path_kbn', '=', $fileKbn)
                              ->where('cmt_dir.category_kbn', '=', $cmt);
                     })
-                    ->select('psn_dir.*', 'dat_dir.fullpath as datfullpath' ,'cmt_dir.fullpath as cmtfullpath')
+                    ->select('psn_dir.*', 'dat_dir.fullpath as datfullpath' ,'cmt_dir.fullpath as cmtfullpath','psn_dir.psn_report_publish_flg')
                     ->where('psn_dir.sch_code', $sch_code)
                     ->where('psn_dir.psn_code', $psn_code)
                     ->where('psn_dir.path_kbn', $fileKbn)
@@ -380,5 +380,33 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
                             ->where('category_kbn', '=', $psn);
 
         return ($query->count() > 0) ? 1 : 0;
+    }
+
+    /**
+     * 個人成績表公開フラグ更新
+     * @param array $conditions 検索条件
+     */
+    public function updatePsnReportPublishFlg(array $conditions)
+    {
+        // Enable query logging
+        //DB::enableQueryLog();
+        $psn = (string)config('constants.FILE_KBN_PSN');
+        $cmt = (string)config('constants.FILE_KBN_CMT');
+        $dat = (string)config('constants.FILE_KBN_DAT');
+        
+        // Your update query
+        $this->MDirectory::where('sch_code', '=', $conditions['sch_code'])
+                        ->when(isset($conditions['cls_code']), function($query) use ($conditions) {
+                            return $query->where('cls_code', '=', $conditions['cls_code']);
+                        })
+                        ->where('year', '=', $conditions['year'])
+                        ->where('cnttest', '=', $conditions['cnttest'])
+                        ->where('grade', '=', $conditions['grade'])
+                        ->where('path_kbn', '=', $conditions['path_kbn'])
+                        ->whereIn('category_kbn', [$psn, $cmt, $dat])
+                        ->update(['psn_report_publish_flg' => $conditions['psn_report_publish_flg']]);
+
+        // Retrieve and display the query log
+        //dd($conditions, DB::getQueryLog());
     }
 }

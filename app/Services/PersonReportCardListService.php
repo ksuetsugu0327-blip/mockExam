@@ -94,6 +94,7 @@ class PersonReportCardListService {
                 'grade' => $entry->grade,
                 'testName' => $setStr,
                 'cnttest' => $entry->cnttest,
+                'psn_report_publish_flg' => $entry->psn_report_publish_flg,
                 'cmtfullpath' => $entry->cmtfullpath,
                 'datfullpath' => $entry->datfullpath,
                 config('constants.FILE_KBN_PSN') => $entry,

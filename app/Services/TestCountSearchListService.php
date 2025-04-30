@@ -46,12 +46,12 @@ class TestCountSearchListService {
         
         // 検索処理
         $directoryGrp = $this->selectList($conditions);
-        
+
         if($directoryGrp->count() == 0) return null;
         
         // テスト回数を変換
         $screenList = $this->changeTestCount($directoryGrp,$conditions);
-        
+
         return $screenList;
     }
     
@@ -85,6 +85,7 @@ class TestCountSearchListService {
                 "grade" => $entry->grade,
                 "testName" => $setStr,
                 "cnttest" => $entry->cnttest,
+                "psn_report_publish_flg" => $entry->psn_report_publish_flg,
             );
         }
         
@@ -97,5 +98,12 @@ class TestCountSearchListService {
         }
     
         return $returnArray;
+    }
+
+    /**
+     * 試験公開フラグ更新
+     */
+    public function updatePsnReportPublishFlg(array $conditions){
+        return $this->repositoryMDirectory->updatePsnReportPublishFlg($conditions);
     }
 }

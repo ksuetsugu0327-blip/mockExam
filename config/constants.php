@@ -70,6 +70,8 @@ return[
     'SESSION_KEY_SCH_NAME_HIDE_FLG' => 'SCH_NAME_HIDE_FLG',
     // 個人登録票利用フラグ
     'SESSION_KEY_PSN_CARD_REGIST_FLG' => 'PSN_CARD_REGIST_FLG',
+    // 個人成績表公開フラグ
+    'SESSION_KEY_PSN_REPORT_PUBLISH_FLG' => 'PSN_REPORT_PUBLISH_FLG',
     // 生徒パスワード変更可能フラグ
     'SESSION_KEY_PSN_PSW_CHANGE_FLG' => 'PSN_PSW_CHANGE_FLG',
     // 教室成績データCSVダウンロード可能フラグ
@@ -156,6 +158,9 @@ return[
     // 個人登録票利用フラグ　0:非表示 1:表示
     'PSN_CARD_HIDE_FLG' => '0',
     'PSN_CARD_NO_HIDE_FLG' => '1',
+    // 個人成績表公開フラグ　0:非表示 1:表示
+    'PSN_REPORT_PUBLISH_USE_FLG' => '1',
+    'PSN_REPORT_PUBLISH_NOT_USE_FLG' => '0',
     // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
     'PSN_CHANGE_PW_HIDE_FLG' => '0',
     'PSN_CHANGE_PW_NO_HIDE_FLG' => '1',

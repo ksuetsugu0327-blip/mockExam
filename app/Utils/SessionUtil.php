@@ -34,6 +34,8 @@ class SessionUtil {
         $request->session()->forget(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG'));
         // 個人登録票利用フラグ
         $request->session()->forget(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG'));
+        // 個人成績表公開フラグ
+        $request->session()->forget(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG'));
         // 塾生コード
         $request->session()->forget(config('constants.SESSION_KEY_PSNCODE'));
         // 塾生氏名
