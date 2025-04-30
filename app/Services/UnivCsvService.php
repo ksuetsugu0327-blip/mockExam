@@ -181,7 +181,7 @@ class UnivCsvService {
                         'bail|required|string|size:4',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           =>  //学部表示順
-                        'bail|digits_between:1,9',
+                        'bail|required|digits_between:1,9',
 
                     config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          =>  //学部名
                         'bail|required|string|max:40',
@@ -237,7 +237,7 @@ class UnivCsvService {
                         'bail|required|string|size:4',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_SEQ.NAME')           =>  //学部表示順
-                        'bail|digits_between:1,9',
+                        'bail|required|digits_between:1,9',
                     
                     config('constants.UNIV_CSV_HEADER.DEPT_NAME.NAME')          =>  //学部名
                         'bail|required|string|max:40',
