@@ -94,14 +94,16 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
-                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where(function($q) use ($conditions) {
+                        $q->where(DB::raw("university_name COLLATE utf8mb4_general_ci"), 'like', '%'.$conditions['univName'].'%')
+                            ->orWhere(DB::raw("university_name_new COLLATE utf8mb4_general_ci"), 'like', '%'.$conditions['univName'].'%');
+                    });
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
-                    return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
+                    return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
                 })
                 ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
-                    return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
+                    return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
                 })
                 ->when(array_key_exists('uInst2', $conditions) && isset($conditions['uInst2']), function ($query) use ($conditions) {
                     return $query->where('install_div', $conditions['uInst2']);
@@ -111,7 +113,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                     return $query->where(function ($query) use ($conditions) {
-                        return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                        $query->where('dept_line_cd1', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd4', $conditions['deptLineCode'])
@@ -131,6 +133,9 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                         return $query->where('common_test_use', '=', 1);
                     }
                 });
+                
+                // \Log::info('SQL: ' . $subQuery->toSql());
+                // \Log::info('Bindings: ' . json_encode($subQuery->getBindings()));
 
         $count = DB::table(DB::raw("({$subQuery->toSql()}) as sub_t1"))
                     ->mergeBindings($subQuery->getQuery()) // you need to pass the bindings to avoid SQL injection
@@ -152,14 +157,16 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
-                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where(function($q) use ($conditions) {
+                        $q->where(DB::Raw('university_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['univName'].'%')
+                            ->orWhere(DB::Raw('university_name_new COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['univName'].'%');
+                    });
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
-                    return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
+                    return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
                 })
                 ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
-                    return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
+                    return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
                 })
                 ->when(array_key_exists('uInst2', $conditions) && isset($conditions['uInst2']), function ($query) use ($conditions) {
                     return $query->where('install_div', $conditions['uInst2']);
@@ -169,7 +176,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                     return $query->where(function ($query) use ($conditions) {
-                        return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                        $query->where('dept_line_cd1', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd4', $conditions['deptLineCode'])
@@ -213,14 +220,16 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                     return $query->where('install_div', $conditions['uInst1']);
                 })
                 ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                    return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
-                                ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
+                    return $query->where(function($q) use ($conditions) {
+                        $q->where(DB::Raw('university_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['univName'].'%')
+                            ->orWhere(DB::Raw('university_name_new COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['univName'].'%');
+                    });
                 })
                 ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
-                    return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
+                    return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
                 })
                 ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
-                    return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
+                    return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
                 })
                 ->when(array_key_exists('uInst2', $conditions) && isset($conditions['uInst2']), function ($query) use ($conditions) {
                     return $query->where('install_div', $conditions['uInst2']);
@@ -230,7 +239,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 })
                 ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                     return $query->where(function ($query) use ($conditions) {
-                        return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                        $query->where('dept_line_cd1', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                             ->orWhere('dept_line_cd4', $conditions['deptLineCode'])
@@ -266,8 +275,8 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
     }
 
     public function getUnivCodeList($conditions){
-
-        return $this->MUnivCode::select('university_cd', 'university_name')
+        
+        $query = $this->MUnivCode::select('university_cd', 'university_name')
             ->leftJoin('m_university_code_head as m_univ_head', 'm_univ_head.id', 'university_code_head_id')
             ->when(array_key_exists('univHeaderID', $conditions) && isset($conditions['univHeaderID']), function ($query) use ($conditions) {
                 return $query->where('university_code_head_id', $conditions['univHeaderID']);
@@ -276,14 +285,16 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('install_div', $conditions['uInst1']);
             })
             ->when(array_key_exists('univName', $conditions) && isset($conditions['univName']), function ($query) use ($conditions) {
-                return $query->where('university_name', 'like', '%'.$conditions['univName'].'%')
-                            ->orWhere('university_name_new', 'like', '%'.$conditions['univName'].'%');
+                return $query->where(function($q) use ($conditions) {
+                    $q->where(DB::raw("university_name COLLATE utf8mb4_general_ci"), 'like', '%'.$conditions['univName'].'%')
+                        ->orWhere(DB::raw("university_name_new COLLATE utf8mb4_general_ci"), 'like', '%'.$conditions['univName'].'%');
+                });
             })
             ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
-                return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
+                return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
             })
             ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
-                return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
+                return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
             })
             ->when(array_key_exists('uInst2', $conditions) && isset($conditions['uInst2']), function ($query) use ($conditions) {
                 return $query->where('install_div', $conditions['uInst2']);
@@ -293,7 +304,7 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             })
             ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                 return $query->where(function ($query) use ($conditions) {
-                    return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                    $query->where('dept_line_cd1', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd4', $conditions['deptLineCode'])
@@ -324,8 +335,12 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
             ->limit(config('constants.UNVC_PER_PAGE'))
             ->when(array_key_exists('offset', $conditions) && isset($conditions['offset']), function ($query) use ($conditions) {
                 return $query->offset($conditions['offset']);
-            })
-            ->get();
+            });
+
+        // \Log::info('SQL: ' . $query->toSql());
+        // \Log::info('Bindings: ' . json_encode($query->getBindings()));
+
+        return $query->get();
     }
 
     public function getDeptList($conditions, $deptSubjDiv){
@@ -346,11 +361,11 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('university_cd', '=', $conditions['univCode']);
             })
             ->when(array_key_exists('deptName', $conditions) && isset($conditions['deptName']), function ($query) use ($conditions) {
-                return $query->where('department_name', 'like', '%'.$conditions['deptName'].'%');
+                return $query->where(DB::Raw('department_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['deptName'].'%');
             })
             ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                 return $query->where(function ($query) use ($conditions) {
-                    return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                    $query->where('dept_line_cd1', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd4', $conditions['deptLineCode'])
@@ -409,11 +424,11 @@ class MUniversityCodeRepository implements MUniversityCodeRepositoryInterface{
                 return $query->where('department_cd', '=', $conditions['deptCode']);
             })
             ->when(array_key_exists('subjName', $conditions) && isset($conditions['subjName']), function ($query) use ($conditions) {
-                return $query->where('subject_name', 'like', '%'.$conditions['subjName'].'%');
+                return $query->where(DB::Raw('subject_name COLLATE utf8mb4_general_ci'), 'like', '%'.$conditions['subjName'].'%');
             })
             ->when(array_key_exists('deptLineCode', $conditions) && isset($conditions['deptLineCode']), function ($query) use ($conditions) {
                 return $query->where(function ($query) use ($conditions) {
-                    return $query->where('dept_line_cd1', $conditions['deptLineCode'])
+                    $query->where('dept_line_cd1', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd2', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd3', $conditions['deptLineCode'])
                         ->orWhere('dept_line_cd4', $conditions['deptLineCode'])

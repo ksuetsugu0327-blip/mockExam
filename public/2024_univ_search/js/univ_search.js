@@ -582,6 +582,7 @@ $(document).ready(function() {
         $('a[id^="univ_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
+                    $('#msg_area').hide();
                     let nameSearch = $('#name_search').prop('checked');
                     let conditionalSearch = $('#conditional_search').prop('checked');
 
@@ -644,7 +645,7 @@ $(document).ready(function() {
                         }
                         else{
                             $('#result_cnt').html('学部 0件');
-                            $('#result_text').html('検索条件に該当する大学が見つかりません。');
+                            $('#result_text').html('検索条件に該当する学部が見つかりません。');
                             $('#msg_area').show();
                             var target = $("#msg_area");
                             in_page_link(target);
@@ -662,6 +663,7 @@ $(document).ready(function() {
         });
 
         $('#univ_more').on('click', function(){
+            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
             let mode = 0;
@@ -803,6 +805,7 @@ $(document).ready(function() {
         }
 
         $('#univ_back').on('click', function(){
+            $('#msg_area').hide();
             $('#univ_list').show();
             let curr_univ_code =  $('#dtl_university_cd').val();
             let target_univ_tag = $('#univ_dtl_'+curr_univ_code);
@@ -817,6 +820,7 @@ $(document).ready(function() {
         $('a[id^="dept_dtl"]').each(function(){
             if(!$(this).data('click-event-attached')){
                 $(this).on('click', function(){
+                    $('#msg_area').hide();
                     let nameSearch = $('#name_search').prop('checked');
                     let conditionalSearch = $('#conditional_search').prop('checked');
                     
@@ -883,7 +887,7 @@ $(document).ready(function() {
                         }
                         else{
                             $('#result_cnt').html('学科 0件');
-                            $('#result_text').html('検索条件に該当する大学が見つかりません。');
+                            $('#result_text').html('検索条件に該当する学科が見つかりません。');
                             $('#msg_area').show();
                             var target = $("#msg_area");
                             in_page_link(target);
@@ -901,6 +905,7 @@ $(document).ready(function() {
         });
 
         $('#dept_more').on('click', function(){
+            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
 
@@ -1034,6 +1039,7 @@ $(document).ready(function() {
         }
 
         $('#dept_back').on('click', function(){
+            $('#msg_area').hide();
             $('#dept_list').show();
             let curr_univ_code = $('#dtl_university_cd').val();
             let curr_dept_code = $('#dtl_department_cd').val();
@@ -1047,6 +1053,7 @@ $(document).ready(function() {
         });
 
         $('#subj_more').on('click', function(){
+            $('#msg_area').hide();
             let nameSearch = $('#name_search').prop('checked');
             let conditionalSearch = $('#conditional_search').prop('checked');
             
