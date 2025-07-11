@@ -166,6 +166,7 @@ return [
         'psncard_regist_flg' => '個人登録票利用フラグ',
         'psn_psw_update_flg' => '生徒パスワード変更可能フラグ',
         'cls_grade_csv_flg'  => '教室成績データCSVダウンロード可能フラグ',
+        'psn_report_publish_flg' => '個人成績表公開機能利用フラグ',
 
         'hsc_code' => '高校',
         'univ_code1' => '大学（第1志望）',

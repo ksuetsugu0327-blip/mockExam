@@ -196,6 +196,8 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
             $mSchool->psn_psw_update_flg = $school['psn_psw_update_flg'];
             // 教室成績データCSVデータダウンロード可能フラグ
             $mSchool->cls_grade_csv_flg = $school['cls_grade_csv_flg'];
+            // 個人成績表公開機能利用フラグ
+            $mSchool->psn_report_publish_flg = $school['psn_report_publish_flg'];
             // アクセス許可IP
             $mSchool->permit_ip = $school['permit_ip'];
             // パスワード更新有無判定

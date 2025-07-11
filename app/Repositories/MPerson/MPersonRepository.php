@@ -58,7 +58,8 @@ class MPersonRepository implements MPersonRepositoryInterface{
                      ->select('m_person.id','m_person.sch_code','m_person.cls_code','m_person.psn_code','m_person.name as psn_name','m_person.birthlow4','m_person.postallow4',
                               'm_person.temppassword','m_person.tellow4','m_person.mail_address','m_school.name as sch_name','m_school.testname','m_class.name as cls_name',
                               'm_school.psn_hide_flg','m_school.schname_hide_flg',
-                              'm_school.psncard_regist_flg','m_school.psn_psw_update_flg')
+                              'm_school.psncard_regist_flg','m_school.psn_psw_update_flg',
+                              'm_school.psn_report_publish_flg')
                      ->where('m_person.sch_code', '=', $schCode)
                      ->where('m_person.psn_code', '=', $psnCode)
                      ->get();

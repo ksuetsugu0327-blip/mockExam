@@ -173,6 +173,18 @@
                     </tr>
                     <tr>
                         <td>
+                            <p>個人成績表公開機能利用フラグ</p>
+                        </td>
+                        <td>
+                            <p>
+                                <input class="cell clear" type="text" name="psn_report_publish_flg" value="{{ old('psn_report_publish_flg', $school->psn_report_publish_flg) }}" required maxlength='1'>
+                                <br>
+                                @if($errors->has('psn_report_publish_flg'))<span class="error">{{ $errors->first('psn_report_publish_flg') }}</span> @endif
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <p>アクセス許可IPアドレス</p>
                         </td>
                         <td>

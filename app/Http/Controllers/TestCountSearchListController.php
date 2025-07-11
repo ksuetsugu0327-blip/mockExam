@@ -105,7 +105,7 @@ class TestCountSearchListController extends Controller
             'path_kbn' => config('constants.PATH_KBN_FILE'), // パス区分:ファイル
             'category_kbn' => config('constants.FILE_KBN_PSN'), // 識別子:個人
         ];
-        
+ 
         // 検索
         $screenList = $this->service->search($conditions);
         $resultCount = isset($screenList) ? count($screenList) : 0;
@@ -127,5 +127,33 @@ class TestCountSearchListController extends Controller
         $request->session()->put(config('constants.SESSION_KEY_MANAGEMENT_CONDITION'),$conditions);
         
         return view('testCountSearchList')->with($directory)->with($conditions);
+    }
+
+    /**
+     * 個人成績表公開フラグ更新処理
+     * @param  \App\index  $index
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePublishFlag(Request $request)
+    {
+        // 検索条件の値を取得
+        $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
+        $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
+        
+        $conditions = [
+            'sch_code' => $schCode,
+            'cls_code' => $clsCode,
+            'year' => $request->get('year'),
+            'cnttest' => $request->get('cnttest'),
+            'grade' => $request->get('grade'),
+            'path_kbn' => config('constants.PATH_KBN_FILE'), // パス区分:ファイル
+            //'category_kbn' => config('constants.FILE_KBN_PSN'), // 識別子:個人
+            'psn_report_publish_flg' => $request->get('psn_report_publish_flg')
+        ];
+
+        // 更新処理実行
+        $result = $this->service->updatePsnReportPublishFlg($conditions);
+
+        return redirect()->back()->with('message', $result);
     }
 }

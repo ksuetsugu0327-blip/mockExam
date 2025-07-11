@@ -69,6 +69,7 @@ class SchoolIDLoginCheckController extends Controller
         session([config('constants.SESSION_KEY_PSN_HIDE_FLG')=>$school->psn_hide_flg]);        
         session([config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')=>$school->schname_hide_flg]);        
         session([config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')=>$school->psncard_regist_flg]);
+        session([config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')=>$school->psn_report_publish_flg]);
         
         return view("login-sch-ID");
     }

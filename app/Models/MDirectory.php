@@ -23,7 +23,8 @@ class MDirectory extends Model
         'sch_code',
         'cls_code',
         'psn_code',
-        'fullpath'
+        'fullpath',
+        'psn_report_publish_flg',
     ];
         
 }

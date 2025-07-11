@@ -84,18 +84,86 @@
         </div>
         @if($resultCount>0)
         <div id="se_List" class="List">
+            @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+            <p style="display: flex; align-items: center;">
+                <span style="width: 200px; display: inline-block;"> </span>
+                <span style="margin-left: 10px;">
+                    生徒公開
+                </span>
+            </p>
+            @endif
             @foreach ($directory as $key=>$val)
-                <p>
-                    <a href="{{ route($routeUtil->getPrefix().'.reportCard.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key]) }}"> 
+                <p style="display: flex; align-items: center;">
+                    <a href="{{ route($routeUtil->getPrefix().'.reportCard.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key]) }}" style="width: 220px; display: inline-block;"> 
                         {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}
                     </a>
+                    @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] == '1' ? 'checked' : '' }}>
+                    @endif
                 </p>
             @endforeach
         </div>
         @endif
     </div>
 </div>
+<script>
+    function handlePublishCheckbox(event,checkbox) {
+        const message = checkbox.checked ? '選択した試験の個人成績表を公開しますか？':'選択した試験の個人成績表を非公開しますか？';
+        const confirmed = confirm(message);
 
+        console.log(event);
+        console.log(checkbox.checked);
+        console.log(checkbox.name.split('_'));
+        if (!confirmed) {
+            event.preventDefault();
+        }
+
+        if (confirmed) {
+            const [year, cnttest, grade] = checkbox.name.split('_');
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route("sch.testcountsearch.update", ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}';
+
+            // Add CSRF token
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            form.appendChild(csrfToken);
+
+            // Add year input
+            const yearInput = document.createElement('input');
+            yearInput.type = 'hidden';
+            yearInput.name = 'year';
+            yearInput.value = year;
+            form.appendChild(yearInput);
+
+            // Add cnttest input  
+            const cnttestInput = document.createElement('input');
+            cnttestInput.type = 'hidden';
+            cnttestInput.name = 'cnttest';
+            cnttestInput.value = cnttest;
+            form.appendChild(cnttestInput);
+
+            // Add grade input
+            const gradeInput = document.createElement('input');
+            gradeInput.type = 'hidden';
+            gradeInput.name = 'grade';
+            gradeInput.value = grade;
+            form.appendChild(gradeInput);
+
+            // Add publish flag input
+            const publishInput = document.createElement('input');
+            publishInput.type = 'hidden';
+            publishInput.name = 'psn_report_publish_flg';
+            publishInput.value = checkbox.checked ? '1' : '0';
+            form.appendChild(publishInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
 @endsection
 
 @include('layout.footer')

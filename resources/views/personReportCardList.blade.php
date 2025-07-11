@@ -63,19 +63,37 @@
                 <div class="default">
                     <table>
                         @foreach ($directory as $key=>$val)
-                        <tr class="listData{{ $val["year"] }}">
-                            <td><a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_PSN') ]) }}" target="_blank"> {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}.pdf</a></td>
-                            <td>
-                            @if(isset($val["cmtfullpath"]))
-                            <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_CMT') ]) }}" target="_blank" class="d_date, r_link">解答解説</a>
+                            @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+                                @if($val["psn_report_publish_flg"] == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+                                <tr class="listData{{ $val["year"] }}">
+                                    <td><a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_PSN') ]) }}" target="_blank"> {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}.pdf</a></td>
+                                    <td>
+                                    @if(isset($val["cmtfullpath"]))
+                                    <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_CMT') ]) }}" target="_blank" class="d_date, r_link">解答解説</a>
+                                    @endif
+                                    </td>
+                                    <td>
+                                    @if(isset($val["datfullpath"]))
+                                    <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_DAT') ]) }}" target="_blank" class="d_date, r_link">データ集</a>
+                                    @endif
+                                    </td>
+                                </tr>
+                                @endif
+                            @else
+                                <tr class="listData{{ $val["year"] }}">
+                                    <td><a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_PSN') ]) }}" target="_blank"> {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}.pdf</a></td>
+                                    <td>
+                                    @if(isset($val["cmtfullpath"]))
+                                    <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_CMT') ]) }}" target="_blank" class="d_date, r_link">解答解説</a>
+                                    @endif
+                                    </td>
+                                    <td>
+                                    @if(isset($val["datfullpath"]))
+                                    <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_DAT') ]) }}" target="_blank" class="d_date, r_link">データ集</a>
+                                    @endif
+                                    </td>
+                                </tr>
                             @endif
-                            </td>
-                            <td>
-                            @if(isset($val["datfullpath"]))
-                            <a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_DAT') ]) }}" target="_blank" class="d_date, r_link">データ集</a>
-                            @endif
-                            </td>
-                        </tr>
                         @endforeach
                     </table>
                 </div>

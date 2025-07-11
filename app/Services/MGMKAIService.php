@@ -54,10 +54,14 @@ class MGMKAIService {
         {
             // 記述、マーク情報取得
             $queryKbn = $this->repositoryMGMKAI->selectOneByKey($entry->KAIA001,config('constants.KAIA010_KBN_MARK_INPUT'),config('constants.KAIA020_KBN_MARK_INPUT'))->first();
+			//★私大の情報を読む
+            $queryKbn2 = $this->repositoryMGMKAI->selectOneByKey($entry->KAIA001,config('constants.KAIA010_KBN_MARK_INPUT'),config('constants.PRIVATE_UNI_KBN_INPUT'))->first();
+
             $totalary = array();
             $ary = array();
             $dateAry = array();
             $strAry = array();
+			$puCnt = 0; //★私大毎のカウント
             $inputCnt = 0;
             $markCnt = 0;
             $totalCnt = 0;
@@ -66,23 +70,40 @@ class MGMKAIService {
                     // 受験区分／テスト種別／ﾒｯｾｰｼﾞ種別の判定
                     $totalCnt ++;
                     $strKbnName = "";
-                    if($queryKbn["KAIA030_" . "$i"] == "0"){
-                        // 通算回数設定
-                        $totalary += array("$i" => "記述_" . $totalCnt . "回");
+					
+					if($queryKbn2["KAIA030_" . "$i"] == "5"){
+                    //★私大の場合(9、5のKAIA030_nが5の時)
+                    
+	                        // 通算回数設定
+	                        $totalary += array("$i" => "私大_" . $totalCnt . "回");
 
-                        // 記述毎
-                        $inputCnt ++;
-                        $ary += array("$i" => "記述_" . $inputCnt . "回");
-                        $strKbnName = "記述_";
-                    } else {
-                        // 通算回数設定
-                        $totalary += array("$i" => "マーク_" . $totalCnt . "回");
+	                        // ★私大毎
+	                        $puCnt ++;
+	                        $ary += array("$i" => "私大_" . $puCnt . "回");
+	                        $strKbnName = "私大_";
+					}else{ 
+                    //★私大ではない場合 今までどおり9、7の処理
+					
+						//★記述(9、7のKAIA030_nが0の時)
+	                    if($queryKbn["KAIA030_" . "$i"] == "0"){
+	                        // 通算回数設定
+	                        $totalary += array("$i" => "記述_" . $totalCnt . "回");
 
-                        // ﾏｰｸ毎
-                        $markCnt ++;
-                        $ary += array("$i" => "マーク_" . $markCnt . "回");
-                        $strKbnName = "マーク_";
-                    }
+	                        // 記述毎
+	                        $inputCnt ++;
+	                        $ary += array("$i" => "記述_" . $inputCnt . "回");
+	                        $strKbnName = "記述_";
+	                    } else {
+						//★マーク(9、7のKAIA030_nが1の時)
+	                        // 通算回数設定
+	                        $totalary += array("$i" => "マーク_" . $totalCnt . "回");
+
+	                        // ﾏｰｸ毎
+	                        $markCnt ++;
+	                        $ary += array("$i" => "マーク_" . $markCnt . "回");
+	                        $strKbnName = "マーク_";
+	                    }
+					}
 
                     // 実施日
                     $queryMTestcount = $this->repositoryMTestcount->selectOneByKey($entry->KAIA001,$i,$schCode)->first();
@@ -132,7 +153,7 @@ class MGMKAIService {
                 )
             );
         }
-        
+
         return $cntAry;
     }
 }

@@ -135,7 +135,8 @@ Route::prefix('/{schCode}/sch')->group(function(){
     Route::get('testcountsearch/list', 'TestCountSearchListController@index')->name('sch.testcountsearch.index');
     // 検索
     Route::post('testcountsearch/list','TestCountSearchListController@search')->name('sch.testcountsearch.search');
-
+    // 試験公開フラグ更新
+    Route::post('testcountsearch/list/update','TestCountSearchListController@updatePublishFlag')->name('sch.testcountsearch.update');
     // 成績表一覧
     Route::get('testcountsearch/list/{index}','ReportCardListController@index')->name('sch.reportCard.index');
     // pdfダウンロード
