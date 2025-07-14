@@ -73,7 +73,7 @@ class ClassIDLoginCheckController extends Controller
         session([config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')=>$school->psncard_regist_flg]);
         session([config('constants.SESSION_KEY_SCHADMINKBN')=>config('constants.ADMIN_KBN_GENERAL')]);  // 管理権限は一般を設定
         session([config('constants.SESSION_KEY_CLS_GRADE_CSV_FLG')=>$school->cls_grade_csv_flg]); //★20240423 教室CSVダウンロードフラグ
-        
+        session([config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')=>$school->psn_report_publish_flg]);
         
         return view("login-cls-ID");
     }

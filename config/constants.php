@@ -161,6 +161,9 @@ return[
     // 個人成績表公開フラグ　0:非表示 1:表示
     'PSN_REPORT_PUBLISH_USE_FLG' => '1',
     'PSN_REPORT_PUBLISH_NOT_USE_FLG' => '0',
+    'PSN_REPORT_PUBLISH_FLG_SCHOOL' => '1',
+    'PSN_REPORT_PUBLISH_FLG_CLASS' => '2',  
+    'PSN_REPORT_PUBLISH_FLG_BOTH' => '3',
     // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
     'PSN_CHANGE_PW_HIDE_FLG' => '0',
     'PSN_CHANGE_PW_NO_HIDE_FLG' => '1',

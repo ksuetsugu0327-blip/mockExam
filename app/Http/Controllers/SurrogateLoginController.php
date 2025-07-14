@@ -123,6 +123,14 @@ class SurrogateLoginController extends Controller
      * @param type $loginClsCode    代理ログイン教室コード
      */
     public function classLogin(Request $request,$schCode,$loginSchCode,$loginClsCode){
+
+        // 代理ログイン先の塾情報を取得する
+        $schools = $this->mSchoolService->selectOneByKey((int)$loginSchCode);
+        if(count($schools)==0){
+            // 該当なしの場合（処理中に別処理で削除されるケース）、一覧画面へリダイレクト
+            return redirect()->to(route('schools.index',['schCode'=>$schCode]))->with('message',trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$loginSchCode]));
+        }
+        $school = $schools->get(0);
         
         // 代理ログイン先の教室情報を取得する
         $classes = $this->mClassService->selectOneByKeyWithSch((int)$loginSchCode,(int)$loginClsCode);
@@ -148,6 +156,7 @@ class SurrogateLoginController extends Controller
             config('constants.SESSION_KEY_PSN_HIDE_FLG') => $request->session()->get(config('constants.SESSION_KEY_PSN_HIDE_FLG')),
             config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG') => $request->session()->get(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')),
             config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG') => $request->session()->get(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')),
+            config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG') => $request->session()->get(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')),
         ];
         $request->session()->put(config('constants.SESSION_KEY_SURROGATE_LOGIN_CLASS'),$adminInfo);
 
@@ -164,6 +173,7 @@ class SurrogateLoginController extends Controller
         $request->session()->put(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG'),$class->schname_hide_flg);        
         $request->session()->put(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG'),$class->psncard_regist_flg);
         $request->session()->put(config('constants.SESSION_KEY_CLS_GRADE_CSV_FLG'),$class->cls_grade_csv_flg);
+        $request->session()->put(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG'),$school->psn_report_publish_flg);
         
         // セッションの教室マスタ検索条件をクリア
         $request->session()->forget(config('constants.SESSION_KEY_MCLASS_SEARCH_CONDITION'));
@@ -190,7 +200,8 @@ class SurrogateLoginController extends Controller
         $request->session()->put(config('constants.SESSION_KEY_PSN_HIDE_FLG'),$adminInfo[config('constants.SESSION_KEY_PSN_HIDE_FLG')]);
         $request->session()->put(config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG'),$adminInfo[config('constants.SESSION_KEY_SCH_NAME_HIDE_FLG')]);
         $request->session()->put(config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG'),$adminInfo[config('constants.SESSION_KEY_PSN_CARD_REGIST_FLG')]);
-        
+        $request->session()->put(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG'),$adminInfo[config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')]);
+
         // 代理ログイン情報をクリアする
         $request->session()->forget(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'));
         $request->session()->forget(config('constants.SESSION_KEY_SURROGATE_LOGIN_CLASS'));

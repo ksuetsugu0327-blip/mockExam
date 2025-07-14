@@ -175,12 +175,19 @@
                         <td>
                             <p>個人成績表公開機能利用フラグ</p>
                         </td>
-                        <td>
+                        <!-- <td>
                             <p>
                                 <input class="cell clear" type="text" name="psn_report_publish_flg" value="{{ old('psn_report_publish_flg', $school->psn_report_publish_flg) }}" required maxlength='1'>
-                                <br>
-                                @if($errors->has('psn_report_publish_flg'))<span class="error">{{ $errors->first('psn_report_publish_flg') }}</span> @endif
+                                
                             </p>
+                        </td> -->
+                        <td>
+                            <label for="radio1" style="display:inline-block; margin-right:10px;"><input type="radio" name="psn_report_publish_flg" value="0" {{ old('psn_report_publish_flg', $school->psn_report_publish_flg) == '0' ? 'checked' : '' }}>&nbsp;&nbsp;&nbsp;無し</label>
+                            <label for="radio1" style="display:inline-block; margin-right:10px;"><input type="radio" name="psn_report_publish_flg" value="1" {{ old('psn_report_publish_flg', $school->psn_report_publish_flg) == '1' ? 'checked' : '' }}>&nbsp;&nbsp;&nbsp;塾で管理</label>
+                            <label for="radio2" style="display:inline-block; margin-right:10px;"><input type="radio" name="psn_report_publish_flg" value="2" {{ old('psn_report_publish_flg', $school->psn_report_publish_flg) == '2' ? 'checked' : '' }}>&nbsp;&nbsp;&nbsp;教室で管理</label>
+                            <label for="radio3" style="display:inline-block; margin-right:10px;"><input type="radio" name="psn_report_publish_flg" value="3" {{ old('psn_report_publish_flg', $school->psn_report_publish_flg) == '3' ? 'checked' : '' }}>&nbsp;&nbsp;&nbsp;塾と教室で管理</label>
+                            <br>
+                            @if($errors->has('psn_report_publish_flg'))<span class="error">{{ $errors->first('psn_report_publish_flg') }}</span> @endif
                         </td>
                     </tr>
                     <tr>

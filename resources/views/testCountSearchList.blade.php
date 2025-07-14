@@ -82,9 +82,30 @@
                 </div>
             </form>
         </div>
+        @php
+            $showWhenFlgIs2 = false;
+            $showPublishCheckbox = "false";
+            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'))&&
+              (session(config('constants.SESSION_KEY_CLSCODE')) == null)){
+                $showPublishCheckbox = "true";
+            }
+            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_CLASS'))&&
+              (session(config('constants.SESSION_KEY_CLSCODE')) != null)){
+                $showPublishCheckbox = "true";
+            }
+            if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_BOTH')){
+              if(session(config('constants.SESSION_KEY_CLSCODE')) == null){
+                $showPublishCheckbox = "true";
+                $showWhenFlgIs2 = true;
+              } else{
+                $showPublishCheckbox = "tbc";
+              }
+            }
+            //dd(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')), config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'), config('constants.PSN_REPORT_PUBLISH_FLG_CLASS'), config('constants.PSN_REPORT_PUBLISH_FLG_BOTH'), $showPublishCheckbox);
+        @endphp
         @if($resultCount>0)
         <div id="se_List" class="List">
-            @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+            @if($showPublishCheckbox === "true" || $showPublishCheckbox === "tbc")
             <p style="display: flex; align-items: center;">
                 <span style="width: 200px; display: inline-block;"> </span>
                 <span style="margin-left: 10px;">
@@ -93,12 +114,21 @@
             </p>
             @endif
             @foreach ($directory as $key=>$val)
+                @php
+                    if($showPublishCheckbox === "tbc"){
+                        $showPublishCheckbox = "false";
+                        if($val["psn_report_publish_flg"] == '2' || $val["psn_report_publish_flg"] == '1'){
+                            $showPublishCheckbox = "true";
+                        }
+                    }
+                    //dd($showPublishCheckbox, $val["psn_report_publish_flg"]);
+                @endphp
                 <p style="display: flex; align-items: center;">
                     <a href="{{ route($routeUtil->getPrefix().'.reportCard.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key]) }}" style="width: 220px; display: inline-block;"> 
                         {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}
                     </a>
-                    @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
-                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] == '1' ? 'checked' : '' }}>
+                    @if($showPublishCheckbox === "true")
+                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] == '1' || ($val["psn_report_publish_flg"] == '2' && $showWhenFlgIs2) ? 'checked' : '' }}>
                     @endif
                 </p>
             @endforeach
@@ -108,12 +138,18 @@
 </div>
 <script>
     function handlePublishCheckbox(event,checkbox) {
+        const publishFlag = '{{ session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) }}';
+        const clsCode = '{{ session(config('constants.SESSION_KEY_CLSCODE')) }}';
         const message = checkbox.checked ? '選択した試験の個人成績表を公開しますか？':'選択した試験の個人成績表を非公開しますか？';
         const confirmed = confirm(message);
+        console.log('publishFlag:', publishFlag, 'clsCode:', clsCode);
+        if (clsCode === '') {
+            console.log('clsCode is empty');
+        }
 
-        console.log(event);
-        console.log(checkbox.checked);
-        console.log(checkbox.name.split('_'));
+        // console.log(event);
+        // console.log(checkbox.checked);
+        // console.log(checkbox.name.split('_'));
         if (!confirmed) {
             event.preventDefault();
         }
@@ -156,11 +192,34 @@
             const publishInput = document.createElement('input');
             publishInput.type = 'hidden';
             publishInput.name = 'psn_report_publish_flg';
-            publishInput.value = checkbox.checked ? '1' : '0';
+            publishInput.value = getUpdateFlag(publishFlag, clsCode, checkbox.checked);
+            
+            console.log('csrfToken:', csrfToken.value);
+            console.log('yearInput:', yearInput.value);
+            console.log('cnttestInput:', cnttestInput.value);
+            console.log('gradeInput:', gradeInput.value);
+            console.log('publishInput:', publishInput.value);
             form.appendChild(publishInput);
 
             document.body.appendChild(form);
             form.submit();
+        }
+
+        function getUpdateFlag(publishFlag, clsCode, checked){
+            switch(publishFlag) {
+                case '1':
+                    return checked ? '1' : '0';
+                case '2':
+                    return checked ? '1' : '0';
+                case '3':
+                    if(checked){
+                        return (!clsCode||clsCode === '') ? '2' : '1';
+                    } else {
+                        return (!clsCode||clsCode === '') ? '0' : '2';
+                    }
+                default:
+                    return checked ? '1' : '0';
+            }
         }
     }
 </script>

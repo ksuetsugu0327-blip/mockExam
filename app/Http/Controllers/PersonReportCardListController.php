@@ -42,7 +42,7 @@ class PersonReportCardListController extends Controller
             $resultCount = isset($selectList) ? count($selectList) : 0;
             
             /* 生徒公開を利用する場合 */
-            if (isset($selectList) && $psnReportPublishFlg == config('constants.PSN_REPORT_PUBLISH_USE_FLG')) {
+            if (isset($selectList) && $psnReportPublishFlg != config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG')) {
                 // 生徒公開フラグが 1 のレコード数をカウントする
                 $resultCount = 0;
                 foreach ($selectList as $item) {

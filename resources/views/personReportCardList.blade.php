@@ -63,7 +63,7 @@
                 <div class="default">
                     <table>
                         @foreach ($directory as $key=>$val)
-                            @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
+                            @if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) != config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'))
                                 @if($val["psn_report_publish_flg"] == config('constants.PSN_REPORT_PUBLISH_USE_FLG'))
                                 <tr class="listData{{ $val["year"] }}">
                                     <td><a href="{{ route('personReportCardList.pdfDownload', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key,'category_kbn'=>config('constants.FILE_KBN_PSN') ]) }}" target="_blank"> {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}.pdf</a></td>
