@@ -192,6 +192,9 @@ Route::prefix('/{schCode}/sch')->group(function(){
     // 削除
     Route::delete('test-delete/{id}', 'UnivTestEditController@delete')->name('test.delete');
 
+    //  生徒公開機能利用教室の公開フラグ確認用API
+    Route::get('check_publish_flg', 'Rest\TestCountSearchListAPIController@checkPublishFlg')->name('check_publish_flg');
+
 });
 
 // 教室アカウント用ルート

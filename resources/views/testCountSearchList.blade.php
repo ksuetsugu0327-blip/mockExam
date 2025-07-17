@@ -4,6 +4,34 @@
 @section('keywords', 'A,B,C')
 @section('description', '説明文')
 @section('pageCss')
+<style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .submit-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+</style>
 @endsection
 
 @include('layout.head')
@@ -85,15 +113,15 @@
         @php
             $showWhenFlgIs2 = false;
             $showPublishCheckbox = "false";
-            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'))&&
+            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'))&&
               (session(config('constants.SESSION_KEY_CLSCODE')) == null)){
                 $showPublishCheckbox = "true";
             }
-            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_CLASS'))&&
+            if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_CLASS'))&&
               (session(config('constants.SESSION_KEY_CLSCODE')) != null)){
                 $showPublishCheckbox = "true";
             }
-            if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) == config('constants.PSN_REPORT_PUBLISH_FLG_BOTH')){
+            if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_BOTH')){
               if(session(config('constants.SESSION_KEY_CLSCODE')) == null){
                 $showPublishCheckbox = "true";
                 $showWhenFlgIs2 = true;
@@ -115,20 +143,21 @@
             @endif
             @foreach ($directory as $key=>$val)
                 @php
+                    $isDisabled = false;
                     if($showPublishCheckbox === "tbc"){
-                        $showPublishCheckbox = "false";
-                        if($val["psn_report_publish_flg"] == '2' || $val["psn_report_publish_flg"] == '1'){
-                            $showPublishCheckbox = "true";
+                        $showPublishCheckbox = "true";
+                        if($val["psn_report_publish_flg"] === config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG')){
+                            $isDisabled = true;
                         }
                     }
-                    //dd($showPublishCheckbox, $val["psn_report_publish_flg"]);
+                    //dd($showPublishCheckbox, $val["psn_report_publish_flg"], config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'), $isDisabled);
                 @endphp
                 <p style="display: flex; align-items: center;">
                     <a href="{{ route($routeUtil->getPrefix().'.reportCard.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key]) }}" style="width: 220px; display: inline-block;"> 
                         {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}
                     </a>
                     @if($showPublishCheckbox === "true")
-                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] == '1' || ($val["psn_report_publish_flg"] == '2' && $showWhenFlgIs2) ? 'checked' : '' }}>
+                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] === '1' || ($val["psn_report_publish_flg"] === '2' && $showWhenFlgIs2) ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}>
                     @endif
                 </p>
             @endforeach
@@ -143,6 +172,7 @@
         const message = checkbox.checked ? '選択した試験の個人成績表を公開しますか？':'選択した試験の個人成績表を非公開しますか？';
         const confirmed = confirm(message);
         console.log('publishFlag:', publishFlag, 'clsCode:', clsCode);
+        console.log('checkbox.checked:', checkbox.checked);
         if (clsCode === '') {
             console.log('clsCode is empty');
         }
@@ -155,6 +185,16 @@
         }
 
         if (confirmed) {
+            // Add overlay to prevent double submit
+            const overlay = document.createElement('div');
+            overlay.className = 'submit-overlay';
+            
+            const spinner = document.createElement('div'); 
+            spinner.className = 'loading-spinner';
+            
+            overlay.appendChild(spinner);
+            document.body.appendChild(overlay);
+
             const [year, cnttest, grade] = checkbox.name.split('_');
             const form = document.createElement('form');
             form.method = 'POST';
@@ -199,10 +239,58 @@
             console.log('cnttestInput:', cnttestInput.value);
             console.log('gradeInput:', gradeInput.value);
             console.log('publishInput:', publishInput.value);
+
             form.appendChild(publishInput);
 
             document.body.appendChild(form);
-            form.submit();
+            console.log('checkbox.checked:', checkbox.checked);
+            // Make API call to check publish flag before submitting
+            if(!checkbox.checked && publishFlag === '{{ config('constants.PSN_REPORT_PUBLISH_FLG_BOTH') }}'){
+                $.ajax({
+                    url: '{{ route('check_publish_flg', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}',
+                    method: 'GET',
+                    data: {
+                        sch_code: '{{ session(config('constants.SESSION_KEY_SCHCODE')) }}',
+                        cls_code: '{{ session(config('constants.SESSION_KEY_CLSCODE')) }}',
+                        year: year,
+                        cnttest: cnttest, 
+                        grade: grade
+                    },
+                    success: function(response) {
+                        console.log('response:', response);
+                        // If API check passes, submit the form
+                        if(response === 0){
+                            form.submit();
+                        } else {
+                            // Remove any existing overlay
+                            const existingOverlay = document.querySelector('.submit-overlay');
+                            if (existingOverlay) {
+                                existingOverlay.remove();
+                            }
+                            if(confirm('公開中の教室があります。公開を取り消して良いですか？')){
+                                form.submit();
+                                // Add overlay to prevent double submit
+                                const overlay = document.createElement('div');
+                                overlay.className = 'submit-overlay';
+                                
+                                const spinner = document.createElement('div'); 
+                                spinner.className = 'loading-spinner';
+                                
+                                overlay.appendChild(spinner);
+                                document.body.appendChild(overlay);
+                            } else {
+                                checkbox.checked = !checkbox.checked;
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('API Error:', error);
+                    }
+                });
+            } else {
+                form.submit();
+            }
+            
         }
 
         function getUpdateFlag(publishFlag, clsCode, checked){

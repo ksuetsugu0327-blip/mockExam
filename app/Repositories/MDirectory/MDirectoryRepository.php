@@ -390,11 +390,11 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
     {
         // Enable query logging
         //DB::enableQueryLog();
-        $psn = (string)config('constants.FILE_KBN_PSN');
-        $cmt = (string)config('constants.FILE_KBN_CMT');
-        $dat = (string)config('constants.FILE_KBN_DAT');
+        $psn = config('constants.FILE_KBN_PSN');
+        $cmt = config('constants.FILE_KBN_CMT');
+        $dat = config('constants.FILE_KBN_DAT');
         
-        // Your update query
+        // Update query
         $this->MDirectory::where('sch_code', '=', $conditions['sch_code'])
                         ->when(isset($conditions['cls_code']), function($query) use ($conditions) {
                             return $query->where('cls_code', '=', $conditions['cls_code']);
@@ -408,5 +408,25 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
 
         // Retrieve and display the query log
         //dd($conditions, DB::getQueryLog());
+    }
+
+    /**
+     * 試験公開フラグ確認
+     * @param array $conditions 検索条件
+     */
+    public function checkPublishFlg(array $conditions){
+        DB::enableQueryLog();
+        $psn = config('constants.FILE_KBN_PSN');
+        $query = $this->MDirectory::where('sch_code', '=', $conditions['sch_code'])
+                        ->where('year', '=', $conditions['year'])
+                        ->where('cnttest', '=', $conditions['cnttest'])
+                        ->where('grade', '=', $conditions['grade'])
+                        ->where('path_kbn', '=', $conditions['path_kbn'])
+                        ->where('category_kbn', [$psn])
+                        ->where('psn_report_publish_flg', '=', config('constants.PSN_REPORT_PUBLISH_USE_FLG'));
+        $count = $query->count();
+        \Log::info($conditions, DB::getQueryLog());
+
+        return $count;
     }
 }

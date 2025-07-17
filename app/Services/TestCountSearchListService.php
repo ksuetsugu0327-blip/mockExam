@@ -106,4 +106,11 @@ class TestCountSearchListService {
     public function updatePsnReportPublishFlg(array $conditions){
         return $this->repositoryMDirectory->updatePsnReportPublishFlg($conditions);
     }
+
+    /**
+     * 試験公開フラグ確認
+     */
+    public function checkPublishFlg(array $conditions){
+        return $this->repositoryMDirectory->checkPublishFlg($conditions);
+    }
 }
