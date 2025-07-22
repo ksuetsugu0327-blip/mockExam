@@ -111,8 +111,8 @@
             </form>
         </div>
         @php
-            $showWhenFlgIs2 = false;
             $showPublishCheckbox = "false";
+            $isTbc = false;
             if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'))&&
               (session(config('constants.SESSION_KEY_CLSCODE')) == null)){
                 $showPublishCheckbox = "true";
@@ -124,9 +124,8 @@
             if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_BOTH')){
               if(session(config('constants.SESSION_KEY_CLSCODE')) == null){
                 $showPublishCheckbox = "true";
-                $showWhenFlgIs2 = true;
               } else{
-                $showPublishCheckbox = "tbc";
+                $isTbc = true;
               }
             }
             //dd(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')), config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'), config('constants.PSN_REPORT_PUBLISH_FLG_CLASS'), config('constants.PSN_REPORT_PUBLISH_FLG_BOTH'), $showPublishCheckbox);
@@ -144,20 +143,21 @@
             @foreach ($directory as $key=>$val)
                 @php
                     $isDisabled = false;
-                    if($showPublishCheckbox === "tbc"){
-                        $showPublishCheckbox = "true";
+                    if($isTbc){
                         if($val["psn_report_publish_flg"] === config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG')){
                             $isDisabled = true;
                         }
                     }
-                    //dd($showPublishCheckbox, $val["psn_report_publish_flg"], config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'), $isDisabled);
+                    // if($key === 1) {
+                    //    dd($showPublishCheckbox, $val["psn_report_publish_flg"], config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'), $isDisabled, $isTbc);
+                    // }
                 @endphp
                 <p style="display: flex; align-items: center;">
                     <a href="{{ route($routeUtil->getPrefix().'.reportCard.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE')),'index'=>$key]) }}" style="width: 220px; display: inline-block;"> 
                         {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}
                     </a>
-                    @if($showPublishCheckbox === "true")
-                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] === '1' || ($val["psn_report_publish_flg"] === '2' && $showWhenFlgIs2) ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}>
+                    @if($showPublishCheckbox === "true" || $isTbc)
+                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] === '1' || ($val["psn_report_publish_flg"] === '2') && session(config('constants.SESSION_KEY_CLSCODE')) == null ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}>
                     @endif
                 </p>
             @endforeach
@@ -245,7 +245,7 @@
             document.body.appendChild(form);
             console.log('checkbox.checked:', checkbox.checked);
             // Make API call to check publish flag before submitting
-            if(!checkbox.checked && publishFlag === '{{ config('constants.PSN_REPORT_PUBLISH_FLG_BOTH') }}'){
+            if(!checkbox.checked && publishFlag === '{{ config('constants.PSN_REPORT_PUBLISH_FLG_BOTH') }}' && clsCode === ''){
                 $.ajax({
                     url: '{{ route('check_publish_flg', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]) }}',
                     method: 'GET',
