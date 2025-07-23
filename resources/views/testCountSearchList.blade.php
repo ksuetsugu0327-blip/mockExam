@@ -112,6 +112,7 @@
         </div>
         @php
             $showPublishCheckbox = "false";
+            $isBoth = false;
             $isTbc = false;
             if((session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_SCHOOL'))&&
               (session(config('constants.SESSION_KEY_CLSCODE')) == null)){
@@ -122,8 +123,9 @@
                 $showPublishCheckbox = "true";
             }
             if(session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) === config('constants.PSN_REPORT_PUBLISH_FLG_BOTH')){
-              if(session(config('constants.SESSION_KEY_CLSCODE')) == null){
-                $showPublishCheckbox = "true";
+                $isBoth = true;            
+                if(session(config('constants.SESSION_KEY_CLSCODE')) == null){
+                    $showPublishCheckbox = "true";
               } else{
                 $isTbc = true;
               }
@@ -132,7 +134,7 @@
         @endphp
         @if($resultCount>0)
         <div id="se_List" class="List">
-            @if($showPublishCheckbox === "true" || $showPublishCheckbox === "tbc")
+            @if($showPublishCheckbox === "true" || $isTbc)
             <p style="display: flex; align-items: center;">
                 <span style="width: 200px; display: inline-block;"> </span>
                 <span style="margin-left: 10px;">
@@ -149,7 +151,7 @@
                         }
                     }
                     // if($key === 1) {
-                    //    dd($showPublishCheckbox, $val["psn_report_publish_flg"], config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'), $isDisabled, $isTbc);
+                    //     dd($showPublishCheckbox, $val["psn_report_publish_flg"], config('constants.PSN_REPORT_PUBLISH_NOT_USE_FLG'), $isDisabled, $isTbc);
                     // }
                 @endphp
                 <p style="display: flex; align-items: center;">
@@ -157,7 +159,7 @@
                         {{ $val["year"] }}年度_{{ $val["testName"] }}_高{{ $val["grade"] }}
                     </a>
                     @if($showPublishCheckbox === "true" || $isTbc)
-                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] === '1' || ($val["psn_report_publish_flg"] === '2') && session(config('constants.SESSION_KEY_CLSCODE')) == null ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}>
+                    <input type="checkbox" name="{{$val["year"]}}_{{ $val["cnttest"] }}_{{ $val["grade"] }}" style="margin-left: 10px;" onclick="handlePublishCheckbox(event, this);" {{ $val["psn_report_publish_flg"] === '1' ||(($val["psn_report_publish_flg"] === '2') && (session(config('constants.SESSION_KEY_CLSCODE')) == null ) && $isBoth) ? 'checked' : '' }} {{ $isDisabled ? 'disabled' : '' }}>
                     @endif
                 </p>
             @endforeach
@@ -234,16 +236,16 @@
             publishInput.name = 'psn_report_publish_flg';
             publishInput.value = getUpdateFlag(publishFlag, clsCode, checkbox.checked);
             
-            console.log('csrfToken:', csrfToken.value);
-            console.log('yearInput:', yearInput.value);
-            console.log('cnttestInput:', cnttestInput.value);
-            console.log('gradeInput:', gradeInput.value);
-            console.log('publishInput:', publishInput.value);
+            //console.log('csrfToken:', csrfToken.value);
+            //console.log('yearInput:', yearInput.value);
+            //console.log('cnttestInput:', cnttestInput.value);
+            //console.log('gradeInput:', gradeInput.value);
+            //console.log('publishInput:', publishInput.value);
 
             form.appendChild(publishInput);
 
             document.body.appendChild(form);
-            console.log('checkbox.checked:', checkbox.checked);
+            //console.log('checkbox.checked:', checkbox.checked);
             // Make API call to check publish flag before submitting
             if(!checkbox.checked && publishFlag === '{{ config('constants.PSN_REPORT_PUBLISH_FLG_BOTH') }}' && clsCode === ''){
                 $.ajax({
@@ -257,7 +259,7 @@
                         grade: grade
                     },
                     success: function(response) {
-                        console.log('response:', response);
+                        //console.log('response:', response);
                         // If API check passes, submit the form
                         if(response === 0){
                             form.submit();

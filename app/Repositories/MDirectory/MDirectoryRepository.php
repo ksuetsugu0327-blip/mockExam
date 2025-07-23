@@ -415,7 +415,7 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
      * @param array $conditions 検索条件
      */
     public function checkPublishFlg(array $conditions){
-        DB::enableQueryLog();
+        //DB::enableQueryLog();
         $psn = config('constants.FILE_KBN_PSN');
         $query = $this->MDirectory::where('sch_code', '=', $conditions['sch_code'])
                         ->where('year', '=', $conditions['year'])
@@ -425,7 +425,7 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
                         ->where('category_kbn', [$psn])
                         ->where('psn_report_publish_flg', '=', config('constants.PSN_REPORT_PUBLISH_USE_FLG'));
         $count = $query->count();
-        \Log::info($conditions, DB::getQueryLog());
+        //\Log::info($conditions, DB::getQueryLog());
 
         return $count;
     }
