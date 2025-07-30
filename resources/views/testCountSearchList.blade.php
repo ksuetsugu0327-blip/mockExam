@@ -171,7 +171,7 @@
     function handlePublishCheckbox(event,checkbox) {
         const publishFlag = '{{ session(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG')) }}';
         const clsCode = '{{ session(config('constants.SESSION_KEY_CLSCODE')) }}';
-        const message = checkbox.checked ? '選択した試験の個人成績表を公開しますか？':'選択した試験の個人成績表を非公開しますか？';
+        const message = checkbox.checked ? '選択した試験の個人成績表を公開しますか？':'選択した試験の個人成績表を非公開にしますか？';
         const confirmed = confirm(message);
         console.log('publishFlag:', publishFlag, 'clsCode:', clsCode);
         console.log('checkbox.checked:', checkbox.checked);
