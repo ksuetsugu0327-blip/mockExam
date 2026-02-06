@@ -54,7 +54,7 @@ class MGMKAIService {
         {
             // 記述、マーク情報取得
             $queryKbn = $this->repositoryMGMKAI->selectOneByKey($entry->KAIA001,config('constants.KAIA010_KBN_MARK_INPUT'),config('constants.KAIA020_KBN_MARK_INPUT'))->first();
-			//★私大の情報を読む
+			//★私大と学力分析の情報を読む
             $queryKbn2 = $this->repositoryMGMKAI->selectOneByKey($entry->KAIA001,config('constants.KAIA010_KBN_MARK_INPUT'),config('constants.PRIVATE_UNI_KBN_INPUT'))->first();
 
             $totalary = array();
@@ -62,27 +62,38 @@ class MGMKAIService {
             $dateAry = array();
             $strAry = array();
 			$puCnt = 0; //★私大毎のカウント
+            $paCnt = 0; //★学力分析毎のカウント
             $inputCnt = 0;
             $markCnt = 0;
             $totalCnt = 0;
             for ($i = 1; $i <= 99; $i++) {
                 if($entry["KAIA030_" . "$i"] == "1"){
+                    if($entry->KAIA001=="2025")
+                        //dd($entry);
                     // 受験区分／テスト種別／ﾒｯｾｰｼﾞ種別の判定
                     $totalCnt ++;
                     $strKbnName = "";
 					
-					if($queryKbn2["KAIA030_" . "$i"] == "5"){
+					if($queryKbn2["KAIA030_" . "$i"] == config('constants.PRIVATE_UNI_KBN_INPUT')){
                     //★私大の場合(9、5のKAIA030_nが5の時)
-                    
-	                        // 通算回数設定
-	                        $totalary += array("$i" => "私大_" . $totalCnt . "回");
+                        // 通算回数設定
+                        $totalary += array("$i" => "私大_" . $totalCnt . "回");
 
-	                        // ★私大毎
-	                        $puCnt ++;
-	                        $ary += array("$i" => "私大_" . $puCnt . "回");
-	                        $strKbnName = "私大_";
-					}else{ 
-                    //★私大ではない場合 今までどおり9、7の処理
+                        // ★私大毎
+                        $puCnt ++;
+                        $ary += array("$i" => "私大_" . $puCnt . "回");
+                        $strKbnName = "私大_";
+					} else if($queryKbn2["KAIA030_" . "$i"] == config('constants.PROFI_ANALYSIS_KBN_INPUT')){
+                    //★学力分析の場合(9、5のKAIA030_nが4の時)
+                        // 通算回数設定
+                        $totalary += array("$i" => "学力分析__" . $totalCnt . "回");
+
+                        // ★学力分析毎
+                        $paCnt ++;
+                        $ary += array("$i" => "学力分析_" . $paCnt . "回");
+                        $strKbnName = "学力分析_";
+                    } else{ 
+                    //★学力分析でもない私大でもない場合 今までどおり9、7の処理
 					
 						//★記述(9、7のKAIA030_nが0の時)
 	                    if($queryKbn["KAIA030_" . "$i"] == "0"){
