@@ -68,8 +68,6 @@ class MGMKAIService {
             $totalCnt = 0;
             for ($i = 1; $i <= 99; $i++) {
                 if($entry["KAIA030_" . "$i"] == "1"){
-                    if($entry->KAIA001=="2025")
-                        //dd($entry);
                     // 受験区分／テスト種別／ﾒｯｾｰｼﾞ種別の判定
                     $totalCnt ++;
                     $strKbnName = "";
