@@ -42,7 +42,7 @@ interface MDirectoryRepositoryInterface {
      * @param int sch_code
      * @param int psn_code
      */
-    public function selectTestPearson(int $sch_code ,string $psn_code);
+    public function selectTestPearson(int $sch_code, int $cls_code, string $psn_code);
 
     /**
      * 志望校一覧用リスト（生徒画面用）

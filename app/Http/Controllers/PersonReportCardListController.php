@@ -32,12 +32,14 @@ class PersonReportCardListController extends Controller
         if(!preg_match("|^".$current."|", $referer)){
             // 塾コード
             $schCode = (int)$request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
+            // 教室コード
+            $clsCode = (int)$request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
             // 塾生ID
             $psnId = (string)$request->session()->get(config('constants.SESSION_KEY_PSNCODE'));
             // 生徒公開フラグ
             $psnReportPublishFlg = (string)$request->session()->get(config('constants.SESSION_KEY_PSN_REPORT_PUBLISH_FLG'));
             // 検索
-            $selectList = $this->service->search($schCode,$psnId);
+            $selectList = $this->service->search($schCode, $clsCode, $psnId);
             // 検索結果のレコード数を取得する
             $resultCount = isset($selectList) ? count($selectList) : 0;
             

@@ -262,7 +262,7 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
      * @param string $category_kbn 帳票ID
      * @return type
      */
-    public function selectTestPearson(int $sch_code ,string $psn_code){
+    public function selectTestPearson(int $sch_code, int $cls_code, string $psn_code){
         
         $fileKbn = (string)config('constants.PATH_KBN_FILE');
         $dat = (string)config('constants.FILE_KBN_DAT');
@@ -286,6 +286,7 @@ class MDirectoryRepository implements MDirectoryRepositoryInterface{
                     })
                     ->select('psn_dir.*', 'dat_dir.fullpath as datfullpath' ,'cmt_dir.fullpath as cmtfullpath','psn_dir.psn_report_publish_flg')
                     ->where('psn_dir.sch_code', $sch_code)
+                    ->where('psn_dir.cls_code', $cls_code)
                     ->where('psn_dir.psn_code', $psn_code)
                     ->where('psn_dir.path_kbn', $fileKbn)
                     ->where('psn_dir.category_kbn', $psn)

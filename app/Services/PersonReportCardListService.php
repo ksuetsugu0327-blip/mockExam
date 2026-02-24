@@ -33,19 +33,20 @@ class PersonReportCardListService {
     /**
      * テスト回数別テスト一覧
      */
-    public function selectTestPearson(int $sch_code ,string $psn_id){
-        return $this->repositoryMDirectory->selectTestPearson($sch_code ,$psn_id);
+    public function selectTestPearson(int $sch_code, int $cls_code, string $psn_id){
+        return $this->repositoryMDirectory->selectTestPearson($sch_code, $cls_code, $psn_id);
     }
+    
     /**
      * 検索処理
      * @param int $schCode  塾コード
      * @param int $psnId  教室コード
      * @return type collection
      */
-    public function search(int $sch_code ,string $psn_id){
+    public function search(int $sch_code, int $cls_code, string $psn_id){
         
         // 検索処理
-        $selectList = $this->selectTestPearson($sch_code ,$psn_id);
+        $selectList = $this->selectTestPearson($sch_code, $cls_code, $psn_id);
         
         if($selectList->count() == 0) return null;
         
