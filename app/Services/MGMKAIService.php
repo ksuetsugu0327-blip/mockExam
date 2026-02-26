@@ -84,7 +84,7 @@ class MGMKAIService {
 					} else if($queryKbn2["KAIA030_" . "$i"] == config('constants.PROFI_ANALYSIS_KBN_INPUT')){
                     //★学力分析の場合(9、5のKAIA030_nが4の時)
                         // 通算回数設定
-                        $totalary += array("$i" => "学力分析__" . $totalCnt . "回");
+                        $totalary += array("$i" => "学力分析_" . $totalCnt . "回");
 
                         // ★学力分析毎
                         $paCnt ++;
