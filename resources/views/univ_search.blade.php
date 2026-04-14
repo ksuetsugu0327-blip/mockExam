@@ -65,7 +65,7 @@
         </div>
     @endif
     <div class = "disp_flex c-block-input required">
-        <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード">
+        <input style="width:200px;" type="text" name="sch_code" id="sch_code" placeholder="塾コード（会場番号）">
         <p></p>
     </div>
 
