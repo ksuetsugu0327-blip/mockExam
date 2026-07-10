@@ -33,14 +33,21 @@ class MUniversityCodeNameRepository implements MUniversityCodeNameRepositoryInte
      */
     public function selectList()
     {
-        return $this->MUniversityCodeName::select(
-            'm_university_code_name.university_code_name_cd',
-            'university_code_name',
-            'm_university_code_head.updated_at'
+        return DB::table('m_university_code_head')
+            ->select(
+                'm_university_code_name.university_code_name_cd',
+                DB::raw("CONCAT(m_university_code_head.fiscal_year, '_', m_university_code_name.university_code_name) AS university_code_name"),
+                'm_university_code_head.updated_at'
             )
-            ->leftJoin('m_university_code_head', 'm_university_code_head.university_code_name_cd', 'm_university_code_name.university_code_name_cd')
-            ->orderby('m_university_code_name.display_seq', 'asc')
-            ->orderBy('m_university_code_name.university_code_name_cd','ASC')
+            ->leftJoin(
+                'm_university_code_name', 
+                'm_university_code_head.university_code_name_cd', 
+                '=', 
+                'm_university_code_name.university_code_name_cd'
+            )
+            ->orderBy('m_university_code_head.fiscal_year')
+            ->orderBy('m_university_code_name.display_seq', 'asc')
+            ->orderBy('m_university_code_name.university_code_name_cd', 'asc')
             ->get();
     }
 
