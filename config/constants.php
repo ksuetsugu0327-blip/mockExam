@@ -203,6 +203,9 @@ return[
     // 大学コードCSV登録一回コミットにあたってコミットするレコード数
     'UNVC_IMP_COMMIT_COUNT' => 10000,
 
+    // 大学コード、高校コードバルクINSERT 件数
+    'CSV_BULK_INSERT_SIZE' => 1000,
+
     // 明細最大表示件数
     'VIEW_RECORD_COUNT' => 10000,
 
