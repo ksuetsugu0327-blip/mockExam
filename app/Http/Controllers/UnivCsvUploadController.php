@@ -336,7 +336,7 @@ catch (ExclusionException $e){
 
 	}
 
-	private function insertHighSchoolCodeData($file, $highSchoolCodeHeader, $param)
+	private function insertHighSchoolCodeData($file)
 	{
 	    // ★ トランザクション管理は親処理（呼び出し元）で行う前提とし、ここでは開始/コミットしない
 
