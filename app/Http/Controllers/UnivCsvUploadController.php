@@ -124,19 +124,14 @@ class UnivCsvUploadController extends Controller{
                 ->withErrors($errors);
         }
         else{
+		DB::beginTransaction(); // ★ 1つの大枠トランザクションを開始
             //ローカルで実行する場合、タイムアウトしたら下記を適用してください。
-            set_time_limit(5000);
+            // set_time_limit(5000);
+		try 
+		{
             if($dataType == 1){
-                try{
-                    $univCodeHeader = $this->handleUnivCodeHeader($param);
-                }
-                catch (ExclusionException $e){
-                    // 楽観ロックされているため、エラーを画面に表示
-                    return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
-                            ->with(array_merge([
-                                'message' => $e->getMessage(),
-                            ],$this->prepareSelectList()));
-                }
+
+                $univCodeHeader = $this->handleUnivCodeHeader($param);
 
                 $this->insertUnivCodeData($file, $univCodeHeader, $param);
             }
@@ -144,6 +139,35 @@ class UnivCsvUploadController extends Controller{
                 $this->highSchoolCsvService->clearTable();
                 $this->insertHighSchoolCodeData($file);
             }
+	        // 全件正常に完了したらコミット
+	        DB::commit();
+		} catch (ExclusionException $e) {
+		    DB::rollBack();
+        	// 楽観ロックエラー時の画面通知処理
+	        Log::error("CSVインポート失敗(楽観ロックエラー): " . $e->getMessage());
+			return redirect()->route('univ.register', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])
+			            ->with(array_merge([
+			                'message' => $e->getMessage(), // 「他のユーザーによって更新されました」等のメッセージ
+			            ], $this->prepareSelectList()));
+	    } catch (\Exception $e) {
+	        DB::rollBack(); // ★ 途中でどんなエラーが起きても全データ元通りに復元
+	        Log::error("CSVインポート失敗(DBエラー): " . $e->getMessage());
+			return redirect()->route('univ.register', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])
+			            ->with(array_merge([
+			                'message' => 'CSVインポート失敗(DBエラー): ' . $e->getMessage(),
+			            ], $this->prepareSelectList()));
+   		}
+
+catch (ExclusionException $e){
+	        // エラー発生時は全ロールバック
+	        DB::rollBack();
+    // エラーを画面に表示
+    return redirect()->route('univ.register', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])
+            ->with(array_merge([
+                'message' => $e->getMessage(),
+            ],$this->prepareSelectList()));
+}
+
            
         }
         
@@ -215,7 +239,171 @@ class UnivCsvUploadController extends Controller{
         return $univCodeHeader;
     }
 
-    private function insertUnivCodeData($file, $univCodeHeader, $param){
+	private function insertUnivCodeData($file, $univCodeHeader, $param)
+	{
+        // 既存データの削除
+        $this->univCsvService->deleteUnivCodesWithHeadID($univCodeHeader->id);
+
+        $bulkData = [];
+    	$chunkSize = config('constants.CSV_BULK_INSERT_SIZE'); // 1,000件単位でまとめてINSERT
+        $row_count = 0;    // 行数カウンター
+
+        foreach ($file as $row) 
+		{
+            // 空行のスキップ（SplFileObject の末尾 null 対策）
+            if (empty($row) || (count($row) === 1 && is_null($row[0]))) {
+                continue;
+            }
+
+            // 1行目のヘッダーは取り込まない
+            if ($row_count > 0) 
+			{
+				// $systemCharCode が 'sjis' の場合、または mb_detect_encoding で判定する場合
+				$encoding = mb_detect_encoding(implode('', $row), ['UTF-8', 'SJIS-win', 'eucjp-win'], true);
+
+				if ($encoding === 'SJIS-win' || $encoding === 'SJIS') {
+				    mb_convert_variables('UTF-8', 'SJIS-win', $row);
+				}
+
+                // 変数の初期化
+                $university_cd        = $row[0];
+                $prefecture_cd        = $row[1];
+                $install_div          = $row[2];
+                $dept_line_cd1        = $row[3];
+                $dept_line_cd2        = $row[4];
+                $dept_line_cd3        = $row[5];
+                $dept_line_cd4        = $row[6];
+                $dept_line_cd5        = $row[7];
+                $dept_line_cd6        = $row[8];
+                $dept_line_cd7        = $row[9];
+                $university_name_hkn  = $row[10];
+                $university_name      = $row[11];
+                $university_name_new  = $row[12];
+                $department_cd        = $row[13];
+                $department_seq       = $row[14];
+                $department_name	  = $row[15];
+                $common_test_use	  = $row[20];								
+                $deviation_value	  = $row[21];
+                if($param['deptOrSubject'] == 2){
+                    $subject_cd			  = $row[16];
+                    $subject_seq		  = $row[17];
+                    $subject_name		  = $row[18];
+                    $search_subject_name  = $row[19];
+                }	
+
+                // バルクインサート用の配列に追加
+                $bulkData[] = [
+                    'university_code_head_id'     => $univCodeHeader->id,
+                    'university_cd'       => $university_cd,
+                    'prefecture_cd'       => $prefecture_cd,
+                    'install_div'         => $install_div,
+                    'dept_line_cd1'       => $dept_line_cd1,
+                    'dept_line_cd2'       => empty($dept_line_cd2)?NULL:$dept_line_cd2,
+                    'dept_line_cd3'       => empty($dept_line_cd3)?NULL:$dept_line_cd3,
+                    'dept_line_cd4'       => empty($dept_line_cd4)?NULL:$dept_line_cd4,
+                    'dept_line_cd5'       => empty($dept_line_cd5)?NULL:$dept_line_cd5,
+                    'dept_line_cd6'       => empty($dept_line_cd6)?NULL:$dept_line_cd6,
+                    'dept_line_cd7'       => empty($dept_line_cd7)?NULL:$dept_line_cd7,
+                    'university_name_hkn' => $university_name_hkn,
+                    'university_name'     => $university_name,
+                    'university_name_new' => $university_name_new,
+                    'department_cd'       => $department_cd,
+                    'department_seq'      => $department_seq,
+                    'department_name'     => $department_name,
+                    'subject_cd'          => empty($subject_cd)?NULL:$subject_cd,
+                    'subject_seq'         => empty($subject_seq)?NULL:$subject_seq,
+                    'subject_name'        => empty($subject_name)?NULL:$subject_name,
+                    'search_subject_name' => empty($search_subject_name)?NULL:$search_subject_name,
+                    'common_test_use'     => $common_test_use,
+                    'deviation_value'     => $deviation_value,
+                    'created_at'            => now(),
+                    'updated_at'            => now(),
+                ];
+
+                // 1,000件溜まったらまとめてINSERT
+                if (count($bulkData) >= $chunkSize) {
+                    DB::table('m_university_code')->insert($bulkData); // ※実際のテーブル名に書き換えてください
+                    $bulkData = []; // 配列のリセット
+                }
+            }
+            $row_count++; // 行数を加算
+        }
+
+        // 1,000件に満たない残りのデータをまとめてINSERT
+        if (!empty($bulkData)) {
+            DB::table('m_university_code')->insert($bulkData);
+        }
+
+	}
+
+	private function insertHighSchoolCodeData($file, $highSchoolCodeHeader, $param)
+	{
+	    // ★ トランザクション管理は親処理（呼び出し元）で行う前提とし、ここでは開始/コミットしない
+
+	    $bulkData = [];
+	    $chunkSize = config('constants.CSV_BULK_INSERT_SIZE');
+	    $row_count = 0; // 行数カウンター
+
+	    foreach ($file as $row) 
+		{
+	        // 空行のスキップ（SplFileObject の末尾 null 対策）
+	        if (empty($row) || (count($row) === 1 && is_null($row[0]))) {
+	            continue;
+	        }
+
+	        // 1行目のヘッダー（0行目）は取り込まない
+	        if ($row_count > 0) 
+			{
+				// $systemCharCode が 'sjis' の場合、または mb_detect_encoding で判定する場合
+				$encoding = mb_detect_encoding(implode('', $row), ['UTF-8', 'SJIS-win', 'eucjp-win'], true);
+
+				if ($encoding === 'SJIS-win' || $encoding === 'SJIS') {
+				    mb_convert_variables('UTF-8', 'SJIS-win', $row);
+				}
+
+                $highschool_code     = $row[0];
+                $highschool_name_hkn = $row[1];
+                $zip_num             = $row[2];
+                $tel_num             = $row[3];
+                $install_cd          = $row[4];
+                $class_cd            = $row[5];
+                $highschool_name     = $row[6];
+                $address             = $row[7];
+                $prefecture_cd	     = substr($row[0], 0, 2);
+
+	            // バルクインサート用の配列に追加
+	            $bulkData[] = [
+                    'highschool_code'     => $highschool_code,
+                    'highschool_name_hkn' => $highschool_name_hkn,
+                    'zip_num'             => $zip_num,
+                    'tel_num'             => $tel_num,
+                    'install_cd'          => $install_cd,
+                    'class_cd'            => $class_cd,
+                    'highschool_name'     => $highschool_name,
+                    'address'             => $address,
+                    'prefecture_cd'       => $prefecture_cd,
+	                'created_at'               => now(),
+	                'updated_at'               => now(),
+	            ];
+
+	            // 1,000件溜まったらまとめてINSERT
+	            if (count($bulkData) >= $chunkSize) {
+	                DB::table('m_highschool_code')->insert($bulkData); // ※実際のテーブル名に書き換えてください
+	                $bulkData = []; // 配列のリセット
+	            }
+	        }
+	        // ★ 行数カウンターをインクリメント（ループの最後で必ず実行）
+	       	$row_count++;
+	    }
+
+	    // 1,000件に満たない残りのデータをまとめてINSERT
+	    if (!empty($bulkData)) {
+	        DB::table('m_highschool_code')->insert($bulkData);
+	    }
+	}
+
+
+    private function insertUnivCodeData_OLD($file, $univCodeHeader, $param){
         $row_count = 0;
         $commit_count = 0;
         try{
@@ -254,10 +442,10 @@ class UnivCsvUploadController extends Controller{
                     $deviation_value	  = $row[21];
                     
                     if($param['deptOrSubject'] == 2){
-                        $subject_cd			  = $row[16];						
-                        $subject_seq		  = $row[17];							
-                        $subject_name		  = $row[18];							
-                        $search_subject_name  = $row[19];	
+                        $subject_cd			  = $row[16];
+                        $subject_seq		  = $row[17];
+                        $subject_name		  = $row[18];
+                        $search_subject_name  = $row[19];
                     }			
 
                     // 登録データを配列に追加
@@ -312,7 +500,7 @@ class UnivCsvUploadController extends Controller{
         }
     }
 
-    private function insertHighSchoolCodeData($file){
+    private function insertHighSchoolCodeData_OLD($file){
         $row_count = 0;
 
         //取得したオブジェクトを読み込み
