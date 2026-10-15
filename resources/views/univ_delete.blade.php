@@ -1,9 +1,9 @@
 
 @extends('layout.common')
 
-@section('title', '大学コードデータ削除')
+@section('title', '大学コードデータ一覧')
 @section('keywords', '')
-@section('description', '大学コードデータ削除')
+@section('description', '大学コードデータ一覧')
 @section('pageCss')
 <style>
     .univ-code-search {
@@ -24,7 +24,7 @@
 @section('content')
 <div id="portal-content" class="idlogin">
     <div id="content">
-        <h1>大学コードデータ削除</h1><br>
+        <h1>大学コードデータ一覧</h1><br>
         @if (isset($message))
         <div class="error_message">
             <strong>{{ $message }}</strong>
@@ -83,11 +83,11 @@
                     <!-- Table header -->
                     <tbody>
                         <tr>
-                            <th style="width: 22px;"></th>
-                            <th style="width: 88px;">年度</th>
-                            <th style="width: 88px;">データ名</th>
-                            <th style="width: 88px;">学部/学科</th>
-                            <th style="width: 88px;"></th>
+                            <th style="width: 2%;"></th>
+                            <th style="width: 9%;">年度</th>
+                            <th style="width: 63%;">データ名</th>
+                            <th style="width: 14%;">学部/学科</th>
+                            <th style="width: 12%;"></th>
                         </tr>
                     <!-- Table body -->
                         <!-- Example data rows - Replace these with your own data rows -->
