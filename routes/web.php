@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'auth.very_basic'], function () {
+Route::middleware('auth.very_basic')->group(function () {
 
     // ■個人情報保護方針■
     Route::get('/{path}praivacy', function () {
