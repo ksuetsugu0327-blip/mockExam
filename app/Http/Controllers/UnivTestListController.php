@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 // use App\Models\MTestName;
 // use App\Models\MUniversityCodeName;
 // use App\Models\TTestInfo;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\UnivTestListRequest;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
 class UnivTestListController extends Controller implements HasMiddleware

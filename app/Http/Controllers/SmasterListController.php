@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Utils\FileUtil;
@@ -13,6 +11,7 @@ use App\Utils\PasswordUtil;
 use App\Utils\RouteUtil;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

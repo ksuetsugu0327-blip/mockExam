@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\UnivTestEditRequest;
 use App\Services\MCodeBookService;
 use App\Services\MOemSchoolService;
@@ -11,6 +9,7 @@ use App\Services\MTestNameService;
 use App\Services\TTestInfoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
 class UnivTestEditController extends Controller implements HasMiddleware

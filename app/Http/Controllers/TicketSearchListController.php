@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Services\TicketService;
 use App\Utils\RouteUtil;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
 class TicketSearchListController extends Controller implements HasMiddleware

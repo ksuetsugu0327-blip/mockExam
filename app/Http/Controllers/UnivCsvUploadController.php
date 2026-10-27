@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Exceptions\ExclusionException;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Models\MUniversityCodeName as MUnivCodeName;
@@ -14,6 +12,7 @@ use App\Services\TTestInfoService;
 use App\Services\UnivCsvService;
 use App\Utils\FileUtil;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;

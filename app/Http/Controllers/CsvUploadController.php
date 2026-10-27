@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\CsvUploadRequest;
 use App\Services\CsvService;
 use App\Utils\FileUtil;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

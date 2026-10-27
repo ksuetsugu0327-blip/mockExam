@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\KmasterListRequest;
 use App\Services\MClassService;
 use App\Utils\FileUtil;
 use App\Utils\PasswordUtil;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

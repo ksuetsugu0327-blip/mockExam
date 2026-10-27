@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\ExamNumberRequest;
 use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use SplFileObject;
 
