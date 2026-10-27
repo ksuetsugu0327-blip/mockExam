@@ -308,7 +308,7 @@ class SurrogateLoginController extends Controller
         $request->session()->forget(config('constants.SESSION_KEY_PSNNAME'));
 
         // 生徒マスタ一覧画面へリダイレクト
-        return redirect()->to(route('sch.persons.index',['schCode' => $adminInfo[config('constants.SESSION_KEY_SCHCODE')]]))->with(config('constants.SESSION_KEY_IS_SURROGATE_LOGOUT'),true);
+        return redirect()->to(route('sch.persons.index', ['schCode' => $adminInfo[config('constants.SESSION_KEY_SCHCODE')]]))->with(config('constants.SESSION_KEY_IS_SURROGATE_LOGOUT'), true);
 
     }
 }

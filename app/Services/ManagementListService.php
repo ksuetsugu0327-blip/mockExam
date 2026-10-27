@@ -101,7 +101,6 @@ class ManagementListService
     /**
      * ZIPファイルパス取得
      *
-     * @param  array  $param
      * @return type TZipOrder
      */
     public function zipDownloadPath(array $param)

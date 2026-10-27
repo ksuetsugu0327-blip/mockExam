@@ -122,6 +122,6 @@ class MPersonService
      */
     public function update(array $person, int $adminKbn)
     {
-        return $this->repository->update($person,$adminKbn);
+        return $this->repository->update($person, $adminKbn);
     }
 }
