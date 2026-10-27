@@ -12,7 +12,7 @@ class UnivCodeDataDeleteRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,14 +22,14 @@ class UnivCodeDataDeleteRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'data_name' => 'nullable|string|max:60',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'data_name.max' => 'データ名には:max文字以下の文字列を指定してください。',

@@ -11,7 +11,7 @@ class PortalLoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,14 +21,14 @@ class PortalLoginRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'portal_account' => 'required|string|exists:m_school,portal_account',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'portal_account.required' => '塾アカウント名を入力してください。',

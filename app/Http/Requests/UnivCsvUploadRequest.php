@@ -11,7 +11,7 @@ class UnivCsvUploadRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class UnivCsvUploadRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = [
             'csv_file' => 'required|file|mimes:csv,txt|mimetypes:text/plain', // mimesの都合上text/csvなのでtxtも許可が必要
@@ -43,7 +43,7 @@ class UnivCsvUploadRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         $messages = [
             'data_type.required' => 'データ区分を選択してください。',

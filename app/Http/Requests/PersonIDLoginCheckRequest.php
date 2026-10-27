@@ -11,7 +11,7 @@ class PersonIDLoginCheckRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class PersonIDLoginCheckRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'psn_code' => 'required|em_length:11',
@@ -33,7 +33,7 @@ class PersonIDLoginCheckRequest extends FormRequest
      *
      * @return type
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'psn_code' => '塾生ID',

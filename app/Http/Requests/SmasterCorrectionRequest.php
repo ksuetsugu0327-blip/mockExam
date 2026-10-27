@@ -12,7 +12,7 @@ class SmasterCorrectionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,7 +22,7 @@ class SmasterCorrectionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'cls_code' => 'sometimes|required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),

@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         // 変更したい内容の処理を書く
         Schema::table('m_school', function (Blueprint $table) {
@@ -36,7 +36,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         // 変更した内容を取り消す処理を書く
         Schema::table('m_school', function (Blueprint $table) {

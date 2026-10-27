@@ -13,7 +13,7 @@ class MClassFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $sch_code = MSchool::All()->random()->sch_code;
 

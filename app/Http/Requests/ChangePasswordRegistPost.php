@@ -14,7 +14,7 @@ class ChangePasswordRegistPost extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,7 +24,7 @@ class ChangePasswordRegistPost extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'password' => ['required' | 'alpha_num' | 'min:8' | 'confirmed'],

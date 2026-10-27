@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class MHighSchoolCode extends Model
@@ -36,7 +37,7 @@ class MHighSchoolCode extends Model
     // Define relationships to other models (if applicable)
     // Define relationships with other tables as necessary, e.g., `Prefecture` model
     // For example, if `MHighschoolCode` references a `Prefecture` model:
-    public function prefecture()
+    public function prefecture(): BelongsTo
     {
         return $this->belongsTo(Prefecture::class, 'prefecture_cd');
     }

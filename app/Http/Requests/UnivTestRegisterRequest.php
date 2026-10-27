@@ -13,7 +13,7 @@ class UnivTestRegisterRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +23,7 @@ class UnivTestRegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'oem_sch_code' => 'required',
@@ -34,7 +34,7 @@ class UnivTestRegisterRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'oem_sch_code.required' => '塾は必須です。',

@@ -12,7 +12,7 @@ class WorkMClassSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // 移行時のパスワードハッシュ化対応
         $WmClass = App\Models\WorkMClass::all();

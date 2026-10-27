@@ -12,7 +12,7 @@ class TestInfoSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('t_test_info')->insert([
             [

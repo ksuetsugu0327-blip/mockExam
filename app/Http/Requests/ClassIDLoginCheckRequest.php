@@ -11,7 +11,7 @@ class ClassIDLoginCheckRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class ClassIDLoginCheckRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'cls_code' => 'required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),
@@ -33,7 +33,7 @@ class ClassIDLoginCheckRequest extends FormRequest
      *
      * @return type
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'cls_code.exists' => trans('message.CLASS_CODE_NO_EXISTS'),

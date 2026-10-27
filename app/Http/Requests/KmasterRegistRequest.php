@@ -12,7 +12,7 @@ class KmasterRegistRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,7 +22,7 @@ class KmasterRegistRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
 
         return [
@@ -35,7 +35,7 @@ class KmasterRegistRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'password.required_if' => 'パスワードは必須です。',

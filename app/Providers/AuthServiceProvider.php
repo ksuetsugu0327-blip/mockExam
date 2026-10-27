@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // カスタムガードの追加
         Auth::extend('customSession', function ($app, $name, array $config) {

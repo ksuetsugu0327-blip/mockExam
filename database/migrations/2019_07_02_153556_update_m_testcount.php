@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('m_testcount', function (Blueprint $table) {
             // カラムの追加を行う
@@ -26,7 +26,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('m_testcount', function (Blueprint $table) {
             // 変更したい内容の処理を書く

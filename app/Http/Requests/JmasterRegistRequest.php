@@ -13,7 +13,7 @@ class JmasterRegistRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +23,7 @@ class JmasterRegistRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'sch_code' => 'required|digits_between:1,7|unique:m_school,sch_code',

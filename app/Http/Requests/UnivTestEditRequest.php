@@ -12,7 +12,7 @@ class UnivTestEditRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,14 +22,14 @@ class UnivTestEditRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'remarks' => 'nullable|max:1000',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'remarks.max' => '備考には:max文字以下の文字列を指定してください。',

@@ -12,7 +12,7 @@ class UniversityCodeNameSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('m_university_code_name')->insert([
             [

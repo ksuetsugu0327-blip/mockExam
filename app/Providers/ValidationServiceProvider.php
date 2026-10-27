@@ -12,7 +12,7 @@ class ValidationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -22,7 +22,7 @@ class ValidationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // パスワード書式チェック
         Validator::extend('password_format', function ($attribute, $value, $parameters, $validator) {

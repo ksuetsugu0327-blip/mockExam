@@ -11,7 +11,7 @@ class ClassLoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class ClassLoginRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'cls_code' => 'required|digits_between:1,4',
@@ -34,7 +34,7 @@ class ClassLoginRequest extends FormRequest
      *
      * @return type
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'cls_code' => '教室コード',

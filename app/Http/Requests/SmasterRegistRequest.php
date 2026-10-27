@@ -12,7 +12,7 @@ class SmasterRegistRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -22,7 +22,7 @@ class SmasterRegistRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'sch_code' => 'required|digits_between:1,7|exists:m_school,sch_code',

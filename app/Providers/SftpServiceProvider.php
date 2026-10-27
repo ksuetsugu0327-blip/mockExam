@@ -11,7 +11,7 @@ class SftpServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -21,7 +21,7 @@ class SftpServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Storage::extend('sftp', function ($app, $config) {
             return new Filesystem(new SftpAdapter([
