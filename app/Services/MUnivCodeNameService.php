@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MUnivCodeName\MUniversityCodeNameRepositoryInterface as MUniversityCodeNameRepositoryInterface;
+use App\Repositories\MUnivCodeName\MUniversityCodeNameRepositoryInterface;
 
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MUnivCodeNameService {
-
+class MUnivCodeNameService
+{
     // リポジトリ
-    // 大学コードデータ名マスタ 
+    // 大学コードデータ名マスタ
     private $repositoryMUniversityCodeName;
-    
+
     /**
      * コンストラクタ
      */
@@ -28,5 +28,4 @@ class MUnivCodeNameService {
     {
         return $this->repositoryMUniversityCodeName->selectList();
     }
-
 }

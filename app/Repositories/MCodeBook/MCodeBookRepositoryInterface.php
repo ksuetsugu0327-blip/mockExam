@@ -4,7 +4,6 @@ namespace App\Repositories\MCodeBook;
 
 /**
  * コード表マスタ用リポジトリ
- *
  */
 interface MCodeBookRepositoryInterface
 {

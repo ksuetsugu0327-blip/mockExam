@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\TicketService;
-use App\Services\MSchoolService;
 use App\Services\MPersonService;
+use App\Services\MSchoolService;
+use App\Services\TicketService;
 use App\Utils\RouteUtil;
 use DateTime;
+use Illuminate\Http\Request;
 
-
-class TicketSearchListController extends Controller {
+class TicketSearchListController extends Controller
+{
     // 志望校関連用サービス
     private $service;
 
@@ -22,17 +22,19 @@ class TicketSearchListController extends Controller {
 
     /**
      * コンストラクタ
-     * @param TicketService $TicketService 志望校関連用サービス
-     * @param MPersonService $mPersonService 生徒マスタサービス
-     * @param MSchoolService $mSchoolService 塾マスタサービス
+     *
+     * @param  TicketService  $TicketService  志望校関連用サービス
+     * @param  MPersonService  $mPersonService  生徒マスタサービス
+     * @param  MSchoolService  $mSchoolService  塾マスタサービス
      */
     public function __construct(TicketService $TicketService,
-                                MPersonService $mPersonService,
-                                MSchoolService $mSchoolService) {
+        MPersonService $mPersonService,
+        MSchoolService $mSchoolService)
+    {
         // ログイン判定(管理者、塾、教室、代理塾、代理教室）
-        $this->middleware('auth:' . config('constants.GUARD_ADMIN') . ',' . config('constants.GUARD_SCHOOL') . ',' . config('constants.GUARD_CLASS') .
-            ',' . config('constants.GUARD_SURROGATE_SCHOOL') . ',' . config('constants.GUARD_SURROGATE_CLASS')
-            . ',' . config('constants.GUARD_PERSON')
+        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS').
+            ','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS')
+            .','.config('constants.GUARD_PERSON')
         );
         $this->service = $TicketService;
         $this->psnService = $mPersonService;
@@ -45,7 +47,8 @@ class TicketSearchListController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -53,14 +56,14 @@ class TicketSearchListController extends Controller {
         // 表示タイプ設定
         $viewMode = $this->getViewMode();
 
-        if (!preg_match("|^" . $current . "|", $referer) ||
-            !$request->session()->has(config('constants.SESSION_KEY_TICKET_SEARCH_CONDITION'))) {
+        if (! preg_match('|^'.$current.'|', $referer) ||
+            ! $request->session()->has(config('constants.SESSION_KEY_TICKET_SEARCH_CONDITION'))) {
 
             if ($request->session()->has(config('constants.SESSION_KEY_TICKET_SEARCH_CONDITION'))) {
                 // 検索値がセッションに格納されている場合、セッションをクリアして初期表示
                 $request->session()->forget(config('constants.SESSION_KEY_TICKET_SEARCH_CONDITION'));
             }
-            $message = "";
+            $message = '';
             if ($request->session()->has('message')) {
                 $message = $request->session()->get('message');
             }
@@ -68,7 +71,7 @@ class TicketSearchListController extends Controller {
             // 生徒の場合は年度固定
             $year = $request->get('year');
             if ($viewMode == 4) {
-                $date = new DateTime();
+                $date = new DateTime;
                 $month = $date->format('n');
                 if ($month < 4) {
                     $year = $date->format('Y') - 1;
@@ -92,7 +95,7 @@ class TicketSearchListController extends Controller {
                 ->with($message);
         } else {
             // セッション情報を引き継いで検索処理を実施する
-            $message = "";
+            $message = '';
             if ($request->session()->has('message')) {
                 $message = $request->session()->get('message');
             }
@@ -111,9 +114,9 @@ class TicketSearchListController extends Controller {
 
             // 表示用パラメータを追加
             $param = [
-                    'sch_list' => $this->schList,       // 塾リスト
-                    'viewMode' => $viewMode,            // 表示タイプ
-                ]
+                'sch_list' => $this->schList,       // 塾リスト
+                'viewMode' => $viewMode,            // 表示タイプ
+            ]
                 + $conditions;
 
             return view('ticketSearchList')->with($directory)->with($param);
@@ -122,10 +125,12 @@ class TicketSearchListController extends Controller {
 
     /**
      * 検索処理
-     * @param \App\index $index
+     *
+     * @param  \App\index  $index
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         // 表示タイプ設定
         $viewMode = $this->getViewMode();
 
@@ -151,7 +156,7 @@ class TicketSearchListController extends Controller {
             ];
         }
 
-        //教室サイトの場合は検索条件に教室コードを追加
+        // 教室サイトの場合は検索条件に教室コードを追加
         if ($viewMode == 3) {
             $conditions += [
                 'cls_code' => $request->session()->get(config('constants.SESSION_KEY_CLSCODE')),
@@ -165,7 +170,7 @@ class TicketSearchListController extends Controller {
             // 該当データがない場合
             $message = trans('message.SEARCH_NO_DATA');
         } else {
-            $message = "";
+            $message = '';
         }
 
         $directory = [
@@ -180,9 +185,9 @@ class TicketSearchListController extends Controller {
 
         // 表示用パラメータを追加
         $param = [
-                'sch_list' => $this->schList,       // 塾リスト
-                'viewMode' => $viewMode,            // 表示タイプ
-            ]
+            'sch_list' => $this->schList,       // 塾リスト
+            'viewMode' => $viewMode,            // 表示タイプ
+        ]
             + $conditions;
 
         return view('ticketSearchList')
@@ -192,9 +197,11 @@ class TicketSearchListController extends Controller {
 
     /**
      * 画面表示タイプ設定
+     *
      * @return 1:管理者、2:塾、3:教室、4:生徒
      */
-    private function getViewMode() {
+    private function getViewMode()
+    {
         if (auth(config('constants.GUARD_ADMIN'))->check()) {
             $prefix = RouteUtil::getPrefix();
             if ($prefix == 'sch') {

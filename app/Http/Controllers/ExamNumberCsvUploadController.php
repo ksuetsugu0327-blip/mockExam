@@ -2,38 +2,35 @@
 
 namespace App\Http\Controllers;
 
-//useしないと 自動的にnamespaceのパスが付与されるのでuse
-use \SplFileObject;
-use App\Models\MSchool;
-use App\Services\ExamNumberCsvService as ExamNumberCsvService;
-use App\Http\Controllers\Controller;
+// useしないと 自動的にnamespaceのパスが付与されるのでuse
 use App\Http\Requests\ExamNumberRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
+use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
-use Illuminate\Support\Facades\DB;
+use SplFileObject;
 
-class ExamNumberCsvUploadController extends Controller {
+class ExamNumberCsvUploadController extends Controller
+{
     private $ExamNumberCsvService;
 
-    public function __construct(ExamNumberCsvService $ExamNumberCsvService) {
-        $this->middleware('auth:' . config('constants.GUARD_ADMIN'));
+    public function __construct(ExamNumberCsvService $ExamNumberCsvService)
+    {
+        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
         $this->ExamNumberCsvService = $ExamNumberCsvService;
     }
 
     /**
      * CSVインポート画面を表示
      */
-    public function index() {
+    public function index()
+    {
         return view('ExamNumberCsvUpload');
     }
 
     /**
-     * @param ExamNumberRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View|\Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function upload(ExamNumberRequest $request) {
+    public function upload(ExamNumberRequest $request)
+    {
 
         // ヘッダ
         $csvHeader = ['エラー行', 'エラーメッセージ'];
@@ -45,10 +42,10 @@ class ExamNumberCsvUploadController extends Controller {
         // 'csv_file' はビューの inputタグのname属性
         $uploaded_file = $request->file('csv_file');
 
-        //SplFileObjectを生成
+        // SplFileObjectを生成
         $file = new SplFileObject($uploaded_file);
 
-        //SplFileObject::READ_CSV が最速らしい
+        // SplFileObject::READ_CSV が最速らしい
         $file->setFlags(SplFileObject::READ_CSV);
 
         // CSVの中身に対するバリデーションを実施
@@ -62,7 +59,7 @@ class ExamNumberCsvUploadController extends Controller {
             // HTTP Header 作成
             $responseHeader = [
                 'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachement;filename=' . config('constants.EXAMNUM_IMPORT_ERR_FILENAME'),
+                'Content-Disposition' => 'attachement;filename='.config('constants.EXAMNUM_IMPORT_ERR_FILENAME'),
             ];
 
             // エラー内容CSVをダウンロードさせる
@@ -74,7 +71,7 @@ class ExamNumberCsvUploadController extends Controller {
             );
 
         } else {
-            //更新用データの取得読み込み
+            // 更新用データの取得読み込み
             $import_data = $this->ExamNumberCsvService->getRegisterData();
         }
 

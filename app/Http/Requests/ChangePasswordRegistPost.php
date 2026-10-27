@@ -27,22 +27,22 @@ class ChangePasswordRegistPost extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['required'|'alpha_num'|'min:8'|'confirmed']
+            'password' => ['required' | 'alpha_num' | 'min:8' | 'confirmed'],
         ];
     }
-    
+
     /**
      * エラーメッセージ設定
      */
-/*    
-    public function messages()
-    {
-        return [
-            'required'=>'※必須入力です',
-            'min'=>'※:min文字以上の文字を入力してください',
-            'confirmed'=>'※パスワードと確認用パスワードの入力内容が不一致です',
-        ];
-    }
- */
-    
+    /*
+        public function messages()
+        {
+            return [
+                'required'=>'※必須入力です',
+                'min'=>'※:min文字以上の文字を入力してください',
+                'confirmed'=>'※パスワードと確認用パスワードの入力内容が不一致です',
+            ];
+        }
+     */
+
 }

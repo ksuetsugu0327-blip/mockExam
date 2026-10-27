@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MPrefecture\MPrefectureRepositoryInterface as MPrefectureRepositoryInterface;
+use App\Repositories\MPrefecture\MPrefectureRepositoryInterface;
 
 /**
  * 都道府県マスタ用サービス
  */
-class MPrefectureService {
-
+class MPrefectureService
+{
     // リポジトリ
-    // 都道府県マスタ 
+    // 都道府県マスタ
     private $repositoryMPrefecture;
-    
+
     /**
      * コンストラクタ
      */
@@ -20,7 +20,7 @@ class MPrefectureService {
     {
         $this->repositoryMPrefecture = $repositoryMPrefecture;
     }
-    
+
     /**
      * 一覧取得
      */
@@ -28,5 +28,4 @@ class MPrefectureService {
     {
         return $this->repositoryMPrefecture->selectList();
     }
-
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\TicketService;
 use App\Services\MClassService;
+use App\Services\TicketService;
+use Illuminate\Http\Request;
 
 class TicketDetailController extends Controller
 {
@@ -16,11 +16,12 @@ class TicketDetailController extends Controller
 
     /**
      * コンストラクタ
-     * @param TicketService $TicketService 志望校関連用サービス
-     * @param MClassService $mClassService 教室マスタサービス
+     *
+     * @param  TicketService  $TicketService  志望校関連用サービス
+     * @param  MClassService  $mClassService  教室マスタサービス
      */
     public function __construct(TicketService $TicketService,
-                                                    MClassService $mClassService)
+        MClassService $mClassService)
     {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
@@ -36,11 +37,11 @@ class TicketDetailController extends Controller
      */
     public function index(Request $request, int $sch_code, int $index)
     {
-        if($request->session()->has(config('constants.SESSION_KEY_TICKET_LIST'))) {
+        if ($request->session()->has(config('constants.SESSION_KEY_TICKET_LIST'))) {
             $data = $request->session()->get(config('constants.SESSION_KEY_TICKET_LIST'));
 
             // テスト情報
-            $conditions = $data["directory"][$index];
+            $conditions = $data['directory'][$index];
             $conditions += [
                 'sch_code' => $sch_code,
             ];
@@ -57,11 +58,11 @@ class TicketDetailController extends Controller
             // 志望校一覧
             $socList = $this->service->TicketList($conditions);
             $resultCount = $socList->count();
-            if($resultCount==0){
+            if ($resultCount == 0) {
                 // 該当データがない場合
                 $message = trans('message.SEARCH_NO_DATA');
             } else {
-                $message = "";
+                $message = '';
             }
 
             $viewMode = 3;
@@ -88,8 +89,8 @@ class TicketDetailController extends Controller
 
             // 教室リスト
             $clsList = $this->clsService->selectClassBoxList($sch_code)
-                                        ->pluck('name', 'cls_code')
-                                        ->toArray();
+                ->pluck('name', 'cls_code')
+                ->toArray();
 
             // 表示用情報
             $params = [
@@ -103,13 +104,12 @@ class TicketDetailController extends Controller
             ];
 
             return view('ticketDetail')
-                    ->with($params)
-                    ->with('socList', $socList)
-                    ->with('message',$message);
+                ->with($params)
+                ->with('socList', $socList)
+                ->with('message', $message);
         } else {
             return redirect()
-                    ->route(RouteUtil::getPrefix().'.ticketList.index',['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))]);
+                ->route(RouteUtil::getPrefix().'.ticketList.index', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))]);
         }
     }
-
 }

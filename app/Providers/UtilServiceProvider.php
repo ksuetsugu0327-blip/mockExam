@@ -26,5 +26,6 @@ class UtilServiceProvider extends ServiceProvider
         $this->app->bind(\App\Utils\PasswordUtil::class);
         $this->app->bind(\App\Utils\SessionUtil::class);
         $this->app->bind(\App\Utils\FileUtil::class);
-        $this->app->bind(\App\Utils\RouteUtil::class);    }
+        $this->app->bind(\App\Utils\RouteUtil::class);
+    }
 }

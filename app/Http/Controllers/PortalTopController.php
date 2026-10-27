@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\PortalLoginRequest;
 use App\Services\MSchoolService;
+use Illuminate\Http\Request;
 
 class PortalTopController extends Controller
 {
@@ -23,17 +23,19 @@ class PortalTopController extends Controller
     public function account(Request $request, string $account)
     {
         $account_title = $this->setAccountName($account);
-        //ログイン画面のパラメータが正しくない場合はポータルトップへ戻す
+        // ログイン画面のパラメータが正しくない場合はポータルトップへ戻す
         if (is_null($account_title)) {
             return redirect(route('PortalTop.index'));
         }
+
         return view('portal-account-login')->with('account_title', $account_title)->with('account', $account);
     }
 
     public function check(PortalLoginRequest $request, string $account)
     {
         $sch_code = $this->m_school->getCodeByAccount($request->portal_account);
-        $redirect_url = '/'  . $sch_code . '/' . $account . '/login';
+        $redirect_url = '/'.$sch_code.'/'.$account.'/login';
+
         return redirect($redirect_url);
     }
 
@@ -46,7 +48,7 @@ class PortalTopController extends Controller
         } elseif ($account == 'sch') {
             return '本部様';
         }
+
         return null;
     }
-
 }

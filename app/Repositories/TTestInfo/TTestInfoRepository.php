@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repositories\TTestInfo;
@@ -9,28 +10,27 @@ namespace App\Repositories\TTestInfo;
  * and open the template in the editor.
  */
 
-use App\Repositories\TTestInfo\TTestInfoRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\ExclusionException;
+use App\Models\TTestInfo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Models\TTestInfo as TTestInfo;
 
 /**
  * 大学模擬試験テーブル用リポジトリ
- *
  */
 class TTestInfoRepository implements TTestInfoRepositoryInterface
 {
     /**
      * テスト情報モデル
+     *
      * @var type model
      */
     private $TTestInfo;
 
     /**
      * コンストラクタ
-     * @param TTestInfo $tTestInfo  大学コードデータ名マスタモデル
+     *
+     * @param  TTestInfo  $tTestInfo  大学コードデータ名マスタモデル
      */
     public function __construct(TTestInfo $tTestInfo)
     {
@@ -39,39 +39,41 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 引数指定での検索処理( 検索画面用 ）
-     * @param array $conditions     検索条件(連想配列）
+     *
+     * @param  array  $conditions  検索条件(連想配列）
      */
     public function selectList(array $conditions)
     {
         $testLists = DB::table('t_test_info as t_ti')
-                        ->select('t_ti.id', 'm_oem.oem_sch_name','t_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name', 'm_cb.codebook_cd', 'm_cb.codebook_name')
-                        ->leftJoin('m_oem_school as m_oem', 't_ti.oem_sch_code', 'm_oem.oem_sch_code')
-                        ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd', 'm_tn.test_name_cd')
-                        ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
-                        ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
-                        ->leftJoin('m_codebook as m_cb', 't_ti.codebook_cd', 'm_cb.codebook_cd')
-                        ->when(array_key_exists('oem_school', $conditions) && isset($conditions['oem_school']), function ($query) use ($conditions) {
-                            return $query->where('t_ti.oem_sch_code', $conditions['oem_school']);
-                        })
-                        ->when(array_key_exists('year', $conditions) && isset($conditions['year']), function ($query) use ($conditions) {
-                            return $query->where('t_ti.fiscal_year', $conditions['year']);
-                        })
-                        ->when(array_key_exists('test_name', $conditions) && isset($conditions['test_name']), function ($query) use ($conditions) {
-                            return $query->where('m_tn.test_name', 'like', '%'.trim($conditions['test_name']).'%');
-                        })
-                        ->orderBy('t_ti.oem_sch_code')
-                        ->orderBy('t_ti.fiscal_year')
-                        ->orderBy('t_ti.grade')
-                        ->orderBy('m_tn.test_name')
-                        //->toSql();
-                        ->get();
-                        
+            ->select('t_ti.id', 'm_oem.oem_sch_name', 't_ti.fiscal_year', 'm_tn.test_name', 't_ti.grade', 'm_ucn.university_code_name', 'm_cb.codebook_cd', 'm_cb.codebook_name')
+            ->leftJoin('m_oem_school as m_oem', 't_ti.oem_sch_code', 'm_oem.oem_sch_code')
+            ->leftJoin('m_test_name as m_tn', 't_ti.test_name_cd', 'm_tn.test_name_cd')
+            ->leftJoin('m_university_code_head as m_uch', 'm_uch.id', 't_ti.university_code_head_id')
+            ->leftJoin('m_university_code_name as m_ucn', 'm_uch.university_code_name_cd', 'm_ucn.university_code_name_cd')
+            ->leftJoin('m_codebook as m_cb', 't_ti.codebook_cd', 'm_cb.codebook_cd')
+            ->when(array_key_exists('oem_school', $conditions) && isset($conditions['oem_school']), function ($query) use ($conditions) {
+                return $query->where('t_ti.oem_sch_code', $conditions['oem_school']);
+            })
+            ->when(array_key_exists('year', $conditions) && isset($conditions['year']), function ($query) use ($conditions) {
+                return $query->where('t_ti.fiscal_year', $conditions['year']);
+            })
+            ->when(array_key_exists('test_name', $conditions) && isset($conditions['test_name']), function ($query) use ($conditions) {
+                return $query->where('m_tn.test_name', 'like', '%'.trim($conditions['test_name']).'%');
+            })
+            ->orderBy('t_ti.oem_sch_code')
+            ->orderBy('t_ti.fiscal_year')
+            ->orderBy('t_ti.grade')
+            ->orderBy('m_tn.test_name')
+                        // ->toSql();
+            ->get();
+
         return $testLists;
     }
 
     /**
      * 登録処理
-     * @param array $testInfo テスト情報連想配列
+     *
+     * @param  array  $testInfo  テスト情報連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function register(array $testInfo)
@@ -94,18 +96,17 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             DB::rollBack();
             // システムエラー
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
         }
 
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS')
-                    ,'message'=>trans('message.SUCCESS_TESTINFO_REGISTER_DATA')
-                    ,'id'=>$tTestInfo->id);
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'), 'message' => trans('message.SUCCESS_TESTINFO_REGISTER_DATA'), 'id' => $tTestInfo->id];
     }
 
     /**
      * 更新処理
-     * @param array $testInfo テスト情報(連想配列)
-     * @param int $id
+     *
+     * @param  array  $testInfo  テスト情報(連想配列)
      * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
      */
     public function update(array $testInfo, int $id)
@@ -125,23 +126,27 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             // 排他エラー
             DB::rollBack();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
+
+            return ['resultCode' => config('constants.RESULT_CODE_BUSINESS_ERROR'), 'message' => trans('message.TESTINFO_EXCLUSIVE_EXCEPTION')];
         } catch (ExclusionException $ex) {
             // 楽観ロックエラー
             DB::rollBack();
-            return array('resultCode' => config('constants.RESULT_CODE_CONFLICT_ERROR'), 'message' =>$ex->getMessage());
+
+            return ['resultCode' => config('constants.RESULT_CODE_CONFLICT_ERROR'), 'message' => $ex->getMessage()];
         } catch (\Exception $ex) {
             // システムエラー
             DB::rollBack();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
         }
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_TESTINFO_UPDATE_DATA'));
+
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'), 'message' => trans('message.SUCCESS_TESTINFO_UPDATE_DATA')];
     }
 
     /**
      * テストID指定でのデータ削除処理
-     * @param int $id
+     *
      * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
      */
     public function delete(int $id)
@@ -151,25 +156,28 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
             $tTestInfo = $this->TTestInfo::where('id', $id)->firstOrFail();
             // 削除処理
             $this->TTestInfo::destroy($tTestInfo->id);
-            
+
             DB::commit();
         } catch (ModelNotFoundException $ex) {
             // 排他エラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.TESTINFO_EXCLUSIVE_EXCEPTION'));
+
+            return ['resultCode' => config('constants.RESULT_CODE_BUSINESS_ERROR'), 'message' => trans('message.TESTINFO_EXCLUSIVE_EXCEPTION')];
         } catch (\Exception $ex) {
             // システムエラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
         }
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_TESTINFO_DELETE_DATA'));
+
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'), 'message' => trans('message.SUCCESS_TESTINFO_DELETE_DATA')];
     }
 
     /**
      * ID指定での検索処理( 修正・詳細画面用 ）
-     * @param int $id
+     *
      * @return \App\Models\TTestInfo|null
      */
     public function getTestInfoById(int $id)
@@ -195,18 +203,19 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 年度プルダウンリスト用意処理
+     *
      * @return array
      */
-    public function generateYearsArray($mode) {
+    public function generateYearsArray($mode)
+    {
         $currentYear = date('Y');
         $years = [];
 
         $futureYears = config('constants.FUTURE_YEAR');
 
-        if ($mode == "far"){
+        if ($mode == 'far') {
             $previousYears = config('constants.PAST_YEAR');
-        }
-        else{ //  テスト登録時過去は1年だけ表示
+        } else { //  テスト登録時過去は1年だけ表示
             $previousYears = 1;
         }
 
@@ -223,6 +232,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * テスト名リスト取得
+     *
      * @return array
      */
     public function getTestInfo($OEMSchCode, $grade)
@@ -243,7 +253,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 【【大学コードヘッダー情報】大学コード検索画面用
-     * @param string $testID
+     *
+     * @param  string  $testID
      * @return 大学コードヘッダー
      */
     public function getUnivCodeHead($testID)

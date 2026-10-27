@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ClassTemporaryLoginRequest extends FormRequest
 {
-    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -19,9 +18,11 @@ class ClassTemporaryLoginRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
+     *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'password' => 'required|string',
         ];
@@ -29,12 +30,13 @@ class ClassTemporaryLoginRequest extends FormRequest
 
     /**
      * 属性設定
+     *
      * @return type
      */
-    public function attributes() {
+    public function attributes()
+    {
         return [
-            'password' => 'パスワード'
+            'password' => 'パスワード',
         ];
     }
-        
 }

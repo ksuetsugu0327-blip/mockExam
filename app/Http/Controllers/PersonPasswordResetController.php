@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ResetPasswordMail;
-use App\Utils\PasswordUtil;
 use App\Services\MPersonService;
+use App\Utils\PasswordUtil;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class PersonPasswordResetController extends Controller
 {
@@ -16,7 +17,8 @@ class PersonPasswordResetController extends Controller
     /**
      * コンストラクタ
      */
-    public function __construct(MPersonService $mPersonService){
+    public function __construct(MPersonService $mPersonService)
+    {
         $this->service = $mPersonService;
     }
 
@@ -29,11 +31,11 @@ class PersonPasswordResetController extends Controller
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psnCode = session()->get('psn_code');
-        if(!isset($psnCode)&&!session()->has('mail_reset_failed')){
-            return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
+        if (! isset($psnCode) && ! session()->has('mail_reset_failed')) {
+            return redirect(route('personIdCheck.index', ['schCode' => $schCode]));
         }
 
-        return view('personPasswordReset')->with('psn_code',$psnCode);
+        return view('personPasswordReset')->with('psn_code', $psnCode);
     }
 
     /**
@@ -44,32 +46,32 @@ class PersonPasswordResetController extends Controller
     public function reset($schCode, Request $request)
     {
         $psnCode = $request->get('psn_code');
-        if(!isset($psnCode)){
-            return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
+        if (! isset($psnCode)) {
+            return redirect(route('personIdCheck.index', ['schCode' => $schCode]));
         }
         // 生徒個人情報取得
         $person = $this->service->selectOneByKey($schCode, $psnCode)->first();
-        if (empty($person)){
-            return redirect(route('personIdCheck.index',['schCode'=>$schCode]));
+        if (empty($person)) {
+            return redirect(route('personIdCheck.index', ['schCode' => $schCode]));
         }
 
-        if (isset($person->mail_address)){
-            $email= $person->mail_address;
-        }
-        else{
-            return back()->with(['mail_reset_failed'=>'メールアドレスは設定されていません']);
+        if (isset($person->mail_address)) {
+            $email = $person->mail_address;
+        } else {
+            return back()->with(['mail_reset_failed' => 'メールアドレスは設定されていません']);
         }
         $name = $person->name;
 
         // 仮パスワード生成
-        $tempPassword = Crypt::encryptString(str_random(8));
+        $tempPassword = Crypt::encryptString(Str::random(8));
         $decryptedTempPass = PasswordUtil::decryptString($tempPassword);
 
         // パスワード更新処理
-        $id = $this->service->registerTempPassword($schCode,$psnCode,$tempPassword);
+        $id = $this->service->registerTempPassword($schCode, $psnCode, $tempPassword);
 
         Mail::to($email)->send(new ResetPasswordMail($email, $name, $decryptedTempPass));
-        return view('personPasswordResetComplete')->with(['psn_code'=> $psnCode]);
- 
+
+        return view('personPasswordResetComplete')->with(['psn_code' => $psnCode]);
+
     }
 }

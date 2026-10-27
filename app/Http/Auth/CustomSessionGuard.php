@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Auth;
@@ -9,22 +10,18 @@ namespace App\Http\Auth;
  * and open the template in the editor.
  */
 
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Logout as Logout;
-
-
 
 /**
  * 西北出版用カスタムセッションガード
  */
-class CustomSessionGuard  extends SessionGuard {
-    
+class CustomSessionGuard extends SessionGuard
+{
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return $this
      */
     public function setUser(AuthenticatableContract $user)
@@ -36,12 +33,13 @@ class CustomSessionGuard  extends SessionGuard {
 
         return $this;
     }
-    
+
     /**
      * 西北出版用ログアウト
      * remember_tokenは利用しないので、該当処理を削除します。
      *
      * @return void
+     *
      * @see Illuminate\Auth\SessionGuard::logout
      */
     public function logout()
@@ -64,7 +62,4 @@ class CustomSessionGuard  extends SessionGuard {
 
         $this->loggedOut = true;
     }
-    
-    
-    
 }

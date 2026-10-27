@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MOemSchool\MOemSchoolRepositoryInterface as MOemSchoolRepositoryInterface;
+use App\Repositories\MOemSchool\MOemSchoolRepositoryInterface;
 
 /**
  * OEM塾マスタ用サービス
  */
-class MOemSchoolService {
-
+class MOemSchoolService
+{
     // リポジトリ
-    // OEM塾マスタ 
+    // OEM塾マスタ
     private $repositoryMOemSchool;
-    
+
     /**
      * コンストラクタ
      */
@@ -20,7 +20,7 @@ class MOemSchoolService {
     {
         $this->repositoryMOemSchool = $repositoryMOemSchool;
     }
-    
+
     /**
      * 一覧取得
      */

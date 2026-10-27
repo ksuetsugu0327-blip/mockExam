@@ -4,14 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UnivCsvUploadRequest extends FormRequest {
-
+class UnivCsvUploadRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -20,12 +21,13 @@ class UnivCsvUploadRequest extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         $rules = [
             'csv_file' => 'required|file|mimes:csv,txt|mimetypes:text/plain', // mimesの都合上text/csvなのでtxtも許可が必要
             'data_type' => 'required',
         ];
-//dd($this->input('data_type'),config('selectlistarray.CODE_DATA.UNIV_CODE.VALUE'));
+        // dd($this->input('data_type'),config('selectlistarray.CODE_DATA.UNIV_CODE.VALUE'));
         // Conditionally add validation rules based on the value of data_type.
         if ($this->input('data_type') == config('selectlistarray.CODE_DATA.UNIV_CODE.VALUE')) {
             $rules['fiscal_year'] = 'required';
@@ -41,7 +43,8 @@ class UnivCsvUploadRequest extends FormRequest {
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
         $messages = [
             'data_type.required' => 'データ区分を選択してください。',
             'csv_file.required' => 'ファイルを選択してください。',
@@ -61,12 +64,14 @@ class UnivCsvUploadRequest extends FormRequest {
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator) {
+    public function withValidator($validator)
+    {
 
-        $validator->after(function($validator) {
-            //dd($validator);
+        $validator->after(function ($validator) {
+            // dd($validator);
             if (count($validator->failed()) > 0) {
                 $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }

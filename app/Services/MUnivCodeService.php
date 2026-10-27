@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface as MUniversityCodeRepositoryInterface;
+use App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface;
 
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MUnivCodeService {
-
+class MUnivCodeService
+{
     // リポジトリ
-    // 大学コードデータ名マスタ 
+    // 大学コードデータ名マスタ
     private $repositoryMUniversityCode;
-    
+
     /**
      * コンストラクタ
      */
@@ -21,28 +21,33 @@ class MUnivCodeService {
         $this->repositoryMUniversityCode = $repositoryMUniversityCode;
     }
 
-    public function getUnivCount(array $conditions){
+    public function getUnivCount(array $conditions)
+    {
         return $this->repositoryMUniversityCode->getUnivCount($conditions);
     }
 
-    public function getDeptCount(array $conditions){
+    public function getDeptCount(array $conditions)
+    {
         return $this->repositoryMUniversityCode->getDeptCount($conditions);
     }
 
-    public function getSubjCount(array $conditions){
+    public function getSubjCount(array $conditions)
+    {
         return $this->repositoryMUniversityCode->getSubjCount($conditions);
     }
 
-    public function getUnivCodeList(array $conditions){
+    public function getUnivCodeList(array $conditions)
+    {
         return $this->repositoryMUniversityCode->getUnivCodeList($conditions);
     }
 
-    public function getDeptList(array $conditions, $deptSubjDiv){
+    public function getDeptList(array $conditions, $deptSubjDiv)
+    {
         return $this->repositoryMUniversityCode->getDeptList($conditions, $deptSubjDiv);
     }
 
-    public function getSubjList(array $conditions){
+    public function getSubjList(array $conditions)
+    {
         return $this->repositoryMUniversityCode->getSubjList($conditions);
     }
-
 }

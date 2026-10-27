@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Rest;
 
-use Illuminate\Http\Request;
-
-class RestCommon {
-    public function makeHeader($status, $message, $data_num){
+class RestCommon
+{
+    public function makeHeader($status, $message, $data_num)
+    {
         $header = [
             'status' => $status,
             'message' => $message,

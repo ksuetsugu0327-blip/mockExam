@@ -82,19 +82,19 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MSchool::class, 
+            'model' => App\Models\MSchool::class,
         ],
         'schools' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MSchool::class, 
+            'model' => App\Models\MSchool::class,
         ],
         'classes' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MClass::class, 
+            'model' => App\Models\MClass::class,
         ],
         'persons' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MPerson::class, 
+            'model' => App\Models\MPerson::class,
         ],
 
         // 'users' => [

@@ -12,7 +12,6 @@ class TestManagementApiController extends Controller
 
     /**
      * コンストラクタ
-     * @param UnivCodeHeadService $mUnivCodeHeadService
      */
     public function __construct(UnivCodeHeadService $mUnivCodeHeadService)
     {
@@ -21,7 +20,7 @@ class TestManagementApiController extends Controller
 
     /**
      * 大学コードヘッダー情報取得API(テスト・登録用)
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getUnivCodeHeadList(Request $request)
@@ -35,7 +34,7 @@ class TestManagementApiController extends Controller
             $header = [
                 'status' => 'success',
                 'message' => ($data_num === 0) ? '大学情報が登録されていません。' : '',
-                'data_num' => $data_num
+                'data_num' => $data_num,
             ];
 
             return response()->json(compact('header', 'data'));
@@ -44,15 +43,16 @@ class TestManagementApiController extends Controller
             $header = [
                 'status' => 'error',
                 'message' => '',
-                'data_num' => 0
+                'data_num' => 0,
             ];
 
             return response()->json(compact('header', [], 500));
         }
     }
 
-    public function chkExistUnivCodeHead(Request $request){
-        try{
+    public function chkExistUnivCodeHead(Request $request)
+    {
+        try {
             $fiscalYear = $request->fy;
             $univCodeNameCode = $request->dtcd;
             $deptSubjDiv = $request->dptsub;
@@ -64,17 +64,16 @@ class TestManagementApiController extends Controller
             $header = [
                 'status' => 'success',
                 'message' => '',
-                'data_num' => $data_num
+                'data_num' => $data_num,
             ];
 
             return response()->json(compact('header', 'data'));
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             // エラーヘッダー設定
             $header = [
                 'status' => 'error',
                 'message' => $e->getMessage(),
-                'data_num' => 0
+                'data_num' => 0,
             ];
 
             return response()->json(compact('header', [], 500));

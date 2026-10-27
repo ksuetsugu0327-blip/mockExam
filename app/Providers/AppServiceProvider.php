@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // SSL対応
-        //\URL::forceScheme('https');
+        // \URL::forceScheme('https');
         /* インタフェースと実装の結合
          * インターフェイスを指定された実装に結合する
          */
@@ -42,27 +42,27 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MPerson\MPersonRepositoryInterface::class,
             \App\Repositories\MPerson\MPersonRepository::class
         );
-        
+
         $this->app->bind(
             \App\Repositories\MDirectory\MDirectoryRepositoryInterface::class,
             \App\Repositories\MDirectory\MDirectoryRepository::class
-        );  
-        
+        );
+
         $this->app->bind(
             \App\Repositories\TZipOrder\TZipOrderRepositoryInterface::class,
             \App\Repositories\TZipOrder\TZipOrderRepository::class
         );
-        
+
         $this->app->bind(
             \App\Repositories\MGMKAI\MGMKAIRepositoryInterface::class,
             \App\Repositories\MGMKAI\MGMKAIRepository::class
         );
-        
+
         $this->app->bind(
             \App\Repositories\MTestcount\MTestcountRepositoryInterface::class,
             \App\Repositories\MTestcount\MTestcountRepository::class
         );
-        
+
         $this->app->bind(
             \App\Repositories\TTicket\TTicketRepositoryInterface::class,
             \App\Repositories\TTicket\TTicketRepository::class
@@ -97,7 +97,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MUnivCode\MUniversityCodeRepositoryInterface::class,
             \App\Repositories\MUnivCode\MUniversityCodeRepository::class
         );
-        
+
         $this->app->bind(
             \App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepositoryInterface::class,
             \App\Repositories\MUnivCodeHead\MUniversityCodeHeadRepository::class

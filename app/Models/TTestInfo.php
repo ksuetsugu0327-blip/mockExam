@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\OptimisticLockObserverTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class TTestInfo extends Model
 {

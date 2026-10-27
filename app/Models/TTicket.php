@@ -42,14 +42,16 @@ class TTicket extends Model
 
         'c_univ_code6',
         'c_faculty_code6',
-        'c_department_code6'
+        'c_department_code6',
     ];
 
-    //受験番号のアクセサ：ゼロ埋めで返却
-    public function getExamNumberAttribute($value) {
-        if($value > 0 ){
+    // 受験番号のアクセサ：ゼロ埋めで返却
+    public function getExamNumberAttribute($value)
+    {
+        if ($value > 0) {
             return str_pad($value, config('constants.EXAM_NUMBER_ZERO_PAD_DIGITS'), '0', STR_PAD_LEFT);
         }
+
         return '';
     }
 }

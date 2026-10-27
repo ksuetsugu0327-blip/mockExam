@@ -18,6 +18,7 @@ class PortalLoginRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
+     *
      * @return array
      */
     public function rules()

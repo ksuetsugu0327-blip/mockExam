@@ -6,7 +6,6 @@ use App\Models\MPerson;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
-
 class PasswordCheck implements Rule
 {
     /**
@@ -29,7 +28,7 @@ class PasswordCheck implements Rule
      */
     public function passes($attribute, $value)
     {
-       $user = MPerson::where('sch_code',$this->schCode)->where('psn_code',$this->psnCode)->first();
+        $user = MPerson::where('sch_code', $this->schCode)->where('psn_code', $this->psnCode)->first();
 
         return Hash::check($value, $user->password);
     }

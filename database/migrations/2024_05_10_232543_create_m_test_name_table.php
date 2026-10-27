@@ -34,4 +34,3 @@ class CreateMTestNameTable extends Migration
         Schema::dropIfExists('m_test_name');
     }
 }
-

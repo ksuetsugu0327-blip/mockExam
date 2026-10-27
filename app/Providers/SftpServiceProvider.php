@@ -25,13 +25,13 @@ class SftpServiceProvider extends ServiceProvider
     {
         Storage::extend('sftp', function ($app, $config) {
             return new Filesystem(new SftpAdapter([
-                'host'        => $config['host'],
-                'port'        => $config['port'],
-                'username'    => $config['username'],
-                'password'    => $config['password'],
-                'root'        => $config['root'],
-                'timeout'     => $config['timeout'],
-              ]));
+                'host' => $config['host'],
+                'port' => $config['port'],
+                'username' => $config['username'],
+                'password' => $config['password'],
+                'root' => $config['root'],
+                'timeout' => $config['timeout'],
+            ]));
         });
     }
 }

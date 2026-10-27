@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TTestInfo;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use App\Models\TTestInfo as TTestInfo;
 
 class UnivTestRegisterRequest extends FormRequest
 {
@@ -23,7 +23,8 @@ class UnivTestRegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'oem_sch_code' => 'required',
             'fiscal_year' => 'required',
@@ -43,21 +44,23 @@ class UnivTestRegisterRequest extends FormRequest
             'remarks.max' => '備考には:max文字以下の文字列を指定してください。',
         ];
     }
-    
+
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator){
-        $validator->after(function($validator){
-            if(count($validator->failed())>0){
-                $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($validator->failed()) > 0) {
+                $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }
 
             // 重複チェック処理
             if ($this->isDuplicate()) {
                 $validator->errors()->add('message', trans('message.DUPLICATE_ERROR_MESSAGE', [
-                    'itemName' => '塾、年度、学年、テスト名の組み合わせ'
+                    'itemName' => '塾、年度、学年、テスト名の組み合わせ',
                 ]));
             }
         });

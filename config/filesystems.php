@@ -63,11 +63,11 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
-        
+
         'ftp' => [
-            'driver'   => 'ftp',
-            'host'     =>  env('FILE_SYSTEM_HOST'),
-            'port'     => env('FILE_SYSTEM_PORT'),
+            'driver' => 'ftp',
+            'host' => env('FILE_SYSTEM_HOST'),
+            'port' => env('FILE_SYSTEM_PORT'),
             'username' => env('FILE_SYSTEM_USERNAME'),
             'password' => env('FILE_SYSTEM_PASSWORD'),
             'root' => env('FILE_SYSTEM_ROOT'),
@@ -81,7 +81,7 @@ return [
             'password' => env('FILE_SYSTEM_PASSWORD'),
             'root' => env('FILE_SYSTEM_ROOT'),
             'timeout' => env('FILE_SYSTEM_TIMEOUT'),
-            
+
             // SSH keyベースの認証の設定
             // 'privateKey' => '/path/to/privateKey',
             // 'password' => 'encryption-password',

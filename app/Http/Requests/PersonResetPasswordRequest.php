@@ -20,13 +20,14 @@ class PersonResetPasswordRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
+     *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            'email' => 'bail|required|string|email|max:255|unique:users', 
-            'email_confirmation' => 'required|string|email|max:255|unique:users'
+            'email' => 'bail|required|string|email|max:255|unique:users',
+            'email_confirmation' => 'required|string|email|max:255|unique:users',
         ];
     }
-        
 }

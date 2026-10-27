@@ -4,48 +4,46 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\MClass;
-use App\Models\MSchool;
-use App\Services\MClassService;
-use Hash;
-use Validator;
 use App\Http\Requests\KmasterRegistRequest;
-use Illuminate\Validation\ValidationException;
+use App\Services\MClassService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
-
-class KmasterRegistController extends Controller {
-
+class KmasterRegistController extends Controller
+{
     /**
      * コンストラクタ
-     * @param MClassService $mClassService 塾マスタサービス
+     *
+     * @param  MClassService  $mClassService  塾マスタサービス
      */
-    public function __construct(MClassService $mClassService) {
+    public function __construct(MClassService $mClassService)
+    {
         // ログイン判定
-        $this->middleware('auth:' . config('constants.GUARD_ADMIN') . ',' . config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'));
+        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'));
 
         $this->service = $mClassService;
     }
 
-    //教室マスタ・登録画面を表示する。
-    //@return view
-    public function index(Request $request) {
+    // 教室マスタ・登録画面を表示する。
+    // @return view
+    public function index(Request $request)
+    {
 
         return view('kmasterRegist');
     }
 
-    //教室マスタ登録処理を行う。
+    // 教室マスタ登録処理を行う。
     //
-    //@param SmasterRegistRequest request
-    //@return redirect
-    public function store(KmasterRegistRequest $request) {
+    // @param SmasterRegistRequest request
+    // @return redirect
+    public function store(KmasterRegistRequest $request)
+    {
 
         // 管理ユーザー以外はセッション値を使用する。
-        if(auth(config('constants.GUARD_ADMIN'))->check() && !session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))){
+        if (auth(config('constants.GUARD_ADMIN'))->check() && ! session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))) {
             $schCode = $request->get('sch_code');
-        }else{
+        } else {
             $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         }
         // 画面情報を連想配列に設定
@@ -63,10 +61,10 @@ class KmasterRegistController extends Controller {
 
         // パスワード再発行判定
         $temppassCheck = $request->get('temppasswordReissueCheck');
-        //dd($check);
-        if(isset($temppassCheck)){
+        // dd($check);
+        if (isset($temppassCheck)) {
             // パスワードを追加
-            $class['temppassword']=Crypt::encryptString(str_random(8));
+            $class['temppassword'] = Crypt::encryptString(Str::random(8));
         }
         // 登録処理
         $result = $this->service->register($class);
@@ -77,10 +75,6 @@ class KmasterRegistController extends Controller {
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->route('classes.index', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
+        return redirect()->route('classes.index', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
     }
-
 }
-
-
-

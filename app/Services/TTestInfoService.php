@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
@@ -20,7 +21,8 @@ class TTestInfoService
 
     /**
      * 引数指定での検索処理( 検索画面用 ）
-     * @param array $conditions 検索条件(連想配列）
+     *
+     * @param  array  $conditions  検索条件(連想配列）
      * @return type
      */
     public function selectList(array $conditions)
@@ -30,7 +32,8 @@ class TTestInfoService
 
     /**
      * 登録処理
-     * @param array $testInfo 登録用連想配列
+     *
+     * @param  array  $testInfo  登録用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
     public function register(array $testInfo)
@@ -40,8 +43,8 @@ class TTestInfoService
 
     /**
      * 更新処理
-     * @param array $testInfo テスト情報(連想配列)
-     * @param int $id
+     *
+     * @param  array  $testInfo  テスト情報(連想配列)
      * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
      */
     public function update(array $testInfo, int $id)
@@ -51,7 +54,8 @@ class TTestInfoService
 
     /**
      * テストID指定での削除処理
-     * @param int $id 削除対象ID
+     *
+     * @param  int  $id  削除対象ID
      * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
      */
     public function delete(int $id)
@@ -61,7 +65,7 @@ class TTestInfoService
 
     /**
      * ID指定での検索処理( 修正・詳細画面用 ）
-     * @param int $id
+     *
      * @return type
      */
     public function getTestInfoById(int $id)
@@ -71,9 +75,10 @@ class TTestInfoService
 
     /**
      * 年度プルダウンリスト用意処理
+     *
      * @return array
      */
-    public function generateYearsArray($mode="far")
+    public function generateYearsArray($mode = 'far')
     {
         return $this->repository->generateYearsArray($mode);
     }
@@ -88,7 +93,6 @@ class TTestInfoService
 
     /**
      * 【大学コードヘッダー情報】大学コード検索画面用
-     * @param int $testID
      */
     public function getUnivCodeHead(int $testID)
     {

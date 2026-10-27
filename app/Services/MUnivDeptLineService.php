@@ -7,12 +7,12 @@ use App\Repositories\MUnivDeptLine\MUniversityDeptLineRepositoryInterface;
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MUnivDeptLineService {
-
+class MUnivDeptLineService
+{
     // リポジトリ
-    // 大学コードデータ名マスタ 
+    // 大学コードデータ名マスタ
     private $repositoryMUniversityDeptLine;
-    
+
     /**
      * コンストラクタ
      */
@@ -21,8 +21,8 @@ class MUnivDeptLineService {
         $this->repositoryMUniversityDeptLine = $repositoryMUniversityDeptLine;
     }
 
-    public function selectList(){
+    public function selectList()
+    {
         return $this->repositoryMUniversityDeptLine->selectList();
     }
-
 }

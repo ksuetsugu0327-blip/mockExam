@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Utils;
@@ -7,14 +8,14 @@ use Illuminate\Http\Request;
 
 /**
  * セッションに関するユーティリティクラス
- *
  */
-class SessionUtil {
-    
+class SessionUtil
+{
     /**
      * 本システムで利用するセッションのクリア（Laravel部分ではなく、業務処理におけるセッション）
      */
-    public static function InitializeSession(Request $request){
+    public static function InitializeSession(Request $request)
+    {
         // ログイン用
         // 塾コード
         $request->session()->forget(config('constants.SESSION_KEY_SCHCODE'));
@@ -44,9 +45,9 @@ class SessionUtil {
         // 塾マスタ一覧用
         $request->session()->forget(config('constants.SESSION_KEY_MSCHOOL_SEARCH_CONDITION'));
 
-        //教室マスタ一覧
+        // 教室マスタ一覧
         $request->session()->forget(config('constants.SESSION_KEY_MCLASS_SEARCH_CONDITION'));
-        
+
         // 生徒マスタ一覧用
         $request->session()->forget(config('constants.SESSION_KEY_MPERSON_SEARCH_CONDITION'));
         // 検索結果一覧リスト
@@ -61,9 +62,9 @@ class SessionUtil {
         $request->session()->forget(config('constants.SESSION_KEY_SURROGATE_LOGIN_CLASS'));
         // 個人用
         $request->session()->forget(config('constants.SESSION_KEY_SURROGATE_LOGIN_PERSON'));
-        
+
         // laravelで生成されるセッション
-        //url
-        $request->session()->forget('url');        
+        // url
+        $request->session()->forget('url');
     }
 }

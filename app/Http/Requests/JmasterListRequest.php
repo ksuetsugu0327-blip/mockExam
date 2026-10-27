@@ -22,22 +22,24 @@ class JmasterListRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            'sch_code' => 'nullable|numeric'
+            'sch_code' => 'nullable|numeric',
         ];
     }
-    
+
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator){
-        $validator->after(function($validator){
-            if(count($validator->failed())>0){
-                $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($validator->failed()) > 0) {
+                $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }
         });
     }
-
 }

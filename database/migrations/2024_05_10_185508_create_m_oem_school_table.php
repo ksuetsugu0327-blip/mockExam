@@ -35,4 +35,3 @@ class CreateMOemSchoolTable extends Migration
         Schema::dropIfExists('m_oem_school');
     }
 }
-

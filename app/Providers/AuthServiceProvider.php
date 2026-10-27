@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use App\Http\Auth\CustomSessionGuard;
 use App\Http\Auth\CustomEloquentUserProvider;
+use App\Http\Auth\CustomSessionGuard;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
-
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,9 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // カスタムガードの追加
-        Auth::extend('customSession',function($app,$name,array $config){
+        Auth::extend('customSession', function ($app, $name, array $config) {
             $provider = Auth::createUserProvider($config['provider']);
-            $guard = new CustomSessionGuard($name,$provider,$app['session.store']);
+            $guard = new CustomSessionGuard($name, $provider, $app['session.store']);
             if (method_exists($guard, 'setCookieJar')) {
                 $guard->setCookieJar($this->app['cookie']);
             }
@@ -43,15 +41,15 @@ class AuthServiceProvider extends ServiceProvider
 
             if (method_exists($guard, 'setRequest')) {
                 $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
-            }            
+            }
+
             return $guard;
         });
-        
+
         // カスタムEloquentUserプロバイダの追加
-        Auth::provider('customEloquent',function($app,array $config){
+        Auth::provider('customEloquent', function ($app, array $config) {
             return new CustomEloquentUserProvider($app['hash'], $config['model']);
         });
-        
-        
+
     }
 }

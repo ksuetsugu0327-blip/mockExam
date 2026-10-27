@@ -6,8 +6,5 @@ use Exception;
 
 /**
  * 排他エラー
-*/
-class ExclusionException extends Exception
-{
-    
-}
+ */
+class ExclusionException extends Exception {}

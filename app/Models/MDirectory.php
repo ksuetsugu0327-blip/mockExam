@@ -12,7 +12,7 @@ class MDirectory extends Model
      * @var string
      */
     protected $table = 'm_directory';
-    
+
     protected $fillable = [
         'id',
         'year',
@@ -26,5 +26,4 @@ class MDirectory extends Model
         'fullpath',
         'psn_report_publish_flg',
     ];
-        
 }

@@ -27,15 +27,16 @@ class IPAddressFormat implements Rule
     {
         //
         $pass = false;
-        $ip_arr= explode(',', $value);
+        $ip_arr = explode(',', $value);
         foreach ($ip_arr as $ip_address) {
             $pass = preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $ip_address);
-            if(!$pass) 
+            if (! $pass) {
                 break;
-            else
+            } else {
                 continue;
+            }
         }
-        
+
         return $pass;
     }
 

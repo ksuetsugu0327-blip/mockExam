@@ -12,10 +12,10 @@ class MHighSchool extends Model
      * @var string
      */
     protected $table = 'm_highschool';
-    
+
     protected $fillable = [
         'pref_code',
         'hsc_code',
-        'hsc_name'
+        'hsc_name',
     ];
 }

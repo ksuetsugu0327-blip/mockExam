@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MHighSchool\MHighSchoolRepositoryInterface as MHighSchoolRepositoryInterface;
+use App\Repositories\MHighSchool\MHighSchoolRepositoryInterface;
 
 /**
  * 高校マスタ用サービス
  */
-class MHighSchoolService {
-
+class MHighSchoolService
+{
     // リポジトリ
-    // 高校マスタ 
+    // 高校マスタ
     private $repositoryMHighSchool;
-    
+
     /**
      * コンストラクタ
      */
@@ -27,14 +27,15 @@ class MHighSchoolService {
     public function selectList(array $conditions)
     {
         $list = $this->repositoryMHighSchool->selectList($conditions)
-                                        ->pluck('hsc_name', 'hsc_code')
-                                        ->toArray();
+            ->pluck('hsc_name', 'hsc_code')
+            ->toArray();
 
         return $list;
     }
 
     /**
      * 高校の都道府県コード取得
+     *
      * @param string hsc_code
      * @return 都道府県コード
      */
