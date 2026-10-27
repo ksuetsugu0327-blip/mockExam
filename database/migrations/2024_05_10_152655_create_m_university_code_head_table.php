@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMUniversityCodeHeadTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -36,4 +36,4 @@ class CreateMUniversityCodeHeadTable extends Migration
         // Drop the 'm_university_code_head' table
         Schema::dropIfExists('m_university_code_head');
     }
-}
+};
