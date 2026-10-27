@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Exceptions\ExclusionException;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Models\MUniversityCodeName as MUnivCodeName;
@@ -18,7 +20,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use SplFileObject;
 
-class UnivCsvUploadController extends Controller
+class UnivCsvUploadController extends Controller implements HasMiddleware
 {
     private $univCsvService;
 
@@ -34,11 +36,18 @@ class UnivCsvUploadController extends Controller
         MUnivCodeNameService $univCodeNameService,
         TTestInfoService $testService
     ) {
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->univCsvService = $univCsvService;
         $this->highSchoolCsvService = $highSchoolCsvService;
         $this->mUnivCodeNameService = $univCodeNameService;
         $this->tTestService = $testService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

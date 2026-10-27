@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Services\TestCountSearchListService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class TestCountSearchListController extends Controller
+class TestCountSearchListController extends Controller implements HasMiddleware
 {
     /**
      * コンストラクタ
@@ -17,9 +19,16 @@ class TestCountSearchListController extends Controller
     public function __construct(TestCountSearchListService $testCountSearchListService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
-                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));
+
         $this->service = $testCountSearchListService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
+                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'),
+        ];
     }
 
     /**

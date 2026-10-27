@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\UnivCodeDataDeleteRequest;
 use App\Services\UnivCodeHeadService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class UnivCodeDeleteController extends Controller
+class UnivCodeDeleteController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -20,8 +22,15 @@ class UnivCodeDeleteController extends Controller
     public function __construct(UnivCodeHeadService $mUnivCodeHeadService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $mUnivCodeHeadService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

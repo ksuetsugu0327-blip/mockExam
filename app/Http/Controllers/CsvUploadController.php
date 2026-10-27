@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\CsvUploadRequest;
 use App\Services\CsvService;
 use App\Utils\FileUtil;
@@ -14,14 +16,21 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use SplFileObject;
 
-class CsvUploadController extends Controller
+class CsvUploadController extends Controller implements HasMiddleware
 {
     private $csvService;
 
     public function __construct(CsvService $csvService)
     {
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->csvService = $csvService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

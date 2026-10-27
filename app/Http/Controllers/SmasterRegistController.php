@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\SmasterRegistRequest;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
-class SmasterRegistController extends Controller
+class SmasterRegistController extends Controller implements HasMiddleware
 {
     /**
      * コンストラクタ
@@ -19,9 +21,16 @@ class SmasterRegistController extends Controller
     public function __construct(MPersonService $mPersonService, MSchoolService $mSchoolService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $mPersonService;
         $this->mSchoolService = $mSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

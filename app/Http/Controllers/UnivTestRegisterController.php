@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\UnivTestRegisterRequest;
 use App\Services\MCodeBookService;
 use App\Services\MOemSchoolService;
@@ -10,7 +12,7 @@ use App\Services\TTestInfoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class UnivTestRegisterController extends Controller
+class UnivTestRegisterController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -30,11 +32,18 @@ class UnivTestRegisterController extends Controller
         MCodeBookService $mCodeBookService
     ) {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
         $this->codeBookService = $mCodeBookService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

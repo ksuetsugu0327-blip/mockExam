@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Services\MClassService;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
 
-class TicketDetailController extends Controller
+class TicketDetailController extends Controller implements HasMiddleware
 {
     // 志望校関連用サービス
     private $service;
@@ -24,10 +26,17 @@ class TicketDetailController extends Controller
         MClassService $mClassService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
-                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));
+
         $this->service = $TicketService;
         $this->clsService = $mClassService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
+                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'),
+        ];
     }
 
     /**

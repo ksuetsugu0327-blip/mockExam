@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\TicketRegistRequest;
 use App\Services\MHighSchoolService;
 use App\Services\MPersonService;
@@ -12,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class TicketRegistController extends Controller
+class TicketRegistController extends Controller implements HasMiddleware
 {
     // 志望校関連用サービス
     private $service;
@@ -46,12 +48,18 @@ class TicketRegistController extends Controller
         MHighSchoolService $mHighSchoolService)
     {
         // ログイン判定(管理者、個人）
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_PERSON'));
 
         $this->service = $TicketService;
         $this->psnService = $mPersonService;
         $this->prefService = $mPrefectureService;
         $this->highSchoolService = $mHighSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_PERSON'),
+        ];
     }
 
     /**

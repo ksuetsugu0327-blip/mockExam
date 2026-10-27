@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 // use App\Models\MTestName;
 // use App\Models\MUniversityCodeName;
 // use App\Models\TTestInfo;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\UnivTestListRequest;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class UnivTestListController extends Controller
+class UnivTestListController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -23,9 +25,16 @@ class UnivTestListController extends Controller
     public function __construct(TTestInfoService $tTestService, MOemSchoolService $mOemSchoolService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     public function index(Request $request): View
