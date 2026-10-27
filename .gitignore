@@ -14,7 +14,7 @@
 /public/font
 /storage/*.key
 /vendor
-.phpunit.result.cache
+/.phpunit.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
