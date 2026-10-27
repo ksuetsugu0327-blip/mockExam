@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -30,25 +33,19 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // 塾コードのパターン設定
-        Route::pattern('schCode', '[0-9]+');
+        $this->configureRateLimiting();
 
-        parent::boot();
-    }
+        $this->routes(function () {
+            $this->mapApiRoutes();
 
-    /**
-     * Define the routes for the application.
-     *
-     * @return void
-     */
-    public function map()
-    {
-        $this->mapApiRoutes();
+            $this->mapWebRoutes();
 
-        $this->mapWebRoutes();
+            //
+        });
+// 塾コードのパターン設定
+        Route::pattern('schCode', '[0-9]+');    }
 
-        //
-    }
+
 
     /**
      * Define the "web" routes for the application.
@@ -77,5 +74,17 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }
