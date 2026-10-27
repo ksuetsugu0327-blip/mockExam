@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\Support\Str;
 use App\Http\Requests\CsvUploadRequest;
 use App\Services\CsvService;
 use App\Utils\FileUtil;
@@ -134,13 +135,13 @@ class CsvUploadController extends Controller
                             // 新規生徒の場合、仮パスワードを付与
                             if ($this->csvService->isNewMPerson($sch_code, $cls_code, $psn_code)) {
                                 $temp['password'] = null;
-                                $temp['temppassword'] = Crypt::encryptString(str_random(8));
+                                $temp['temppassword'] = Crypt::encryptString(Str::random(8));
                             }
                             $arrayInsertData = $temp;
                         } else {
                             // temp password はプログラムで生成して登録する
                             $password = $row[8];
-                            $temppass = empty($password) ? (empty($row[9]) ? str_random(8) : $row[9]) : null;
+                            $temppass = empty($password) ? (empty($row[9]) ? Str::random(8) : $row[9]) : null;
 
                             // 登録データを配列に追加 ( パスワードの変更あり )
                             $arrayInsertData = [

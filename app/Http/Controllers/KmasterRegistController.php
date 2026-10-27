@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Requests\KmasterRegistRequest;
 use App\Services\MClassService;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class KmasterRegistController extends Controller
         // dd($check);
         if (isset($temppassCheck)) {
             // パスワードを追加
-            $class['temppassword'] = Crypt::encryptString(str_random(8));
+            $class['temppassword'] = Crypt::encryptString(Str::random(8));
         }
         // 登録処理
         $result = $this->service->register($class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Mail\ResetPasswordMail;
 use App\Services\MPersonService;
 use App\Utils\PasswordUtil;
@@ -62,7 +63,7 @@ class PersonPasswordResetController extends Controller
         $name = $person->name;
 
         // 仮パスワード生成
-        $tempPassword = Crypt::encryptString(str_random(8));
+        $tempPassword = Crypt::encryptString(Str::random(8));
         $decryptedTempPass = PasswordUtil::decryptString($tempPassword);
 
         // パスワード更新処理

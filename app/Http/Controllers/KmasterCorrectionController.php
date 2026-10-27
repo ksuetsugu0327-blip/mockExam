@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Requests\KmasterCorrectionRequest;
 use App\Services\MClassService;
 use Illuminate\Support\Facades\Crypt;
@@ -88,7 +89,7 @@ class KmasterCorrectionController extends Controller
         // dd($check);
         if (isset($temppassCheck)) {
             // パスワードを追加
-            $class['temppassword'] = Crypt::encryptString(str_random(8));
+            $class['temppassword'] = Crypt::encryptString(Str::random(8));
         }
 
         // 更新処理

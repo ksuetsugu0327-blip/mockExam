@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Requests\SmasterRegistRequest;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
@@ -51,7 +52,7 @@ class SmasterRegistController extends Controller
             'postallow4' => $request->get('postallow4'),
             'tellow4' => $request->get('tellow4'),
             'password' => null,
-            'temppassword' => Crypt::encryptString(str_random(8)),
+            'temppassword' => Crypt::encryptString(Str::random(8)),
         ];
 
         $school = $this->mSchoolService->selectOneByKey($request->get('sch_code'))->first();

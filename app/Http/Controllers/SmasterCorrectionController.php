@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Requests\SmasterCorrectionRequest;
 use App\Services\MPersonService;
 use App\Utils\RouteUtil;
@@ -86,7 +87,7 @@ class SmasterCorrectionController extends Controller
         if (isset($check)) {
             // パスワードを追加
             $person['password'] = null;
-            $person['temppassword'] = Crypt::encryptString(str_random(8));
+            $person['temppassword'] = Crypt::encryptString(Str::random(8));
         }
 
         // 更新処理
