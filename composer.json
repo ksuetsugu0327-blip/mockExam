@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
-        "league/flysystem-sftp": "^1.0",
+        "league/flysystem-ftp": "^3.0",
+        "league/flysystem-sftp-v3": "^3.0",
         "olssonm/l5-very-basic-auth": "^5.3"
     },
     "require-dev": {
