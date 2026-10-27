@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+
 class SeisekiController extends Controller
 {
     /**
@@ -19,7 +21,7 @@ class SeisekiController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(): View
     {
         return view('seiseki');
     }

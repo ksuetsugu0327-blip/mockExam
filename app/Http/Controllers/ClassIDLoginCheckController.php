@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Http\Requests\ClassIDLoginCheckRequest;
 use App\Services\MClassService;
 use App\Services\MSchoolService;
@@ -43,7 +44,7 @@ class ClassIDLoginCheckController extends Controller
      * @param  type  $schCode  塾コード
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $schCode)
+    public function index(Request $request, $schCode): View
     {
         $validator = Validator::make(['schCode' => $schCode], ['schCode' => 'required |digits_between:1,7']);
         if ($validator->fails()) {

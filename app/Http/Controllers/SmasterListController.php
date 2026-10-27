@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\RedirectResponse;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Utils\FileUtil;
@@ -36,7 +39,7 @@ class SmasterListController extends Controller
      * @param  Request  $request  リクエスト
      * @return view
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -99,7 +102,7 @@ class SmasterListController extends Controller
      *
      * @return view
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         // 管理ユーザー以外はセッション値を使用する。
         if (auth(config('constants.GUARD_ADMIN'))->check() && ! session()->has(config('constants.SESSION_KEY_IS_SURROGATE_LOGINED'))) {
@@ -157,7 +160,7 @@ class SmasterListController extends Controller
      *
      * @param  Request  $request  リクエスト
      */
-    public function downloadCsv(Request $request)
+    public function downloadCsv(Request $request): StreamedResponse
     {
         $outputFlg = 0;
         $isAdmin = false;
@@ -264,7 +267,7 @@ class SmasterListController extends Controller
      * @param  $delPsnCode  個人コード
      * @return redirect
      */
-    public function delete(Request $request, $schCode, $delSchCode, $delPsnCode)
+    public function delete(Request $request, $schCode, $delSchCode, $delPsnCode): RedirectResponse
     {
 
         // 削除処理

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // use App\Models\MTestName;
 // use App\Models\MUniversityCodeName;
 // use App\Models\TTestInfo;
+use Illuminate\View\View;
 use App\Http\Requests\UnivTestListRequest;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
@@ -27,7 +28,7 @@ class UnivTestListController extends Controller
         $this->oemSchoolService = $mOemSchoolService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -107,7 +108,7 @@ class UnivTestListController extends Controller
      *
      * @return view
      */
-    public function search(UnivTestListRequest $request)
+    public function search(UnivTestListRequest $request): View
     {
 
         // 検索条件の値を取得

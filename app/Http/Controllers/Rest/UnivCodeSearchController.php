@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rest;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\MHighSchoolCodeService;
 use App\Services\MOemSchoolService;
@@ -41,7 +42,7 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON 塾名マスタリスト
      */
-    public function getOemSchoolName(Request $request)
+    public function getOemSchoolName(Request $request): JsonResponse
     {
         $OEMSchCode = $request->get('oem');
 
@@ -82,7 +83,7 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON テスト名リストマスタリスト
      */
-    public function getTestInfo(Request $request)
+    public function getTestInfo(Request $request): JsonResponse
     {
         $OEMSchCode = $request->get('oem');
         $grade = $request->get('grd');
@@ -127,7 +128,7 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON 大学コードヘッダー情報
      */
-    public function getUnivCodeHead(Request $request)
+    public function getUnivCodeHead(Request $request): JsonResponse
     {
         $testID = $request->get('testid');
         try {
@@ -162,7 +163,7 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON 高校コード検索用
      */
-    public function getHighSchoolCodeList(Request $request)
+    public function getHighSchoolCodeList(Request $request): JsonResponse
     {
         $prefecture = $request->get('prf');
         $highSchoolName = $request->get('hsn');
@@ -230,7 +231,7 @@ class UnivCodeSearchController extends Controller
      *
      * @return JSON 大学コード検索用
      */
-    public function getUniversityCodeList(Request $request)
+    public function getUniversityCodeList(Request $request): JSON
     {
         $mode = intval($request->get('mode'));
         $offset_end = $request->get('next');

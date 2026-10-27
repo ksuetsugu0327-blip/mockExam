@@ -34,7 +34,7 @@ class ExamNumberCsvService
      * @param  $file  readしたCSVファイル
      * @return array $csv_errors エラーメッセージの配列
      */
-    public function validateCsvData($file)
+    public function validateCsvData($file): array
     {
         // CSVファイルがヘッダー行を除いて最大行以上の場合はエラー
         $file->seek($file->getSize());
@@ -104,7 +104,7 @@ class ExamNumberCsvService
      *
      * @return bool
      */
-    private function validateExamData(&$csv_errors, $line, $output_line_num)
+    private function validateExamData(&$csv_errors, $line, $output_line_num): bool
     {
         // 入力値を配列に設定
         $arrayCheckData = [
@@ -194,7 +194,7 @@ class ExamNumberCsvService
      *
      * @return bool
      */
-    private function checkDuplicates(&$csv_errors, &$csv_keyAry, $line, $output_line_num)
+    private function checkDuplicates(&$csv_errors, &$csv_keyAry, $line, $output_line_num): bool
     {
         $csv_key = [
             'sch_code' => $line[config('constants.EXAM_NUM_CSV_HEADER_NUM.SCH_CODE.INDEX')],

@@ -31,7 +31,7 @@ class MHighSchoolRepository implements MHighSchoolRepositoryInterface
      *
      * @return 高校リスト
      */
-    public function selectList(array $conditions)
+    public function selectList(array $conditions): 高校リスト
     {
         $query = $this->MHighSchool::select('hsc_code', 'hsc_name');
 
@@ -67,7 +67,7 @@ class MHighSchoolRepository implements MHighSchoolRepositoryInterface
      * @param string hsc_code
      * @return 都道府県コード
      */
-    public function getPrefCode($hsc_code)
+    public function getPrefCode($hsc_code): 都道府県コード
     {
         return $this->MHighSchool::select('pref_code')
             ->where('hsc_code', '=', $hsc_code)

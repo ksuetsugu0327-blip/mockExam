@@ -39,7 +39,7 @@ class SmasterCorrectionRequest extends FormRequest
      *
      * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         // パスワードのチェック(管理者以外の場合、必須設定)
         // (塾ユーザ&&メールアドレスない) || (教室ユーザ&&メールアドレスない) || (管理者 && 代理ログイン&&メールアドレスない)の時必須

@@ -30,7 +30,7 @@ class RouteUtil
      *
      * @return string ip
      */
-    public static function getIpAddress()
+    public static function getIpAddress(): string
     {
         $ip = null;
         if (! empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -51,7 +51,7 @@ class RouteUtil
      * @param  string  $ip
      * @return bool 判定結果
      */
-    public static function isLocalIp($ip)
+    public static function isLocalIp(string $ip): bool
     {
         $local_ip = ['::1', '127.0.0.1'];
         $check_result = false;
@@ -72,7 +72,7 @@ class RouteUtil
      * @param  string  $sch_code
      * @return bool 判定結果
      */
-    public static function isPermitIp($sch_code)
+    public static function isPermitIp(string $sch_code): bool
     {
         $check_result = false;
 

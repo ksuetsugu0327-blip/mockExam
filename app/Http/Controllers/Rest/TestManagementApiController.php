@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rest;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\UnivCodeHeadService;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class TestManagementApiController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getUnivCodeHeadList(Request $request)
+    public function getUnivCodeHeadList(Request $request): JsonResponse
     {
         try {
             $year = $request->fy;
@@ -50,7 +51,7 @@ class TestManagementApiController extends Controller
         }
     }
 
-    public function chkExistUnivCodeHead(Request $request)
+    public function chkExistUnivCodeHead(Request $request): JsonResponse
     {
         try {
             $fiscalYear = $request->fy;

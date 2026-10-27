@@ -180,7 +180,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      *
      * @return \App\Models\TTestInfo|null
      */
-    public function getTestInfoById(int $id)
+    public function getTestInfoById(int $id): ?TTestInfo
     {
         return $this->TTestInfo
             ->select(
@@ -206,7 +206,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      *
      * @return array
      */
-    public function generateYearsArray($mode)
+    public function generateYearsArray($mode): array
     {
         $currentYear = date('Y');
         $years = [];
@@ -235,7 +235,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      *
      * @return array
      */
-    public function getTestInfo($OEMSchCode, $grade)
+    public function getTestInfo($OEMSchCode, $grade): array
     {
         return $this->TTestInfo
             ->select(
@@ -257,7 +257,7 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
      * @param  string  $testID
      * @return 大学コードヘッダー
      */
-    public function getUnivCodeHead($testID)
+    public function getUnivCodeHead(string $testID): 大学コードヘッダー
     {
         return DB::table('t_test_info as t_test')
             ->select('t_test.university_code_head_id', 'm_univ.dept_subject_div', 'mcb.codebook_file_name')

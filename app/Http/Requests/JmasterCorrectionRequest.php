@@ -45,7 +45,7 @@ class JmasterCorrectionRequest extends FormRequest
      *
      * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
 
         // パスワードのチェック(チェックボックスがONの場合のみチェックを実施)

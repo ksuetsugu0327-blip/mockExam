@@ -55,7 +55,7 @@ class SchoolLoginController extends Controller
      * @param  Request  $request  リクエスト
      * @return type
      */
-    public function login(Request $request, $schCode)
+    public function login(Request $request, $schCode): type
     {
         $this->validateLogin($request);
 

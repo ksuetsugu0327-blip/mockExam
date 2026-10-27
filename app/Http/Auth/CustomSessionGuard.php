@@ -24,7 +24,7 @@ class CustomSessionGuard extends SessionGuard
      *
      * @return $this
      */
-    public function setUser(AuthenticatableContract $user)
+    public function setUser(AuthenticatableContract $user): static
     {
         $this->user = $user;
         $this->loggedOut = false;
@@ -42,7 +42,7 @@ class CustomSessionGuard extends SessionGuard
      *
      * @see Illuminate\Auth\SessionGuard::logout
      */
-    public function logout()
+    public function logout(): void
     {
         $user = $this->user();
 

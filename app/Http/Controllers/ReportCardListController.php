@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Services\ReportCardListService;
 use App\Utils\RouteUtil;
 use Exception;
@@ -28,7 +29,7 @@ class ReportCardListController extends Controller
      *
      * @return type
      */
-    public function index(Request $request, int $schCode, int $index)
+    public function index(Request $request, int $schCode, int $index): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -83,7 +84,7 @@ class ReportCardListController extends Controller
      * @param  type  $index
      * @return type
      */
-    public function pdfDownload(Request $request, $sch_Code, $index)
+    public function pdfDownload(Request $request, $sch_Code, $index): type
     {
 
         // セッション情報取得

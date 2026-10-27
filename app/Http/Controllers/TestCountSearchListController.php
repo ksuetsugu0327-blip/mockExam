@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Services\TestCountSearchListService;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,7 @@ class TestCountSearchListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -88,7 +90,7 @@ class TestCountSearchListController extends Controller
      * @param  \App\index  $index
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         // 検索条件の値を取得
         // 塾コード
@@ -135,7 +137,7 @@ class TestCountSearchListController extends Controller
      * @param  \App\index  $index
      * @return \Illuminate\Http\Response
      */
-    public function updatePublishFlag(Request $request)
+    public function updatePublishFlag(Request $request): RedirectResponse
     {
         // 検索条件の値を取得
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));

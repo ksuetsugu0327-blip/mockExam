@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\View\View;
 use App\Http\Requests\ExamNumberRequest;
 use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
@@ -21,7 +22,7 @@ class ExamNumberCsvUploadController extends Controller
     /**
      * CSVインポート画面を表示
      */
-    public function index()
+    public function index(): View
     {
         return view('ExamNumberCsvUpload');
     }

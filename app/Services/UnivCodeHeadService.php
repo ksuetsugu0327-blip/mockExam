@@ -32,7 +32,7 @@ class UnivCodeHeadService
      *
      * @return array
      */
-    public function generateYearsArray()
+    public function generateYearsArray(): array
     {
         return $this->repositoryMUniversityCodeHead->generateYearsArray();
     }
@@ -43,7 +43,7 @@ class UnivCodeHeadService
      * @param  array  $conditions  検索条件(連想配列）
      * @return 大学コードデータリスト
      */
-    public function univCodeDataList(array $conditions)
+    public function univCodeDataList(array $conditions): 大学コードデータリスト
     {
         return $this->repositoryMUniversityCodeHead->univCodeDataList($conditions);
     }

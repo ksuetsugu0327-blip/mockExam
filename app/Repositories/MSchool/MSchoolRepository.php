@@ -62,7 +62,7 @@ class MSchoolRepository implements MSchoolRepositoryInterface
      *
      * @return type　MSchool
      */
-    public function selectOneByKey(int $schCode)
+    public function selectOneByKey(int $schCode): type　MSchool
     {
         return $this->MSchool::where('sch_code', $schCode)->get();
     }

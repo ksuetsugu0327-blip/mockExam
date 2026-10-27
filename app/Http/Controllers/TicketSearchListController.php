@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Services\TicketService;
@@ -47,7 +48,7 @@ class TicketSearchListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -129,7 +130,7 @@ class TicketSearchListController extends Controller
      * @param  \App\index  $index
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         // 表示タイプ設定
         $viewMode = $this->getViewMode();

@@ -39,7 +39,7 @@ class MHighSchoolService
      * @param string hsc_code
      * @return 都道府県コード
      */
-    public function getPrefCode($hsc_code)
+    public function getPrefCode($hsc_code): 都道府県コード
     {
         return $this->repositoryMHighSchool->getPrefCode($hsc_code)['pref_code'];
     }

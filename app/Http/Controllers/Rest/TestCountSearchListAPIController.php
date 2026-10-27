@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rest;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\TestCountSearchListService;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class TestCountSearchListAPIController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function checkPublishFlg(Request $request)
+    public function checkPublishFlg(Request $request): JsonResponse
     {
         \Log::info('checkPublishFlg', $request->all());
         $schCode = $request->get('sch_code');

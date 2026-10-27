@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+
 class TopMenuController extends Controller
 {
     /**
@@ -23,7 +25,7 @@ class TopMenuController extends Controller
      *
      * @return type
      */
-    public function index()
+    public function index(): View
     {
         if (auth(config('constants.GUARD_PERSON'))->check() ||
                 (auth(config('constants.GUARD_ADMIN'))->check() && session()->has(config('constants.SESSION_KEY_SURROGATE_LOGIN_PERSON')))) {

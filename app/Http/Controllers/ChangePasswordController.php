@@ -40,7 +40,7 @@ class ChangePasswordController extends Controller
      * @param  type  $schCode  塾コード
      * @return type
      */
-    public function index($schCode)
+    public function index($schCode): type
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psn_code = session()->get('psn_code');

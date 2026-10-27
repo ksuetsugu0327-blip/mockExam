@@ -34,7 +34,7 @@ class TTicketRepository implements TTicketRepositoryInterface
      * @param  array  $conditions  検索条件
      * @return 志望校リスト
      */
-    public function selectList(array $conditions)
+    public function selectList(array $conditions): 志望校リスト
     {
         $query = $this->TTicket::join('m_person', 't_ticket.id_person', '=', 'm_person.id')
             ->join('m_class', function ($join) {
@@ -420,7 +420,7 @@ class TTicketRepository implements TTicketRepositoryInterface
      *
      * @return string
      */
-    private function createUnivRegisterCaseStmt()
+    private function createUnivRegisterCaseStmt(): string
     {
         $s_i = 1;
         for ($s_i; $s_i <= 6; $s_i++) {
@@ -435,7 +435,7 @@ class TTicketRepository implements TTicketRepositoryInterface
      *
      * @return string
      */
-    private function createReportFlagCaseStmt()
+    private function createReportFlagCaseStmt(): string
     {
         return '(CASE WHEN m_directory.fullpath IS NOT NULL THEN 1 ELSE 0 END) AS reportflag';
     }

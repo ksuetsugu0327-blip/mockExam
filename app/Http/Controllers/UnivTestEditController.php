@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UnivTestEditRequest;
 use App\Services\MCodeBookService;
 use App\Services\MOemSchoolService;
@@ -41,7 +43,7 @@ class UnivTestEditController extends Controller
      *
      * @return \Illuminate\View\View テスト修正画面
      */
-    public function edit(int $schCode, int $id)
+    public function edit(int $schCode, int $id): View
     {
         $testInfo = $this->service->getTestInfoById($id);
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
@@ -63,7 +65,7 @@ class UnivTestEditController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse テスト一覧画面
      */
-    public function update(UnivTestEditRequest $request, int $schCode, int $id)
+    public function update(UnivTestEditRequest $request, int $schCode, int $id): RedirectResponse
     {
         $testInfo = $request->all();
         // 登録処理
@@ -84,7 +86,7 @@ class UnivTestEditController extends Controller
      * @param  int  $id  削除対象ID
      * @return redirect
      */
-    public function delete(Request $request, int $schCode, int $id)
+    public function delete(Request $request, int $schCode, int $id): RedirectResponse
     {
         // 削除処理
         $result = $this->service->delete($id);

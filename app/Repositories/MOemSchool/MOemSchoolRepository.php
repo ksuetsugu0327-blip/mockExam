@@ -31,7 +31,7 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
      *
      * @return OEM塾リスト
      */
-    public function selectList()
+    public function selectList(): OEM塾リスト
     {
         return $this->MOemSchool::where('invalid_flag', 0)
             ->orderby('display_seq', 'asc')
@@ -44,7 +44,7 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
      *
      * @return OEM塾名取得
      */
-    public function getOemSchoolByCode($OEMSchCode)
+    public function getOemSchoolByCode($OEMSchCode): OEM塾名取得
     {
         return $OEMSchool = $this->MOemSchool::select('oem_sch_code', 'oem_sch_name')
             ->where('invalid_flag', 0)

@@ -102,7 +102,7 @@ class OptimisticLockObserver
      *
      * @return bool true:ある
      */
-    private function checkPropExists(Model $model)
+    private function checkPropExists(Model $model): bool
     {
         return array_key_exists(self::OPTIMISTIC_LOCK_CHECK_COLUMN, $model->getAttributes());
     }

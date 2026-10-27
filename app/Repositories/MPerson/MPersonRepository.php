@@ -36,7 +36,7 @@ class MPersonRepository implements MPersonRepositoryInterface
      * @param  string  $psnCode  個人コード
      * @return type　MPerson
      */
-    public function selectOneByKey(int $schCode, string $psnCode)
+    public function selectOneByKey(int $schCode, string $psnCode): type　MPerson
     {
         return $this->MPerson::where('sch_code', $schCode)
             ->where('psn_code', $psnCode)
@@ -74,7 +74,7 @@ class MPersonRepository implements MPersonRepositoryInterface
      * @param  string  $password  パスワード
      * @return int id 更新データのid
      */
-    public function registerPassword(int $schCode, string $psnCode, string $password)
+    public function registerPassword(int $schCode, string $psnCode, string $password): int
     {
         return \DB::transaction(
             function () use ($schCode, $psnCode, $password) {
@@ -96,7 +96,7 @@ class MPersonRepository implements MPersonRepositoryInterface
      * @param  string  $tempPass  仮パスワード
      * @return int id 更新データのid
      */
-    public function registerTempPassword(int $schCode, string $psnCode, string $tempPass)
+    public function registerTempPassword(int $schCode, string $psnCode, string $tempPass): int
     {
         return \DB::transaction(
             function () use ($schCode, $psnCode, $tempPass) {
@@ -118,7 +118,7 @@ class MPersonRepository implements MPersonRepositoryInterface
      * @param  string  $email  メールアドレス
      * @return int id 更新データのid
      */
-    public function registerEmail(int $schCode, string $psnCode, string $email)
+    public function registerEmail(int $schCode, string $psnCode, string $email): int
     {
         return \DB::transaction(
             function () use ($schCode, $psnCode, $email) {

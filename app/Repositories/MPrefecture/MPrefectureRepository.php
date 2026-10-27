@@ -31,7 +31,7 @@ class MPrefectureRepository implements MPrefectureRepositoryInterface
      *
      * @return 都道府県リスト
      */
-    public function selectList()
+    public function selectList(): 都道府県リスト
     {
         return $this->MPrefecture::select('pref_code', 'name')
             ->whereBetween('pref_code', [1, 47])

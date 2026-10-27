@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Services\MHighSchoolClassService;
 use App\Services\MHighSchoolInstallService;
 use App\Services\MOemSchoolService;
@@ -28,7 +29,7 @@ class UnivCodeSearchIndexController extends Controller
         $this->oemSchoolService = $mOemSchoolService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
         $gradeList = array_slice($gradeList, 1, null, true);

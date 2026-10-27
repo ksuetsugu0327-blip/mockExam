@@ -26,7 +26,7 @@ class PasswordCheck implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes(string $attribute, $value): bool
     {
         $user = MPerson::where('sch_code', $this->schCode)->where('psn_code', $this->psnCode)->first();
 
@@ -38,7 +38,7 @@ class PasswordCheck implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return '現在のパスワードが間違えています。';
     }

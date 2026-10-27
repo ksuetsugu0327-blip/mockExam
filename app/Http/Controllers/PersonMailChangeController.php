@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Support\Renderable;
 use App\Rules\EmailFormat;
 use App\Services\MPersonService;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class PersonMailChangeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($schCode)
+    public function index($schCode): Renderable
     {
         $psn_code = session()->get(config('constants.SESSION_KEY_PSNCODE'));
         // dd(session()->all());
@@ -41,7 +42,7 @@ class PersonMailChangeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function changeMail($schCode, Request $request)
+    public function changeMail($schCode, Request $request): Renderable
     {
         $schCode = (int) $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $psnCode = (string) $request->get('psn_code');

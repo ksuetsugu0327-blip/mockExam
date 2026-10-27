@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\View\View;
+use Illuminate\Http\CsvUploadRequest;
 use App\Http\Requests\ClsCsvUploadRequest;
 use App\Services\ClsCsvService;
 use App\Utils\FileUtil;
@@ -25,7 +27,7 @@ class ClsCsvUploadController extends Controller
     /**
      * CSVインポート・ダウンロード画面を表示
      */
-    public function index()
+    public function index(): View
     {
         return view('clsCsvUpload');
     }
@@ -36,7 +38,7 @@ class ClsCsvUploadController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\CsvUploadRequest
      */
-    public function upload(ClsCsvUploadRequest $request)
+    public function upload(ClsCsvUploadRequest $request): CsvUploadRequest
     {
 
         // ヘッダ

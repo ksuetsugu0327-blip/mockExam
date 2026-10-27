@@ -56,7 +56,7 @@ class TicketRegistRequest extends FormRequest
      *
      * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
             $univCnt = 0;

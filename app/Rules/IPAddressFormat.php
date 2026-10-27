@@ -23,7 +23,7 @@ class IPAddressFormat implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes(string $attribute, $value): bool
     {
         //
         $pass = false;
@@ -45,7 +45,7 @@ class IPAddressFormat implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'IPアドレスの形式エラー。';
     }

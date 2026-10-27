@@ -41,7 +41,7 @@ class SmasterRegistRequest extends FormRequest
      *
      * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
             if (count($validator->failed()) > 0) {

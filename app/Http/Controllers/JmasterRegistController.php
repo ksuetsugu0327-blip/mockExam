@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\JmasterRegistRequest;
 use App\Services\MSchoolService;
 use Illuminate\Http\Request;
@@ -29,7 +31,7 @@ class JmasterRegistController extends Controller
      *
      * @return view
      */
-    public function index()
+    public function index(): View
     {
         return view('jmasterRegist');
     }
@@ -40,7 +42,7 @@ class JmasterRegistController extends Controller
      * @param request
      * @return redirect
      */
-    public function store(JmasterRegistRequest $request)
+    public function store(JmasterRegistRequest $request): RedirectResponse
     {
 
         // 画面情報を連想配列に設定

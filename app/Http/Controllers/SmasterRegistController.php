@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Http\Requests\SmasterRegistRequest;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
@@ -28,7 +29,7 @@ class SmasterRegistController extends Controller
      *
      * @return view
      */
-    public function index()
+    public function index(): View
     {
         return view('smasterRegist');
     }
@@ -39,7 +40,7 @@ class SmasterRegistController extends Controller
      * @param  SmasterRegistRequest  $request  生徒マスタ登録用リクエスト
      * @return redirect
      */
-    public function store(SmasterRegistRequest $request)
+    public function store(SmasterRegistRequest $request): redirect
     {
 
         // 画面情報を連想配列に設定

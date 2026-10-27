@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,7 @@ class Authenticate extends Middleware
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    protected function authenticate($request, array $guards)
+    protected function authenticate(Request $request, array $guards): void
     {
         if (empty($guards)) {
             $guards = [null];
@@ -75,7 +76,7 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string
      */
-    protected function redirectTo($request): string
+    protected function redirectTo(Request $request): string
     {
         $route = Route::current();
         $url = $route->uri();

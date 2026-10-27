@@ -31,7 +31,7 @@ class MDepartmentRepository implements MDepartmentRepositoryInterface
      *
      * @return 学科リスト
      */
-    public function selectList(array $conditions)
+    public function selectList(array $conditions): 学科リスト
     {
         $query = $this->MDepartment::select('dpt_code', 'dpt_name');
 

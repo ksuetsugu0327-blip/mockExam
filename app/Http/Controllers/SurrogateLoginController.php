@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use App\Services\MClassService;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
@@ -42,7 +43,7 @@ class SurrogateLoginController extends Controller
      * @param  type  $schCode  塾コード(管理者ログイン)
      * @param  type  $loginSchCode  代理ログイン塾コード
      */
-    public function schoolLogin(Request $request, $schCode, $loginSchCode)
+    public function schoolLogin(Request $request, $schCode, $loginSchCode): RedirectResponse
     {
 
         // 代理ログイン先の塾情報を取得する
@@ -94,7 +95,7 @@ class SurrogateLoginController extends Controller
     /**
      * 塾代理ログアウトを行う
      */
-    public function schoolLogout(Request $request)
+    public function schoolLogout(Request $request): RedirectResponse
     {
         // 代理ログイン前のセッション情報を取得する
         $adminInfo = $request->session()->get(config('constants.SESSION_KEY_SURROGATE_LOGIN_SCHOOL'));
@@ -126,7 +127,7 @@ class SurrogateLoginController extends Controller
      * @param  type  $loginSchCode  代理ログイン塾コード
      * @param  type  $loginClsCode  代理ログイン教室コード
      */
-    public function classLogin(Request $request, $schCode, $loginSchCode, $loginClsCode)
+    public function classLogin(Request $request, $schCode, $loginSchCode, $loginClsCode): RedirectResponse
     {
 
         // 代理ログイン先の塾情報を取得する
@@ -190,7 +191,7 @@ class SurrogateLoginController extends Controller
     /**
      * 教室代理ログアウトを行う
      */
-    public function classLogout(Request $request)
+    public function classLogout(Request $request): RedirectResponse
     {
         // 代理ログイン前のセッション情報を取得する
         $adminInfo = $request->session()->get(config('constants.SESSION_KEY_SURROGATE_LOGIN_CLASS'));
@@ -224,7 +225,7 @@ class SurrogateLoginController extends Controller
      * @param  type  $loginSchCode  代理ログイン塾コード
      * @param  type  $loginPsnCode  代理ログイン生徒コード
      */
-    public function personLogin(Request $request, $schCode, $loginSchCode, $loginPsnCode)
+    public function personLogin(Request $request, $schCode, $loginSchCode, $loginPsnCode): RedirectResponse
     {
 
         // 代理ログイン先の生徒情報を取得する
@@ -283,7 +284,7 @@ class SurrogateLoginController extends Controller
     /**
      * 生徒代理ログアウトを行う
      */
-    public function personLogout(Request $request)
+    public function personLogout(Request $request): RedirectResponse
     {
         // 代理ログイン前のセッション情報を取得する
         $adminInfo = $request->session()->get(config('constants.SESSION_KEY_SURROGATE_LOGIN_PERSON'));

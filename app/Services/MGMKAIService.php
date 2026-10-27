@@ -39,7 +39,7 @@ class MGMKAIService
      * @param  int  $clsCode  教室コード
      * @return type MDirectory
      */
-    public function changeTestName($schCode)
+    public function changeTestName(int $schCode)
     {
 
         // 塾情報

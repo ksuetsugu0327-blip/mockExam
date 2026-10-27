@@ -31,7 +31,7 @@ class MUniversityRepository implements MUniversityRepositoryInterface
      *
      * @return 大学リスト
      */
-    public function selectList(array $conditions)
+    public function selectList(array $conditions): 大学リスト
     {
         // 必須条件確認フラグ
         $flag = false;

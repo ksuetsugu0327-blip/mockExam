@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Services\PersonReportCardListService;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class PersonReportCardListController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -98,7 +99,7 @@ class PersonReportCardListController extends Controller
      * @param sch_code 塾コード
      * @return view
      */
-    public function pdfDownload($sch_Code, $index, string $category_kbn)
+    public function pdfDownload($sch_Code, $index, string $category_kbn): view
     {
 
         try {

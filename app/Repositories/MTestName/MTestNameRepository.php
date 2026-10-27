@@ -31,7 +31,7 @@ class MTestNameRepository implements MTestNameRepositoryInterface
      *
      * @return テスト名リスト
      */
-    public function selectList()
+    public function selectList(): テスト名リスト
     {
         return $this->MTestName::where('invalid_flag', 0)
             ->orderby('display_seq', 'asc')

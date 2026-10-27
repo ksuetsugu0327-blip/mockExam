@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Exceptions\ExclusionException;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Models\MUniversityCodeName as MUnivCodeName;
@@ -43,7 +45,7 @@ class UnivCsvUploadController extends Controller
     /**
      * CSVインポート画面を表示
      */
-    public function index()
+    public function index(): View
     {
 
         $codeData = config('selectlistarray.CODE_DATA');
@@ -66,7 +68,7 @@ class UnivCsvUploadController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\UnivCsvUploadRequest
      */
-    public function upload(UnivCsvUploadRequest $request)
+    public function upload(UnivCsvUploadRequest $request): RedirectResponse
     {
 
         // ロケールを設定(日本語に設定)

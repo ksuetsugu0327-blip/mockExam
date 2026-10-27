@@ -78,7 +78,7 @@ class TTestInfoService
      *
      * @return array
      */
-    public function generateYearsArray($mode = 'far')
+    public function generateYearsArray($mode = 'far'): array
     {
         return $this->repository->generateYearsArray($mode);
     }

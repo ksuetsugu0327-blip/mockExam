@@ -100,7 +100,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      *
      * @return 大学コードリスト
      */
-    public function selectList(string $year)
+    public function selectList(string $year): 大学コードリスト
     {
         return $this->MUnivCodeHead::select(
             'm_university_code_head.id as id',
@@ -122,7 +122,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      *
      * @return array
      */
-    public function generateYearsArray()
+    public function generateYearsArray(): array
     {
         $currentYear = date('Y');
         $noOfFutureYears = config('constants.FUTURE_YEAR');
@@ -148,7 +148,7 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * @param  array  $conditions  検索条件(連想配列）
      * @return 大学コードデータリスト
      */
-    public function univCodeDataList(array $conditions)
+    public function univCodeDataList(array $conditions): 大学コードデータリスト
     {
         return $this->MUnivCodeHead::select(
             'm_university_code_head.id as id',

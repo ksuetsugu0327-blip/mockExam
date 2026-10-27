@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Services\ManagementListService;
 use App\Utils\RouteUtil;
 use Carbon\Carbon;
@@ -36,7 +38,7 @@ class ManagementDocController extends Controller
      * @param sch_code 塾コード
      * @return view
      */
-    public function index(Request $request, int $sch_code)
+    public function index(Request $request, int $sch_code): view
     {
         // dd($request);
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
@@ -130,7 +132,7 @@ class ManagementDocController extends Controller
      * @param sch_code 塾コード
      * @return view
      */
-    public function open(Request $request, int $sch_code, int $index)
+    public function open(Request $request, int $sch_code, int $index): View
     {
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $clsCode = $request->session()->get(config('constants.SESSION_KEY_CLSCODE'));
@@ -215,7 +217,7 @@ class ManagementDocController extends Controller
      * @param categoryKbn 識別子
      * @return response
      */
-    public function pdfDownload(Request $request, int $sch_Code, string $categoryKbn)
+    public function pdfDownload(Request $request, int $sch_Code, string $categoryKbn): response
     {
 
         // セッション情報取得
@@ -271,7 +273,7 @@ class ManagementDocController extends Controller
      * @param sch_code 塾コード
      * @return view
      */
-    public function order(Request $request)
+    public function order(Request $request): RedirectResponse
     {
 
         // セッション情報取得
@@ -339,7 +341,7 @@ class ManagementDocController extends Controller
      * @param sch_code 塾コード
      * @return view
      */
-    public function zipDownload(Request $request)
+    public function zipDownload(Request $request): view
     {
 
         // セッション情報取得

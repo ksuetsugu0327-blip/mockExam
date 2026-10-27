@@ -31,7 +31,7 @@ class MUniversityCodeNameRepository implements MUniversityCodeNameRepositoryInte
      *
      * @return 大学コードリスト
      */
-    public function selectList()
+    public function selectList(): 大学コードリスト
     {
         return $this->MUniversityCodeName::select(
             'university_code_name_cd',

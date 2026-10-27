@@ -89,7 +89,7 @@ class ClassLoginController extends Controller
      *
      * @return array
      */
-    protected function credentials(Request $request)
+    protected function credentials(Request $request): array
     {
         return $request->only($this->username(), 'sch_code', 'password');
     }

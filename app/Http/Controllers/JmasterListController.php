@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\JmasterListRequest;
 use App\Services\MSchoolService;
 use Illuminate\Http\Request;
@@ -29,7 +31,7 @@ class JmasterListController extends Controller
      *
      * @return view
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
 
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
@@ -84,7 +86,7 @@ class JmasterListController extends Controller
      *
      * @return view
      */
-    public function search(JmasterListRequest $request)
+    public function search(JmasterListRequest $request): View
     {
 
         // 検索条件の値を取得
@@ -122,7 +124,7 @@ class JmasterListController extends Controller
      * @param  $delSchCode  削除対象塾コード
      * @return redirect
      */
-    public function delete(Request $request, $schCode, $delSchCode)
+    public function delete(Request $request, $schCode, $delSchCode): RedirectResponse
     {
 
         // 削除処理
