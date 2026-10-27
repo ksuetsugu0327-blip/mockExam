@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CombineUniqueKeysInTTestInfo extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -43,4 +43,4 @@ class CombineUniqueKeysInTTestInfo extends Migration
             $table->unique('test_name_cd');
         });
     }
-}
+};

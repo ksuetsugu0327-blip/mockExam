@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateColumnDeptLineCdInMUniversityCodeTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class UpdateColumnDeptLineCdInMUniversityCodeTable extends Migration
             $table->string('dept_line_cd', 1)->comment('学部系統コード')->change();
         });
     }
-}
+};
