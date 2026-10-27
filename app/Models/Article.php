@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
- {
-
-    protected $fillable = ['data1', 'data2']; //追加
-
+{
+    protected $fillable = ['data1', 'data2']; // 追加
 }

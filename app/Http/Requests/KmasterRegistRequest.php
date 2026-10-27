@@ -26,32 +26,34 @@ class KmasterRegistRequest extends FormRequest
     {
 
         return [
-            'sch_code'=>'required|digits_between:1,7|exists:m_school,sch_code',
-            'cls_code' =>'required|digits_between:1,4|unique:m_class,cls_code,NULL,id,sch_code,'.$this->input('sch_code'),
-            'cls_name' =>'em_length:20',
+            'sch_code' => 'required|digits_between:1,7|exists:m_school,sch_code',
+            'cls_code' => 'required|digits_between:1,4|unique:m_class,cls_code,NULL,id,sch_code,'.$this->input('sch_code'),
+            'cls_name' => 'em_length:20',
             'password' => 'required_if:jpchange,on|only_alpha_num|between:6,50|confirmed',
-            'password_confirmation' => 'required_if:jpchange,on'
-            
+            'password_confirmation' => 'required_if:jpchange,on',
+
         ];
     }
+
     public function messages()
     {
         return [
             'password.required_if' => 'パスワードは必須です。',
-            'password_confirmation.required_if'  => 'パスワード(確認)は必須です。',
+            'password_confirmation.required_if' => 'パスワード(確認)は必須です。',
         ];
     }
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator){
-        $validator->after(function($validator){
-            if(count($validator->failed())>0){
-                $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($validator->failed()) > 0) {
+                $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }
         });
     }
-    
 }

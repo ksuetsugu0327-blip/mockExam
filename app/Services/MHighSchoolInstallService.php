@@ -7,12 +7,12 @@ use App\Repositories\MHighSchoolInstall\MHighSchoolInstallRepositoryInterface;
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MHighSchoolInstallService {
-
+class MHighSchoolInstallService
+{
     // リポジトリ
-    // OEMSchoolマスタ 
+    // OEMSchoolマスタ
     private $repository;
-    
+
     /**
      * コンストラクタ
      */
@@ -20,7 +20,7 @@ class MHighSchoolInstallService {
     {
         $this->repository = $repository;
     }
-    
+
     /**
      * 一覧取得
      */

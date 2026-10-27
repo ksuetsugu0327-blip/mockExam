@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * 名称マスタのモデルクラス
- * 
+ *
  *  */
 class MName extends Model
 {
@@ -16,16 +16,16 @@ class MName extends Model
      * @var string
      */
     protected $table = 'm_name';
-    
+
     public $primaryKey = 'name_code';
+
     public $incrementing = false;
-    
+
     public $timestamps = false;
-    
+
     protected $fillable = [
         'name_kbn',
         'name_code',
-        'name'
+        'name',
     ];
-        
 }

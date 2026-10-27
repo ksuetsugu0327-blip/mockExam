@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTZiporderTable extends Migration
 {
@@ -25,13 +25,13 @@ class CreateTZiporderTable extends Migration
             $table->string('zipfilepath', 1023)->nullable();             // 圧縮ファイル格納先パス
             $table->string('zipfilepass', 256)->nullable();              // 圧縮ファイルパスワード
             $table->string('error_kbn', 1)->nullable();                  // エラー区分
-            $table->timestamp('order_at')->nullable();;                  // 発行指示日時
-            $table->timestamp('zipfile_at')->nullable();;                // 圧縮ファイル作成日時
-            $table->timestamp('download_at')->nullable();;               // ダウンロード日時
+            $table->timestamp('order_at')->nullable();                  // 発行指示日時
+            $table->timestamp('zipfile_at')->nullable();                // 圧縮ファイル作成日時
+            $table->timestamp('download_at')->nullable();               // ダウンロード日時
             $table->timestamps();
-            
+
             // ユニークキー
-            //$table->primary(['category_kbn','year','cnttest','grade','sch_code','cls_code']);
+            // $table->primary(['category_kbn','year','cnttest','grade','sch_code','cls_code']);
         });
     }
 

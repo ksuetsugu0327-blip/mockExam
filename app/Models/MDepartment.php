@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MDepartment extends Model
 {
-        /**
+    /**
      * モデルと関連しているテーブル
      *
      * @var string
@@ -18,6 +18,6 @@ class MDepartment extends Model
         'fcl_code',
         'dpt_code',
         'dpt_name',
-        'dpt_order'
+        'dpt_order',
     ];
 }

@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers\Rest;
 
-use Exception;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\TestCountSearchListService;
+use Illuminate\Http\Request;
 
 class TestCountSearchListAPIController extends Controller
 {
     private $service;
-    
+
     /**
      * コンストラクタ
-     * @param testCountSearchListService $testCountSearchListService マスタサービス
+     *
+     * @param  testCountSearchListService  $testCountSearchListService  マスタサービス
      */
-    public function __construct(TestCountSearchListService $testCountSearchListService){
+    public function __construct(TestCountSearchListService $testCountSearchListService)
+    {
         // No session-based auth middleware for API
         $this->service = $testCountSearchListService;
     }
 
     /**
      * 公開フラグチェックAPI
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function checkPublishFlg(Request $request)
@@ -42,7 +42,7 @@ class TestCountSearchListAPIController extends Controller
             'cnttest' => $cnttest,
             'grade' => $grade,
             'path_kbn' => config('constants.PATH_KBN_FILE'), // パス区分:ファイル
-            'category_kbn' => config('constants.FILE_KBN_PSN'), // 識別子:個人  
+            'category_kbn' => config('constants.FILE_KBN_PSN'), // 識別子:個人
         ];
 
         $result = $this->service->checkPublishFlg($conditions);

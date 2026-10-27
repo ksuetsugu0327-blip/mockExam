@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddColumnsInMUniversityCodeTable extends Migration
 {
@@ -15,12 +15,12 @@ class AddColumnsInMUniversityCodeTable extends Migration
     {
         Schema::table('m_university_code', function (Blueprint $table) {
             // Add new columns with indexes
-            $table->string('dept_line_cd2',1)->nullable()->after('dept_line_cd1')->comment('学部系統コード2');
-            $table->string('dept_line_cd3',1)->nullable()->after('dept_line_cd2')->comment('学部系統コード3');
-            $table->string('dept_line_cd4',1)->nullable()->after('dept_line_cd3')->comment('学部系統コード4');
-            $table->string('dept_line_cd5',1)->nullable()->after('dept_line_cd4')->comment('学部系統コード5');
-            $table->string('dept_line_cd6',1)->nullable()->after('dept_line_cd5')->comment('学部系統コード6');
-            $table->string('dept_line_cd7',1)->nullable()->after('dept_line_cd6')->comment('学部系統コード7');
+            $table->string('dept_line_cd2', 1)->nullable()->after('dept_line_cd1')->comment('学部系統コード2');
+            $table->string('dept_line_cd3', 1)->nullable()->after('dept_line_cd2')->comment('学部系統コード3');
+            $table->string('dept_line_cd4', 1)->nullable()->after('dept_line_cd3')->comment('学部系統コード4');
+            $table->string('dept_line_cd5', 1)->nullable()->after('dept_line_cd4')->comment('学部系統コード5');
+            $table->string('dept_line_cd6', 1)->nullable()->after('dept_line_cd5')->comment('学部系統コード6');
+            $table->string('dept_line_cd7', 1)->nullable()->after('dept_line_cd6')->comment('学部系統コード7');
 
             $table->index([
                 'dept_line_cd1',
@@ -29,7 +29,7 @@ class AddColumnsInMUniversityCodeTable extends Migration
                 'dept_line_cd4',
                 'dept_line_cd5',
                 'dept_line_cd6',
-                'dept_line_cd7'
+                'dept_line_cd7',
             ], 'composite_dept_line_cd_index');
         });
     }

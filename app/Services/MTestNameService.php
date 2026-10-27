@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MTestName\MTestNameRepositoryInterface as MTestNameRepositoryInterface;
+use App\Repositories\MTestName\MTestNameRepositoryInterface;
 
 /**
  * テスト名マスタ用サービス
  */
-class MTestNameService {
-
+class MTestNameService
+{
     // リポジトリ
-    // テスト名マスタ 
+    // テスト名マスタ
     private $repositoryMTestName;
-    
+
     /**
      * コンストラクタ
      */
@@ -20,7 +20,7 @@ class MTestNameService {
     {
         $this->repositoryMTestName = $repositoryMTestName;
     }
-    
+
     /**
      * 一覧取得
      */
@@ -28,5 +28,4 @@ class MTestNameService {
     {
         return $this->repositoryMTestName->selectList();
     }
-
 }

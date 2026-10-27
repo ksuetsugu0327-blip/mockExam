@@ -12,9 +12,9 @@ class MPrefecture extends Model
      * @var string
      */
     protected $table = 'm_prefecture';
-    
+
     protected $fillable = [
         'pref_code',
-        'name'
+        'name',
     ];
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateMTestcount extends Migration
 {
@@ -17,7 +17,7 @@ class UpdateMTestcount extends Migration
             // カラムの追加を行う
             $table->string('printgrade1', 16)->nullable(); // 帳票印字用回数文字列(1年生用)
             $table->string('printgrade2', 16)->nullable(); // 帳票印字用回数文字列(2年生用)
-            $table->string('printgrade3', 16)->nullable(); // 帳票印字用回数文字列(3年生用)     
+            $table->string('printgrade3', 16)->nullable(); // 帳票印字用回数文字列(3年生用)
         });
     }
 

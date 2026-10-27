@@ -4,14 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CsvUploadRequest extends FormRequest {
-
+class CsvUploadRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -20,7 +21,8 @@ class CsvUploadRequest extends FormRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'csv_file' => [
                 'required',
@@ -32,16 +34,18 @@ class CsvUploadRequest extends FormRequest {
                 'csv_file.file' => 'ファイルアップロードに失敗しました。',
                 'csv_file.mimes' => 'ファイル拡張子が異なります。',
                 'csv_file.mimetypes' => 'ファイル形式が不正です。',
-            ]
+            ],
         ];
     }
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator) {
-        $validator->after(function($validator) {
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
             if (count($validator->failed()) > 0) {
                 $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }

@@ -24,17 +24,17 @@ class CreateTTestInfoTable extends Migration
             $table->string('highschool_cls', 1000)->nullable()->comment('備考');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新日時');
-        
+
             // Define unique constraints on individual columns
             $table->unique('oem_sch_code');
             $table->unique('fiscal_year');
             $table->unique('grade');
             $table->unique('test_name_cd');
-        
+
             // Add foreign key constraints if necessary
             // $table->foreign('university_code_head_id')->references('id')->on('another_table_name')->onDelete('cascade');
         });
-        
+
     }
 
     /**
@@ -47,4 +47,3 @@ class CreateTTestInfoTable extends Migration
         Schema::dropIfExists('t_test_info');
     }
 }
-

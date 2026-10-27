@@ -22,7 +22,8 @@ class UnivTestEditRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'remarks' => 'nullable|max:1000',
         ];
@@ -34,17 +35,18 @@ class UnivTestEditRequest extends FormRequest
             'remarks.max' => '備考には:max文字以下の文字列を指定してください。',
         ];
     }
-    
+
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator){
-        $validator->after(function($validator){
-            if(count($validator->failed())>0){
-                $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($validator->failed()) > 0) {
+                $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }
         });
     }
-
 }

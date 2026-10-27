@@ -32,4 +32,3 @@ class MUniversityInstall extends Model
 
     // Additional methods, scopes, or accessors/mutators if needed
 }
-

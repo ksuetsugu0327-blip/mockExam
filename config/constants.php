@@ -4,8 +4,8 @@
  * 定数クラスです。
  *
  */
-return[
-    //APP_KEY
+return [
+    // APP_KEY
     'APP_KEY' => env('APP_KEY'),
     // レコード区分_塾名
     'NAME_KBN_SCH_NAME' => 12,
@@ -92,7 +92,7 @@ return[
     // 検索結果一覧リスト
     'SESSION_KEY_MPERSON_LIST' => 'MPERSON_LIST',
 
-    //教室マスタ一覧
+    // 教室マスタ一覧
     'SESSION_KEY_MCLASS_SEARCH_CONDITION' => 'MCLASS_SEARCH_CONDITION',
 
     // 代理ログイン用
@@ -151,11 +151,11 @@ return[
     'ADMIN_KBN_GENERAL' => 0,
     'ADMIN_KBN_ADMIN' => 1,
     // 生徒機能表示フラグ 0:表示 1:非表示
-    'PSN_NO_HIDE_FLG'       => '0',
-    'PSN_HIDE_FLG'          => '1',
+    'PSN_NO_HIDE_FLG' => '0',
+    'PSN_HIDE_FLG' => '1',
     // 塾名表示フラグ 0:表示 1:非表示
-    'SCH_NAME_NO_HIDE_FLG'  => '0',
-    'SCH_NAME_HIDE_FLG'     => '1',
+    'SCH_NAME_NO_HIDE_FLG' => '0',
+    'SCH_NAME_HIDE_FLG' => '1',
     // 個人登録票利用フラグ　0:非表示 1:表示
     'PSN_CARD_HIDE_FLG' => '0',
     'PSN_CARD_NO_HIDE_FLG' => '1',
@@ -163,7 +163,7 @@ return[
     'PSN_REPORT_PUBLISH_USE_FLG' => '1',
     'PSN_REPORT_PUBLISH_NOT_USE_FLG' => '0',
     'PSN_REPORT_PUBLISH_FLG_SCHOOL' => '1',
-    'PSN_REPORT_PUBLISH_FLG_CLASS' => '2',  
+    'PSN_REPORT_PUBLISH_FLG_CLASS' => '2',
     'PSN_REPORT_PUBLISH_FLG_BOTH' => '3',
     // 生徒パスワード変更可能フラグ　0:利用しない 1:利用する
     'PSN_CHANGE_PW_HIDE_FLG' => '0',
@@ -215,7 +215,7 @@ return[
     // CSVインポート時間制限（秒単位）
     'PERSON_IMPORT_CSV_TIME_LIMIT' => 900,
 
-    //学年
+    // 学年
     'PSN_IMP_COMMIT_COUNT' => 1000,
 
     // CSVのヘッダーの順序
@@ -232,7 +232,7 @@ return[
             'NAME' => 'cls_code',
             'INDEX' => 2,
         ],
-		'NAME' => [
+        'NAME' => [
             'NAME' => 'name',
             'INDEX' => 3,
         ],
@@ -250,111 +250,109 @@ return[
         ],
         'MAIL_ADDRESS' => [
             'NAME' => 'mail_address',
-            'INDEX' => 7
+            'INDEX' => 7,
         ],
-         'PASSWORD' => [
+        'PASSWORD' => [
             'NAME' => 'password',
             'INDEX' => 8,
-         ],
+        ],
         'TEMPPASS' => [
             'NAME' => 'temppassword',
             'INDEX' => 9,
         ],
     ],
 
-
     // 大学用CSVのヘッダーの順序
     'UNIV_CSV_HEADER' => [
         'UNIV_CODE' => [
-                'NAME' => '大学コード',
-                'INDEX' => 0,
-            ],
-            'PREF_CODE' => [
-                'NAME' => '都道府県コード',
-                'INDEX' => 1,
-            ],
-            'INSTALL_CODE' => [
-                'NAME' => '設置区分コード',
-                'INDEX' => 2,
-            ],
-            'DEPT_LINE_CODE1' => [
-                'NAME' => '学部系統コード1',
-                'INDEX' => 3,
-            ],
-            'DEPT_LINE_CODE2' => [
-                'NAME' => '学部系統コード2',
-                'INDEX' => 4,
-            ],
-            'DEPT_LINE_CODE3' => [
-                'NAME' => '学部系統コード3',
-                'INDEX' => 5,
-            ],
-            'DEPT_LINE_CODE4' => [
-                'NAME' => '学部系統コード4',
-                'INDEX' => 6,
-            ],
-            'DEPT_LINE_CODE5' => [
-                'NAME' => '学部系統コード5',
-                'INDEX' => 7,
-            ],
-            'DEPT_LINE_CODE6' => [
-                'NAME' => '学部系統コード6',
-                'INDEX' => 8,
-            ],
-            'DEPT_LINE_CODE7' => [
-                'NAME' => '学部系統コード7',
-                'INDEX' => 9,
-            ],
-            'NAME_HKN' => [
-                'NAME' => '大学名（半角カナ）',
-                'INDEX' => 10,
-            ],
-            'NAME' => [
-                'NAME' => '大学名',
-                'INDEX' => 11,
-            ],
-            'NAME_NEW' => [
-                'NAME' => '大学名（新字）',
-                'INDEX' => 12,
-            ],
-            'DEPT_CODE' => [
-                'NAME' => '学部コード',
-                'INDEX' => 13,
-            ],
-            'DEPT_SEQ' => [
-                'NAME' => '学部表示順',
-                'INDEX' => 14,
-            ],
-            'DEPT_NAME' => [
-                'NAME' => '学部名',
-                'INDEX' => 15,
-            ],
-            'SUBJ_CODE' => [
-                'NAME' => '学科コード',
-                'INDEX' => 16,
-            ],
-            'SUBJ_SEQ' => [
-                'NAME' => '学科表示順',
-                'INDEX' => 17,
-            ],
-            'SUBJ_NAME' => [
-                'NAME' => '学科名',
-                'INDEX' => 18,
-            ],
-            'SEARCH_SUBJ_NAME' => [
-                'NAME' => '検索用学科名',
-                'INDEX' => 19,
-            ],
-            'CMN_TEST_USE' => [
-                'NAME' => '共通テスト利用',
-                'INDEX' => 20,
-            ],
-            'DEVI_VAL' => [
-                'NAME' => '偏差値',
-                'INDEX' => 21,
-            ],
+            'NAME' => '大学コード',
+            'INDEX' => 0,
+        ],
+        'PREF_CODE' => [
+            'NAME' => '都道府県コード',
+            'INDEX' => 1,
+        ],
+        'INSTALL_CODE' => [
+            'NAME' => '設置区分コード',
+            'INDEX' => 2,
+        ],
+        'DEPT_LINE_CODE1' => [
+            'NAME' => '学部系統コード1',
+            'INDEX' => 3,
+        ],
+        'DEPT_LINE_CODE2' => [
+            'NAME' => '学部系統コード2',
+            'INDEX' => 4,
+        ],
+        'DEPT_LINE_CODE3' => [
+            'NAME' => '学部系統コード3',
+            'INDEX' => 5,
+        ],
+        'DEPT_LINE_CODE4' => [
+            'NAME' => '学部系統コード4',
+            'INDEX' => 6,
+        ],
+        'DEPT_LINE_CODE5' => [
+            'NAME' => '学部系統コード5',
+            'INDEX' => 7,
+        ],
+        'DEPT_LINE_CODE6' => [
+            'NAME' => '学部系統コード6',
+            'INDEX' => 8,
+        ],
+        'DEPT_LINE_CODE7' => [
+            'NAME' => '学部系統コード7',
+            'INDEX' => 9,
+        ],
+        'NAME_HKN' => [
+            'NAME' => '大学名（半角カナ）',
+            'INDEX' => 10,
+        ],
+        'NAME' => [
+            'NAME' => '大学名',
+            'INDEX' => 11,
+        ],
+        'NAME_NEW' => [
+            'NAME' => '大学名（新字）',
+            'INDEX' => 12,
+        ],
+        'DEPT_CODE' => [
+            'NAME' => '学部コード',
+            'INDEX' => 13,
+        ],
+        'DEPT_SEQ' => [
+            'NAME' => '学部表示順',
+            'INDEX' => 14,
+        ],
+        'DEPT_NAME' => [
+            'NAME' => '学部名',
+            'INDEX' => 15,
+        ],
+        'SUBJ_CODE' => [
+            'NAME' => '学科コード',
+            'INDEX' => 16,
+        ],
+        'SUBJ_SEQ' => [
+            'NAME' => '学科表示順',
+            'INDEX' => 17,
+        ],
+        'SUBJ_NAME' => [
+            'NAME' => '学科名',
+            'INDEX' => 18,
+        ],
+        'SEARCH_SUBJ_NAME' => [
+            'NAME' => '検索用学科名',
+            'INDEX' => 19,
+        ],
+        'CMN_TEST_USE' => [
+            'NAME' => '共通テスト利用',
+            'INDEX' => 20,
+        ],
+        'DEVI_VAL' => [
+            'NAME' => '偏差値',
+            'INDEX' => 21,
+        ],
     ],
-
 
     // 高校用CSVのヘッダーの順序
     'HIGH_SCHOOL_CSV_HEADER' => [
@@ -370,7 +368,7 @@ return[
             'NAME' => '郵便番号',
             'INDEX' => 2,
         ],
-		'TEL_NUM' => [
+        'TEL_NUM' => [
             'NAME' => '電話番号',
             'INDEX' => 3,
         ],
@@ -431,12 +429,12 @@ return[
     'THIRD_GRADE' => 3,
 
     // SSO 認証
-    'SSO_LOGIN' => array(
+    'SSO_LOGIN' => [
         'WASEDA_ACADEMY' => [ // 早稲アカ 1304267
-            'SCH_CODE'   => '1304267',
-            'SECRET_KEY' => '2PqfsjWmZ4uS3sp4kmcz'
+            'SCH_CODE' => '1304267',
+            'SECRET_KEY' => '2PqfsjWmZ4uS3sp4kmcz',
         ],
-    ),
+    ],
 
     // 学部判定用コード番号表のパス
     'CODE_PDF_FACULTY_PATH' => '/pdf/cdn_1_コード番号表.pdf',
@@ -448,11 +446,11 @@ return[
     // 学科判定用コード番号表の名称
     'CODE_PDF_DEPARTMENT_NAME' => '学科判定用コード番号表',
 
-    //受験番号のゼロ埋め桁数
+    // 受験番号のゼロ埋め桁数
     'EXAM_NUMBER_ZERO_PAD_DIGITS' => 6,
 
-    //受験番号CSVのヘッダーの順序
-    //塾コード、生徒コード、年度、回数、学年、受験番号
+    // 受験番号CSVのヘッダーの順序
+    // 塾コード、生徒コード、年度、回数、学年、受験番号
     'EXAM_NUM_CSV_HEADER_NUM' => [
         'SCH_CODE' => [
             'NAME' => 'sch_code',
@@ -483,10 +481,10 @@ return[
     // 受験番号アップロードエラーCSVファイル名
     'EXAMNUM_IMPORT_ERR_FILENAME' => 'exam_number_registration_error.csv',
 
-    //パスワード再設定メール用
+    // パスワード再設定メール用
     'MAIL_FROM_ADDRESS' => env('MAIL_FROM_ADDRESS'),
-    'MAIL_FROM_NAME'    => env('MAIL_FROM_NAME'),
-    'REPLY_TO'          => 'info@seihoku.org',
+    'MAIL_FROM_NAME' => env('MAIL_FROM_NAME'),
+    'REPLY_TO' => 'info@seihoku.org',
 
     // 年度（過去年数）
     'PAST_YEAR' => 4,
@@ -503,7 +501,7 @@ return[
     ],
 
     // 大学コード検索画面用内部API一回にあたって取得件数
-    //'UNVC_PER_PAGE' => 5,  // TODO: テスト
+    // 'UNVC_PER_PAGE' => 5,  // TODO: テスト
     'UNVC_PER_PAGE' => 18,
 
     // 大学コード検索画面用最大取得件数
@@ -524,5 +522,3 @@ return[
     // システムの文字コード
     'CHARACTER_CODE' => env('CHARACTER_CODE'),
 ];
-
-

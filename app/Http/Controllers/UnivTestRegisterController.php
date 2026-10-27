@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UnivTestListRequest;
 use App\Http\Requests\UnivTestRegisterRequest;
-use App\Services\TTestInfoService;
+use App\Services\MCodeBookService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
-use App\Services\MCodeBookService;
-use Illuminate\Http\Request;
+use App\Services\TTestInfoService;
 
 class UnivTestRegisterController extends Controller
 {
     private $service;
+
     private $oemSchoolService;
+
     private $testNameService;
 
     /**
      * コンストラクタ
-     * @param TTestInfoService $tTestService 模試テーブルサービス
+     *
+     * @param  TTestInfoService  $tTestService  模試テーブルサービス
      */
     public function __construct(
-        TTestInfoService            $tTestService,
-        MOemSchoolService          $mOemSchoolService,
-        MTestNameService           $mTestNameService,
-        MCodeBookService           $mCodeBookService
+        TTestInfoService $tTestService,
+        MOemSchoolService $mOemSchoolService,
+        MTestNameService $mTestNameService,
+        MCodeBookService $mCodeBookService
     ) {
         // ログイン判定
         $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
@@ -36,26 +37,27 @@ class UnivTestRegisterController extends Controller
 
     /**
      * テスト登録画面
+     *
      * @return \Illuminate\View\View テスト登録画面
      */
     public function register()
     {
         // 年度プルダウンを用意
-        $years = $this->service->generateYearsArray("near");
+        $years = $this->service->generateYearsArray('near');
         // 学年プルダウンを用意
         $grades = config('selectlistarray.UNVS_GRADE_LIST');
         // OEM塾を取得
         $oemSchoolList = $this->oemSchoolService->selectList()
-                        ->pluck('oem_sch_name', 'oem_sch_code')
-                        ->toArray();
+            ->pluck('oem_sch_name', 'oem_sch_code')
+            ->toArray();
         // テスト名を取得
         $testNameList = $this->testNameService->selectList()
-                        ->pluck('test_name', 'test_name_cd')
-                        ->toArray();
+            ->pluck('test_name', 'test_name_cd')
+            ->toArray();
         // コード表PDF
         $codeBookList = $this->codeBookService->selectList()
-                        ->pluck('codebook_name', 'codebook_cd')
-                        ->toArray();
+            ->pluck('codebook_name', 'codebook_cd')
+            ->toArray();
 
         return view('test_register', compact(
             'years',
@@ -68,7 +70,7 @@ class UnivTestRegisterController extends Controller
 
     /**
      * テスト登録処理
-     * @param UnivTestRegisterRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse テスト一覧画面
      */
     public function store(UnivTestRegisterRequest $request)
@@ -83,6 +85,6 @@ class UnivTestRegisterController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->route('test.list', ['schCode'=>session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
+        return redirect()->route('test.list', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', $result['message']);
     }
 }

@@ -12,12 +12,12 @@ class MUniversity extends Model
      * @var string
      */
     protected $table = 'm_university';
-    
+
     protected $fillable = [
         'univ_code',
         'univ_name',
         'univ_kana',
         'inst_class',
-        'pref_code'
+        'pref_code',
     ];
 }

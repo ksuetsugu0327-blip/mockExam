@@ -7,12 +7,12 @@ use App\Repositories\MUnivInstall\MUniversityInstallRepositoryInterface;
 /**
  * 大学コードデータ名マスタ用サービス
  */
-class MUnivInstallService {
-
+class MUnivInstallService
+{
     // リポジトリ
-    // 大学コードデータ名マスタ 
+    // 大学コードデータ名マスタ
     private $repositoryMUniversityInstall;
-    
+
     /**
      * コンストラクタ
      */
@@ -21,8 +21,8 @@ class MUnivInstallService {
         $this->repositoryMUniversityInstall = $repositoryMUniversityInstall;
     }
 
-    public function selectList(){
+    public function selectList()
+    {
         return $this->repositoryMUniversityInstall->selectList();
     }
-
 }

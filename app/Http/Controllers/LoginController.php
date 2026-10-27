@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class LoginController extends Controller
 {
     /**
@@ -12,10 +10,10 @@ class LoginController extends Controller
      * @return void
      */
     // 使用する場合はコメントアウトを解除する
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
+    //    public function __construct()
+    //    {
+    //        $this->middleware('auth');
+    //    }
 
     /**
      * Show the application dashboard.
@@ -26,12 +24,11 @@ class LoginController extends Controller
     {
         return view('login-ID');
     }
-    
+
     /**
      * ログイン処理
-     * 
-     * @param 
+     *
+     * @param
      * @return
      */
-    
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMTestcount extends Migration
 {
@@ -22,7 +22,7 @@ class CreateMTestcount extends Migration
             $table->timestamps();
             // 削除も「物理削除」のため、削除フラグのカラムなし
             // プライマリキー設定
-            $table->unique(['year','cnttest','sch_code']);
+            $table->unique(['year', 'cnttest', 'sch_code']);
         });
     }
 

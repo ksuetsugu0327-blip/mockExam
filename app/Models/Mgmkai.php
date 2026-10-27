@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mgmkai extends Model {
-
+class Mgmkai extends Model
+{
     /**
      * モデルと関連しているテーブル
      *
      * @var string
      */
     protected $table = 'MGMKAI';
-    
+
     /**
      * 主キー
-     * @var 複合 
+     *
+     * @var 複合
      */
-    
     public $timestamps = false;
-    
+
     protected $fillable = [
         'KAIA001',
         'KAIA010',
@@ -122,7 +122,6 @@ class Mgmkai extends Model {
         'KAIA030_96',
         'KAIA030_97',
         'KAIA030_98',
-        'KAIA030_99'
+        'KAIA030_99',
     ];
-
 }

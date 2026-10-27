@@ -12,12 +12,11 @@ class MTestcount extends Model
      * @var string
      */
     protected $table = 'm_testcount';
-    
+
     protected $fillable = [
         'year',
         'cnttest',
         'sch_code',
-        'test_day'
+        'test_day',
     ];
-        
 }

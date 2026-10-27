@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\MCodeBook\MCodeBookRepositoryInterface as MCodeBookRepositoryInterface;
+use App\Repositories\MCodeBook\MCodeBookRepositoryInterface;
 
 /**
  * OEM塾マスタ用サービス
  */
-class MCodeBookService {
-
+class MCodeBookService
+{
     // リポジトリ
-    // OEM塾マスタ 
+    // OEM塾マスタ
     private $repositoryMCodeBook;
-    
+
     /**
      * コンストラクタ
      */
@@ -20,7 +20,7 @@ class MCodeBookService {
     {
         $this->repositoryMCodeBook = $repositoryMCodeBook;
     }
-    
+
     /**
      * 一覧取得
      */

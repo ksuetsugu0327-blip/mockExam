@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\MPrefectureService;
 use App\Services\MHighSchoolClassService;
 use App\Services\MHighSchoolInstallService;
-use App\Services\MUnivInstallService;
-use App\Services\MUnivDeptLineService;
 use App\Services\MOemSchoolService;
+use App\Services\MPrefectureService;
+use App\Services\MUnivDeptLineService;
+use App\Services\MUnivInstallService;
+use Illuminate\Http\Request;
 
 class UnivCodeSearchIndexController extends Controller
 {
@@ -19,7 +19,7 @@ class UnivCodeSearchIndexController extends Controller
         MUnivInstallService $mUnivInstallService,
         MUnivDeptLineService $mUnivDeptLineService,
         MOemSchoolService $mOemSchoolService
-    ){
+    ) {
         $this->prefectureService = $mPrefectureService;
         $this->highSchoolInstallService = $mHighSchoolInstallService;
         $this->highSchoolClassService = $mHighSchoolClassService;
@@ -28,9 +28,10 @@ class UnivCodeSearchIndexController extends Controller
         $this->oemSchoolService = $mOemSchoolService;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
-        $gradeList = array_slice($gradeList, 1, NULL, true);
+        $gradeList = array_slice($gradeList, 1, null, true);
 
         $prefList = $this->prefectureService->selectList();
         $highSchoolInstallCodeList = $this->highSchoolInstallService->selectList();
@@ -42,10 +43,10 @@ class UnivCodeSearchIndexController extends Controller
 
         $guideBookFolder = config('constants.UNVC_GUIDEBOOK_PATH');
         $guideBookFileName = config('constants.GUIDE_BOOK_NAME');
-        $guideBookPath =  $guideBookFolder.'/'.$guideBookFileName;
-        
-        $hasGuideBookLink = false; 
-        if(file_exists(public_path($guideBookPath))&& is_file(public_path($guideBookPath))){
+        $guideBookPath = $guideBookFolder.'/'.$guideBookFileName;
+
+        $hasGuideBookLink = false;
+        if (file_exists(public_path($guideBookPath)) && is_file(public_path($guideBookPath))) {
             $hasGuideBookLink = true;
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 class TicketRegistRequest extends FormRequest
 {
@@ -31,15 +31,15 @@ class TicketRegistRequest extends FormRequest
 
         for ($i = 1; $i <= 6; $i++) {
             $valid += [
-                'univ_code' . $i => 'bail|nullable|size:4|exists:m_university,univ_code',
-                'faculty_code' . $i => 'bail|nullable|size:4|exists:m_faculty,fcl_code,univ_code,' . $this->input('univ_code' . $i),
-                'department_code' . $i => 'bail|nullable|size:4|exists:m_department,dpt_code,fcl_code,' . $this->input('faculty_code' . $i),
+                'univ_code'.$i => 'bail|nullable|size:4|exists:m_university,univ_code',
+                'faculty_code'.$i => 'bail|nullable|size:4|exists:m_faculty,fcl_code,univ_code,'.$this->input('univ_code'.$i),
+                'department_code'.$i => 'bail|nullable|size:4|exists:m_department,dpt_code,fcl_code,'.$this->input('faculty_code'.$i),
             ];
         }
 
         return $valid;
     }
-    
+
     /**
      * カスタムメッセージ
      */
@@ -53,34 +53,35 @@ class TicketRegistRequest extends FormRequest
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
     public function withValidator($validator)
     {
-        $validator->after(function($validator) {
+        $validator->after(function ($validator) {
             $univCnt = 0;
             for ($i = 1; $i <= 6; $i++) {
                 // 学科までの設定時
                 if ($this->input('enable_flag') == '1') {
                     // 大学・学部・学科は必ずセット
-                    if ($this->filled(['univ_code' . $i]) || $this->filled(['faculty_code' . $i]) || $this->filled(['department_code' . $i])) {
-                        if (!$this->filled(['univ_code' . $i, 'faculty_code' . $i, 'department_code' . $i])) {
+                    if ($this->filled(['univ_code'.$i]) || $this->filled(['faculty_code'.$i]) || $this->filled(['department_code'.$i])) {
+                        if (! $this->filled(['univ_code'.$i, 'faculty_code'.$i, 'department_code'.$i])) {
                             $validator->errors()->add('ufd_set', trans('validation.ufd_set', ['attribute' => $i]));
                         }
                     }
 
-                // 学部までの設定時
+                    // 学部までの設定時
                 } else {
                     // 大学・学部は必ずセット
-                    if ($this->filled(['univ_code' . $i]) || $this->filled(['faculty_code' . $i])) {
-                        if (!$this->filled(['univ_code' . $i, 'faculty_code' . $i])) {
+                    if ($this->filled(['univ_code'.$i]) || $this->filled(['faculty_code'.$i])) {
+                        if (! $this->filled(['univ_code'.$i, 'faculty_code'.$i])) {
                             $validator->errors()->add('uf_set', trans('validation.uf_set', ['attribute' => $i]));
                         }
                     }
                 }
 
                 // 大学が入力されているかチェック
-                if ($this->filled(['univ_code' . $i])) {
+                if ($this->filled(['univ_code'.$i])) {
                     $univCnt++;
                 }
             }

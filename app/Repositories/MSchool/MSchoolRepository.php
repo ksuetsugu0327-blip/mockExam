@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repositories\MSchool;
@@ -9,126 +10,138 @@ namespace App\Repositories\MSchool;
  * and open the template in the editor.
  */
 
-use App\Repositories\MSchool\MSchoolRepositoryInterface as MSchoolRepositoryInterface;
-use App\Models\MSchool as MSchool;
-use App\Models\MClass as MClass;
-use App\Models\MPerson as MPerson;
+use App\Models\MClass;
+use App\Models\MPerson;
+use App\Models\MSchool;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Hash;
 
 /**
  * 塾マスタ用リポジトリ
- *
  */
-class MSchoolRepository implements MSchoolRepositoryInterface{
-    
+class MSchoolRepository implements MSchoolRepositoryInterface
+{
     /**
      * 塾モデル
+     *
      * @var type model
      */
     private $MSchool;
+
     /**
      * 教室モデル
-     * @var type 
+     *
+     * @var type
      */
     private $MClass;
+
     /**
      * 個人モデル
-     * @var type 
+     *
+     * @var type
      */
     private $MPerson;
-    
+
     /**
      * コンストラクタ
-     * @param MSchool $mSchool  塾モデル
-     * @param MClass  $mClass   教室モデル
-     * @param MPerson $mPerson  個人モデル
+     *
+     * @param  MSchool  $mSchool  塾モデル
+     * @param  MClass  $mClass  教室モデル
+     * @param  MPerson  $mPerson  個人モデル
      */
-    public function __construct(MSchool $mSchool,MClass $mClass,MPerson $mPerson){
+    public function __construct(MSchool $mSchool, MClass $mClass, MPerson $mPerson)
+    {
         $this->MSchool = $mSchool;
         $this->MClass = $mClass;
         $this->MPerson = $mPerson;
     }
-    
+
     /**
      * 塾マスタ業務キー検索
-     * @param int $schCode
+     *
      * @return type　MSchool
      */
-    public function selectOneByKey(int $schCode){
-        return $this->MSchool::where('sch_code',$schCode)->get();
+    public function selectOneByKey(int $schCode)
+    {
+        return $this->MSchool::where('sch_code', $schCode)->get();
     }
 
     /**
      * 引数指定での検索処理( 検索画面用 ）
-     * @param array $conditions     検索条件(連想配列）
+     *
+     * @param  array  $conditions  検索条件(連想配列）
      */
-    public function selectList(array $conditions){
+    public function selectList(array $conditions)
+    {
         // 塾マスタを取得するためのクエリ生成
         $query = $this->MSchool::query();
 
         // 検索条件に塾コードが存在する場合(完全一致)
-        if (array_key_exists('sch_code',$conditions) && isset($conditions['sch_code'])) {
+        if (array_key_exists('sch_code', $conditions) && isset($conditions['sch_code'])) {
             $query->where('sch_code', '=', $conditions['sch_code']);
         }
         // 塾名が存在する場合(部分一致)
-        if (array_key_exists('sch_name',$conditions) && isset($conditions['sch_name'])) {
-            $query->where('name', 'like', '%' . $conditions['sch_name'] . '%');
+        if (array_key_exists('sch_name', $conditions) && isset($conditions['sch_name'])) {
+            $query->where('name', 'like', '%'.$conditions['sch_name'].'%');
         }
-        
+
         // 表示結果を取得(ソート実施）
         return $query->get()->sortBy('sch_code')->values();
-        
+
     }
 
     /**
      * 塾コード指定でのデータ削除処理
-     * @param int $delSchCode
-     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException) 
+     *
+     * @return 連想配列(resultCode(-1(システムエラー) 0:(業務エラー) 1:正常終了)  message : メッセージ(システムエラーの場合はException)
      */
-    public function delete(int $delSchCode) {
+    public function delete(int $delSchCode)
+    {
         DB::beginTransaction();
-        try{
-            $school = $this->MSchool::where('sch_code',$delSchCode)->firstOrFail();
+        try {
+            $school = $this->MSchool::where('sch_code', $delSchCode)->firstOrFail();
             // 削除処理
             $this->MSchool::destroy($school->id);
 
             // 教室レコード削除
-            $deleteClasses = $this->MClass::where('sch_code',$delSchCode)->delete();
+            $deleteClasses = $this->MClass::where('sch_code', $delSchCode)->delete();
 
             // 個人レコード削除
-            $deletePersons = $this->MPerson::where('sch_code',$delSchCode)->delete();
-            
+            $deletePersons = $this->MPerson::where('sch_code', $delSchCode)->delete();
+
             DB::commit();
         } catch (ModelNotFoundException $ex) {
             // 排他エラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$delSchCode]));
-        } catch (Exception $ex){
+
+            return ['resultCode' => config('constants.RESULT_CODE_BUSINESS_ERROR'), 'message' => trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION', ['sch_code' => $delSchCode])];
+        } catch (Exception $ex) {
             // システムエラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
-        } 
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_DELETE_DATA',['sch_code'=>$delSchCode]));
+
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
+        }
+
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'), 'message' => trans('message.SUCCESS_MSCHOOL_DELETE_DATA', ['sch_code' => $delSchCode])];
     }
 
     /**
      * 登録処理
-     * @param array $school 塾情報連想配列
+     *
+     * @param  array  $school  塾情報連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function register(array $school) {
+    public function register(array $school)
+    {
         $mSchool = $this->MSchool->newInstance();
         // 塾コード
         $mSchool->sch_code = $school['sch_code'];
         // 塾名
         $mSchool->name = $school['name'];
-        //塾アカウント名
+        // 塾アカウント名
         $mSchool->portal_account = $school['portal_account'];
         // 回数コンバート区分
         $mSchool->cntconvert_kbn = $school['cntconvert_kbn'];
@@ -152,31 +165,32 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
         $mSchool->permit_ip = $school['permit_ip'];
         // パスワード(ハッシュ化)
         $mSchool->password = Hash::make($school['password']);
-        try{
+        try {
             // 登録処理
-            $mSchool->save();            
+            $mSchool->save();
         } catch (Exception $ex) {
             // システムエラー
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
         }
-        
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),
-                        'message'=>trans('message.SUCCESS_MSCHOOL_REGISTER_DATA',['sch_code'=>$school['sch_code']])
-                        ,'id'=>$mSchool->id);        
+
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'),
+            'message' => trans('message.SUCCESS_MSCHOOL_REGISTER_DATA', ['sch_code' => $school['sch_code']]), 'id' => $mSchool->id];
     }
 
     /**
      * 更新処理
-     * @param array $school 塾情報(連想配列)
+     *
+     * @param  array  $school  塾情報(連想配列)
      * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
      */
-    public function update(array $school) {
-        try{
+    public function update(array $school)
+    {
+        try {
             $mSchool = $this->MSchool::findOrFail($school['id']);
             // 更新情報情報セット
             // 塾名
             $mSchool->name = $school['name'];
-            //塾アカウント名
+            // 塾アカウント名
             $mSchool->portal_account = $school['portal_account'];
             // 回数コンバート区分
             $mSchool->cntconvert_kbn = $school['cntconvert_kbn'];
@@ -201,7 +215,7 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
             // アクセス許可IP
             $mSchool->permit_ip = $school['permit_ip'];
             // パスワード更新有無判定
-            if(array_key_exists('password',$school)){
+            if (array_key_exists('password', $school)) {
                 // パスワード(ハッシュ化)
                 $mSchool->password = Hash::make($school['password']);
             }
@@ -211,17 +225,20 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
         } catch (ModelNotFoundException $ex) {
             // 排他エラー
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$school['sch_code']]));
-        } catch (Exception $ex){
+
+            return ['resultCode' => config('constants.RESULT_CODE_BUSINESS_ERROR'), 'message' => trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION', ['sch_code' => $school['sch_code']])];
+        } catch (Exception $ex) {
             // システムエラー
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+
+            return ['resultCode' => config('constants.RESULT_CODE_SYSTEM_ERROR'), 'message' => $ex];
         }
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_UPDATE_DATA',['sch_code'=>$school['sch_code']]));
+
+        return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'), 'message' => trans('message.SUCCESS_MSCHOOL_UPDATE_DATA', ['sch_code' => $school['sch_code']])];
     }
 
-    public function findBySchAccount($portal_account){
-        return $this->MSchool::where('portal_account',$portal_account)->firstOrFail();
+    public function findBySchAccount($portal_account)
+    {
+        return $this->MSchool::where('portal_account', $portal_account)->firstOrFail();
     }
-
 }

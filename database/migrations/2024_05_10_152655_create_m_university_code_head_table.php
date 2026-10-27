@@ -37,4 +37,3 @@ class CreateMUniversityCodeHeadTable extends Migration
         Schema::dropIfExists('m_university_code_head');
     }
 }
-

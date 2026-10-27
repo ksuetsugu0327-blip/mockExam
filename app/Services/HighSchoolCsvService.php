@@ -2,33 +2,34 @@
 
 namespace App\Services;
 
-use Validator;
 use App\Repositories\MHighSchoolCode\MHighSchoolCodeRepositoryInterface as HighCodeRepositoryInterface;
+use Validator;
 
-class HighSchoolCsvService {
-
+class HighSchoolCsvService
+{
     // リポジトリ
     private $mHighCodeRepository;
 
-    public function __construct(HighCodeRepositoryInterface $HighSchoolRepository){
+    public function __construct(HighCodeRepositoryInterface $HighSchoolRepository)
+    {
         $this->mHighCodeRepository = $HighSchoolRepository;
     }
 
     /**
      * CSVファイル内のバリデーション
      *
-     * @param $file readしたCSVファイル
-     *
+     * @param  $file  readしたCSVファイル
      * @return $csv_errors エラーメッセージの配列
      */
-    public function validateCsvData($file) {
+    public function validateCsvData($file)
+    {
         // CSVファイルがヘッダー行を除いて最大行以上の場合はエラー
         $file->seek($file->getSize());
 
         // errorリスト
-        $csv_errors = array();
+        $csv_errors = [];
         // csvデータ重複チェックは配列
-        $csv_keyAry = array();
+        $csv_keyAry = [];
 
         // データ件数カウント
         $dataCnt = 0;
@@ -37,8 +38,8 @@ class HighSchoolCsvService {
         foreach ($file as $line_num => $line) {
             // CSVの文字コードがシステム文字コードと一致しない場合、エラーを返す。
             $systemCharCode = strtolower(config('constants.CHARACTER_CODE'));
-            //dd($systemCharCode);
-            if(!mb_check_encoding($line, $systemCharCode)){
+            // dd($systemCharCode);
+            if (! mb_check_encoding($line, $systemCharCode)) {
                 $csv_errors[] = [
                     'charCodeErr' => true,
                     'message' => trans('message.UNVC_CODE_CSV_CHAR_CODE_ERR', ['system_char_code' => $systemCharCode]),
@@ -47,11 +48,11 @@ class HighSchoolCsvService {
                 return $csv_errors;
             }
 
-            if($systemCharCode==="sjis" && mb_check_encoding($line, 'SJIS')){
+            if ($systemCharCode === 'sjis' && mb_check_encoding($line, 'SJIS')) {
                 $line = mb_convert_encoding($line, 'UTF-8', 'SJIS');
             }
 
-            if (0 === $line_num || 1 === count($line)) {
+            if ($line_num === 0 || count($line) === 1) {
                 // 最初の行または空行など余分な空白がCSVの途中に混ざっている場合は無視
                 continue;
             }
@@ -61,19 +62,19 @@ class HighSchoolCsvService {
             $output_line_num = $line_num + 1;
             if (count($line) !== count(config('constants.HIGH_SCHOOL_CSV_HEADER'))) {
                 $csv_errors[] = [$output_line_num, ' カラム数が不正です'];
-            } else{
+            } else {
 
                 // 入力値を配列に設定
-                $arrayCheckData = array(
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')       => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME')   => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME')                => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME')                => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME')           => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')             => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')       => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.INDEX')],
-                    config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.INDEX')],
-                );
+                $arrayCheckData = [
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.INDEX')],
+                    config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME') => $line[config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.INDEX')],
+                ];
                 // バリデーションルール生成
                 $rules = $this->makeCsvValidationRules($arrayCheckData);
 
@@ -82,12 +83,13 @@ class HighSchoolCsvService {
                 // 入力値バリデーション
                 $validator = Validator::make($arrayCheckData, $rules, $messages);
 
-                if($validator->fails()){
+                if ($validator->fails()) {
                     // エラー行数とエラーメッセージを格納
-                    $csv_errors[] = array(
+                    $csv_errors[] = [
                         'line' => $output_line_num,
-                        'message' => implode(',', $validator->errors()->all())
-                    );
+                        'message' => implode(',', $validator->errors()->all()),
+                    ];
+
                     continue;
                 }
 
@@ -95,13 +97,14 @@ class HighSchoolCsvService {
         }
 
         // データ件数チェック
-        if($dataCnt === 0){
+        if ($dataCnt === 0) {
             // データ件数が0件のエラー
             $csv_errors[] = [
-                'line' => '' ,
+                'line' => '',
                 'message' => trans('message.CSV_MPERSON_NOT_DATA'),
             ];
         }
+
         return $csv_errors;
     }
 
@@ -110,40 +113,41 @@ class HighSchoolCsvService {
      *
      * @return $rules バリデーションルールの配列
      */
-    private function makeCsvValidationRules($value) {
-        $rules = []; //$rulesという箱を作る
+    private function makeCsvValidationRules($value)
+    {
+        $rules = []; // $rulesという箱を作る
 
         // 名前で指定
         // bailをつけることで、複数のバリデーションエラー出力を止める
         $rules = [
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME')            =>  //高等学校等コード
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_CODE.NAME') =>  // 高等学校等コード
                 'bail|required|string|size:6',
 
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME')        =>  //高等学校等名（半角カナ）
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME_HKN.NAME') =>  // 高等学校等名（半角カナ）
                 'bail|required|string|max:40|half_kana2',
 
-            config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME')                     =>  //郵便番号
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ZIP_NUM.NAME') =>  // 郵便番号
                 'bail|nullable|string|between:7,8',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME')                     =>  //電話番号
+
+            config('constants.HIGH_SCHOOL_CSV_HEADER.TEL_NUM.NAME') =>  // 電話番号
                 'bail|nullable|string|max:15',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME')                =>  //設置者コード
+
+            config('constants.HIGH_SCHOOL_CSV_HEADER.INSTALL_CODE.NAME') =>  // 設置者コード
                 'bail|required|exists:m_highschool_install,install_cd2',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME')                  =>  //高校種別コード
+
+            config('constants.HIGH_SCHOOL_CSV_HEADER.CLASS_CODE.NAME') =>  // 高校種別コード
                 'bail|required|exists:m_highschool_class,class_cd',
-/*            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            => 
+            /*
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            =>
                 'bail|required|string|em_length:20',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     => 
+
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     =>
                 'bail|nullable|string|em_length:30',
 */
-            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME')            =>   //高等学校等名（全角）
+            config('constants.HIGH_SCHOOL_CSV_HEADER.HIGH_SCHOOL_NAME.NAME') =>   // 高等学校等名（全角）
                 'bail|required|string|max:20',
-            
-            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME')                     =>   //所在地（全角）
+
+            config('constants.HIGH_SCHOOL_CSV_HEADER.ADDRESS.NAME') =>   // 所在地（全角）
                 'bail|nullable|string|max:30',
         ];
 
@@ -153,41 +157,45 @@ class HighSchoolCsvService {
     /**
      * CSVファイル内のバリデーションメッセージ作成
      *
-     * @param $line CSVファイルの該当行
-     *
+     * @param  $line  CSVファイルの該当行
      * @return $messages バリデーションメッセージの配列
      */
-    public function makeCsvValidationMessages($value) {
-         $messages = [
-            'required'       => trans('validation.required'),
-            'in'             => trans('validation.in'),
-            'between'        => trans('validation.between'),
-            'exists'         => trans('validation.exists'),
-            'max'            => trans('validation.max'),
-            'tel'            => trans('validation.tel'),
-            'em_length'      => trans('validation.em_length'),
-            'integer'        => trans('validation.integer'),
-            'string'         => trans('validation.string'),
+    public function makeCsvValidationMessages($value)
+    {
+        $messages = [
+            'required' => trans('validation.required'),
+            'in' => trans('validation.in'),
+            'between' => trans('validation.between'),
+            'exists' => trans('validation.exists'),
+            'max' => trans('validation.max'),
+            'tel' => trans('validation.tel'),
+            'em_length' => trans('validation.em_length'),
+            'integer' => trans('validation.integer'),
+            'string' => trans('validation.string'),
             'digits_between' => trans('validation.digits_between'),
-            'full_space'     => trans('validation.full_space'),
-            'half_kana2'     => trans('validation.half_kana2'),
+            'full_space' => trans('validation.full_space'),
+            'half_kana2' => trans('validation.half_kana2'),
         ];
+
         return $messages;
     }
 
     /**
      * 登録処理
-     * @param array $personAry 個人用連想配列
+     *
+     * @param  array  $personAry  個人用連想配列
      * @return 連想配列(resultCode:-1(システムエラー) 1(正常終了) message:メッセージ id:登録時に採番したid)
      */
-    public function registerArray(array $highCodeArr){
+    public function registerArray(array $highCodeArr)
+    {
         return $this->mHighCodeRepository->registerArray($highCodeArr);
     }
 
     /**
      * テーブル全件DELETE処理
      */
-    public function clearTable(){
+    public function clearTable()
+    {
         return $this->mHighCodeRepository->clearTable();
     }
 }

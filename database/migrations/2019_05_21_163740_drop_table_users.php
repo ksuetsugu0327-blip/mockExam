@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class DropTableUsers extends Migration
 {
@@ -37,7 +37,7 @@ class DropTableUsers extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        
+
         // password_resetsテーブル作成
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();

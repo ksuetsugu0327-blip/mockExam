@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMDirectoryTable extends Migration
 {
@@ -26,7 +26,7 @@ class CreateMDirectoryTable extends Migration
             $table->string('fullpath', 1023)->nullable();                // ファイルフルパス
             $table->timestamps();
             // 主キー
-            //$table->unique(['cnttest','grade','path_kbn','category_kbn','process_kbn','sch_code','cls_code']);
+            // $table->unique(['cnttest','grade','path_kbn','category_kbn','process_kbn','sch_code','cls_code']);
         });
     }
 

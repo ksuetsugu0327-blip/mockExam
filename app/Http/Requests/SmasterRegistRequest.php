@@ -22,30 +22,31 @@ class SmasterRegistRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            'sch_code'   => 'required|digits_between:1,7|exists:m_school,sch_code',
-            'cls_code'   => 'required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),
-            'psn_code'   => 'required|only_alpha_num|between:1,11|unique:m_person,psn_code,NULL,id,sch_code,'.$this->input('sch_code'),
-            'psn_name'   => 'em_length:20',
-            'birthlow4'  => 'birth_low4',
+            'sch_code' => 'required|digits_between:1,7|exists:m_school,sch_code',
+            'cls_code' => 'required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),
+            'psn_code' => 'required|only_alpha_num|between:1,11|unique:m_person,psn_code,NULL,id,sch_code,'.$this->input('sch_code'),
+            'psn_name' => 'em_length:20',
+            'birthlow4' => 'birth_low4',
             'postallow4' => 'postal_low4',
-            'tellow4'    => 'tel_low4',
-            'mail_address' => new EmailFormat()
+            'tellow4' => 'tel_low4',
+            'mail_address' => new EmailFormat,
         ];
     }
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     * @param Validator $validator
+     *
+     * @param  Validator  $validator
      */
-    public function withValidator($validator){    
-        $validator->after(function($validator){
-            if(count($validator->failed())>0){
-                $validator->errors()->add('message',trans('message.INPUT_ERROR_MESSAGE'));
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($validator->failed()) > 0) {
+                $validator->errors()->add('message', trans('message.INPUT_ERROR_MESSAGE'));
             }
         });
     }
-    
-
 }

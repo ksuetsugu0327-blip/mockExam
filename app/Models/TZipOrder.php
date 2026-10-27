@@ -12,8 +12,7 @@ class TZipOrder extends Model
      * @var string
      */
     protected $table = 't_ziporder';
-    
-    
+
     protected $fillable = [
         'id',
         'category_kbn',
@@ -28,7 +27,6 @@ class TZipOrder extends Model
         'error_kbn',
         'category_at',
         'order_at',
-        'download_at'
+        'download_at',
     ];
-        
 }

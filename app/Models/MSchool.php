@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * 塾マスタのモデルクラス
- * 
+ *
  *  */
-class MSchool  extends Authenticatable
+class MSchool extends Authenticatable
 {
-    
     use Notifiable;
-    
+
     /**
      * モデルと関連しているテーブル
      *
      * @var string
      */
     protected $table = 'm_school';
-    
+
     protected $fillable = [
         'sch_code',
         'name',
@@ -36,11 +35,12 @@ class MSchool  extends Authenticatable
         'psn_psw_update_flg',
         'cls_grade_csv_flg',
         'psn_report_publish_flg',
-        'permit_ip'
+        'permit_ip',
     ];
 
     /**
      * 配列からは非表示にする項目
+     *
      * @var array
      */
     protected $hidden = [

@@ -25,8 +25,8 @@ class EmailFormat implements Rule
      */
     public function passes($attribute, $value)
     {
-       return filter_var( $value,  FILTER_VALIDATE_EMAIL )||empty($value);
-            
+        return filter_var($value, FILTER_VALIDATE_EMAIL) || empty($value);
+
     }
 
     /**
