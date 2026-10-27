@@ -107,14 +107,14 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
             // 排他エラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$delSchCode]));
+            return ['resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$delSchCode])];
         } catch (Exception $ex){
             // システムエラー
             DB::rollback();
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+            return ['resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex];
         } 
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_DELETE_DATA',['sch_code'=>$delSchCode]));
+        return ['resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_DELETE_DATA',['sch_code'=>$delSchCode])];
     }
 
     /**
@@ -147,12 +147,12 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
             $mSchool->save();            
         } catch (Exception $ex) {
             // システムエラー
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+            return ['resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex];
         }
         
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),
+        return ['resultCode'=>config('constants.RESULT_CODE_SUCCESS'),
                         'message'=>trans('message.SUCCESS_MSCHOOL_REGISTER_DATA',['sch_code'=>$school['sch_code']])
-                        ,'id'=>$mSchool->id);        
+                        ,'id'=>$mSchool->id];        
     }
 
     /**
@@ -189,13 +189,13 @@ class MSchoolRepository implements MSchoolRepositoryInterface{
         } catch (ModelNotFoundException $ex) {
             // 排他エラー
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$school['sch_code']]));
+            return ['resultCode'=>config('constants.RESULT_CODE_BUSINESS_ERROR'),'message'=>trans('message.MSCHOOL_EXCLUSIVE_EXCEPTION',['sch_code'=>$school['sch_code']])];
         } catch (Exception $ex){
             // システムエラー
             report($ex);
-            return array('resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex);
+            return ['resultCode'=>config('constants.RESULT_CODE_SYSTEM_ERROR'),'message'=>$ex];
         }
-        return array('resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_UPDATE_DATA',['sch_code'=>$school['sch_code']]));
+        return ['resultCode'=>config('constants.RESULT_CODE_SUCCESS'),'message'=>trans('message.SUCCESS_MSCHOOL_UPDATE_DATA',['sch_code'=>$school['sch_code']])];
     }
 
 }

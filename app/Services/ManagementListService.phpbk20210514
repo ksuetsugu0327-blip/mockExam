@@ -110,12 +110,12 @@ class ManagementListService {
             $setStr = isset($cntAry[$entry->year . $entry->grade][$cntAry["cnttest_kbn"]][$entry->cnttest]) ? $cntAry[$entry->year . $entry->grade][$cntAry["cnttest_kbn"]][$entry->cnttest] : ""; 
             
             // テスト情報格納
-            $inputAry = array(
+            $inputAry = [
                 "year" => $entry->year,
                 "grade" => $entry->grade,
                 "testName" => $setStr,
                 "cnttest" => $entry->cnttest,
-            );
+            ];
             
             // 画面情報を連想配列に設定
             // 会場内成績一覧表
@@ -133,44 +133,44 @@ class ManagementListService {
                 // 塾設定
                 // 会場内成績一覧表（科目編）
                 $param["category_kbn"] = config('constants.FILE_KBN_LS1');
-                $inputAry += array( config('constants.FILE_KBN_LS1') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_LS1') => $this->selectFilePath($param)];
                 // 会場内成績一覧表（総合編）
                 $param["category_kbn"] = config('constants.FILE_KBN_LS2');
-                $inputAry += array( config('constants.FILE_KBN_LS2') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_LS2') => $this->selectFilePath($param)];
                 // 科目別学力分析表
                 $param["category_kbn"] = config('constants.FILE_KBN_SBJ');
-                $inputAry += array( config('constants.FILE_KBN_SBJ') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_SBJ') => $this->selectFilePath($param)];
                 // 教室別成績比較表
                 $param["category_kbn"] = config('constants.FILE_KBN_CLS');
-                $inputAry += array( config('constants.FILE_KBN_CLS') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_CLS') => $this->selectFilePath($param)];
                 // データ集
                 $param["category_kbn"] = config('constants.FILE_KBN_DAT');
-                $inputAry += array( config('constants.FILE_KBN_DAT') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_DAT') => $this->selectFilePath($param)];
                 // 解答解説
                 $param["category_kbn"] = config('constants.FILE_KBN_CMT');
-                $inputAry += array( config('constants.FILE_KBN_CMT') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_CMT') => $this->selectFilePath($param)];
 
                 }
             else
             {
                 // 教室内成績一覧表（科目編）
                 $param["category_kbn"] = config('constants.FILE_KBN_LC1');
-                $inputAry += array( config('constants.FILE_KBN_LC1') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_LC1') => $this->selectFilePath($param)];
                 // 教室内成績一覧表（総合編）
                 $param["category_kbn"] = config('constants.FILE_KBN_LC2');
-                $inputAry += array( config('constants.FILE_KBN_LC2') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_LC2') => $this->selectFilePath($param)];
                 // 科目別学力分析表
                 $param["category_kbn"] = config('constants.FILE_KBN_SBJ');
-                $inputAry += array( config('constants.FILE_KBN_SBJ') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_SBJ') => $this->selectFilePath($param)];
                 // データ集
                 $param["category_kbn"] = config('constants.FILE_KBN_DAT');
-                $inputAry += array( config('constants.FILE_KBN_DAT') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_DAT') => $this->selectFilePath($param)];
                 // 解答解説
                 $param["category_kbn"] = config('constants.FILE_KBN_CMT');
-                $inputAry += array( config('constants.FILE_KBN_CMT') => $this->selectFilePath($param));
+                $inputAry += [ config('constants.FILE_KBN_CMT') => $this->selectFilePath($param)];
                 // zipファイルパス
                 $param["category_kbn"] = config('constants.CATEGORY_KBN_CLS');
-                $inputAry += array( "zipfilepass" => $this->zipDownloadPath($param));
+                $inputAry += [ "zipfilepass" => $this->zipDownloadPath($param)];
             }
             
             $screenAry[
@@ -182,7 +182,7 @@ class ManagementListService {
 
         // インデックスを振りなおし
         $cntIndex = 0;
-        $returnArray = array();
+        $returnArray = [];
         foreach($screenAry as $key => $val){
             $returnArray[$cntIndex] = $val;
             $cntIndex++;
