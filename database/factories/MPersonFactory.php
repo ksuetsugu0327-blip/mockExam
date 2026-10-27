@@ -1,22 +1,33 @@
 <?php
 
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\MClass;
-use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
-$factory->define(App\Models\MPerson::class, function (Faker $faker) {
-    $class = MClass::All()->random();
+class MPersonFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $class = MClass::All()->random();
 
-    return [
-        'sch_code' => $class->sch_code,
-        'psn_code' => $psn_code = $faker->unique()->numberBetween(1, 9999),
-        'cls_code' => $class->cls_code,
-        'name' => $faker->name(),
-        'birthlow4' => sprintf('%02d', $faker->numberBetween(4, 7)).sprintf('%02d', $faker->month()),
-        'postallow4' => sprintf('%04d', $faker->numberBetween(1, 9999)),
-        'tellow4' => sprintf('%04d', $faker->numberBetween(1, 9999)),
-        'password' => Hash::make('password'),
-        'temppassword' => Crypt::encrypt('password'),
-    ];
-});
+        return [
+            'sch_code' => $class->sch_code,
+            'psn_code' => $psn_code = $this->faker->unique()->numberBetween(1, 9999),
+            'cls_code' => $class->cls_code,
+            'name' => $this->faker->name(),
+            'birthlow4' => sprintf('%02d', $this->faker->numberBetween(4, 7)).sprintf('%02d', $this->faker->month()),
+            'postallow4' => sprintf('%04d', $this->faker->numberBetween(1, 9999)),
+            'tellow4' => sprintf('%04d', $this->faker->numberBetween(1, 9999)),
+            'password' => Hash::make('password'),
+            'temppassword' => Crypt::encrypt('password'),
+        ];
+    }
+}
