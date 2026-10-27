@@ -12,13 +12,14 @@ use App\Services\TTestInfoService;
 use App\Services\UnivCsvService;
 use App\Utils\FileUtil;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use SplFileObject;
 
-class UnivCsvUploadController extends Controller
+class UnivCsvUploadController extends Controller implements HasMiddleware
 {
     private $univCsvService;
 
@@ -34,11 +35,18 @@ class UnivCsvUploadController extends Controller
         MUnivCodeNameService $univCodeNameService,
         TTestInfoService $testService
     ) {
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->univCsvService = $univCsvService;
         $this->highSchoolCsvService = $highSchoolCsvService;
         $this->mUnivCodeNameService = $univCodeNameService;
         $this->tTestService = $testService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

@@ -6,17 +6,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExamNumberRequest;
 use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use SplFileObject;
 
-class ExamNumberCsvUploadController extends Controller
+class ExamNumberCsvUploadController extends Controller implements HasMiddleware
 {
     private $ExamNumberCsvService;
 
     public function __construct(ExamNumberCsvService $ExamNumberCsvService)
     {
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->ExamNumberCsvService = $ExamNumberCsvService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

@@ -9,11 +9,12 @@ use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 /**
  * 代理ログイン用コントローラ
  */
-class SurrogateLoginController extends Controller
+class SurrogateLoginController extends Controller implements HasMiddleware
 {
     private $mSchoolService;
 
@@ -31,10 +32,17 @@ class SurrogateLoginController extends Controller
     public function __construct(MSchoolService $mSchoolService, MClassService $mClassService, MPersonService $mPersonService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->mSchoolService = $mSchoolService;
         $this->mClassService = $mClassService;
         $this->mPersonService = $mPersonService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

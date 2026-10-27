@@ -6,10 +6,11 @@ use App\Services\ReportCardListService;
 use App\Utils\RouteUtil;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class ReportCardListController extends Controller
+class ReportCardListController extends Controller implements HasMiddleware
 {
     /**
      * コンストラクタ
@@ -19,9 +20,16 @@ class ReportCardListController extends Controller
     public function __construct(ReportCardListService $reportCardListService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
-                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));
+
         $this->service = $reportCardListService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
+                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'),
+        ];
     }
 
     /**

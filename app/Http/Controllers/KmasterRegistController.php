@@ -8,11 +8,12 @@ use App\Http\Requests\KmasterRegistRequest;
 use App\Services\MClassService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
-class KmasterRegistController extends Controller
+class KmasterRegistController extends Controller implements HasMiddleware
 {
     /**
      * コンストラクタ
@@ -22,9 +23,15 @@ class KmasterRegistController extends Controller
     public function __construct(MClassService $mClassService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'));
 
         $this->service = $mClassService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'),
+        ];
     }
 
     // 教室マスタ・登録画面を表示する。

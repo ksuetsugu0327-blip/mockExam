@@ -6,9 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Services\ManagementListService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
-class ManagementListController extends Controller
+class ManagementListController extends Controller implements HasMiddleware
 {
     // 管理資料一覧サービス
     private $service;
@@ -21,9 +22,16 @@ class ManagementListController extends Controller
     public function __construct(ManagementListService $managementListService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
-                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));
+
         $this->service = $managementListService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
+                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'),
+        ];
     }
 
     /**

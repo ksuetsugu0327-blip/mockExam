@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Services\PersonReportCardListService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class PersonReportCardListController extends Controller
+class PersonReportCardListController extends Controller implements HasMiddleware
 {
     /**
      * コンストラクタ
@@ -18,8 +19,15 @@ class PersonReportCardListController extends Controller
     public function __construct(PersonReportCardListService $personReportCardListService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_PERSON').','.config('constants.GUARD_SURROGATE_PERSON'));
+
         $this->service = $personReportCardListService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_PERSON').','.config('constants.GUARD_SURROGATE_PERSON'),
+        ];
     }
 
     public function index(Request $request): View

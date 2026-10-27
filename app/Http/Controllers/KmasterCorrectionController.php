@@ -7,12 +7,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\KmasterCorrectionRequest;
 use App\Services\MClassService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Request;
 
-class KmasterCorrectionController extends Controller
+class KmasterCorrectionController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -24,8 +25,15 @@ class KmasterCorrectionController extends Controller
     public function __construct(MClassService $mClassService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'));
+
         $this->service = $mClassService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'),
+        ];
     }
 
     /**

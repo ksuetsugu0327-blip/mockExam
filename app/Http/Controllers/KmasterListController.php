@@ -10,10 +10,11 @@ use App\Utils\FileUtil;
 use App\Utils\PasswordUtil;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class KmasterListController extends Controller
+class KmasterListController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -25,8 +26,15 @@ class KmasterListController extends Controller
     public function __construct(MClassService $mClassService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'));
+
         $this->service = $mClassService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_SURROGATE_SCHOOL'),
+        ];
     }
 
     /* 教室マスタ・一覧画面を表示する。

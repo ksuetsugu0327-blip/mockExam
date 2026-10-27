@@ -11,10 +11,11 @@ use App\Utils\PasswordUtil;
 use App\Utils\RouteUtil;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class SmasterListController extends Controller
+class SmasterListController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -27,10 +28,17 @@ class SmasterListController extends Controller
     public function __construct(MPersonService $mPersonService, MSchoolService $mSchoolService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
-                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'));
+
         $this->service = $mPersonService;
         $this->mSchoolService = $mSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN').','.config('constants.GUARD_SCHOOL').','.config('constants.GUARD_CLASS')
+                .','.config('constants.GUARD_SURROGATE_SCHOOL').','.config('constants.GUARD_SURROGATE_CLASS'),
+        ];
     }
 
     /**

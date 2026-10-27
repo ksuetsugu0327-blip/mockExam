@@ -9,9 +9,10 @@ use App\Services\MTestNameService;
 use App\Services\TTestInfoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
-class UnivTestEditController extends Controller
+class UnivTestEditController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -31,11 +32,18 @@ class UnivTestEditController extends Controller
         MCodeBookService $mCodeBookService
     ) {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $tTestService;
         $this->oemSchoolService = $mOemSchoolService;
         $this->testNameService = $mTestNameService;
         $this->codeBookService = $mCodeBookService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

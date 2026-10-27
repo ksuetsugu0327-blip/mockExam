@@ -7,9 +7,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JmasterCorrectionRequest;
 use App\Services\MSchoolService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Request;
 
-class JmasterCorrectionController extends Controller
+class JmasterCorrectionController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -21,8 +22,15 @@ class JmasterCorrectionController extends Controller
     public function __construct(MSchoolService $mSchoolService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $mSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**

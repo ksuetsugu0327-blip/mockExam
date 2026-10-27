@@ -8,9 +8,10 @@ use App\Http\Requests\JmasterListRequest;
 use App\Services\MSchoolService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\View\View;
 
-class JmasterListController extends Controller
+class JmasterListController extends Controller implements HasMiddleware
 {
     private $service;
 
@@ -22,8 +23,15 @@ class JmasterListController extends Controller
     public function __construct(MSchoolService $mSchoolService)
     {
         // ログイン判定
-        $this->middleware('auth:'.config('constants.GUARD_ADMIN'));
+
         $this->service = $mSchoolService;
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            'auth:'.config('constants.GUARD_ADMIN'),
+        ];
     }
 
     /**
