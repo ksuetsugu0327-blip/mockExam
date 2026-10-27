@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Rest;
 
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\MHighSchoolCodeService;
 use App\Services\MOemSchoolService;
 use App\Services\MUnivCodeService;
 use App\Services\TTestInfoService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

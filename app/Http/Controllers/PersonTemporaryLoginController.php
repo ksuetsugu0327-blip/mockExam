@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\PersonTemporaryLoginRequest;
 use App\Services\MPersonService;
 use App\Utils\PasswordUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**

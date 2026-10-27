@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Services\MHighSchoolClassService;
 use App\Services\MHighSchoolInstallService;
 use App\Services\MOemSchoolService;
@@ -10,6 +9,7 @@ use App\Services\MPrefectureService;
 use App\Services\MUnivDeptLineService;
 use App\Services\MUnivInstallService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UnivCodeSearchIndexController extends Controller
 {

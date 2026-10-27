@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\View\View;
 use App\Http\Requests\ExamNumberRequest;
 use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
+use Illuminate\View\View;
 use SplFileObject;
 
 class ExamNumberCsvUploadController extends Controller

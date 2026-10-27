@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Services\TicketService;
 use App\Utils\RouteUtil;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TicketSearchListController extends Controller
 {

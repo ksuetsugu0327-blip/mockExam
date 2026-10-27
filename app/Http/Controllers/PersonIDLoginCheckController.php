@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Http\Requests\PersonIDLoginCheckRequest;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Utils\SessionUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 /**
  * 個人（生徒）アカウントログインID入力用コントローラ

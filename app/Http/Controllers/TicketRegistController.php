@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\TicketRegistRequest;
 use App\Services\MHighSchoolService;
 use App\Services\MPersonService;
 use App\Services\MPrefectureService;
 use App\Services\TicketService;
 use App\Utils\RouteUtil;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TicketRegistController extends Controller

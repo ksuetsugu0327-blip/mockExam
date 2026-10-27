@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Http\Requests\ClassIDLoginCheckRequest;
 use App\Services\MClassService;
 use App\Services\MSchoolService;
 use App\Utils\SessionUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 /**
  * 教室アカウントログイン用クラスIDチェック

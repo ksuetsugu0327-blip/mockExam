@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\JmasterCorrectionRequest;
 use App\Services\MSchoolService;
+use Illuminate\Http\RedirectResponse;
 use Request;
 
 class JmasterCorrectionController extends Controller

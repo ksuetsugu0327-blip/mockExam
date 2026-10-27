@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Exceptions\ExclusionException;
 use App\Http\Requests\UnivCsvUploadRequest;
 use App\Models\MUniversityCodeName as MUnivCodeName;
@@ -13,10 +11,11 @@ use App\Services\MUnivCodeNameService;
 use App\Services\TTestInfoService;
 use App\Services\UnivCsvService;
 use App\Utils\FileUtil;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 use SplFileObject;
 
 class UnivCsvUploadController extends Controller

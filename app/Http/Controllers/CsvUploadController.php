@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 // useしないと 自動的にnamespaceのパスが付与されるのでuse
-use Illuminate\View\View;
 use App\Http\Requests\CsvUploadRequest;
 use App\Services\CsvService;
 use App\Utils\FileUtil;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use SplFileObject;
 
 class CsvUploadController extends Controller

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Rest;
 
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\UnivCodeHeadService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TestManagementApiController extends Controller

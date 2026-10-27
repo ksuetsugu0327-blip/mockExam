@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Http\RedirectResponse;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use App\Utils\FileUtil;
 use App\Utils\PasswordUtil;
 use App\Utils\RouteUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SmasterListController extends Controller
 {
