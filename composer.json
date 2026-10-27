@@ -8,23 +8,23 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "doctrine/dbal": "^2.13",
-        "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
-        "laravel/framework": "^8.83",
-        "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.0",
-        "laravelcollective/html": "^6.2",
+        "guzzlehttp/guzzle": "^7.2",
+        "laravel/framework": "^9.52",
+        "laravel/tinker": "^2.7",
+        "laravel/ui": "^3.3",
+        "laravelcollective/html": "^6.3",
         "league/flysystem-ftp": "^3.0",
         "league/flysystem-sftp-v3": "^3.0",
-        "olssonm/l5-very-basic-auth": "^5.3"
+        "olssonm/l5-very-basic-auth": "^6.7"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "nunomaduro/collision": "^6.3",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.4"
     },
     "config": {
         "optimize-autoloader": true,
