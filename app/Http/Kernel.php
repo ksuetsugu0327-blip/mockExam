@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         //        \App\Http\Middleware\TrimStrings::class,  // 半角空白がトリムされてしまうためコメントアウト
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        \Fruitcake\Cors\HandleCors::class,
     ];
 
     /**
