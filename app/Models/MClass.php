@@ -12,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
 class MClass extends Authenticatable
 {
     use HasFactory;
-
     use Notifiable;
 
     /*

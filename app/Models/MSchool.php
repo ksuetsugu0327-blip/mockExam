@@ -13,7 +13,6 @@ use Illuminate\Notifications\Notifiable;
 class MSchool extends Authenticatable
 {
     use HasFactory;
-
     use Notifiable;
 
     /**

@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notifiable;
 class MPerson extends Authenticatable
 {
     use HasFactory;
-
     use Notifiable;
 
     /**
