@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -41,9 +42,8 @@ class PersonLoginController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
-    public function index($schCode)
+    public function index($schCode): type
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psn_code = session()->get('psn_code');
@@ -96,10 +96,8 @@ class PersonLoginController extends Controller
 
     /**
      * 認証に使う情報を塾コード、塾生コードとする
-     *
-     * @return array
      */
-    protected function credentials(Request $request)
+    protected function credentials(Request $request): array
     {
         return $request->only($this->username(), 'sch_code', 'password');
     }
@@ -188,11 +186,8 @@ class PersonLoginController extends Controller
 
     /**
      * 早稲アカ SSO ログインパラメータ設定
-     *
-     * @param  object  $request
-     * @param  string  $schCode
      */
-    private function waseda_academy_sso_login($request, $schCode)
+    private function waseda_academy_sso_login(object $request, string $schCode)
     {
         // 必須パラメータチェック
         if (! $request->has('login_id') || ! $request->has('password') || ! $request->has('tmp_key') || ! $request->has('hash_key')) {
@@ -224,11 +219,8 @@ class PersonLoginController extends Controller
 
     /**
      * 早稲アカ SSO 用エラーログ
-     *
-     * @param  object  $request
-     * @param  string  $msg
      */
-    private function error_log($request, $msg)
+    private function error_log(object $request, string $msg)
     {
         Log::error($msg.' :'
             .' login_id : '.($request->input('login_id') ?? '') // psn_code
@@ -241,7 +233,7 @@ class PersonLoginController extends Controller
     /**
      * パスワード再設定画面にリダイレクト
      */
-    public function passwordResetIndex(Request $request)
+    public function passwordResetIndex(Request $request): RedirectResponse
     {
         return redirect()->route('personPasswordReset.index', ['sch_code' => $request->get('redirect_sch_code')])->with('psn_code', $request->get('redirect_psn_code'));
     }

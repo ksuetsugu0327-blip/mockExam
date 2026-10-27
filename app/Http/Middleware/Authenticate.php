@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class Authenticate extends Middleware
@@ -11,12 +12,10 @@ class Authenticate extends Middleware
     /**
      * カスタマイズ認証
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    protected function authenticate($request, array $guards)
+    protected function authenticate(Request $request, array $guards): void
     {
         if (empty($guards)) {
             $guards = [null];
@@ -71,11 +70,8 @@ class Authenticate extends Middleware
 
     /**
      * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
      */
-    protected function redirectTo($request)
+    protected function redirectTo(Request $request): string
     {
         $route = Route::current();
         $url = $route->uri();

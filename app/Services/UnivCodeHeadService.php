@@ -29,10 +29,8 @@ class UnivCodeHeadService
 
     /**
      * 年度プルダウンリスト用意処理
-     *
-     * @return array
      */
-    public function generateYearsArray()
+    public function generateYearsArray(): array
     {
         return $this->repositoryMUniversityCodeHead->generateYearsArray();
     }
@@ -41,9 +39,8 @@ class UnivCodeHeadService
      * 【大学コードデータ削除】一覧取得処理
      *
      * @param  array  $conditions  検索条件(連想配列）
-     * @return 大学コードデータリスト
      */
-    public function univCodeDataList(array $conditions)
+    public function univCodeDataList(array $conditions): 大学コードデータリスト
     {
         return $this->repositoryMUniversityCodeHead->univCodeDataList($conditions);
     }

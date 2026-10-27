@@ -58,8 +58,6 @@ class PersonUnknownTempPassLoginController extends Controller
 
     /**
      * 認証情報での仮ログイン
-     *
-     * @param  PersonIDLoginCheckRequest  $request
      */
     public function login(Request $request)
     {

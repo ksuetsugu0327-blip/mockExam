@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\OptimisticLockObserverTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TTestInfo extends Model
 {
@@ -35,7 +36,7 @@ class TTestInfo extends Model
 
     // Define relationships to other models (if applicable)
     // For example, `university_code_head_id` may reference another model such as `MUniversityCodeHead`
-    public function universityCodeHead()
+    public function universityCodeHead(): BelongsTo
     {
         return $this->belongsTo(MUniversityCodeHead::class, 'university_code_head_id');
     }

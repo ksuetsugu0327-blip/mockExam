@@ -28,10 +28,8 @@ class MHighSchoolInstallRepository implements MHighSchoolInstallRepositoryInterf
 
     /**
      * 高校設置者マスタプルダウン用リスト
-     *
-     * @return 高校設置者リスト
      */
-    public function selectList()
+    public function selectList(): 高校設置者リスト
     {
         return $this->MHighSchoolInstall::where('invalid_flag', 0)
             ->orderby('install_cd2', 'asc')

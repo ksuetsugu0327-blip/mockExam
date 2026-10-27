@@ -9,20 +9,16 @@ class SmasterCorrectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'cls_code' => 'sometimes|required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),
@@ -36,10 +32,8 @@ class SmasterCorrectionRequest extends FormRequest
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     *
-     * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         // パスワードのチェック(管理者以外の場合、必須設定)
         // (塾ユーザ&&メールアドレスない) || (教室ユーザ&&メールアドレスない) || (管理者 && 代理ログイン&&メールアドレスない)の時必須

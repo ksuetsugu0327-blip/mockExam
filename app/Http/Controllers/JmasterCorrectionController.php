@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JmasterCorrectionRequest;
 use App\Services\MSchoolService;
+use Illuminate\Http\RedirectResponse;
 use Request;
 
 class JmasterCorrectionController extends Controller
@@ -29,9 +30,8 @@ class JmasterCorrectionController extends Controller
      *
      * @param sch_code 塾コード(ログイン塾アカウント）
      * @param editSchCode 編集処理用塾コード
-     * @return view
      */
-    public function index($schCode, $editSchCode)
+    public function index($schCode, $editSchCode): view
     {
 
         // 塾マスタの取得
@@ -47,10 +47,8 @@ class JmasterCorrectionController extends Controller
 
     /**
      * 塾マスタ更新処理を行う
-     *
-     * @return redirect
      */
-    public function update(JmasterCorrectionRequest $request)
+    public function update(JmasterCorrectionRequest $request): RedirectResponse
     {
         // 画面情報を連想配列に設定
         $school = [
@@ -95,9 +93,8 @@ class JmasterCorrectionController extends Controller
      *
      * @param  $schCode  塾コード
      * @param  $delSchCode  削除対象塾コード
-     * @return redirect
      */
-    public function delete(Request $request, $schCode, $delSchCode)
+    public function delete(Request $request, $schCode, $delSchCode): RedirectResponse
     {
 
         // 削除処理

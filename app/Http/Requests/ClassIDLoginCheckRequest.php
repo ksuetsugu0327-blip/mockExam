@@ -8,20 +8,16 @@ class ClassIDLoginCheckRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * 入力チェックルールの設定
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'cls_code' => 'required|digits_between:1,4|exists:m_class,cls_code,sch_code,'.$this->input('sch_code'),
@@ -30,10 +26,8 @@ class ClassIDLoginCheckRequest extends FormRequest
 
     /**
      * メッセージの設定
-     *
-     * @return type
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'cls_code.exists' => trans('message.CLASS_CODE_NO_EXISTS'),

@@ -8,7 +8,10 @@ use App\Http\Requests\KmasterListRequest;
 use App\Services\MClassService;
 use App\Utils\FileUtil;
 use App\Utils\PasswordUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class KmasterListController extends Controller
 {
@@ -31,7 +34,7 @@ class KmasterListController extends Controller
      * @return view
      */
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
 
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
@@ -81,10 +84,8 @@ class KmasterListController extends Controller
 
     /**
      * 教室マスタ・一覧画面での検索処理
-     *
-     * @return view
      */
-    public function search(KmasterListRequest $request)
+    public function search(KmasterListRequest $request): View
     {
 
         // 管理ユーザー以外はセッション値を使用する。
@@ -133,9 +134,8 @@ class KmasterListController extends Controller
      *
      * @param  $clsCode  塾コード
      * @param  $delClsCode  削除対象塾コード
-     * @return redirect
      */
-    public function delete(Request $request, $schCode, $delSchCode, $delClsCode)
+    public function delete(Request $request, $schCode, $delSchCode, $delClsCode): RedirectResponse
     {
 
         // 削除処理
@@ -154,7 +154,7 @@ class KmasterListController extends Controller
      *
      * @param  Request  $request  リクエスト
      */
-    public function downloadCsv(Request $request)
+    public function downloadCsv(Request $request): StreamedResponse
     {
         $outputFlg = 0;
         // 出力内容設定とヘッダの設定

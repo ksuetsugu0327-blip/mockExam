@@ -9,20 +9,16 @@ class TicketRegistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $valid = [
             'enable_flag' => 'bail|required|in:0,1',
@@ -43,7 +39,7 @@ class TicketRegistRequest extends FormRequest
     /**
      * カスタムメッセージ
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'enable_flag.required' => trans('message.ILLEGAL_TICKET_REGISTER_DATA'),
@@ -53,10 +49,8 @@ class TicketRegistRequest extends FormRequest
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     *
-     * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
             $univCnt = 0;

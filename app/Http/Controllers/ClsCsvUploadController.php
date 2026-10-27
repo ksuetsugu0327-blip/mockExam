@@ -6,10 +6,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClsCsvUploadRequest;
 use App\Services\ClsCsvService;
 use App\Utils\FileUtil;
-use Illuminate\Http\Request;
+use Illuminate\Http\CsvUploadRequest;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use SplFileObject;
 
 class ClsCsvUploadController extends Controller
@@ -25,18 +26,15 @@ class ClsCsvUploadController extends Controller
     /**
      * CSVインポート・ダウンロード画面を表示
      */
-    public function index()
+    public function index(): View
     {
         return view('clsCsvUpload');
     }
 
     /**
      * CSV アップロード処理
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\CsvUploadRequest
      */
-    public function upload(ClsCsvUploadRequest $request)
+    public function upload(ClsCsvUploadRequest $request): CsvUploadRequest
     {
 
         // ヘッダ

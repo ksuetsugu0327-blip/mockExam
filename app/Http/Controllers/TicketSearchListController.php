@@ -8,6 +8,7 @@ use App\Services\TicketService;
 use App\Utils\RouteUtil;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TicketSearchListController extends Controller
 {
@@ -44,10 +45,8 @@ class TicketSearchListController extends Controller
 
     /**
      * 初期表示処理
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -127,9 +126,8 @@ class TicketSearchListController extends Controller
      * 検索処理
      *
      * @param  \App\index  $index
-     * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         // 表示タイプ設定
         $viewMode = $this->getViewMode();

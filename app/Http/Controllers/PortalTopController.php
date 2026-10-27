@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PortalLoginRequest;
 use App\Services\MSchoolService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PortalTopController extends Controller
 {
@@ -15,7 +17,7 @@ class PortalTopController extends Controller
         $this->m_school = $m_school;
     }
 
-    public function index()
+    public function index(): View
     {
         return view('portal-top');
     }
@@ -31,7 +33,7 @@ class PortalTopController extends Controller
         return view('portal-account-login')->with('account_title', $account_title)->with('account', $account);
     }
 
-    public function check(PortalLoginRequest $request, string $account)
+    public function check(PortalLoginRequest $request, string $account): RedirectResponse
     {
         $sch_code = $this->m_school->getCodeByAccount($request->portal_account);
         $redirect_url = '/'.$sch_code.'/'.$account.'/login';

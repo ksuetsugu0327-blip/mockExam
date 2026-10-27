@@ -28,10 +28,8 @@ class MPrefectureRepository implements MPrefectureRepositoryInterface
 
     /**
      * 都道府県マスタプルダウン用リスト
-     *
-     * @return 都道府県リスト
      */
-    public function selectList()
+    public function selectList(): 都道府県リスト
     {
         return $this->MPrefecture::select('pref_code', 'name')
             ->whereBetween('pref_code', [1, 47])

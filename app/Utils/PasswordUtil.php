@@ -18,7 +18,7 @@ class PasswordUtil
      * @param  type  $encryptedPassword  暗号化パスワード
      * @return bool true:認証OK false:認証エラー
      */
-    public static function temporaryValidateCredentials($password, $encryptedPassword)
+    public static function temporaryValidateCredentials($password, $encryptedPassword): bool
     {
         $decryptedPassword = PasswordUtil::decryptString($encryptedPassword);
         if ($decryptedPassword == $password) {
@@ -34,7 +34,7 @@ class PasswordUtil
      * @param  string  $encryptedPassword  パスワード
      * @return type 複合化パスワード
      */
-    public static function decryptString($encryptedPassword)
+    public static function decryptString(string $encryptedPassword)
     {
         // 対象パスワードが空/NULLの時は空文字を返す
         if ($encryptedPassword == '') {

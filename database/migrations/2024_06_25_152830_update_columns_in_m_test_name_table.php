@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('m_test_name', function (Blueprint $table) {
             // Change column datatype from int unsigned to varchar(15)
@@ -24,10 +22,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('m_test_name', function (Blueprint $table) {
             // Revert the test_name_cd column back to int unsigned

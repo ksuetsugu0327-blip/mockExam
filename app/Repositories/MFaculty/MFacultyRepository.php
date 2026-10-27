@@ -28,10 +28,8 @@ class MFacultyRepository implements MFacultyRepositoryInterface
 
     /**
      * 学部プルダウン用リスト
-     *
-     * @return 学部リスト
      */
-    public function selectList(array $conditions)
+    public function selectList(array $conditions): 学部リスト
     {
         $query = $this->MFaculty::select('fcl_code', 'fcl_name');
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rest;
 
 use App\Http\Controllers\Controller;
 use App\Services\UnivCodeHeadService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TestManagementApiController extends Controller
@@ -20,10 +21,8 @@ class TestManagementApiController extends Controller
 
     /**
      * 大学コードヘッダー情報取得API(テスト・登録用)
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function getUnivCodeHeadList(Request $request)
+    public function getUnivCodeHeadList(Request $request): JsonResponse
     {
         try {
             $year = $request->fy;
@@ -50,7 +49,7 @@ class TestManagementApiController extends Controller
         }
     }
 
-    public function chkExistUnivCodeHead(Request $request)
+    public function chkExistUnivCodeHead(Request $request): JsonResponse
     {
         try {
             $fiscalYear = $request->fy;

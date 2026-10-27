@@ -28,10 +28,8 @@ class MUniversityInstallRepository implements MUniversityInstallRepositoryInterf
 
     /**
      * 大学設置者マスタプルダウン用リスト
-     *
-     * @return 大学設置者リスト
      */
-    public function selectList()
+    public function selectList(): 大学設置者リスト
     {
         return $this->MUnivInstall::where('invalid_flag', 0)
             ->orderby('install_cd', 'asc')

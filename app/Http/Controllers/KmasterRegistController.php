@@ -6,9 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KmasterRegistRequest;
 use App\Services\MClassService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class KmasterRegistController extends Controller
 {
@@ -27,7 +29,7 @@ class KmasterRegistController extends Controller
 
     // 教室マスタ・登録画面を表示する。
     // @return view
-    public function index(Request $request)
+    public function index(Request $request): View
     {
 
         return view('kmasterRegist');
@@ -37,7 +39,7 @@ class KmasterRegistController extends Controller
     //
     // @param SmasterRegistRequest request
     // @return redirect
-    public function store(KmasterRegistRequest $request)
+    public function store(KmasterRegistRequest $request): RedirectResponse
     {
 
         // 管理ユーザー以外はセッション値を使用する。

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExamNumberRequest;
 use App\Services\ExamNumberCsvService;
 use App\Utils\FileUtil;
+use Illuminate\View\View;
 use SplFileObject;
 
 class ExamNumberCsvUploadController extends Controller
@@ -21,7 +22,7 @@ class ExamNumberCsvUploadController extends Controller
     /**
      * CSVインポート画面を表示
      */
-    public function index()
+    public function index(): View
     {
         return view('ExamNumberCsvUpload');
     }

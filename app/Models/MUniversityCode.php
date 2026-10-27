@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MUniversityCode extends Model
 {
@@ -49,7 +50,7 @@ class MUniversityCode extends Model
 
     // Define relationships to other models (if applicable)
     // For example, if `MUniversityCode` is related to `MUniversityCodeHead` through `university_code_head_id`
-    public function universityCodeHead()
+    public function universityCodeHead(): BelongsTo
     {
         return $this->belongsTo(MUniversityCodeHead::class, 'university_code_head_id');
     }

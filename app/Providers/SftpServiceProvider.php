@@ -8,20 +8,16 @@ class SftpServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Storage::extend('sftp', function ($app, $config) {
             return new Filesystem(new SftpAdapter([

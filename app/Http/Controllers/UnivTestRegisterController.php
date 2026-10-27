@@ -7,6 +7,8 @@ use App\Services\MCodeBookService;
 use App\Services\MOemSchoolService;
 use App\Services\MTestNameService;
 use App\Services\TTestInfoService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UnivTestRegisterController extends Controller
 {
@@ -40,7 +42,7 @@ class UnivTestRegisterController extends Controller
      *
      * @return \Illuminate\View\View テスト登録画面
      */
-    public function register()
+    public function register(): View
     {
         // 年度プルダウンを用意
         $years = $this->service->generateYearsArray('near');
@@ -73,7 +75,7 @@ class UnivTestRegisterController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse テスト一覧画面
      */
-    public function store(UnivTestRegisterRequest $request)
+    public function store(UnivTestRegisterRequest $request): RedirectResponse
     {
         $testInfo = $request->all();
         // 登録処理

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UnivCodeDataDeleteRequest;
 use App\Services\UnivCodeHeadService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UnivCodeDeleteController extends Controller
 {
@@ -24,10 +26,8 @@ class UnivCodeDeleteController extends Controller
 
     /**
      * 【大学コードデータ削除】一覧画面
-     *
-     * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -79,10 +79,8 @@ class UnivCodeDeleteController extends Controller
 
     /**
      * 【大学コードデータ削除】一覧画面検索処理
-     *
-     * @return \Illuminate\View\View
      */
-    public function search(UnivCodeDataDeleteRequest $request)
+    public function search(UnivCodeDataDeleteRequest $request): View
     {
 
         // 検索条件の値を取得
@@ -133,9 +131,8 @@ class UnivCodeDeleteController extends Controller
      * 【大学コードデータ削除】削除処理
      *
      * @param  int  $id  削除対象ID
-     * @return redirect
      */
-    public function delete(Request $request, int $schCode, int $id)
+    public function delete(Request $request, int $schCode, int $id): RedirectResponse
     {
         // 削除処理
         $result = $this->service->delete($id);

@@ -9,10 +9,8 @@ class UniversityCodeHeadSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table('m_university_code_head')->insert([
             [

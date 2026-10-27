@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KmasterCorrectionRequest;
 use App\Services\MClassService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -32,10 +33,9 @@ class KmasterCorrectionController extends Controller
      *
      * @param cls_code 教室コード(ログイン教室アカウント）
      * @param edit_cls_code 編集処理用教室コード
-     * @return view
      */
-    // public function index(Request $request, $sch_code, $cls_code) {
-    public function index($sch_code, $editSchCode, $editClsCode)
+    // public function index(Request $request, $sch_code, $cls_code): view {
+    public function index($sch_code, $editSchCode, $editClsCode): view
     {
         // 教室マスタの取得
         //  $classs = $this->service->selectList(isset($schCode) ? (int) $schCode : null, $schName, isset($clsCode) ? (int) $clsCode : null, $clsName);
@@ -61,10 +61,8 @@ class KmasterCorrectionController extends Controller
 
     /**
      * 教室マスタ修正・削除処理を行う。
-     *
-     * @return redirect
      */
-    public function update(KmasterCorrectionRequest $request)
+    public function update(KmasterCorrectionRequest $request): RedirectResponse
     {
         // 画面情報を連想配列に設定
         $class = [
@@ -109,9 +107,8 @@ class KmasterCorrectionController extends Controller
      *
      * @param  $clsCode  塾コード
      * @param  $delClsCode  削除対象塾コード
-     * @return redirect
      */
-    public function delete(Request $request, $sch_code, $delSchCode, $delClsCode)
+    public function delete(Request $request, $sch_code, $delSchCode, $delClsCode): RedirectResponse
     {
 
         // 削除処理

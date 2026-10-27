@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JmasterRegistRequest;
 use App\Services\MSchoolService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class JmasterRegistController extends Controller
 {
@@ -26,10 +28,8 @@ class JmasterRegistController extends Controller
 
     /**
      * 塾マスタ・登録画面を表示する。
-     *
-     * @return view
      */
-    public function index()
+    public function index(): View
     {
         return view('jmasterRegist');
     }
@@ -38,9 +38,8 @@ class JmasterRegistController extends Controller
      * 塾マスタ登録処理を行う。
      *
      * @param request
-     * @return redirect
      */
-    public function store(JmasterRegistRequest $request)
+    public function store(JmasterRegistRequest $request): RedirectResponse
     {
 
         // 画面情報を連想配列に設定

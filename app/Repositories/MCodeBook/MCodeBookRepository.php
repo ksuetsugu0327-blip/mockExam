@@ -28,10 +28,8 @@ class MCodeBookRepository implements MCodeBookRepositoryInterface
 
     /**
      * コード表マスタプルダウン用リスト
-     *
-     * @return コード表リスト
      */
-    public function selectList()
+    public function selectList(): コード表リスト
     {
         return $this->MCodeBook::where('invalid_flag', 0)
             ->orderby('display_seq', 'asc')

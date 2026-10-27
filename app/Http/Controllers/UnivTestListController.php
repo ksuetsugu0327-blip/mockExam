@@ -9,6 +9,7 @@ use App\Http\Requests\UnivTestListRequest;
 use App\Services\MOemSchoolService;
 use App\Services\TTestInfoService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UnivTestListController extends Controller
 {
@@ -27,7 +28,7 @@ class UnivTestListController extends Controller
         $this->oemSchoolService = $mOemSchoolService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $referer = url()->previous();
         // カレントURLから塾マスタ部分だけを抽出する
@@ -104,10 +105,8 @@ class UnivTestListController extends Controller
 
     /**
      * 模擬試験・一覧画面での検索処理
-     *
-     * @return view
      */
-    public function search(UnivTestListRequest $request)
+    public function search(UnivTestListRequest $request): View
     {
 
         // 検索条件の値を取得

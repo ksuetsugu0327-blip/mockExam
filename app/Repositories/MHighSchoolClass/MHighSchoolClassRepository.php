@@ -28,10 +28,8 @@ class MHighSchoolClassRepository implements MHighSchoolClassRepositoryInterface
 
     /**
      * OEM塾マスタプルダウン用リスト
-     *
-     * @return OEM塾リスト
      */
-    public function selectList()
+    public function selectList(): OEM塾リスト
     {
         return $this->MHighSchoolClass::where('invalid_flag', 0)
             ->orderby('class_cd', 'asc')

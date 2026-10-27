@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ManagementListService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ManagementListController extends Controller
 {
@@ -29,9 +30,8 @@ class ManagementListController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // 遷移元を判定し、セッション情報を削除する (見直しが必要）
         $referer = url()->previous();
@@ -95,9 +95,8 @@ class ManagementListController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
-    public function search(Request $request)
+    public function search(Request $request): View
     {
 
         // 検索条件の値を取得

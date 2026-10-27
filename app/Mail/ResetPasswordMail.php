@@ -31,7 +31,7 @@ class ResetPasswordMail extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this
             ->subject('【模試システム】仮パスワードの再発行のお知らせ')

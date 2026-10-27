@@ -20,13 +20,9 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         // カスタムガードの追加
         Auth::extend('customSession', function ($app, $name, array $config) {
             $provider = Auth::createUserProvider($config['provider']);

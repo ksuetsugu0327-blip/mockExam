@@ -9,6 +9,7 @@ use App\Services\MPrefectureService;
 use App\Services\MUnivDeptLineService;
 use App\Services\MUnivInstallService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UnivCodeSearchIndexController extends Controller
 {
@@ -28,7 +29,7 @@ class UnivCodeSearchIndexController extends Controller
         $this->oemSchoolService = $mOemSchoolService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $gradeList = config('selectlistarray.UNVS_GRADE_LIST');
         $gradeList = array_slice($gradeList, 1, null, true);

@@ -8,6 +8,8 @@ use App\Services\MPersonService;
 use App\Services\MPrefectureService;
 use App\Services\TicketService;
 use App\Utils\RouteUtil;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TicketRegistController extends Controller
@@ -232,7 +234,7 @@ class TicketRegistController extends Controller
      *
      * @return 文字列 / null
      */
-    private function getIptData($key, $arr)
+    private function getIptData($key, $arr): 文字列
     {
         if (! array_key_exists($key, $arr)) {
             return null;
@@ -246,7 +248,7 @@ class TicketRegistController extends Controller
      *
      * @return JSON 高校リスト
      */
-    public function hsclist(Request $request)
+    public function hsclist(Request $request): JsonResponse
     {
         $conditions = [
             'pref_code' => $request->get('pref_code'),                      // 都道府県コード
@@ -278,7 +280,7 @@ class TicketRegistController extends Controller
      *
      * @return JSON 大学リスト
      */
-    public function univlist(Request $request)
+    public function univlist(Request $request): JsonResponse
     {
         $univName = $request->get('univ_name');
         $conditions = [
@@ -312,7 +314,7 @@ class TicketRegistController extends Controller
      *
      * @return JSON 学部リスト
      */
-    public function fcllist(Request $request)
+    public function fcllist(Request $request): JsonResponse
     {
         $conditions = [
             'univ_code' => $request->get('univ_code'),                      // 大学コード
@@ -344,7 +346,7 @@ class TicketRegistController extends Controller
      *
      * @return JSON 学科リスト
      */
-    public function dptlist(Request $request)
+    public function dptlist(Request $request): JsonResponse
     {
         $conditions = [
             'univ_code' => $request->get('univ_code'),                      // 大学コード
@@ -375,9 +377,8 @@ class TicketRegistController extends Controller
      * 高校および志望校登録処理
      *
      * @param  Request  $request  登録用リクエスト
-     * @return redirect
      */
-    public function store(TicketRegistRequest $request, int $sch_code, int $index)
+    public function store(TicketRegistRequest $request, int $sch_code, int $index): RedirectResponse
     {
         // バリデートエラー
         $validator = $request->getValidator();

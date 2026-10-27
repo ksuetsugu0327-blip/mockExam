@@ -21,7 +21,7 @@ class ClsCsvService
      * @param  $file  readしたCSVファイル
      * @return array $csv_errors エラーメッセージの配列
      */
-    public function validateCsvData($file)
+    public function validateCsvData($file): array
     {
         // CSVファイルがヘッダー行を除いて最大行以上の場合はエラー
         $file->seek($file->getSize());

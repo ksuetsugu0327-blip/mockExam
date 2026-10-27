@@ -86,10 +86,8 @@ class ClassLoginController extends Controller
 
     /**
      * 認証に使う情報を塾コード、教室コードとする
-     *
-     * @return array
      */
-    protected function credentials(Request $request)
+    protected function credentials(Request $request): array
     {
         return $request->only($this->username(), 'sch_code', 'password');
     }

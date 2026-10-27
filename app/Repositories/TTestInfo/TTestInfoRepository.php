@@ -177,10 +177,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * ID指定での検索処理( 修正・詳細画面用 ）
-     *
-     * @return \App\Models\TTestInfo|null
      */
-    public function getTestInfoById(int $id)
+    public function getTestInfoById(int $id): ?TTestInfo
     {
         return $this->TTestInfo
             ->select(
@@ -203,10 +201,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 年度プルダウンリスト用意処理
-     *
-     * @return array
      */
-    public function generateYearsArray($mode)
+    public function generateYearsArray($mode): array
     {
         $currentYear = date('Y');
         $years = [];
@@ -232,10 +228,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * テスト名リスト取得
-     *
-     * @return array
      */
-    public function getTestInfo($OEMSchCode, $grade)
+    public function getTestInfo($OEMSchCode, $grade): array
     {
         return $this->TTestInfo
             ->select(
@@ -253,11 +247,8 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 【【大学コードヘッダー情報】大学コード検索画面用
-     *
-     * @param  string  $testID
-     * @return 大学コードヘッダー
      */
-    public function getUnivCodeHead($testID)
+    public function getUnivCodeHead(string $testID): 大学コードヘッダー
     {
         return DB::table('t_test_info as t_test')
             ->select('t_test.university_code_head_id', 'm_univ.dept_subject_div', 'mcb.codebook_file_name')

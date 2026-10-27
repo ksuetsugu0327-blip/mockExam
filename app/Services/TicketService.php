@@ -52,7 +52,7 @@ class TicketService
      * @param  array  $conditions  検索条件
      * @return type collection
      */
-    public function search($viewMode, array $conditions)
+    public function search(int $viewMode, array $conditions)
     {
         $exam_data = [];
 
@@ -94,7 +94,7 @@ class TicketService
      * @param  array  $conditions  検索条件
      * @return type TTicket
      */
-    public function TicketList($conditions)
+    public function TicketList(array $conditions)
     {
         return $this->repositoryTTicket->selectList($conditions);
     }
@@ -105,7 +105,7 @@ class TicketService
      * @param  array  $conditions  検索条件
      * @return type MUniversity
      */
-    public function univList($conditions)
+    public function univList(array $conditions)
     {
         $list = $this->repositoryMUniversity->selectList($conditions)
             ->pluck('univ_name', 'univ_code')
@@ -120,7 +120,7 @@ class TicketService
      * @param  array  $conditions  検索条件
      * @return type MFaculty
      */
-    public function facultyList($conditions)
+    public function facultyList(array $conditions)
     {
         $list = $this->repositoryMFaculty->selectList($conditions)
             ->pluck('fcl_name', 'fcl_code')
@@ -135,7 +135,7 @@ class TicketService
      * @param  array  $conditions  検索条件
      * @return type MFaculty
      */
-    public function departmentList($conditions)
+    public function departmentList(array $conditions)
     {
         $list = $this->repositoryMDepartment->selectList($conditions)
             ->pluck('dpt_name', 'dpt_code')
@@ -150,7 +150,7 @@ class TicketService
      * @param  array  $data  志望校情報(連想配列)
      * @return 連想配列(resultCode:-1(システムエラー) 0(排他エラー) 1(正常終了) message:メッセージ)
      */
-    public function updateChoiceOfSchool($data)
+    public function updateChoiceOfSchool(array $data)
     {
         // 高校更新処理
         $person = [

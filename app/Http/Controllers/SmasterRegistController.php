@@ -7,6 +7,7 @@ use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class SmasterRegistController extends Controller
 {
@@ -25,10 +26,8 @@ class SmasterRegistController extends Controller
 
     /**
      * 生徒マスタ・登録画面を表示する。
-     *
-     * @return view
      */
-    public function index()
+    public function index(): View
     {
         return view('smasterRegist');
     }
@@ -37,9 +36,8 @@ class SmasterRegistController extends Controller
      * 生徒マスタ登録処理を行う。
      *
      * @param  SmasterRegistRequest  $request  生徒マスタ登録用リクエスト
-     * @return redirect
      */
-    public function store(SmasterRegistRequest $request)
+    public function store(SmasterRegistRequest $request): redirect
     {
 
         // 画面情報を連想配列に設定

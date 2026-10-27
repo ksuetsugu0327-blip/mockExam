@@ -35,9 +35,8 @@ class ClassChangePasswordController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
-    public function index($schCode)
+    public function index($schCode): type
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $cls_code = session()->get('cls_code');
@@ -51,7 +50,6 @@ class ClassChangePasswordController extends Controller
     /**
      * パスワード変更登録処理
      *
-     * @param  ValidateRequest  $request
      * @return string
      */
     public function register(Request $request)

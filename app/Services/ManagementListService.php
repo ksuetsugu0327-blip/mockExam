@@ -115,7 +115,7 @@ class ManagementListService
      * @param  array  $conditions  条件連想配列
      * @return type MDirectory
      */
-    public function changeTestCount($directoryGrp, array $conditions)
+    public function changeTestCount(array $directoryGrp, array $conditions)
     {
         // 塾情報
         $schCode = $conditions['sch_code'];

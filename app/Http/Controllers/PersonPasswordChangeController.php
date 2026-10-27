@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Rules\PasswordCheck;
 use App\Services\MPersonService;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,10 +22,8 @@ class PersonPasswordChangeController extends Controller
 
     /**
      * Show the password reset page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($schCode)
+    public function index($schCode): Renderable
     {
         $psn_code = session()->get(config('constants.SESSION_KEY_PSNCODE'));
         // dd(session()->all());
@@ -37,10 +36,8 @@ class PersonPasswordChangeController extends Controller
 
     /**
      * Update password.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function changePassword($schCode, Request $request)
+    public function changePassword($schCode, Request $request): Renderable
     {
         $schCode = (int) $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $psnCode = (string) $request->get('psn_code');

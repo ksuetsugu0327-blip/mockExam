@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SchoolIDLoginCheckRequest;
 use App\Services\MSchoolService;
 use App\Utils\SessionUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 /**
  * 塾アカウント用ログインコントローラ
@@ -36,9 +38,8 @@ class SchoolIDLoginCheckController extends Controller
      *
      * @param  type  $request  リクエスト
      * @param  type  $schCode  塾コード
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $schCode)
+    public function index(Request $request, $schCode): View
     {
         $validator = Validator::make(['schCode' => (int) $schCode], ['schCode' => 'required |digits_between:1,7']);
         if ($validator->fails()) {
@@ -78,7 +79,7 @@ class SchoolIDLoginCheckController extends Controller
     /**
      * ID妥当性チェック
      */
-    public function check(SchoolIDLoginCheckRequest $request, $schCode)
+    public function check(SchoolIDLoginCheckRequest $request, $schCode): RedirectResponse
     {
         return redirect()->route('schoolLogin.index', ['sch_code' => $request->get('sch_code')])
             ->with('sch_code', $request->get('sch_code'));

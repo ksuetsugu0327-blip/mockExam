@@ -9,20 +9,16 @@ class JmasterCorrectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'sch_name' => 'em_length:40',
@@ -42,10 +38,8 @@ class JmasterCorrectionRequest extends FormRequest
 
     /**
      * validatorインスタンスの設定
-     *
-     * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
 
         // パスワードのチェック(チェックボックスがONの場合のみチェックを実施)

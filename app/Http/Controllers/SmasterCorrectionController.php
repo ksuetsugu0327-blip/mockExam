@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SmasterCorrectionRequest;
 use App\Services\MPersonService;
 use App\Utils\RouteUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
@@ -32,9 +33,8 @@ class SmasterCorrectionController extends Controller
      * @param schCode 塾コード(ログイン塾アカウント）
      * @param editSchCode 編集処理用塾コード
      * @param editPsnCode 編集処理用個人コード
-     * @return view
      */
-    public function index($schCode, $editSchCode, $editPsnCode)
+    public function index($schCode, $editSchCode, $editPsnCode): view
     {
 
         // 塾マスタの取得
@@ -57,9 +57,8 @@ class SmasterCorrectionController extends Controller
      * @param schCode 塾コード(ログイン塾アカウント）
      * @param editSchCode  編集処理用塾コード
      * @param editPsnCode  編集処理用個人コード
-     * @return redirect
      */
-    public function update(SmasterCorrectionRequest $request, $schCode, $editSchCode, $editPsnCode)
+    public function update(SmasterCorrectionRequest $request, $schCode, $editSchCode, $editPsnCode): RedirectResponse
     {
         // 画面情報を連想配列に設定
         $person = [
@@ -108,9 +107,8 @@ class SmasterCorrectionController extends Controller
      * @param  Request  $request  リクエスト
      * @param  $delSchCode  塾コード
      * @param  $delPsnCode  個人コード
-     * @return redirect
      */
-    public function delete(Request $request, $schCode, $editSchCode, $delPsnCode)
+    public function delete(Request $request, $schCode, $editSchCode, $delPsnCode): RedirectResponse
     {
 
         // 削除処理

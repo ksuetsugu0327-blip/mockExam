@@ -10,6 +10,7 @@ use App\Services\MSchoolService;
 use App\Utils\SessionUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 /**
  * 教室アカウントログイン用クラスIDチェック
@@ -41,9 +42,8 @@ class ClassIDLoginCheckController extends Controller
      *
      * @param  Request  $request  リクエスト
      * @param  type  $schCode  塾コード
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $schCode)
+    public function index(Request $request, $schCode): View
     {
         $validator = Validator::make(['schCode' => $schCode], ['schCode' => 'required |digits_between:1,7']);
         if ($validator->fails()) {

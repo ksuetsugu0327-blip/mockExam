@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         // Create the 'm_university_code_head' table
         Schema::create('m_university_code_head', function (Blueprint $table) {
@@ -28,10 +26,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         // Drop the 'm_university_code_head' table
         Schema::dropIfExists('m_university_code_head');

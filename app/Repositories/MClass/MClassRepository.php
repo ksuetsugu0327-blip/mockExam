@@ -62,9 +62,8 @@ class MClassRepository implements MClassRepositoryInterface
      *
      * @param  int  $schCode  塾コード
      * @param  int  $clsCode  教室コード
-     * @return type　MClass
      */
-    public function selectOneByKey(int $schCode, int $clsCode)
+    public function selectOneByKey(int $schCode, int $clsCode): type　MClass
     {
         return $this->MClass::where('sch_code', $schCode)
             ->where('cls_code', $clsCode)
@@ -333,7 +332,7 @@ class MClassRepository implements MClassRepositoryInterface
      * @param  string  $password  パスワード
      * @return int id 更新データのid
      */
-    public function registerPassword(int $schCode, string $clsCode, string $password)
+    public function registerPassword(int $schCode, string $clsCode, string $password): int
     {
         return \DB::transaction(
             function () use ($schCode, $clsCode, $password) {

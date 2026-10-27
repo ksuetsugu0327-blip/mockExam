@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         // 変更したい内容の処理を書く
         Schema::table('m_class', function (Blueprint $table) {
@@ -21,10 +19,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         // 変更したい内容の処理を書く
         Schema::table('m_class', function (Blueprint $table) {

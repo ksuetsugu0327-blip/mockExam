@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ResetPasswordMail;
 use App\Services\MPersonService;
 use App\Utils\PasswordUtil;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
@@ -24,10 +25,8 @@ class PersonPasswordResetController extends Controller
 
     /**
      * Show the password reset page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($schCode)
+    public function index($schCode): Renderable
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psnCode = session()->get('psn_code');
@@ -40,10 +39,8 @@ class PersonPasswordResetController extends Controller
 
     /**
      * send a temp password through email.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function reset($schCode, Request $request)
+    public function reset($schCode, Request $request): Renderable
     {
         $psnCode = $request->get('psn_code');
         if (! isset($psnCode)) {

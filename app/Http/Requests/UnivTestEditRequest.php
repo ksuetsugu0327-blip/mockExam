@@ -9,27 +9,23 @@ class UnivTestEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'remarks' => 'nullable|max:1000',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'remarks.max' => '備考には:max文字以下の文字列を指定してください。',
@@ -38,10 +34,8 @@ class UnivTestEditRequest extends FormRequest
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     *
-     * @param  Validator  $validator
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
             if (count($validator->failed()) > 0) {

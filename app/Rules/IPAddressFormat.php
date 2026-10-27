@@ -19,11 +19,9 @@ class IPAddressFormat implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes(string $attribute, $value): bool
     {
         //
         $pass = false;
@@ -42,10 +40,8 @@ class IPAddressFormat implements Rule
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'IPアドレスの形式エラー。';
     }

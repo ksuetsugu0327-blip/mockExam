@@ -8,10 +8,8 @@ class SchoolIDLoginCheckRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -39,10 +37,8 @@ class SchoolIDLoginCheckRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'sch_code_org' => 'required|digits_between:1,7',
@@ -52,10 +48,8 @@ class SchoolIDLoginCheckRequest extends FormRequest
 
     /**
      * メッセージの設定
-     *
-     * @return type
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'sch_code.same' => trans('message.SCHOOL_CODE_NO_EXISTS'),

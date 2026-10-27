@@ -8,27 +8,23 @@ class PortalLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * 入力チェックルールの設定
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'portal_account' => 'required|string|exists:m_school,portal_account',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'portal_account.required' => '塾アカウント名を入力してください。',

@@ -11,10 +11,11 @@ use App\Services\MUnivCodeNameService;
 use App\Services\TTestInfoService;
 use App\Services\UnivCsvService;
 use App\Utils\FileUtil;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 use SplFileObject;
 
 class UnivCsvUploadController extends Controller
@@ -43,7 +44,7 @@ class UnivCsvUploadController extends Controller
     /**
      * CSVインポート画面を表示
      */
-    public function index()
+    public function index(): View
     {
 
         $codeData = config('selectlistarray.CODE_DATA');
@@ -62,11 +63,8 @@ class UnivCsvUploadController extends Controller
 
     /**
      * CSV アップロード処理
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\UnivCsvUploadRequest
      */
-    public function upload(UnivCsvUploadRequest $request)
+    public function upload(UnivCsvUploadRequest $request): RedirectResponse
     {
 
         // ロケールを設定(日本語に設定)

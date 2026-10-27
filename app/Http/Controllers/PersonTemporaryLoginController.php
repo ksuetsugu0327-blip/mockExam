@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PersonTemporaryLoginRequest;
 use App\Services\MPersonService;
 use App\Utils\PasswordUtil;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -31,9 +32,8 @@ class PersonTemporaryLoginController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
-    public function index($schCode)
+    public function index($schCode): type
     {
         // フラッシュデータにない場合は、不正なアクセスの為、ログイン画面に戻す
         $psn_code = session()->get('psn_code');
@@ -62,8 +62,6 @@ class PersonTemporaryLoginController extends Controller
 
     /**
      * 仮パスワードログインチェック
-     *
-     * @param  PersonIDLoginCheckRequest  $request
      */
     public function login(PersonTemporaryLoginRequest $request)
     {
@@ -89,10 +87,8 @@ class PersonTemporaryLoginController extends Controller
 
     /**
      * 仮パスワードが不明な場合のログイン処理
-     *
-     * @return type
      */
-    public function unknownAuth(Request $request)
+    public function unknownAuth(Request $request): RedirectResponse
     {
         $schCode = $request->session()->get(config('constants.SESSION_KEY_SCHCODE'));
         $psnCode = $request->get('psn_code');

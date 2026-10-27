@@ -59,10 +59,8 @@ class MSchoolRepository implements MSchoolRepositoryInterface
 
     /**
      * 塾マスタ業務キー検索
-     *
-     * @return type　MSchool
      */
-    public function selectOneByKey(int $schCode)
+    public function selectOneByKey(int $schCode): type　MSchool
     {
         return $this->MSchool::where('sch_code', $schCode)->get();
     }
