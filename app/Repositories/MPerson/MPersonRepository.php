@@ -487,7 +487,7 @@ class MPersonRepository implements MPersonRepositoryInterface
         }
 
         return ['resultCode' => config('constants.RESULT_CODE_SUCCESS'),
-            'message' => trans('message.SUCCESS_MPERSON_REGISTER_DATA',['sch_code' => $person['sch_code'], 'psn_code' => $person['psn_code']]), 'id' => $mPerson->id];
+            'message' => trans('message.SUCCESS_MPERSON_REGISTER_DATA', ['sch_code' => $person['sch_code'], 'psn_code' => $person['psn_code']]), 'id' => $mPerson->id];
 
     }
 }

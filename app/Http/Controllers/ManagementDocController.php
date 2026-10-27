@@ -392,7 +392,7 @@ class ManagementDocController extends Controller
             // 該当データがない場合
             report($ex);
 
-            return redirect()->route(RouteUtil::getPrefix().'.managementdoc.index', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])->with('message',trans('message.DOWNLODE_NOT_FILE'));
+            return redirect()->route(RouteUtil::getPrefix().'.managementdoc.index', ['schCode' => session(config('constants.SESSION_KEY_SCHCODE'))])->with('message', trans('message.DOWNLODE_NOT_FILE'));
         }
     }
 }

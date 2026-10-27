@@ -275,6 +275,6 @@ class SmasterListController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->to(route(RouteUtil::getPrefix().'.persons.index', [$schCode]))->with('message',$result['message']);
+        return redirect()->to(route(RouteUtil::getPrefix().'.persons.index', [$schCode]))->with('message', $result['message']);
     }
 }

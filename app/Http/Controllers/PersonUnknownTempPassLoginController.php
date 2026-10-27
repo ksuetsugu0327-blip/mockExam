@@ -132,6 +132,6 @@ class PersonUnknownTempPassLoginController extends Controller
             }
         }
 
-        return redirect()->route('changePassword.index',['sch_code' => $schCode])->with('psn_code',$psnCode);
+        return redirect()->route('changePassword.index', ['sch_code' => $schCode])->with('psn_code', $psnCode);
     }
 }

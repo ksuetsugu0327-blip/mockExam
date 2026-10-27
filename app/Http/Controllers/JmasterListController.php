@@ -133,6 +133,6 @@ class JmasterListController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->to(route('schools.index', [$schCode]))->with('message',$result['message']);
+        return redirect()->to(route('schools.index', [$schCode]))->with('message', $result['message']);
     }
 }
