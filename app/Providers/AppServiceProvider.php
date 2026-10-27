@@ -2,10 +2,22 @@
 
 namespace App\Providers;
 
+use App\Http\Auth\CustomEloquentUserProvider;
+use App\Http\Auth\CustomSessionGuard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * The path to your application's "home" route.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const HOME = '/home';
+
     /**
      * Register any application services.
      */
@@ -148,5 +160,35 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\MCodeBook\MCodeBookRepositoryInterface::class,
             \App\Repositories\MCodeBook\MCodeBookRepository::class
         );
+
+        $this->bootAuth();
+    }
+
+    public function bootAuth(): void
+    {
+        // カスタムガードの追加
+        Auth::extend('customSession', function ($app, $name, array $config) {
+            $provider = Auth::createUserProvider($config['provider']);
+            $guard = new CustomSessionGuard($name, $provider, $app['session.store']);
+            if (method_exists($guard, 'setCookieJar')) {
+                $guard->setCookieJar($this->app['cookie']);
+            }
+
+            if (method_exists($guard, 'setDispatcher')) {
+                $guard->setDispatcher($this->app['events']);
+            }
+
+            if (method_exists($guard, 'setRequest')) {
+                $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
+            }
+
+            return $guard;
+        });
+
+        // カスタムEloquentUserプロバイダの追加
+        Auth::provider('customEloquent', function ($app, array $config) {
+            return new CustomEloquentUserProvider($app['hash'], $config['model']);
+        });
+
     }
 }
