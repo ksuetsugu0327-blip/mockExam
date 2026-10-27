@@ -33,7 +33,6 @@ class KmasterCorrectionController extends Controller
      *
      * @param cls_code 教室コード(ログイン教室アカウント）
      * @param edit_cls_code 編集処理用教室コード
-     * @return view
      */
     // public function index(Request $request, $sch_code, $cls_code): view {
     public function index($sch_code, $editSchCode, $editClsCode): view
@@ -62,8 +61,6 @@ class KmasterCorrectionController extends Controller
 
     /**
      * 教室マスタ修正・削除処理を行う。
-     *
-     * @return redirect
      */
     public function update(KmasterCorrectionRequest $request): RedirectResponse
     {
@@ -110,7 +107,6 @@ class KmasterCorrectionController extends Controller
      *
      * @param  $clsCode  塾コード
      * @param  $delClsCode  削除対象塾コード
-     * @return redirect
      */
     public function delete(Request $request, $sch_code, $delSchCode, $delClsCode): RedirectResponse
     {

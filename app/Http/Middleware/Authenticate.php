@@ -12,8 +12,6 @@ class Authenticate extends Middleware
     /**
      * カスタマイズ認証
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
@@ -72,9 +70,6 @@ class Authenticate extends Middleware
 
     /**
      * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
      */
     protected function redirectTo(Request $request): string
     {

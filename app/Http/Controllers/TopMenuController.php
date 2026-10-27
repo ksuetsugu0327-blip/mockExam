@@ -22,8 +22,6 @@ class TopMenuController extends Controller
 
     /**
      * 表示処理
-     *
-     * @return type
      */
     public function index(): View
     {

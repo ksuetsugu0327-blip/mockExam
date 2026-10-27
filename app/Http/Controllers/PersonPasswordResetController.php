@@ -25,8 +25,6 @@ class PersonPasswordResetController extends Controller
 
     /**
      * Show the password reset page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($schCode): Renderable
     {
@@ -41,8 +39,6 @@ class PersonPasswordResetController extends Controller
 
     /**
      * send a temp password through email.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function reset($schCode, Request $request): Renderable
     {

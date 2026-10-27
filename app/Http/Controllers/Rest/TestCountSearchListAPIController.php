@@ -24,8 +24,6 @@ class TestCountSearchListAPIController extends Controller
 
     /**
      * 公開フラグチェックAPI
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function checkPublishFlg(Request $request): JsonResponse
     {

@@ -64,9 +64,6 @@ class UnivCsvUploadController extends Controller
 
     /**
      * CSV アップロード処理
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\UnivCsvUploadRequest
      */
     public function upload(UnivCsvUploadRequest $request): RedirectResponse
     {

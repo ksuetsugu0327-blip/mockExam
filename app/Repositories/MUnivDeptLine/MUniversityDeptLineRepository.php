@@ -28,8 +28,6 @@ class MUniversityDeptLineRepository implements MUniversityDeptLineRepositoryInte
 
     /**
      * 大学設置者マスタプルダウン用リスト
-     *
-     * @return 大学設置者リスト
      */
     public function selectList(): 大学設置者リスト
     {

@@ -28,8 +28,6 @@ class MUniversityCodeNameRepository implements MUniversityCodeNameRepositoryInte
 
     /**
      * 【高校・大学CSVデータ登録】大学コードデータ名マスタプルダウン用リスト
-     *
-     * @return 大学コードリスト
      */
     public function selectList(): 大学コードリスト
     {

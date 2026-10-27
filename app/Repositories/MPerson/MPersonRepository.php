@@ -34,7 +34,6 @@ class MPersonRepository implements MPersonRepositoryInterface
      *
      * @param  int  $schCode  塾コード
      * @param  string  $psnCode  個人コード
-     * @return type　MPerson
      */
     public function selectOneByKey(int $schCode, string $psnCode): type　MPerson
     {

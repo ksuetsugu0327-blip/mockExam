@@ -28,8 +28,6 @@ class MPrefectureRepository implements MPrefectureRepositoryInterface
 
     /**
      * 都道府県マスタプルダウン用リスト
-     *
-     * @return 都道府県リスト
      */
     public function selectList(): 都道府県リスト
     {

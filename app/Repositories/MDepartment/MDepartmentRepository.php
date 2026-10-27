@@ -28,8 +28,6 @@ class MDepartmentRepository implements MDepartmentRepositoryInterface
 
     /**
      * 学科プルダウン用リスト
-     *
-     * @return 学科リスト
      */
     public function selectList(array $conditions): 学科リスト
     {

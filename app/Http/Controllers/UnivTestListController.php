@@ -105,8 +105,6 @@ class UnivTestListController extends Controller
 
     /**
      * 模擬試験・一覧画面での検索処理
-     *
-     * @return view
      */
     public function search(UnivTestListRequest $request): View
     {

@@ -30,7 +30,6 @@ class JmasterCorrectionController extends Controller
      *
      * @param sch_code 塾コード(ログイン塾アカウント）
      * @param editSchCode 編集処理用塾コード
-     * @return view
      */
     public function index($schCode, $editSchCode): view
     {
@@ -48,8 +47,6 @@ class JmasterCorrectionController extends Controller
 
     /**
      * 塾マスタ更新処理を行う
-     *
-     * @return redirect
      */
     public function update(JmasterCorrectionRequest $request): RedirectResponse
     {
@@ -96,7 +93,6 @@ class JmasterCorrectionController extends Controller
      *
      * @param  $schCode  塾コード
      * @param  $delSchCode  削除対象塾コード
-     * @return redirect
      */
     public function delete(Request $request, $schCode, $delSchCode): RedirectResponse
     {

@@ -22,8 +22,6 @@ class PersonMailChangeController extends Controller
 
     /**
      * Show the password reset page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($schCode): Renderable
     {
@@ -39,8 +37,6 @@ class PersonMailChangeController extends Controller
 
     /**
      * Update email.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function changeMail($schCode, Request $request): Renderable
     {

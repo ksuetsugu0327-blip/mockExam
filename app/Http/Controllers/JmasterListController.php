@@ -28,8 +28,6 @@ class JmasterListController extends Controller
 
     /**
      * 塾マスタ・一覧画面を表示する。
-     *
-     * @return view
      */
     public function index(Request $request): View
     {
@@ -83,8 +81,6 @@ class JmasterListController extends Controller
 
     /**
      * 塾マスタ・一覧画面での検索処理
-     *
-     * @return view
      */
     public function search(JmasterListRequest $request): View
     {
@@ -122,7 +118,6 @@ class JmasterListController extends Controller
      *
      * @param  $schCode  塾コード
      * @param  $delSchCode  削除対象塾コード
-     * @return redirect
      */
     public function delete(Request $request, $schCode, $delSchCode): RedirectResponse
     {

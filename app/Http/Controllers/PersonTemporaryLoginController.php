@@ -32,7 +32,6 @@ class PersonTemporaryLoginController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
     public function index($schCode): type
     {
@@ -63,8 +62,6 @@ class PersonTemporaryLoginController extends Controller
 
     /**
      * 仮パスワードログインチェック
-     *
-     * @param  PersonIDLoginCheckRequest  $request
      */
     public function login(PersonTemporaryLoginRequest $request)
     {
@@ -90,8 +87,6 @@ class PersonTemporaryLoginController extends Controller
 
     /**
      * 仮パスワードが不明な場合のログイン処理
-     *
-     * @return type
      */
     public function unknownAuth(Request $request): RedirectResponse
     {

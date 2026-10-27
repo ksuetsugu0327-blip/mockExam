@@ -28,8 +28,6 @@ class JmasterRegistController extends Controller
 
     /**
      * 塾マスタ・登録画面を表示する。
-     *
-     * @return view
      */
     public function index(): View
     {
@@ -40,7 +38,6 @@ class JmasterRegistController extends Controller
      * 塾マスタ登録処理を行う。
      *
      * @param request
-     * @return redirect
      */
     public function store(JmasterRegistRequest $request): RedirectResponse
     {

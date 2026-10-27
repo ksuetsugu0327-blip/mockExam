@@ -22,9 +22,6 @@ class PersonReportCardListController extends Controller
         $this->service = $personReportCardListService;
     }
 
-    /**
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request): View
     {
         $referer = url()->previous();
@@ -97,7 +94,6 @@ class PersonReportCardListController extends Controller
      * 個人帳票ダウンロードを表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function pdfDownload($sch_Code, $index, string $category_kbn): view
     {

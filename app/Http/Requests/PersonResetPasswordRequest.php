@@ -10,8 +10,6 @@ class PersonResetPasswordRequest extends FormRequest
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -20,8 +18,6 @@ class PersonResetPasswordRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
-     *
-     * @return array
      */
     public function rules(): array
     {

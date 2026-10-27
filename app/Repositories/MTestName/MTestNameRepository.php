@@ -28,8 +28,6 @@ class MTestNameRepository implements MTestNameRepositoryInterface
 
     /**
      * テスト名マスタプルダウン用リスト
-     *
-     * @return テスト名リスト
      */
     public function selectList(): テスト名リスト
     {

@@ -37,7 +37,6 @@ class MHighSchoolService
      * 高校の都道府県コード取得
      *
      * @param string hsc_code
-     * @return 都道府県コード
      */
     public function getPrefCode($hsc_code): 都道府県コード
     {

@@ -30,7 +30,6 @@ class ManagementListController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function index(Request $request): View
     {
@@ -96,7 +95,6 @@ class ManagementListController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function search(Request $request): View
     {

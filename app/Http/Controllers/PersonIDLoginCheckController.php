@@ -40,7 +40,6 @@ class PersonIDLoginCheckController extends Controller
      *
      * @param  Request  $request  リクエスト
      * @param  type  $schCode  塾コード
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $schCode): View
     {

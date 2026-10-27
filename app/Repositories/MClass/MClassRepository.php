@@ -62,7 +62,6 @@ class MClassRepository implements MClassRepositoryInterface
      *
      * @param  int  $schCode  塾コード
      * @param  int  $clsCode  教室コード
-     * @return type　MClass
      */
     public function selectOneByKey(int $schCode, int $clsCode): type　MClass
     {

@@ -28,8 +28,6 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
 
     /**
      * OEM塾マスタプルダウン用リスト
-     *
-     * @return OEM塾リスト
      */
     public function selectList(): OEM塾リスト
     {
@@ -41,8 +39,6 @@ class MOemSchoolRepository implements MOemSchoolRepositoryInterface
 
     /**
      * 塾名取得
-     *
-     * @return OEM塾名取得
      */
     public function getOemSchoolByCode($OEMSchCode): OEM塾名取得
     {

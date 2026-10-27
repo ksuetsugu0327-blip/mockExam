@@ -28,8 +28,6 @@ class MCodeBookRepository implements MCodeBookRepositoryInterface
 
     /**
      * コード表マスタプルダウン用リスト
-     *
-     * @return コード表リスト
      */
     public function selectList(): コード表リスト
     {

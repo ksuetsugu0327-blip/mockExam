@@ -35,9 +35,6 @@ class CsvUploadController extends Controller
 
     /**
      * CSV アップロード処理
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\CsvUploadRequest
      */
     public function upload(CsvUploadRequest $request): \Illuminate\Http\CsvUploadRequest
     {

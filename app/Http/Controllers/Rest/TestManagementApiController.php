@@ -21,8 +21,6 @@ class TestManagementApiController extends Controller
 
     /**
      * 大学コードヘッダー情報取得API(テスト・登録用)
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function getUnivCodeHeadList(Request $request): JsonResponse
     {

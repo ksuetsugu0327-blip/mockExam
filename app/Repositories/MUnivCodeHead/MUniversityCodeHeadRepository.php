@@ -97,8 +97,6 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
 
     /**
      * 【テスト情報】大学コードマスタプルダウン用リスト
-     *
-     * @return 大学コードリスト
      */
     public function selectList(string $year): 大学コードリスト
     {
@@ -119,8 +117,6 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
 
     /**
      * 年度プルダウンリスト用意処理
-     *
-     * @return array
      */
     public function generateYearsArray(): array
     {
@@ -146,7 +142,6 @@ class MUniversityCodeHeadRepository implements MUniversityCodeHeadRepositoryInte
      * 【大学コードデータ削除】一覧取得処理
      *
      * @param  array  $conditions  検索条件(連想配列）
-     * @return 大学コードデータリスト
      */
     public function univCodeDataList(array $conditions): 大学コードデータリスト
     {

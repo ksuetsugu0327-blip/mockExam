@@ -28,8 +28,6 @@ class MUniversityRepository implements MUniversityRepositoryInterface
 
     /**
      * 大学プルダウン用リスト
-     *
-     * @return 大学リスト
      */
     public function selectList(array $conditions): 大学リスト
     {

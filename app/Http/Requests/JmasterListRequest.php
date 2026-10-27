@@ -9,8 +9,6 @@ class JmasterListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -19,8 +17,6 @@ class JmasterListRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,8 +27,6 @@ class JmasterListRequest extends FormRequest
 
     /**
      * バリデーション結果を判定し、エラーメッセージを追加する
-     *
-     * @param  Validator  $validator
      */
     public function withValidator(Validator $validator)
     {

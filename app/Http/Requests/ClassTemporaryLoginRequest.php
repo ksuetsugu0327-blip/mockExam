@@ -8,8 +8,6 @@ class ClassTemporaryLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -18,8 +16,6 @@ class ClassTemporaryLoginRequest extends FormRequest
 
     /**
      * 入力チェックルールの設定
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,8 +26,6 @@ class ClassTemporaryLoginRequest extends FormRequest
 
     /**
      * 属性設定
-     *
-     * @return type
      */
     public function attributes(): array
     {

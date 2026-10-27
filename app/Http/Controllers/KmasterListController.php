@@ -84,8 +84,6 @@ class KmasterListController extends Controller
 
     /**
      * 教室マスタ・一覧画面での検索処理
-     *
-     * @return view
      */
     public function search(KmasterListRequest $request): View
     {
@@ -136,7 +134,6 @@ class KmasterListController extends Controller
      *
      * @param  $clsCode  塾コード
      * @param  $delClsCode  削除対象塾コード
-     * @return redirect
      */
     public function delete(Request $request, $schCode, $delSchCode, $delClsCode): RedirectResponse
     {

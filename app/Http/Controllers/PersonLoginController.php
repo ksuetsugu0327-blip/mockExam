@@ -42,7 +42,6 @@ class PersonLoginController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
     public function index($schCode): type
     {
@@ -97,8 +96,6 @@ class PersonLoginController extends Controller
 
     /**
      * 認証に使う情報を塾コード、塾生コードとする
-     *
-     * @return array
      */
     protected function credentials(Request $request): array
     {
@@ -189,9 +186,6 @@ class PersonLoginController extends Controller
 
     /**
      * 早稲アカ SSO ログインパラメータ設定
-     *
-     * @param  object  $request
-     * @param  string  $schCode
      */
     private function waseda_academy_sso_login(object $request, string $schCode)
     {
@@ -225,9 +219,6 @@ class PersonLoginController extends Controller
 
     /**
      * 早稲アカ SSO 用エラーログ
-     *
-     * @param  object  $request
-     * @param  string  $msg
      */
     private function error_log(object $request, string $msg)
     {

@@ -177,8 +177,6 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * ID指定での検索処理( 修正・詳細画面用 ）
-     *
-     * @return \App\Models\TTestInfo|null
      */
     public function getTestInfoById(int $id): ?TTestInfo
     {
@@ -203,8 +201,6 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 年度プルダウンリスト用意処理
-     *
-     * @return array
      */
     public function generateYearsArray($mode): array
     {
@@ -232,8 +228,6 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * テスト名リスト取得
-     *
-     * @return array
      */
     public function getTestInfo($OEMSchCode, $grade): array
     {
@@ -253,9 +247,6 @@ class TTestInfoRepository implements TTestInfoRepositoryInterface
 
     /**
      * 【【大学コードヘッダー情報】大学コード検索画面用
-     *
-     * @param  string  $testID
-     * @return 大学コードヘッダー
      */
     public function getUnivCodeHead(string $testID): 大学コードヘッダー
     {

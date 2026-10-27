@@ -377,7 +377,6 @@ class TicketRegistController extends Controller
      * 高校および志望校登録処理
      *
      * @param  Request  $request  登録用リクエスト
-     * @return redirect
      */
     public function store(TicketRegistRequest $request, int $sch_code, int $index): RedirectResponse
     {

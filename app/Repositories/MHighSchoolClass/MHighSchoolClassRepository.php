@@ -28,8 +28,6 @@ class MHighSchoolClassRepository implements MHighSchoolClassRepositoryInterface
 
     /**
      * OEM塾マスタプルダウン用リスト
-     *
-     * @return OEM塾リスト
      */
     public function selectList(): OEM塾リスト
     {

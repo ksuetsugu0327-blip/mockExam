@@ -48,7 +48,6 @@ class RouteUtil
      * ローカル IP かチェック
      * true: ローカル false: 外部
      *
-     * @param  string  $ip
      * @return bool 判定結果
      */
     public static function isLocalIp(string $ip): bool
@@ -69,7 +68,6 @@ class RouteUtil
      * 許可されている IP かチェック
      * true:許可 false:禁止
      *
-     * @param  string  $sch_code
      * @return bool 判定結果
      */
     public static function isPermitIp(string $sch_code): bool

@@ -32,7 +32,6 @@ class TTicketRepository implements TTicketRepositoryInterface
      * 志望校リスト
      *
      * @param  array  $conditions  検索条件
-     * @return 志望校リスト
      */
     public function selectList(array $conditions): 志望校リスト
     {
@@ -417,8 +416,6 @@ class TTicketRepository implements TTicketRepositoryInterface
 
     /**
      * 登録状況のフラグを設定するCASE式を生成する
-     *
-     * @return string
      */
     private function createUnivRegisterCaseStmt(): string
     {
@@ -432,8 +429,6 @@ class TTicketRepository implements TTicketRepositoryInterface
 
     /**
      * 返却状況のフラグを設定するCASE式を生成する
-     *
-     * @return string
      */
     private function createReportFlagCaseStmt(): string
     {

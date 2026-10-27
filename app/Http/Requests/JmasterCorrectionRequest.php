@@ -9,8 +9,6 @@ class JmasterCorrectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -19,8 +17,6 @@ class JmasterCorrectionRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -42,8 +38,6 @@ class JmasterCorrectionRequest extends FormRequest
 
     /**
      * validatorインスタンスの設定
-     *
-     * @param  Validator  $validator
      */
     public function withValidator(Validator $validator)
     {

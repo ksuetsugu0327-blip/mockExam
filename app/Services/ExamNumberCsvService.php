@@ -101,8 +101,6 @@ class ExamNumberCsvService
 
     /**
      * バリデーションの実行
-     *
-     * @return bool
      */
     private function validateExamData(&$csv_errors, $line, $output_line_num): bool
     {
@@ -191,8 +189,6 @@ class ExamNumberCsvService
     /**
      * CSVファイルの重複チェック
      * 塾コード・生徒コード・年度・回数・学年 が重複しているデータをチェックする
-     *
-     * @return bool
      */
     private function checkDuplicates(&$csv_errors, &$csv_keyAry, $line, $output_line_num): bool
     {

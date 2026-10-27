@@ -26,8 +26,6 @@ class ReportCardListController extends Controller
 
     /**
      * 初期表示
-     *
-     * @return type
      */
     public function index(Request $request, int $schCode, int $index): View
     {
@@ -82,7 +80,6 @@ class ReportCardListController extends Controller
      *
      * @param  type  $sch_Code
      * @param  type  $index
-     * @return type
      */
     public function pdfDownload(Request $request, $sch_Code, $index): type
     {

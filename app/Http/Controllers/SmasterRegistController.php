@@ -26,8 +26,6 @@ class SmasterRegistController extends Controller
 
     /**
      * 生徒マスタ・登録画面を表示する。
-     *
-     * @return view
      */
     public function index(): View
     {
@@ -38,7 +36,6 @@ class SmasterRegistController extends Controller
      * 生徒マスタ登録処理を行う。
      *
      * @param  SmasterRegistRequest  $request  生徒マスタ登録用リクエスト
-     * @return redirect
      */
     public function store(SmasterRegistRequest $request): redirect
     {

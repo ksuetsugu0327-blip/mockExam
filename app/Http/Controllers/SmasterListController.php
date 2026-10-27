@@ -37,7 +37,6 @@ class SmasterListController extends Controller
      * 生徒マスタ・一覧画面を表示する。
      *
      * @param  Request  $request  リクエスト
-     * @return view
      */
     public function index(Request $request): View
     {
@@ -99,8 +98,6 @@ class SmasterListController extends Controller
 
     /**
      * 生徒マスタ・一覧画面での検索処理
-     *
-     * @return view
      */
     public function search(Request $request): View
     {
@@ -265,7 +262,6 @@ class SmasterListController extends Controller
      * @param  Request  $request  リクエスト
      * @param  $delSchCode  塾コード
      * @param  $delPsnCode  個人コード
-     * @return redirect
      */
     public function delete(Request $request, $schCode, $delSchCode, $delPsnCode): RedirectResponse
     {

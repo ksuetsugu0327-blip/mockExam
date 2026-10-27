@@ -35,7 +35,6 @@ class ClassChangePasswordController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
     public function index($schCode): type
     {
@@ -51,7 +50,6 @@ class ClassChangePasswordController extends Controller
     /**
      * パスワード変更登録処理
      *
-     * @param  ValidateRequest  $request
      * @return string
      */
     public function register(Request $request)

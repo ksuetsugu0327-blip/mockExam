@@ -36,7 +36,6 @@ class ManagementDocController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function index(Request $request, int $sch_code): view
     {
@@ -130,7 +129,6 @@ class ManagementDocController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function open(Request $request, int $sch_code, int $index): View
     {
@@ -215,7 +213,6 @@ class ManagementDocController extends Controller
      *
      * @param sch_code 塾コード
      * @param categoryKbn 識別子
-     * @return response
      */
     public function pdfDownload(Request $request, int $sch_Code, string $categoryKbn): response
     {
@@ -271,7 +268,6 @@ class ManagementDocController extends Controller
      * ダウンロード指示を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function order(Request $request): RedirectResponse
     {
@@ -339,7 +335,6 @@ class ManagementDocController extends Controller
      * 管理資料一覧画面を表示する。
      *
      * @param sch_code 塾コード
-     * @return view
      */
     public function zipDownload(Request $request): view
     {

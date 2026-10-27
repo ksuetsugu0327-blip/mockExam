@@ -33,7 +33,6 @@ class SmasterCorrectionController extends Controller
      * @param schCode 塾コード(ログイン塾アカウント）
      * @param editSchCode 編集処理用塾コード
      * @param editPsnCode 編集処理用個人コード
-     * @return view
      */
     public function index($schCode, $editSchCode, $editPsnCode): view
     {
@@ -58,7 +57,6 @@ class SmasterCorrectionController extends Controller
      * @param schCode 塾コード(ログイン塾アカウント）
      * @param editSchCode  編集処理用塾コード
      * @param editPsnCode  編集処理用個人コード
-     * @return redirect
      */
     public function update(SmasterCorrectionRequest $request, $schCode, $editSchCode, $editPsnCode): RedirectResponse
     {
@@ -109,7 +107,6 @@ class SmasterCorrectionController extends Controller
      * @param  Request  $request  リクエスト
      * @param  $delSchCode  塾コード
      * @param  $delPsnCode  個人コード
-     * @return redirect
      */
     public function delete(Request $request, $schCode, $editSchCode, $delPsnCode): RedirectResponse
     {

@@ -30,7 +30,6 @@ class ClassTemporaryLoginController extends Controller
      * 初期表示処理
      *
      * @param  type  $schCode  塾コード
-     * @return type
      */
     public function index($schCode): type
     {

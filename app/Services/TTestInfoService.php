@@ -75,8 +75,6 @@ class TTestInfoService
 
     /**
      * 年度プルダウンリスト用意処理
-     *
-     * @return array
      */
     public function generateYearsArray($mode = 'far'): array
     {

@@ -28,8 +28,6 @@ class MFacultyRepository implements MFacultyRepositoryInterface
 
     /**
      * 学部プルダウン用リスト
-     *
-     * @return 学部リスト
      */
     public function selectList(array $conditions): 学部リスト
     {

@@ -24,8 +24,6 @@ class TestCountSearchListController extends Controller
 
     /**
      * 初期表示処理
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request): View
     {
@@ -88,7 +86,6 @@ class TestCountSearchListController extends Controller
      * 検索処理
      *
      * @param  \App\index  $index
-     * @return \Illuminate\Http\Response
      */
     public function search(Request $request): View
     {
@@ -135,7 +132,6 @@ class TestCountSearchListController extends Controller
      * 個人成績表公開フラグ更新処理
      *
      * @param  \App\index  $index
-     * @return \Illuminate\Http\Response
      */
     public function updatePublishFlag(Request $request): RedirectResponse
     {

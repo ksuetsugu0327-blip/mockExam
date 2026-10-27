@@ -38,7 +38,6 @@ class CustomSessionGuard extends SessionGuard
      * 西北出版用ログアウト
      * remember_tokenは利用しないので、該当処理を削除します。
      *
-     * @return void
      *
      * @see Illuminate\Auth\SessionGuard::logout
      */

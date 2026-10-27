@@ -84,7 +84,6 @@ class UnivTestEditController extends Controller
      * テスト情報削除処理を行う。
      *
      * @param  int  $id  削除対象ID
-     * @return redirect
      */
     public function delete(Request $request, int $schCode, int $id): RedirectResponse
     {

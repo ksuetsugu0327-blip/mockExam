@@ -26,8 +26,6 @@ class UnivCodeDeleteController extends Controller
 
     /**
      * 【大学コードデータ削除】一覧画面
-     *
-     * @return \Illuminate\View\View
      */
     public function index(Request $request): View
     {
@@ -81,8 +79,6 @@ class UnivCodeDeleteController extends Controller
 
     /**
      * 【大学コードデータ削除】一覧画面検索処理
-     *
-     * @return \Illuminate\View\View
      */
     public function search(UnivCodeDataDeleteRequest $request): View
     {
@@ -135,7 +131,6 @@ class UnivCodeDeleteController extends Controller
      * 【大学コードデータ削除】削除処理
      *
      * @param  int  $id  削除対象ID
-     * @return redirect
      */
     public function delete(Request $request, int $schCode, int $id): RedirectResponse
     {

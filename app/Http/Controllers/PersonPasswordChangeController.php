@@ -22,8 +22,6 @@ class PersonPasswordChangeController extends Controller
 
     /**
      * Show the password reset page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index($schCode): Renderable
     {
@@ -38,8 +36,6 @@ class PersonPasswordChangeController extends Controller
 
     /**
      * Update password.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function changePassword($schCode, Request $request): Renderable
     {
