@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Http\Requests\SmasterCorrectionRequest;
 use App\Services\MPersonService;
 use App\Utils\RouteUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class SmasterCorrectionController extends Controller
 {
@@ -121,6 +121,6 @@ class SmasterCorrectionController extends Controller
         }
 
         // 一覧画面へリダイレクト
-        return redirect()->to(route(RouteUtil::getPrefix().'.persons.index', [$schCode]))->with('message',$result['message']);
+        return redirect()->to(route(RouteUtil::getPrefix().'.persons.index', [$schCode]))->with('message', $result['message']);
     }
 }

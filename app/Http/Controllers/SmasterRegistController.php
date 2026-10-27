@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Http\Requests\SmasterRegistRequest;
 use App\Services\MPersonService;
 use App\Services\MSchoolService;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class SmasterRegistController extends Controller
 {
