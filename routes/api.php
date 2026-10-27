@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Rest;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 /*
@@ -20,17 +22,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::name('api.')->group(function () {
     Route::prefix('univ_search')->name('univ_search.')->group(function () {
         Route::prefix('/v1')->group(function () {
-            Route::get('/schools', "Rest\UnivCodeSearchController@getOemSchoolName")->name('OEMSchool.name');
-            Route::get('/test_infos_list', "Rest\UnivCodeSearchController@getTestInfo")->name('test.name');
-            Route::get('/university_code_heads', "Rest\UnivCodeSearchController@getUnivCodeHead")->name('universityCodeHead');
-            Route::get('/highschool_codes_list', "Rest\UnivCodeSearchController@getHighSchoolCodeList")->name('highSchoolCodeList');
-            Route::get('/university_codes_list', "Rest\UnivCodeSearchController@getUniversityCodeList")->name('universityCodeList');
+            Route::get('/schools', [Rest\UnivCodeSearchController::class, 'getOemSchoolName'])->name('OEMSchool.name');
+            Route::get('/test_infos_list', [Rest\UnivCodeSearchController::class, 'getTestInfo'])->name('test.name');
+            Route::get('/university_code_heads', [Rest\UnivCodeSearchController::class, 'getUnivCodeHead'])->name('universityCodeHead');
+            Route::get('/highschool_codes_list', [Rest\UnivCodeSearchController::class, 'getHighSchoolCodeList'])->name('highSchoolCodeList');
+            Route::get('/university_codes_list', [Rest\UnivCodeSearchController::class, 'getUniversityCodeList'])->name('universityCodeList');
         });
     });
     Route::prefix('test_management')->name('test_management.')->group(function () {
         Route::prefix('v1')->group(function () {
-            Route::get('university_code_heads_list', 'Rest\TestManagementApiController@getUnivCodeHeadList')->name('university_code_heads_list');
-            Route::get('chkexist_university_code_heads', 'Rest\TestManagementApiController@chkExistUnivCodeHead')->name('university_code_heads_check');
+            Route::get('university_code_heads_list', [Rest\TestManagementApiController::class, 'getUnivCodeHeadList'])->name('university_code_heads_list');
+            Route::get('chkexist_university_code_heads', [Rest\TestManagementApiController::class, 'chkExistUnivCodeHead'])->name('university_code_heads_check');
         });
     });
 });
